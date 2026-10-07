@@ -24,9 +24,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background-image:
-    linear-gradient(135deg, rgb(9 31 20 / 84%), rgb(15 47 30 / 78%)),
+    linear-gradient(135deg, rgb(9 31 20 / 53%), rgb(15 47 30 / 42%)),
     url("assets/football-on-pitch.jpg");
-  background-position: center;
+  background-position: center 62%;
   background-size: cover;
   background-attachment: fixed;
 }
@@ -112,8 +112,8 @@ main {
   border: 1px solid #2b5a41;
   border-radius: 18px;
   background:
-    linear-gradient(90deg, rgb(9 35 23 / 90%) 0%, rgb(14 50 32 / 75%) 48%, rgb(14 50 32 / 27%) 100%),
-    url("assets/hongkou-stadium.jpg") center 42% / cover;
+    linear-gradient(90deg, rgb(9 35 23 / 82%) 0%, rgb(14 50 32 / 62%) 42%, rgb(14 50 32 / 18%) 100%),
+    url("assets/football-on-pitch.jpg") 42% 61% / cover;
   box-shadow: 0 15px 35px rgb(0 0 0 / 22%);
 }
 
@@ -125,6 +125,13 @@ main {
   letter-spacing: .17em;
 }
 
+.page-heading > div:first-child {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 650px);
+  min-width: 0;
+}
+
 h1,
 h2,
 p {
@@ -132,6 +139,7 @@ p {
 }
 
 h1 {
+  max-width: 100%;
   margin: 13px 0 10px;
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(40px, 5.4vw, 60px);
