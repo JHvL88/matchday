@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f6f2">
-    <meta name="description" content="The latest Bundesliga fixtures and results, powered by OpenLigaDB.">
-    <title>Matchday — Bundesliga results</title>
+    <meta name="theme-color" content="#123b2b">
+    <meta name="description" content="Jan's Matchday: the latest Bundesliga fixtures and results, powered by OpenLigaDB.">
+    <title>Jan’s Matchday — Bundesliga results</title>
     <link rel="preconnect" href="https://api.openligadb.de">
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
@@ -13,9 +13,9 @@
   <body>
     <div class="app-shell">
       <header class="topbar">
-        <a class="brand" href="./" aria-label="Matchday home">
-          <span class="brand-mark" aria-hidden="true">M</span>
-          <span>MATCHDAY</span>
+        <a class="brand" href="./" aria-label="Jan’s Matchday home">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span>JAN’S MATCHDAY</span>
         </a>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
@@ -26,12 +26,16 @@
       <main>
         <section class="page-heading" aria-labelledby="page-title">
           <div>
-            <p class="eyebrow">GERMAN FOOTBALL</p>
-            <h1 id="page-title">The scoreboard<span>.</span></h1>
-            <p class="intro">Every match. Every moment. All in one place.</p>
+            <p class="eyebrow">A FAN’S TAKE ON GERMAN FOOTBALL</p>
+            <h1 id="page-title">Jan’s Matchday<span>.</span></h1>
+            <p class="intro">Your front-row seat to every Bundesliga moment.</p>
           </div>
           <div class="heading-decoration" aria-hidden="true">
-            <span class="decoration-ball">⚽</span>
+            <svg class="decoration-ball" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="#f3f3e9" stroke="#183d2c" stroke-width="4"/>
+              <path d="m50 31 17 12-6 20H39l-6-20z" fill="#183d2c"/>
+              <path d="m50 31 0-22m17 34 20-8M61 63l13 19M39 63 26 82M33 43 13 35" fill="none" stroke="#183d2c" stroke-width="4"/>
+            </svg>
             <span class="decoration-orbit"></span>
           </div>
         </section>
@@ -76,7 +80,7 @@
       </main>
 
       <footer class="site-footer">
-        <span>Made for the love of the game.</span>
+        <span>Jan’s pitch. Bundesliga passion.</span>
         <span>Free football data, no sign-up needed.</span>
       </footer>
     </div>

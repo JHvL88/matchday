@@ -1,4 +1,4 @@
-# Matchday
+# Jan’s Matchday
 
 A small, responsive Bundesliga results app built with plain HTML, CSS, and JavaScript. It retrieves the current matchday and match results from [OpenLigaDB](https://www.openligadb.de/), a free public API that does not require an API key.
 
