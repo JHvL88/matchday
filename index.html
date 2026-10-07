@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f6f2">
+    <meta name="description" content="The latest Bundesliga fixtures and results, powered by OpenLigaDB.">
+    <title>Matchday — Bundesliga results</title>
+    <link rel="preconnect" href="https://api.openligadb.de">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Matchday home">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>MATCHDAY</span>
+        </a>
+        <div class="league-label">
+          <span class="league-dot" aria-hidden="true"></span>
+          <span id="league-season">Bundesliga</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-heading" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">GERMAN FOOTBALL</p>
+            <h1 id="page-title">The scoreboard<span>.</span></h1>
+            <p class="intro">Every match. Every moment. All in one place.</p>
+          </div>
+          <div class="heading-decoration" aria-hidden="true">
+            <span class="decoration-ball">⚽</span>
+            <span class="decoration-orbit"></span>
+          </div>
+        </section>
+
+        <section class="results-panel" aria-labelledby="matchday-title">
+          <div class="panel-toolbar">
+            <div class="matchday-picker">
+              <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
+              </button>
+              <div class="matchday-copy">
+                <p class="eyebrow">BUNDESLIGA</p>
+                <h2 id="matchday-title">Matchday</h2>
+              </div>
+              <button class="icon-button" id="next-matchday" type="button" aria-label="Next matchday">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
+              </button>
+              <label class="visually-hidden" for="matchday-select">Choose a matchday</label>
+              <select id="matchday-select" aria-label="Choose a matchday"></select>
+            </div>
+            <button class="refresh-button" id="refresh-results" type="button">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 8A6.8 6.8 0 0 0 4.2 5.5L3 7m0 0V3.8M3 7h3.2M3.5 12a6.8 6.8 0 0 0 12.3 2.5L17 13m0 0v3.2M17 13h-3.2"/></svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="filter-row" role="group" aria-label="Filter matches">
+            <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All matches</button>
+            <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator"></span>Live</button>
+            <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false">Finished</button>
+            <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false">Upcoming</button>
+          </div>
+
+          <div id="results" class="results-list" aria-live="polite" aria-busy="true">
+            <div class="loading-state">
+              <span class="loading-spinner" aria-hidden="true"></span>
+              <p>Finding the latest scores…</p>
+            </div>
+          </div>
+          <p class="data-credit">Match data provided by <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Made for the love of the game.</span>
+        <span>Free football data, no sign-up needed.</span>
+      </footer>
+    </div>
+  </body>
+</html>
