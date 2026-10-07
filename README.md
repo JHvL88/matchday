@@ -13,3 +13,8 @@ python -m http.server 8000
 Then visit `http://localhost:8000`.
 
 The app offers matchday navigation, live/finished/upcoming filters, manual refresh, and an OpenLigaDB data attribution link. Match information is displayed in the Europe/Berlin time zone.
+
+## Background photo credits
+
+- “Hongkou Football Stadium at night” by Windmemories, used under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). [Source](https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg).
+- “Adidas soccer ball on a grass pitch” by Peter Glaser, dedicated to the public domain under [CC0](https://creativecommons.org/publicdomain/zero/1.0/). [Source](https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg).
