@@ -1,6 +1,6 @@
 # Jan’s Matchday
 
-A small, responsive Bundesliga results app built with plain HTML, CSS, and JavaScript. It retrieves the current matchday and match results from [OpenLigaDB](https://www.openligadb.de/), a free public API that does not require an API key.
+A small, responsive Bundesliga results app built with plain HTML, CSS, and JavaScript. It retrieves Bundesliga fixtures and results from [OpenLigaDB](https://www.openligadb.de/), a free public API that does not require an API key.
 
 ## Run locally
 
@@ -12,11 +12,11 @@ python -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
-The app offers matchday navigation, live/finished/upcoming filters, manual refresh, and an OpenLigaDB data attribution link. Match information is displayed in the Europe/Berlin time zone.
+The app offers matchday navigation, live/finished/upcoming filters, expandable match details with available goal events and half-time scores, and a reconstructed league table through the selected matchday. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name. Match information is displayed in the Europe/Berlin time zone.
 
 ## Install on iPhone or iPad
 
-Open [Jan’s Matchday](https://jhvl88.github.io/matchday/) in Safari, tap **Share**, then tap **Add to Home Screen**. The app opens in its own window and caches the app shell and the latest successfully loaded matchday so it can reopen when offline. Live results still need an internet connection.
+Open [Jan’s Matchday](https://jhvl88.github.io/matchday/) in Safari, tap **Share**, then tap **Add to Home Screen**. The app opens in its own window and caches the app shell and latest successfully loaded match data so it can reopen when offline. Live results still need an internet connection.
 
 ## Background photo credits
 

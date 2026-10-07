@@ -74,6 +74,38 @@
           </div>
           <p class="data-credit">Match data provided by <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
         </section>
+
+        <section class="standings-panel" aria-labelledby="standings-heading" aria-busy="true">
+          <div class="standings-heading">
+            <div>
+              <p class="eyebrow">MATCHDAY STANDINGS</p>
+              <h2 id="standings-heading">Bundesliga standings</h2>
+            </div>
+            <span class="standings-season" id="standings-season"></span>
+          </div>
+          <p class="standings-caption" id="standings-caption" aria-live="polite">Loading standings…</p>
+          <div class="standings-scroll">
+            <table class="standings-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="position-column">#</th>
+                  <th scope="col" class="club-column">Club</th>
+                  <th scope="col">P</th>
+                  <th scope="col">W</th>
+                  <th scope="col">D</th>
+                  <th scope="col">L</th>
+                  <th scope="col">GF:GA</th>
+                  <th scope="col">GD</th>
+                  <th scope="col" class="points-column">Pts</th>
+                </tr>
+              </thead>
+              <tbody id="standings-rows">
+                <tr><td colspan="9" class="standings-message">Loading standings…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="standings-note">Reconstructed from completed match results · tied teams are ordered by goal difference, then goals scored.</p>
+        </section>
       </main>
 
       <footer class="site-footer">

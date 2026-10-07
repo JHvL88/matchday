@@ -11,6 +11,9 @@ const previousButton = document.querySelector("#previous-matchday");
 const nextButton = document.querySelector("#next-matchday");
 const refreshButton = document.querySelector("#refresh-results");
 const leagueSeason = document.querySelector("#league-season");
+const standingsSection = document.querySelector(".standings-panel");
+const standingsCaption = document.querySelector("#standings-caption");
+const standingsRows = document.querySelector("#standings-rows");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
 
 const currentDate = new Date();
@@ -20,6 +23,7 @@ const season = currentDate.getMonth() >= 6
 let selectedMatchday = 1;
 let activeFilter = "all";
 let currentMatches = [];
+let seasonMatches = null;
 let loadRequest = 0;
 
 function seasonLabel(year) {
@@ -34,6 +38,11 @@ function getScore(match) {
   return finalResult
     ? [finalResult.pointsTeam1, finalResult.pointsTeam2]
     : null;
+}
+
+function getHalfTimeScore(match) {
+  const result = match.matchResults?.find((item) => item.resultTypeKind === "HalfTime");
+  return result ? [result.pointsTeam1, result.pointsTeam2] : null;
 }
 
 function getMatchStatus(match, now = Date.now()) {
@@ -54,6 +63,7 @@ function createElement(tag, className, text) {
 
 function setLoading(isLoading) {
   resultsElement.setAttribute("aria-busy", String(isLoading));
+  standingsSection.setAttribute("aria-busy", String(isLoading));
   refreshButton.disabled = isLoading;
   refreshButton.classList.toggle("is-refreshing", isLoading);
   previousButton.disabled = isLoading || selectedMatchday <= 1;
@@ -98,7 +108,7 @@ function getMatchDateKey(match) {
 }
 
 function createTeam(team, isHome, isWinner) {
-  const container = createElement("div", `team ${isHome ? "team-home" : "team-away"}`);
+  const container = createElement("span", `team ${isHome ? "team-home" : "team-away"}`);
   const name = createElement("span", "team-name", team.shortName || team.teamName || "TBC");
 
   const logo = document.createElement("img");
@@ -116,7 +126,8 @@ function createTeam(team, isHome, isWinner) {
 }
 
 function createMatchCard(match) {
-  const card = createElement("article", "match-card");
+  const card = createElement("details", "match-card");
+  const summary = createElement("summary", "match-summary");
   const score = getScore(match);
   const status = getMatchStatus(match);
   const [homeScore, awayScore] = score ?? [];
@@ -127,20 +138,21 @@ function createMatchCard(match) {
     minute: "2-digit",
   });
 
-  card.append(
+  summary.append(
     createTeam(match.team1 ?? {}, true, homeWon),
+    createElement("span", "visually-hidden", "Toggle match details"),
   );
 
-  const scoreBlock = createElement("div", "score-block");
+  const scoreBlock = createElement("span", "score-block");
   if (score) {
-    const scoreLine = createElement("div", "score");
+    const scoreLine = createElement("span", "score");
     const home = createElement("span", homeWon ? "score-winner" : "", String(homeScore));
     const separator = createElement("span", "score-separator", "–");
     const away = createElement("span", awayWon ? "score-winner" : "", String(awayScore));
     scoreLine.append(home, separator, away);
     scoreBlock.append(scoreLine);
   } else {
-    scoreBlock.append(createElement("div", "match-time", time));
+    scoreBlock.append(createElement("span", "match-time", time));
   }
 
   const statusLabel = status === "finished"
@@ -150,10 +162,81 @@ function createMatchCard(match) {
       : status === "pending"
         ? "RESULT PENDING"
         : "KICK-OFF";
-  const statusElement = createElement("div", `match-status${status === "live" ? " is-live" : ""}${status === "finished" ? " is-finished" : ""}`, statusLabel);
+  const statusElement = createElement("span", `match-status${status === "live" ? " is-live" : ""}${status === "finished" ? " is-finished" : ""}`, statusLabel);
   scoreBlock.append(statusElement);
-  card.append(scoreBlock, createTeam(match.team2 ?? {}, false, awayWon));
+  summary.append(scoreBlock, createTeam(match.team2 ?? {}, false, awayWon));
+  card.append(summary, createMatchDetails(match, status, time));
   return card;
+}
+
+function createMatchDetails(match, status, kickoffTime) {
+  const details = createElement("div", "match-details");
+  const kickoff = formatBerlinDate(match.matchDateTimeUTC ?? match.matchDateTime, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  const meta = createElement("p", "match-detail-meta", `${kickoff} · ${kickoffTime} · Europe/Berlin`);
+  details.append(meta);
+
+  const halfTimeScore = getHalfTimeScore(match);
+  if (halfTimeScore) {
+    details.append(createElement(
+      "p",
+      "half-time-result",
+      `Half-time: ${match.team1?.shortName || match.team1?.teamName || "Home"} ${halfTimeScore[0]}–${halfTimeScore[1]} ${match.team2?.shortName || match.team2?.teamName || "Away"}`,
+    ));
+  }
+
+  details.append(createElement("h3", "match-events-heading", "Goal timeline"));
+  const goals = Array.isArray(match.goals)
+    ? [...match.goals].sort((a, b) => (a.matchMinute ?? 0) - (b.matchMinute ?? 0))
+    : [];
+
+  if (goals.length) {
+    const timeline = createElement("ol", "goal-timeline");
+    for (const goal of goals) {
+      const scoringTeamId = Number(goal.scoringTeamId);
+      const goalTeam = scoringTeamId === Number(match.team1?.teamId)
+        ? match.team1
+        : scoringTeamId === Number(match.team2?.teamId)
+          ? match.team2
+          : null;
+      const minute = goal.matchMinute !== null
+        && goal.matchMinute !== undefined
+        && Number.isFinite(Number(goal.matchMinute))
+        ? `${goal.matchMinute}${goal.isOvertime ? "+" : ""}′`
+        : "•";
+      const notes = [
+        goal.isOwnGoal ? "OG" : "",
+        goal.isPenalty ? "Penalty" : "",
+      ].filter(Boolean);
+      const event = createElement("li", "goal-event");
+      event.append(
+        createElement("span", "goal-minute", minute),
+        createElement("span", "goal-scorer", goal.goalGetterName || "Unknown scorer"),
+        createElement(
+          "span",
+          "goal-team",
+          `${goalTeam?.shortName || goalTeam?.teamName || "Team"}${notes.length ? ` · ${notes.join(", ")}` : ""}`,
+        ),
+      );
+      timeline.append(event);
+    }
+    details.append(timeline);
+  } else {
+    const message = status === "finished"
+      ? "No goal events are available for this match."
+      : status === "live"
+        ? "No goal events have been reported yet."
+        : status === "pending"
+          ? "Goal events are unavailable while the final result is pending."
+        : "Goal events will appear here during the match.";
+    details.append(createElement("p", "no-goals-message", message));
+  }
+
+  return details;
 }
 
 function renderMatches() {
@@ -216,24 +299,161 @@ function getOrdinalSuffix(number) {
   return ({ 1: "st", 2: "nd", 3: "rd" })[number % 10] ?? "th";
 }
 
-async function loadSelectedMatchday() {
+function calculateStandings(matches, throughMatchday) {
+  const table = new Map();
+
+  function getTeam(team) {
+    if (!team || team.teamId === undefined || team.teamId === null) return null;
+    if (!table.has(team.teamId)) {
+      table.set(team.teamId, {
+        team,
+        played: 0,
+        won: 0,
+        drawn: 0,
+        lost: 0,
+        goalsFor: 0,
+        goalsAgainst: 0,
+        points: 0,
+      });
+    }
+    return table.get(team.teamId);
+  }
+
+  for (const match of matches) {
+    const matchday = Number(match.group?.groupOrderID);
+    if (!match.matchIsFinished || !Number.isInteger(matchday) || matchday > throughMatchday) continue;
+    const result = match.matchResults?.find((item) => item.resultTypeKind === "After90Minutes");
+    if (!result) continue;
+
+    const home = getTeam(match.team1);
+    const away = getTeam(match.team2);
+    if (!home || !away) continue;
+
+    const homeGoals = Number(result.pointsTeam1);
+    const awayGoals = Number(result.pointsTeam2);
+    if (!Number.isFinite(homeGoals) || !Number.isFinite(awayGoals)) continue;
+
+    home.played += 1;
+    away.played += 1;
+    home.goalsFor += homeGoals;
+    home.goalsAgainst += awayGoals;
+    away.goalsFor += awayGoals;
+    away.goalsAgainst += homeGoals;
+
+    if (homeGoals > awayGoals) {
+      home.won += 1;
+      home.points += 3;
+      away.lost += 1;
+    } else if (homeGoals < awayGoals) {
+      away.won += 1;
+      away.points += 3;
+      home.lost += 1;
+    } else {
+      home.drawn += 1;
+      away.drawn += 1;
+      home.points += 1;
+      away.points += 1;
+    }
+  }
+
+  return [...table.values()].sort((a, b) => (
+    b.points - a.points
+    || (b.goalsFor - b.goalsAgainst) - (a.goalsFor - a.goalsAgainst)
+    || b.goalsFor - a.goalsFor
+    || (a.team.shortName || a.team.teamName).localeCompare(b.team.shortName || b.team.teamName)
+  ));
+}
+
+function renderStandings(matches, matchday) {
+  standingsCaption.textContent = `After the ${matchday}${getOrdinalSuffix(matchday)} matchday · completed matches`;
+  const table = calculateStandings(matches, matchday);
+  if (!table.length) {
+    const row = createElement("tr");
+    const cell = createElement("td", "standings-message", "No completed matches through this matchday yet.");
+    cell.colSpan = 9;
+    row.append(cell);
+    standingsRows.replaceChildren(row);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  table.forEach((standing, index) => {
+    const row = createElement("tr");
+    const position = createElement("td", "position-column", String(index + 1));
+    const clubCell = createElement("td", "club-column");
+    const club = createElement("span", "standing-club");
+    const logo = document.createElement("img");
+    logo.className = "standing-logo";
+    logo.src = standing.team.teamIconUrl || "";
+    logo.alt = "";
+    logo.loading = "lazy";
+    logo.addEventListener("error", () => {
+      logo.replaceWith(createElement(
+        "span",
+        "standing-logo-fallback",
+        (standing.team.shortName || standing.team.teamName || "?").slice(0, 2),
+      ));
+    }, { once: true });
+    club.append(logo, createElement("span", "standing-name", standing.team.shortName || standing.team.teamName || "Unknown team"));
+    clubCell.append(club);
+
+    const goalDifference = standing.goalsFor - standing.goalsAgainst;
+    const cells = [
+      position,
+      clubCell,
+      createElement("td", "", String(standing.played)),
+      createElement("td", "", String(standing.won)),
+      createElement("td", "", String(standing.drawn)),
+      createElement("td", "", String(standing.lost)),
+      createElement("td", "goal-total", `${standing.goalsFor}:${standing.goalsAgainst}`),
+      createElement("td", "", `${goalDifference > 0 ? "+" : ""}${goalDifference}`),
+      createElement("td", "points-column", String(standing.points)),
+    ];
+    row.append(...cells);
+    fragment.append(row);
+  });
+  standingsRows.replaceChildren(fragment);
+}
+
+function showStandingsMessage(caption, message) {
+  standingsCaption.textContent = caption;
+  const row = createElement("tr");
+  const cell = createElement("td", "standings-message", message);
+  cell.colSpan = 9;
+  row.append(cell);
+  standingsRows.replaceChildren(row);
+}
+
+async function loadSeasonMatches(forceRefresh = false) {
+  if (seasonMatches && !forceRefresh) return seasonMatches;
+
+  const response = await fetch(`${API_BASE}/getmatchdata/${LEAGUE}/${season}`, {
+    cache: forceRefresh ? "no-cache" : "default",
+  });
+  if (!response.ok) throw new Error(`OpenLigaDB returned HTTP ${response.status}.`);
+  const matches = await response.json();
+  if (!Array.isArray(matches)) throw new Error("OpenLigaDB returned an unexpected season match list.");
+  seasonMatches = matches;
+  return seasonMatches;
+}
+
+async function loadSelectedMatchday(forceRefresh = false) {
   const request = ++loadRequest;
   updateMatchdayControls();
   setLoading(true);
   resultsElement.replaceChildren(createLoadingState());
 
   try {
-    const response = await fetch(`${API_BASE}/getmatchdata/${LEAGUE}/${season}/${selectedMatchday}`);
-    if (!response.ok) throw new Error(`OpenLigaDB returned HTTP ${response.status}.`);
-    const matches = await response.json();
-    if (!Array.isArray(matches)) throw new Error("OpenLigaDB returned an unexpected match list.");
+    const matches = await loadSeasonMatches(forceRefresh);
     if (request !== loadRequest) return;
-    currentMatches = matches;
+    currentMatches = matches.filter((match) => Number(match.group?.groupOrderID) === selectedMatchday);
     renderMatches();
+    renderStandings(matches, selectedMatchday);
   } catch (error) {
     if (request !== loadRequest) return;
     console.error("Unable to load Bundesliga results.", error);
     showMessage("Scores could not be loaded", "Please check your connection and try again.", true);
+    showStandingsMessage("Standings unavailable", "Please refresh to load the match results.");
   } finally {
     if (request === loadRequest) setLoading(false);
   }
@@ -263,6 +483,7 @@ async function loadCurrentMatchday() {
   } catch (error) {
     console.error("Unable to find the current Bundesliga matchday.", error);
     showMessage("Scores could not be loaded", "Please check your connection and try again.", true);
+    showStandingsMessage("Standings unavailable", "Please refresh to load the match results.");
     setLoading(false);
   }
 }
@@ -275,6 +496,7 @@ for (let day = 1; day <= MAX_MATCHDAYS; day += 1) {
 }
 
 leagueSeason.textContent = `Bundesliga ${seasonLabel(season)}`;
+document.querySelector("#standings-season").textContent = seasonLabel(season);
 previousButton.addEventListener("click", () => {
   if (selectedMatchday > 1) {
     selectedMatchday -= 1;
@@ -291,7 +513,7 @@ matchdaySelect.addEventListener("change", () => {
   selectedMatchday = Number(matchdaySelect.value);
   loadSelectedMatchday();
 });
-refreshButton.addEventListener("click", loadSelectedMatchday);
+refreshButton.addEventListener("click", () => loadSelectedMatchday(true));
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
