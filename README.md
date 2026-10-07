@@ -14,6 +14,10 @@ Then visit `http://localhost:8000`.
 
 The app offers matchday navigation, live/finished/upcoming filters, manual refresh, and an OpenLigaDB data attribution link. Match information is displayed in the Europe/Berlin time zone.
 
+## Install on iPhone or iPad
+
+Open [Jan’s Matchday](https://jhvl88.github.io/matchday/) in Safari, tap **Share**, then tap **Add to Home Screen**. The app opens in its own window and caches the app shell and the latest successfully loaded matchday so it can reopen when offline. Live results still need an internet connection.
+
 ## Background photo credits
 
 - “Hongkou Football Stadium at night” by Windmemories, used under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). [Source](https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg).

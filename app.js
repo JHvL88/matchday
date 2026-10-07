@@ -305,3 +305,10 @@ filterButtons.forEach((button) => {
 });
 
 loadCurrentMatchday();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .catch((error) => console.error("Unable to enable offline app support.", error));
+  });
+}

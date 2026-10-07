@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Jan’s Matchday",
+  "short_name": "Matchday",
+  "description": "Bundesliga fixtures and results for football fans.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#123b2b",
+  "theme_color": "#123b2b",
+  "categories": ["sports"],
+  "icons": [
+    {
+      "src": "./assets/jans-matchday-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/jans-matchday-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
