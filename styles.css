@@ -191,6 +191,71 @@ h1 span {
   border-radius: 0 45% 45% 0;
 }
 
+.analysis-teaser {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  overflow: hidden;
+  margin: -12px 0 24px;
+  padding: 18px 24px;
+  border-left: 6px solid var(--bl-red, #d20515);
+  border-radius: 4px 14px 4px 14px;
+  background: var(--bl-black, #0c0c10);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 14px 34px rgb(0 0 0 / 34%);
+  transition: background .15s;
+}
+
+.analysis-teaser:hover {
+  background: var(--bl-grey, #1a1a21);
+}
+
+.analysis-teaser:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.analysis-teaser-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.analysis-teaser-title {
+  font-family: var(--display, sans-serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.analysis-teaser-text {
+  color: #c9c9d0;
+  font-size: 13px;
+}
+
+.analysis-teaser-arrow {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bl-red, #d20515);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  transition: transform .15s;
+}
+
+.analysis-teaser:hover .analysis-teaser-arrow {
+  transform: translateX(3px);
+}
+
 .results-panel {
   overflow: hidden;
   border: 1px solid #e1e8de;
@@ -1301,6 +1366,16 @@ h2 {
     z-index: 2;
     max-width: 240px;
     font-size: 13px;
+  }
+
+  .analysis-teaser {
+    margin: -4px 0 19px;
+    padding: 15px 16px;
+    border-radius: 12px;
+  }
+
+  .analysis-teaser-title {
+    font-size: 19px;
   }
 
   .results-panel {
