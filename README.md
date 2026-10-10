@@ -16,7 +16,7 @@ The app offers matchday navigation, live/finished/upcoming filters, expandable m
 
 ## Match analyses
 
-Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data:
+Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed in the **Analysis** section of the home page (also reachable from the top navigation). Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post, create a new folder and add a card to the Analysis section in `index.html`:
 
 - [Augsburg vs Bayern, matchday 5 2026/27](https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/): pre-match forecast from Dixon–Coles, a Bayesian shots-to-goals model (NumPyro) and XGBoost, backtested against bookmaker odds. [Notebook](analysis/2026-27-md5-augsburg-bayern/augsburg_bayern_md5.ipynb).
 

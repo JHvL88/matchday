@@ -22,6 +22,11 @@
           <span class="brand-mark" aria-hidden="true">J</span>
           <span>JAN’S MATCHDAY</span>
         </a>
+        <nav class="top-nav" aria-label="Sections">
+          <a href="#fixtures">Fixtures</a>
+          <a href="#standings-heading">Table</a>
+          <a href="#analysis-heading">Analysis</a>
+        </nav>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
           <span id="league-season">Bundesliga</span>
@@ -37,16 +42,7 @@
           </div>
         </section>
 
-        <a class="analysis-teaser" href="./analysis/2026-27-md5-augsburg-bayern/">
-          <span class="analysis-teaser-copy">
-            <span class="eyebrow">MATCH ANALYSIS · MATCHDAY 5</span>
-            <span class="analysis-teaser-title">Augsburg vs Bayern: three models, one stubborn underdog</span>
-            <span class="analysis-teaser-text">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers. Now with the 2–2 full-time verdict.</span>
-          </span>
-          <span class="analysis-teaser-arrow" aria-hidden="true">→</span>
-        </a>
-
-        <section class="results-panel" aria-labelledby="matchday-title">
+        <section class="results-panel" id="fixtures" aria-labelledby="matchday-title">
           <div class="panel-toolbar">
             <div class="matchday-picker">
               <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday">
@@ -121,6 +117,21 @@
             <li style="--zone:#d20515">Relegation</li>
           </ul>
           <p class="standings-note">Reconstructed from completed match results · tied teams are ordered by goal difference, then goals scored.</p>
+        </section>
+
+        <section class="analysis-panel" aria-labelledby="analysis-heading">
+          <div class="analysis-heading">
+            <div>
+              <p class="eyebrow">MATCH ANALYSIS</p>
+              <h2 id="analysis-heading">Analysis</h2>
+            </div>
+          </div>
+          <a class="analysis-card" href="analysis/2026-27-md5-augsburg-bayern/">
+            <span class="analysis-tag">Matchday 5 · Forecast &amp; full-time review</span>
+            <span class="analysis-title">Augsburg vs Bayern: three models, one stubborn underdog</span>
+            <span class="analysis-desc">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
+            <span class="analysis-more">Read the analysis →</span>
+          </a>
         </section>
       </main>
 
