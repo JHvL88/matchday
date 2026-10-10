@@ -14,6 +14,12 @@ Then visit `http://localhost:8000`.
 
 The app offers matchday navigation, live/finished/upcoming filters, expandable match details with available goal events and half-time scores, and a reconstructed league table through the selected matchday. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name. Match information is displayed in the Europe/Berlin time zone.
 
+## Match analyses
+
+Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data:
+
+- [Augsburg vs Bayern, matchday 5 2026/27](https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/): pre-match forecast from Dixon–Coles, a Bayesian shots-to-goals model (NumPyro) and XGBoost, backtested against bookmaker odds. [Notebook](analysis/2026-27-md5-augsburg-bayern/augsburg_bayern_md5.ipynb).
+
 ## Install on iPhone or iPad
 
 Open [Jan’s Matchday](https://jhvl88.github.io/matchday/) in Safari, tap **Share**, then tap **Add to Home Screen**. The app opens in its own window and caches the app shell and latest successfully loaded match data so it can reopen when offline. Live results still need an internet connection.

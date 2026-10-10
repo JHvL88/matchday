@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#123b2b">
+    <meta name="description" content="Pre-match forecast for FC Augsburg vs FC Bayern, Bundesliga matchday 5 2026/27: Dixon-Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers.">
+    <title>Augsburg vs Bayern: the forecast — Jan’s Matchday</title>
+    <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+    <link rel="manifest" href="../../manifest.webmanifest">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../analysis.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="../../" aria-label="Jan’s Matchday home">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span>JAN’S MATCHDAY</span>
+        </a>
+        <div class="league-label">
+          <span class="league-dot" aria-hidden="true"></span>
+          <span>Bundesliga 2026/27</span>
+        </div>
+      </header>
+
+      <main>
+        <a class="back-link" href="../../">← Back to the fixtures</a>
+        <article class="post">
+          <header class="post-hero">
+            <p class="eyebrow">MATCHDAY 5 · PRE-MATCH FORECAST</p>
+            <h1>Augsburg vs Bayern: three models, one stubborn underdog<span>.</span></h1>
+            <p class="post-dek">Augsburg won in Munich in January. The bookmakers have since recovered their composure and price Bayern at 1.17. I built three models to find out who is closer to the truth.</p>
+            <p class="post-meta">
+              <span>Saturday 10 October 2026</span>
+              <span>Kick-off 15:30 · WWK Arena</span>
+              <span>Forecast frozen at 15:28, using results up to matchday 4</span>
+            </p>
+          </header>
+
+          <div class="post-body">
+            <h2>The short version</h2>
+            <div class="verdict" role="list">
+              <div class="verdict-tile tile-home" role="listitem"><span class="label">Augsburg win</span><span class="value">12%</span><span class="sub">bookies: 8%</span></div>
+              <div class="verdict-tile tile-draw" role="listitem"><span class="label">Draw</span><span class="value">16%</span><span class="sub">bookies: 11%</span></div>
+              <div class="verdict-tile tile-away" role="listitem"><span class="label">Bayern win</span><span class="value">72%</span><span class="sub">bookies: 81%</span></div>
+            </div>
+            <p class="verdict-strip">
+              <span>Expected goals <b>1.08 – 2.77</b></span>
+              <span>Most likely score <b>1–2</b> (8.7%)</span>
+              <span>Over 2.5 goals <b>73%</b></span>
+              <span>Both teams score <b>62%</b></span>
+            </p>
+            <p>Bayern should win. The ensemble gives them 72%, the bookmakers 81%. Augsburg get 12% from the models and 8% from the market. 12% is roughly the chance of flipping a coin three times and getting three heads. Unlikely, not absurd: Augsburg pulled off something rarer in January, when they won in Munich as 17.00 outsiders.</p>
+            <p>The single most likely score is <strong>1–2</strong>, but don’t get attached to it: it turns up in fewer than one simulated match in eleven. The more useful summary is the shape: Bayern scoring two or three, Augsburg scoring once or not at all.</p>
+
+            <h2>Form, after four matchdays</h2>
+            <div class="table-scroll">
+              <table class="post-table">
+                <thead><tr><th>2026/27, matchdays 1–4</th><th>Augsburg</th><th>Bayern</th></tr></thead>
+                <tbody>
+                  <tr><td>Points</td><td>7</td><td>10</td></tr>
+                  <tr><td>Goals for – against</td><td>11 – 6</td><td>14 – 2</td></tr>
+                  <tr><td>Shots for – against</td><td>56 – 83</td><td>87 – 23</td></tr>
+                  <tr><td>Shots on target for – against</td><td>29 – 29</td><td>35 – 8</td></tr>
+                  <tr><td>Goals per shot on target</td><td>38%</td><td>40%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Bayern have allowed eight shots on target in four games. Augsburg’s goalkeeper has faced 29. That one line explains most of this forecast.</p>
+            <p>Augsburg’s attack has been genuinely good: 11 goals, at least two in every game, and wins of 3–0 against Schalke and 4–1 in Frankfurt. But they have been out-shot 83 to 56 and are converting 38% of their shots on target, against a Bundesliga average of 34%. Models treat hot finishing like a heatwave: enjoy it, don’t plan the summer around it.</p>
+
+            <h2>Three models and an average</h2>
+            <h3>1. Dixon–Coles</h3>
+            <p>The grandfather of football models (Dixon and Coles, 1997). Every club gets an attack and a defence rating, each team’s goals are a Poisson draw, and a small correction stops the model underrating 0–0 and 1–1. Recent matches count more: a result from a year ago counts half as much as last weekend’s. That half-life was tuned on the 2022/23 season, not on the matches it is judged on.</p>
+            <h3>2. A Bayesian shots-to-goals model</h3>
+            <p>This one thinks in two steps. First: how many shots on target will each side create? Second: how many of those go in? Splitting it matters because shots on target are much less noisy than goals. A team can be unlucky in front of goal for a month; it rarely gets out-shot by accident for a month.</p>
+            <p>Team strengths drift over time, with bigger jumps allowed over the summer when squads change. The model covers the 1. and 2. Bundesliga together, so promoted clubs arrive with a track record instead of a guess. Red cards and the empty-stadium season are accounted for when fitting, so a 10-man defeat doesn’t poison a team’s rating. It is fitted with NUTS, a Markov chain Monte Carlo sampler, giving 1,600 draws from the posterior, so every number comes with its own uncertainty. Here is the core:</p>
+<pre><code><span class="c"># chance creation: shots on target ~ negative binomial</span>
+lam_h = exp(alpha + home_adv + att[h, t] - dfn[a, t] + red_eff * (red_a - red_h))
+lam_a = exp(alpha +            att[a, t] - dfn[h, t] + red_eff * (red_h - red_a))
+<span class="c"># finishing: goals | shots on target ~ binomial</span>
+p_h = sigmoid(beta + gamma_home + fin[h, s] - keep[a, s])
+p_a = sigmoid(beta +              fin[a, s] - keep[h, s])
+
+numpyro.sample("hst", dist.NegativeBinomial2(lam_h, phi), obs=sot_home)
+numpyro.sample("hg", dist.Binomial(sot_home, probs=p_h), obs=goals_home)
+<span class="c"># ...same for the away side. att and dfn move by half-season t,</span>
+<span class="c"># fin and keep by season s: all four are random walks.</span></code></pre>
+            <p>A nice property: thinning a negative binomial with a binomial gives another negative binomial, so the forecast score grid is exact rather than simulated. For this match the model expects Augsburg to manage 3.3 shots on target and Bayern 8.2, with 33% and 36% of them going in.</p>
+            <h3>3. XGBoost</h3>
+            <p>Gradient-boosted trees on 30 pre-match features: a home-made Elo rating, exponentially weighted form in goals, shots and shots on target (for and against), points from the last five, rest days and a promoted-club flag. Two boosters predict each side’s goals. Every feature uses only matches played before kick-off, and each season is predicted by a model trained only on earlier seasons.</p>
+            <figure class="post-figure">
+              <img src="figs/fig8_xgb_drivers.svg" alt="Bar charts of the features that move XGBoost's expected goals: the Elo gap lowers Augsburg's expectation and raises Bayern's the most." loading="lazy">
+              <figcaption>What drives the XGBoost forecast (SHAP contributions, shown as multipliers on expected goals). The Elo gap does most of the work; Augsburg’s recent scoring pushes their number up a little.</figcaption>
+            </figure>
+            <h3>The ensemble</h3>
+            <p>The final forecast is the plain average of the three score grids. I fixed equal weights before looking at any results. That is less clever than optimising the weights, and much harder to fool yourself with.</p>
+            <figure class="post-figure">
+              <img src="figs/fig1_forecast.svg" alt="Stacked bars of win, draw and loss probabilities for each model, the ensemble and the bookmakers. All give Bayern between 68% and 81%." loading="lazy">
+              <figcaption>Win/draw/win probabilities. Bookmaker odds 12.00 / 8.50 / 1.17 with the 5.6% margin removed. XGBoost is the most generous to Augsburg; the market is the least.</figcaption>
+            </figure>
+            <p>All three models are more generous to Augsburg than the market. Part of that is information the models simply don’t have (more on that below); part is that pure results models are cautious by design. They have seen enough heavy favourites stumble to keep some probability in reserve.</p>
+
+            <h2>The scoreline</h2>
+            <figure class="post-figure">
+              <img src="figs/fig2_scorelines.svg" alt="Heatmap of scoreline probabilities. The most likely outcomes are 1-2 at 8.7%, then 0-2, 1-3 and 0-3." loading="lazy">
+              <figcaption>Ensemble probability of each exact score (Augsburg goals on the vertical axis; scores not shown are each below 1%). The outlined cell is the most likely score.</figcaption>
+            </figure>
+            <p>Bayern win by two or more in 52% of outcomes. Augsburg score at least once in 66%. Augsburg keeping a clean sheet: 7%. Over 2.5 goals: 73%, which suits the fixture. The 15 Bundesliga meetings in Augsburg have averaged 3.4 goals.</p>
+            <figure class="post-figure">
+              <img src="figs/fig3_goals.svg" alt="Bar charts of goals per team. Augsburg most likely score 0 or 1; Bayern most likely score 2 or 3." loading="lazy">
+              <figcaption>How many goals each side scores, from the ensemble.</figcaption>
+            </figure>
+
+            <h2>How strong are they, really?</h2>
+            <p>The Bayesian model’s latent ratings, re-expressed against the average Bundesliga club of each season. Shaded bands are 80% credible intervals.</p>
+            <figure class="post-figure">
+              <img src="figs/fig4_strength.svg" alt="Line charts since 2020/21: Bayern create about 1.7 times the average shots on target and concede about 0.68 times; Augsburg are below average on both, with their attack improving." loading="lazy">
+              <figcaption>Shots on target created and conceded, relative to an average Bundesliga side (conceded axis flipped, so up is better on both).</figcaption>
+            </figure>
+            <p>Bayern create about 1.70× as many shots on target as an average Bundesliga side and allow about 0.68× as many. Augsburg’s attack has crept up towards average over three seasons (0.94× now); their defence still allows 1.14× the average, and has gone the wrong way since last season. The band around Augsburg’s 2026/27 numbers is wide: four matches are not much to go on, so the model leans on last season.</p>
+            <figure class="post-figure">
+              <img src="figs/fig5_league_map.svg" alt="Scatter of all 18 Bundesliga clubs by shots on target created and conceded. Bayern sit far out in the top right; Augsburg are below average on both axes." loading="lazy">
+              <figcaption>The 2026/27 Bundesliga by shot creation (right is better) and shot suppression (up is better). Bayern needed the chart to be wider.</figcaption>
+            </figure>
+
+            <h2>Should you trust it?</h2>
+            <p>Fair question. I replayed the last 342 Bundesliga matches (all of 2025/26 plus this season so far) as if each one were next weekend’s fixture: every model refitted on only what it could have known at the time, then scored with the ranked probability score (RPS), the standard yardstick for win/draw/loss forecasts. Lower is better; a know-nothing model that says one-third for everything scores 0.238.</p>
+            <div class="table-scroll"><table class="post-table wide"><thead><tr><th>Out-of-sample, 342 matches</th><th>RPS</th><th>Log loss</th><th>Top pick correct</th></tr></thead><tbody><tr><td>Bookmakers</td><td>0.1920</td><td>0.951</td><td>54%</td></tr><tr class="is-key"><td>Ensemble</td><td>0.1949</td><td>0.964</td><td>55%</td></tr><tr><td>Dixon–Coles</td><td>0.1950</td><td>0.965</td><td>55%</td></tr><tr><td>Bayesian</td><td>0.1954</td><td>0.967</td><td>54%</td></tr><tr><td>XGBoost</td><td>0.1973</td><td>0.969</td><td>54%</td></tr></tbody></table></div>
+            <p>The ensemble edges each of its parts, narrowly in Dixon–Coles’s case. That is the point of averaging: the models make different mistakes, and some of them cancel out.</p>
+            <p>The bookmakers are still better, by 0.0029 RPS. The 95% bootstrap interval runs from −0.0013 to +0.0072, so on these matches alone the gap could be luck, but the seasons before point the same way: from 2022/23 to 2024/25 Dixon–Coles trailed the market by 0.0067 a season on average and XGBoost by 0.0074. That is normal and slightly reassuring. Bookmakers price in line-ups, injuries and the opinions of people who bet serious money. A model that only knows results and shots shouldn’t beat them; if it did, I would look for a bug before I looked for a trophy cabinet.</p>
+            <p>This season, after 36 matches, the ensemble is actually ahead of the bookmakers (0.1991 against 0.2058). I am choosing not to read anything into that. Mostly.</p>
+            <p>Calibration matters more than accuracy for a forecast like this one. When the ensemble says 20%, the thing should happen about one time in five, and through the middle of the range the curve below says it does. One wrinkle matters today: at the top end the ensemble has been too cautious. Across its 76 forecasts of 60% or more, the average forecast was 69% and the outcome happened 82% of the time. That is a small sample, but it nudges the 72% for Bayern towards the bookmakers’ 81%.</p>
+            <figure class="post-figure">
+              <img src="figs/fig6_backtest.svg" alt="Bar chart of ranked probability scores: bookmakers lowest, then the ensemble, then the individual models." loading="lazy">
+              <figcaption>Ranked probability score over 342 out-of-sample matches (2025/26 and 2026/27 so far). Lower is better.</figcaption>
+            </figure>
+            <figure class="post-figure narrow">
+              <img src="figs/fig7_calibration.svg" alt="Calibration curve close to the diagonal." loading="lazy">
+              <figcaption>Calibration of the ensemble over the same matches: forecast probability against how often the outcome happened. Dot size shows how many forecasts fall in each bin.</figcaption>
+            </figure>
+
+            <h2>What the model doesn’t know</h2>
+            <ul>
+              <li><strong>Team news.</strong> Pre-match reports list Jamal Musiala as out for Bayern, while Augsburg are without Steve Mounié, Noahkai Banks, Rim Breithaupt and Sima Suso, with Anton Kade doubtful. The models see results and shots, not line-ups. Four absentees against one, if anything, cut further against Augsburg.</li>
+              <li><strong>The international break.</strong> Both sides last played on 18–19 September. Form numbers come from September.</li>
+              <li><strong>January.</strong> Augsburg’s 2–1 win in Munich is in the data, but it is one match among thousands. Since Augsburg reached the Bundesliga in 2011 the record reads 23 Bayern wins, 2 draws and 5 Augsburg wins.</li>
+            </ul>
+
+            <h2>Verdict</h2>
+            <p>Bayern win, most likely by two. For Augsburg fans the models offer 12% for a win and 16% for a draw: about 28% that the evening doesn’t end in mild despair. If Augsburg win, I will blame variance. If it finishes 1–2, I will pretend I was sure all along.</p>
+
+            <h2>Run it yourself</h2>
+            <p>Everything above, from data download to the last chart, runs in one notebook. Choose a GPU runtime: the Bayesian model’s chains run on the GPU through JAX, and XGBoost trains with CUDA.</p>
+            <a class="colab-link" href="https://colab.research.google.com/github/JHvL88/matchday/blob/main/analysis/2026-27-md5-augsburg-bayern/augsburg_bayern_md5.ipynb" target="_blank" rel="noreferrer">Open the notebook in Google Colab ↗</a>
+            <p>It pins the data to the same snapshot, so you should land within about a percentage point of the numbers here (MCMC is random, and GPUs do arithmetic in a slightly different order).</p>
+
+            <section class="post-sources">
+              <h2>Data and sources</h2>
+              <p>Results, shots, shots on target and bookmaker odds: <a href="https://www.football-data.co.uk/" target="_blank" rel="noreferrer">football-data.co.uk</a>, via the <a href="https://github.com/xgabora/Club-Football-Match-Data-2000-2025" target="_blank" rel="noreferrer">xgabora/Club-Football-Match-Data</a> GitHub mirror (2005/06 to matchday 1) and football-data.co.uk directly for matchdays 2–4. Results cross-checked against <a href="https://github.com/openfootball/deutschland" target="_blank" rel="noreferrer">openfootball</a>. Bookmaker price for this match (12.00 / 8.50 / 1.17) and team news from pre-match reports by <a href="https://starting11.com/fixtures/fc-augsburg-vs-bayern-munich" target="_blank" rel="noreferrer">Starting11</a> and <a href="https://khelnow.com/football/fc-augsburg-vs-bayern-munich-preview-bundesliga-202610" target="_blank" rel="noreferrer">Khel Now</a>; team news was not used by the models. Method references: Dixon &amp; Coles (1997), <em>Modelling association football scores and inefficiencies in the football betting market</em>; Hoffman &amp; Gelman (2014), <em>The No-U-Turn Sampler</em>.</p>
+            </section>
+          </div>
+        </article>
+      </main>
+
+      <footer class="site-footer">
+        <span>Jan’s pitch. Bundesliga passion.</span>
+        <span>Forecasts are for fun, not betting advice.</span>
+      </footer>
+    </div>
+  </body>
+</html>
