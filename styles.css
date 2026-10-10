@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap");
 
 :root {
   color-scheme: light;
@@ -869,6 +869,392 @@ h2 {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   clip-path: inset(50%);
+}
+
+/* Bundesliga theme: red, black and white with condensed sports typography */
+:root {
+  --bl-red: #d20515;
+  --bl-red-dark: #9e0310;
+  --bl-black: #0c0c10;
+  --bl-grey: #1a1a21;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+body {
+  background-image:
+    linear-gradient(180deg, rgb(8 8 12 / 82%) 0%, rgb(10 10 14 / 70%) 45%, rgb(8 8 12 / 90%) 100%),
+    url("assets/football-on-pitch.jpg");
+  background-position: center 60%;
+}
+
+.topbar {
+  border-bottom: 0;
+  position: relative;
+}
+
+.topbar::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--bl-red) 0 38%, #fff 38% 40%, transparent 40%);
+  content: "";
+}
+
+.brand,
+h1,
+h2,
+.score,
+.team-fallback,
+.brand-mark {
+  font-family: var(--display);
+}
+
+.brand {
+  font-size: 17px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.brand-mark {
+  width: 31px;
+  height: 31px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bl-red);
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.league-label {
+  padding: 5px 11px;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--bl-black);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.league-dot {
+  background: var(--bl-red);
+  box-shadow: 0 0 0 3px rgb(210 5 21 / 22%);
+}
+
+.page-heading {
+  border: 0;
+  border-left: 6px solid var(--bl-red);
+  border-radius: 4px 18px 4px 18px;
+  background:
+    linear-gradient(100deg, rgb(10 10 14 / 92%) 0%, rgb(10 10 14 / 72%) 46%, rgb(158 3 16 / 38%) 100%),
+    url("assets/football-on-pitch.jpg") 42% 61% / cover;
+}
+
+.page-heading::after {
+  position: absolute;
+  top: 0;
+  right: 9%;
+  bottom: 0;
+  width: 70px;
+  background: var(--bl-red);
+  content: "";
+  opacity: .85;
+  transform: skewX(-22deg);
+  box-shadow: -26px 0 0 -8px rgb(255 255 255 / 85%);
+}
+
+.eyebrow {
+  color: #ff6b76;
+  letter-spacing: .2em;
+}
+
+h1 {
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: .95;
+  text-transform: uppercase;
+}
+
+h1 span {
+  color: var(--bl-red);
+}
+
+.intro {
+  color: #e2e2e6;
+}
+
+.results-panel,
+.standings-panel {
+  border: 0;
+  border-radius: 4px 16px 4px 16px;
+  box-shadow: 0 18px 46px rgb(0 0 0 / 38%);
+}
+
+.panel-toolbar {
+  background:
+    linear-gradient(100deg, transparent 72%, rgb(210 5 21 / 90%) 72.2%, rgb(210 5 21 / 90%) 76%, transparent 76.2%),
+    var(--bl-black);
+  border-bottom: 3px solid var(--bl-red);
+}
+
+.matchday-copy .eyebrow {
+  color: #ff6b76;
+}
+
+h2 {
+  font-size: 26px;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+
+.icon-button {
+  border-radius: 50%;
+}
+
+.icon-button:hover:not(:disabled) {
+  border-color: var(--bl-red);
+  background: var(--bl-red);
+}
+
+.refresh-button {
+  border-color: var(--bl-red);
+  border-radius: 4px;
+  background: var(--bl-red);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.refresh-button:hover:not(:disabled) {
+  border-color: #f01a2c;
+  background: #f01a2c;
+}
+
+.filter-row {
+  background: #f3f3f5;
+  border-top: 0;
+}
+
+.filter-chip {
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: 10px;
+}
+
+.filter-chip.is-active {
+  border-color: var(--bl-black);
+  background: var(--bl-black);
+  color: #fff;
+}
+
+.live-indicator {
+  background: var(--bl-red);
+}
+
+.date-heading {
+  color: var(--bl-black);
+  font-family: var(--display);
+  font-size: 15px;
+  letter-spacing: .08em;
+}
+
+.date-heading span:first-child::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  background: var(--bl-red);
+  transform: skewX(-22deg);
+}
+
+.match-card:hover,
+.match-card[open] {
+  background: #f6f6f8;
+}
+
+.team-name {
+  color: var(--bl-black);
+  font-weight: 700;
+}
+
+.score {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.score > span:not(.score-separator) {
+  min-width: 34px;
+  border-radius: 3px;
+  background: var(--bl-black);
+  color: #fff;
+}
+
+.score > .score-winner {
+  background: var(--bl-red);
+}
+
+.score-separator {
+  color: #9a9aa4;
+}
+
+.match-time {
+  padding: 4px 10px;
+  border: 2px solid var(--bl-black);
+  border-radius: 3px;
+  color: var(--bl-black);
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.match-status.is-live {
+  color: var(--bl-red);
+}
+
+.match-summary:focus-visible {
+  outline-color: var(--bl-red);
+}
+
+.match-summary::after {
+  border-color: var(--bl-red);
+}
+
+.match-details {
+  border-top: 2px solid var(--bl-red);
+  background: #f6f6f8;
+}
+
+.half-time-result {
+  border-color: var(--bl-black);
+  border-radius: 3px;
+  background: var(--bl-black);
+  color: #fff;
+}
+
+.goal-minute {
+  color: var(--bl-red);
+  font-family: var(--display);
+  font-size: 14px;
+}
+
+.goal-scorer {
+  color: var(--bl-black);
+}
+
+.data-credit a,
+.error-state button {
+  color: var(--bl-red);
+}
+
+.loading-spinner {
+  border-color: #eee;
+  border-top-color: var(--bl-red);
+}
+
+.standings-heading {
+  background: var(--bl-black);
+  border-bottom: 3px solid var(--bl-red);
+  padding-bottom: 17px;
+}
+
+.standings-heading .eyebrow {
+  color: #ff6b76;
+}
+
+.standings-heading h2 {
+  color: #fff;
+}
+
+.standings-season {
+  border-color: var(--bl-red);
+  border-radius: 3px;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 15px;
+}
+
+.standings-caption {
+  padding-top: 13px;
+  color: #55555f;
+  font-weight: 600;
+}
+
+.standings-table th {
+  background: var(--bl-black);
+  color: #fff;
+}
+
+.standings-table .standing-name,
+.standings-table .points-column {
+  color: var(--bl-black);
+}
+
+.standings-table .points-column {
+  font-family: var(--display);
+  font-size: 16px;
+}
+
+.standings-table tbody tr:nth-child(even) {
+  background: #f7f7f9;
+}
+
+.standings-table tbody .position-column {
+  box-shadow: inset 4px 0 transparent;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.standings-table .zone-champions .position-column { box-shadow: inset 4px 0 #1b6ed6; }
+.standings-table .zone-europa .position-column { box-shadow: inset 4px 0 #f08a00; }
+.standings-table .zone-conference .position-column { box-shadow: inset 4px 0 #19a974; }
+.standings-table .zone-playoff .position-column { box-shadow: inset 4px 0 #8a8a94; }
+.standings-table .zone-relegation .position-column { box-shadow: inset 4px 0 var(--bl-red); }
+
+.standings-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 15px;
+  margin: 0;
+  padding: 11px 26px 0;
+  list-style: none;
+  color: #55555f;
+  font-size: 10px;
+}
+
+.standings-legend li::before {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background: var(--zone);
+  content: "";
+}
+
+.site-footer {
+  position: relative;
+  padding-top: 20px;
+  color: #d4d4da;
+}
+
+.site-footer::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 3px;
+  background: var(--bl-red);
+  content: "";
+}
+
+.install-hint strong,
+.photo-credit a {
+  color: #fff;
 }
 
 @keyframes spin {

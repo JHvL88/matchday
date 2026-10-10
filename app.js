@@ -378,7 +378,12 @@ function renderStandings(matches, matchday) {
 
   const fragment = document.createDocumentFragment();
   table.forEach((standing, index) => {
-    const row = createElement("tr");
+    const zone = index < 4 ? "zone-champions"
+      : index === 4 ? "zone-europa"
+        : index === 5 ? "zone-conference"
+          : index === 15 ? "zone-playoff"
+            : index >= 16 ? "zone-relegation" : "";
+    const row = createElement("tr", table.length === 18 ? zone : "");
     const position = createElement("td", "position-column", String(index + 1));
     const clubCell = createElement("td", "club-column");
     const club = createElement("span", "standing-club");

@@ -1,4 +1,4 @@
-const SHELL_CACHE = "jans-matchday-shell-v3";
+const SHELL_CACHE = "jans-matchday-shell-v4";
 const DATA_CACHE = "jans-matchday-data-v3";
 const APP_SHELL = [
   "./",
