@@ -363,8 +363,39 @@
     font-size: 12.5px;
   }
 
-  .post-table:not(.wide) td:first-child,
-  .post-table:not(.wide) th:first-child {
+  .post-table:not(.wide) td,
+  .post-table:not(.wide) th {
     white-space: normal;
   }
+
+  .post-table:not(.wide) td:last-child {
+    white-space: nowrap;
+  }
+}
+
+/* Post-match update */
+.update-box {
+  margin: 0 0 30px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--bl-red);
+  border-radius: 3px 10px 10px 3px;
+  background: #f6f6f8;
+  font-size: 15px;
+}
+
+.update-box p {
+  margin: 0;
+}
+
+.update-box .update-label {
+  margin-bottom: 4px;
+  color: var(--bl-red-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.post-body h2[id] {
+  scroll-margin-top: 16px;
 }
