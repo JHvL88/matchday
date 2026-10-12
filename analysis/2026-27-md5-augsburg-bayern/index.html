@@ -3,30 +3,42 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#123b2b">
+    <meta name="theme-color" content="#0c0c10">
     <meta name="description" content="Pre-match forecast for FC Augsburg vs FC Bayern, Bundesliga matchday 5 2026/27: Dixon-Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers.">
     <title>Augsburg vs Bayern: the forecast — Jan’s Matchday</title>
     <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
     <link rel="manifest" href="../../manifest.webmanifest">
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+    <link rel="stylesheet" href="../../styles.css?v=6">
     <link rel="stylesheet" href="../analysis.css">
   </head>
   <body>
-    <div class="app-shell">
-      <header class="topbar">
+    <a class="skip-link" href="#article">Skip to the article</a>
+    <header class="topbar">
+      <div class="app-shell topbar-inner">
         <a class="brand" href="../../" aria-label="Jan’s Matchday home">
           <span class="brand-mark" aria-hidden="true">J</span>
-          <span>JAN’S MATCHDAY</span>
+          <span class="brand-name">Jan’s Matchday</span>
         </a>
+        <nav class="top-nav" aria-label="Sections">
+          <a href="../../#matches">Matches</a>
+          <a href="../../#table">Table</a>
+          <a href="../../#insights">Insights</a>
+          <a href="../../#analysis" aria-current="page">Analysis</a>
+        </nav>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
           <span>Bundesliga 2026/27</span>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <div class="app-shell">
       <main>
-        <a class="back-link" href="../../">← Back to the fixtures</a>
-        <article class="post">
+        <a class="back-link" href="../../#analysis">← All analysis</a>
+        <article class="post" id="article">
           <header class="post-hero">
             <p class="eyebrow">MATCHDAY 5 · PRE-MATCH FORECAST</p>
             <h1>Augsburg vs Bayern: three models, one stubborn underdog<span>.</span></h1>
