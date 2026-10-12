@@ -12,7 +12,17 @@ python -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
-The app offers matchday navigation, live/finished/upcoming filters, expandable match details with available goal events and half-time scores, and a reconstructed league table through the selected matchday. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name. Match information is displayed in the Europe/Berlin time zone.
+What’s on the home page:
+
+- **Matchday hub.** Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. The hub summarises the matchday: goals, home wins/draws/away wins, the biggest win and the leader.
+- **Matches.** Filters with counts (all, live, finished, upcoming); each match expands to show the venue, attendance, half-time score and a goal timeline with the running score. While a match is live the page refreshes itself every minute, and again when you come back to it.
+- **Table.** Overall, home and away tables after the selected matchday, with the last five results, the movement since the previous matchday and European/relegation zones. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
+- **Follow a club.** Tap a club in the table (or pick one under Insights) to highlight it in the fixtures, the table and the charts. The choice is remembered on that device.
+- **Insights.** A points race for the season so far and when the goals go in, each with hover/keyboard tooltips and a table view.
+
+Match information is displayed in the Europe/Berlin time zone.
+
+When you change `styles.css` or `app.js`, bump the `?v=` number where they are linked (`index.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
 
 ## Match analyses
 

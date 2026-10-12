@@ -2,143 +2,215 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#123b2b">
-    <meta name="description" content="Jan's Matchday: the latest Bundesliga fixtures and results, powered by OpenLigaDB.">
-    <title>Jan’s Matchday — Bundesliga results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0c0c10">
+    <meta name="description" content="Jan’s Matchday: Bundesliga fixtures, live scores, the table, season insights and data-driven match analysis.">
+    <title>Jan’s Matchday — Bundesliga results, table and analysis</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Jan’s Matchday">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="preconnect" href="https://api.openligadb.de">
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+    <link rel="stylesheet" href="styles.css?v=6">
+    <script src="app.js?v=6" defer></script>
   </head>
   <body>
-    <div class="app-shell">
-      <header class="topbar">
+    <a class="skip-link" href="#matches">Skip to matches</a>
+    <header class="topbar">
+      <div class="app-shell topbar-inner">
         <a class="brand" href="./" aria-label="Jan’s Matchday home">
           <span class="brand-mark" aria-hidden="true">J</span>
-          <span>JAN’S MATCHDAY</span>
+          <span class="brand-name">Jan’s Matchday</span>
         </a>
         <nav class="top-nav" aria-label="Sections">
-          <a href="#fixtures">Fixtures</a>
-          <a href="#standings-heading">Table</a>
-          <a href="#analysis-heading">Analysis</a>
+          <a href="#matches">Matches</a>
+          <a href="#table">Table</a>
+          <a href="#insights">Insights</a>
+          <a href="#analysis">Analysis</a>
         </nav>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
           <span id="league-season">Bundesliga</span>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <div class="app-shell">
       <main>
-        <section class="page-heading" aria-labelledby="page-title">
-          <div>
-            <p class="eyebrow">A FAN’S TAKE ON GERMAN FOOTBALL</p>
-            <h1 id="page-title">Jan’s Matchday<span>.</span></h1>
-            <p class="intro">Your front-row seat to every Bundesliga moment.</p>
-          </div>
+        <section class="hero" aria-labelledby="page-title">
+          <p class="eyebrow">A fan’s take on German football</p>
+          <h1 id="page-title">Jan’s Matchday<span>.</span></h1>
+          <p class="intro">Every Bundesliga matchday in one place: live scores, the table, season trends and deeper analysis.</p>
         </section>
 
-        <section class="results-panel" id="fixtures" aria-labelledby="matchday-title">
-          <div class="panel-toolbar">
+        <section class="matchday-hub" aria-labelledby="matchday-title">
+          <div class="hub-top">
             <div class="matchday-picker">
               <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
               </button>
               <div class="matchday-copy">
-                <p class="eyebrow">BUNDESLIGA</p>
+                <p class="eyebrow" id="hub-season">Bundesliga</p>
                 <h2 id="matchday-title">Matchday</h2>
+                <p class="matchday-dates" id="matchday-dates">&nbsp;</p>
               </div>
               <button class="icon-button" id="next-matchday" type="button" aria-label="Next matchday">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
               </button>
-              <label class="visually-hidden" for="matchday-select">Choose a matchday</label>
-              <select id="matchday-select" aria-label="Choose a matchday"></select>
             </div>
-            <button class="refresh-button" id="refresh-results" type="button">
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 8A6.8 6.8 0 0 0 4.2 5.5L3 7m0 0V3.8M3 7h3.2M3.5 12a6.8 6.8 0 0 0 12.3 2.5L17 13m0 0v3.2M17 13h-3.2"/></svg>
-              <span>Refresh</span>
-            </button>
-          </div>
-
-          <div class="filter-row" role="group" aria-label="Filter matches">
-            <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All matches</button>
-            <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator"></span>Live</button>
-            <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false">Finished</button>
-            <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false">Upcoming</button>
-          </div>
-
-          <div id="results" class="results-list" aria-live="polite" aria-busy="true">
-            <div class="loading-state">
-              <span class="loading-spinner" aria-hidden="true"></span>
-              <p>Finding the latest scores…</p>
+            <div class="hub-actions">
+              <button class="ghost-button" id="current-matchday" type="button" hidden>Go to current matchday</button>
+              <p class="updated-at" id="updated-at" aria-live="polite"></p>
+              <button class="refresh-button" id="refresh-results" type="button">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 8A6.8 6.8 0 0 0 4.2 5.5L3 7m0 0V3.8M3 7h3.2M3.5 12a6.8 6.8 0 0 0 12.3 2.5L17 13m0 0v3.2M17 13h-3.2"/></svg>
+                <span>Refresh</span>
+              </button>
             </div>
           </div>
-          <p class="data-credit">Match data provided by <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
+          <div class="matchday-strip" id="matchday-strip" role="group" aria-label="Choose a matchday"></div>
+          <dl class="glance" id="glance" aria-label="Matchday at a glance">
+            <div class="glance-tile"><dt>Goals</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt>Results</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt>Biggest win</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt>Top of the table</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+          </dl>
         </section>
 
-        <section class="standings-panel" aria-labelledby="standings-heading" aria-busy="true">
-          <div class="standings-heading">
-            <div>
-              <p class="eyebrow">MATCHDAY STANDINGS</p>
-              <h2 id="standings-heading">Bundesliga standings</h2>
+        <div class="dashboard">
+          <section class="panel fixtures-panel" id="matches" aria-labelledby="matches-heading">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Fixtures &amp; results</p>
+                <h2 id="matches-heading">Matches</h2>
+              </div>
             </div>
-            <span class="standings-season" id="standings-season"></span>
+            <div class="filter-row" role="group" aria-label="Filter matches">
+              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All <span class="chip-count" data-count="all"></span></button>
+              <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator" aria-hidden="true"></span>Live <span class="chip-count" data-count="live"></span></button>
+              <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false">Finished <span class="chip-count" data-count="finished"></span></button>
+              <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false">Upcoming <span class="chip-count" data-count="upcoming"></span></button>
+            </div>
+            <div id="results" class="results-list" aria-live="polite" aria-busy="true">
+              <div class="loading-state">
+                <span class="loading-spinner" aria-hidden="true"></span>
+                <p>Finding the latest scores…</p>
+              </div>
+            </div>
+            <p class="panel-foot">Kick-off times in Europe/Berlin · match data from <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
+          </section>
+
+          <section class="panel standings-panel" id="table" aria-labelledby="standings-heading" aria-busy="true">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Standings</p>
+                <h2 id="standings-heading">Table</h2>
+              </div>
+              <div class="segmented" role="group" aria-label="Table view">
+                <button type="button" data-venue="all" aria-pressed="true">Overall</button>
+                <button type="button" data-venue="home" aria-pressed="false">Home</button>
+                <button type="button" data-venue="away" aria-pressed="false">Away</button>
+              </div>
+            </div>
+            <p class="standings-caption" id="standings-caption" aria-live="polite">Loading standings…</p>
+            <div class="standings-scroll">
+              <table class="standings-table">
+                <caption class="visually-hidden" id="standings-table-caption">Bundesliga table</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" class="position-column"><abbr title="Position">#</abbr></th>
+                    <th scope="col" class="club-column">Club</th>
+                    <th scope="col"><abbr title="Played">P</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Won">W</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Drawn">D</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Lost">L</abbr></th>
+                    <th scope="col" class="detail-column">Goals</th>
+                    <th scope="col"><abbr title="Goal difference">GD</abbr></th>
+                    <th scope="col" class="points-column"><abbr title="Points">Pts</abbr></th>
+                    <th scope="col" class="form-column">Form</th>
+                  </tr>
+                </thead>
+                <tbody id="standings-rows">
+                  <tr><td colspan="10" class="standings-message">Loading standings…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="standings-legend" id="standings-legend" aria-label="Table colour key">
+              <li style="--zone:var(--zone-ucl)">Champions League</li>
+              <li style="--zone:var(--zone-uel)">Europa League</li>
+              <li style="--zone:var(--zone-uecl)">Conference League</li>
+              <li style="--zone:var(--zone-playoff)">Relegation play-off</li>
+              <li style="--zone:var(--zone-down)">Relegation</li>
+            </ul>
+            <p class="standings-note">Calculated from completed results. Ties are split by goal difference, then goals scored. Tap a club to follow it across the page.</p>
+          </section>
+        </div>
+
+        <section class="panel insights-panel" id="insights" aria-labelledby="insights-heading">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow" id="insights-caption">Season to date</p>
+              <h2 id="insights-heading">Insights</h2>
+            </div>
+            <label class="team-picker">
+              <span>Follow</span>
+              <select id="team-select"></select>
+            </label>
           </div>
-          <p class="standings-caption" id="standings-caption" aria-live="polite">Loading standings…</p>
-          <div class="standings-scroll">
-            <table class="standings-table">
-              <thead>
-                <tr>
-                  <th scope="col" class="position-column">#</th>
-                  <th scope="col" class="club-column">Club</th>
-                  <th scope="col">P</th>
-                  <th scope="col">W</th>
-                  <th scope="col">D</th>
-                  <th scope="col">L</th>
-                  <th scope="col">GF:GA</th>
-                  <th scope="col">GD</th>
-                  <th scope="col" class="points-column">Pts</th>
-                </tr>
-              </thead>
-              <tbody id="standings-rows">
-                <tr><td colspan="9" class="standings-message">Loading standings…</td></tr>
-              </tbody>
-            </table>
+          <div class="insights-grid">
+            <figure class="chart-card">
+              <figcaption>
+                <h3>Points race</h3>
+                <p id="points-chart-summary">Cumulative points after each matchday.</p>
+              </figcaption>
+              <div class="chart" id="points-chart"></div>
+              <details class="chart-table">
+                <summary>Show as table</summary>
+                <div class="chart-table-scroll" id="points-table"></div>
+              </details>
+            </figure>
+            <figure class="chart-card">
+              <figcaption>
+                <h3>When the goals go in</h3>
+                <p id="minutes-chart-summary">Goals by match minute.</p>
+              </figcaption>
+              <div class="chart" id="minutes-chart"></div>
+              <details class="chart-table">
+                <summary>Show as table</summary>
+                <div class="chart-table-scroll" id="minutes-table"></div>
+              </details>
+            </figure>
           </div>
-          <ul class="standings-legend" aria-label="Table colour key">
-            <li style="--zone:#1b6ed6">Champions League</li>
-            <li style="--zone:#f08a00">Europa League</li>
-            <li style="--zone:#19a974">Conference League</li>
-            <li style="--zone:#8a8a94">Relegation play-off</li>
-            <li style="--zone:#d20515">Relegation</li>
-          </ul>
-          <p class="standings-note">Reconstructed from completed match results · tied teams are ordered by goal difference, then goals scored.</p>
         </section>
 
-        <section class="analysis-panel" aria-labelledby="analysis-heading">
-          <div class="analysis-heading">
+        <section class="panel analysis-panel" id="analysis" aria-labelledby="analysis-heading">
+          <div class="panel-head">
             <div>
-              <p class="eyebrow">MATCH ANALYSIS</p>
+              <p class="eyebrow">Deep dives</p>
               <h2 id="analysis-heading">Analysis</h2>
             </div>
           </div>
-          <a class="analysis-card" href="analysis/2026-27-md5-augsburg-bayern/">
-            <span class="analysis-tag">Matchday 5 · Forecast &amp; full-time review</span>
-            <span class="analysis-title">Augsburg vs Bayern: three models, one stubborn underdog</span>
-            <span class="analysis-desc">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
-            <span class="analysis-more">Read the analysis →</span>
-          </a>
+          <div class="analysis-grid">
+            <a class="analysis-card" href="analysis/2026-27-md5-augsburg-bayern/">
+              <span class="analysis-thumb"><img src="analysis/2026-27-md5-augsburg-bayern/figs/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302"></span>
+              <span class="analysis-body">
+                <span class="analysis-tag">Matchday 5 · Forecast &amp; full-time review</span>
+                <span class="analysis-title">Augsburg vs Bayern: three models, one stubborn underdog</span>
+                <span class="analysis-desc">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
+                <span class="analysis-more">Read the analysis <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </div>
         </section>
       </main>
 
       <footer class="site-footer">
         <span>Jan’s pitch. Bundesliga passion.</span>
         <span>Free football data, no sign-up needed.</span>
-        <p class="install-hint">On iPhone or iPad: open this page in Safari, tap Share, then choose <strong>Add to Home Screen</strong>.</p>
+        <p class="install-hint" id="install-hint" hidden>On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong> to install Jan’s Matchday.</p>
         <p class="photo-credit">
           Background photos:
           <a href="https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg" target="_blank" rel="noreferrer">Hongkou Football Stadium at night</a>
