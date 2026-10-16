@@ -1,0 +1,73 @@
+# Downloads the football-data.co.uk season files straight from the source and stores them,
+# byte-for-byte with SHA-256 checksums, on the `source-data` branch. That branch's history is the
+# audit trail of exactly which files every backtest and forecast used.
+#
+# Runs when the fetcher changes, on demand (Actions tab > Fetch source data > Run workflow),
+# and twice a week after football-data.co.uk's own updates (Sunday and Wednesday nights).
+name: Fetch source data
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - analysis/pipeline/fetch_football_data.py
+      - .github/workflows/fetch-source-data.yml
+  schedule:
+    - cron: "17 6 * * 1,4"   # Monday and Thursday 06:17 UTC
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download football-data.co.uk files
+        run: python analysis/pipeline/fetch_football_data.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/fetch_log.txt"
+
+      - name: Commit to the source-data branch
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          git clone --quiet --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
+          cd data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin source-data > /dev/null; then
+            git checkout --quiet source-data
+          else
+            git switch --quiet --orphan source-data
+          fi
+          rm -rf football-data
+          if [ -d "$RUNNER_TEMP/out" ]; then cp -r "$RUNNER_TEMP/out/." .; fi
+          cp "$RUNNER_TEMP/fetch_log.txt" .
+          cat > README.md <<'EOF'
+          # Source data for Jan's Matchday
+
+          Season files from [football-data.co.uk](https://www.football-data.co.uk/), saved exactly as served,
+          with a SHA-256 checksum per file in `manifest.json`. Written by the `Fetch source data` workflow on `main`;
+          don't edit by hand. Column key: https://www.football-data.co.uk/notes.txt
+
+          Data © football-data.co.uk, used for non-commercial analysis with thanks.
+          EOF
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes since the last fetch."
+          else
+            git commit --quiet -m "Fetch football-data.co.uk files ($(date -u +%Y-%m-%dT%H:%MZ), ${GITHUB_SHA::7})"
+            git push --quiet origin source-data
+          fi
