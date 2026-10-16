@@ -1,0 +1,136 @@
+# Walk-forward backtest of the published models, 2019/20 to today, against the closing market.
+# The slow part (one Bayesian NUTS refit per month) runs as one parallel job per season.
+# Results land on the `backtest-results` branch; the Colab notebook in analysis/backtest/
+# reproduces the same thing on a GPU.
+name: Backtest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - analysis/pipeline/backtest.py
+      - analysis/pipeline/bayes_model.py
+      - analysis/pipeline/bl_models.py
+      - analysis/pipeline/features.py
+      - analysis/pipeline/backtest_utils.py
+      - analysis/pipeline/build_matches.py
+      - analysis/pipeline/requirements.txt
+      - .github/workflows/backtest.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backtest
+  cancel-in-progress: true
+
+env:
+  FIRST_SEASON: "2019"
+  LAST_SEASON: "2026"
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.src.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: source-data
+          path: source
+      - id: src
+        run: echo "sha=$(git -C source rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q numpy==2.5.3 pandas==3.0.5
+      - run: python analysis/pipeline/build_matches.py source data/matches.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: matches
+          path: data/matches.csv
+
+  dc-xgb:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q -r analysis/pipeline/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: matches
+          path: data
+      - run: python analysis/pipeline/backtest.py dc data/matches.csv out/oos_dc.csv --seasons $FIRST_SEASON $LAST_SEASON
+      - run: python analysis/pipeline/backtest.py xgb data/matches.csv out/oos_xgb.csv --seasons $FIRST_SEASON $LAST_SEASON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oos-dc-xgb
+          path: out/
+
+  bayes:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        season: [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q -r analysis/pipeline/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: matches
+          path: data
+      - run: python analysis/pipeline/backtest.py bayes data/matches.csv out/oos_bay_${{ matrix.season }}.csv --seasons ${{ matrix.season }} ${{ matrix.season }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oos-bay-${{ matrix.season }}
+          path: out/
+
+  collect:
+    needs: [prepare, dc-xgb, bayes]
+    if: always() && needs.prepare.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          merge-multiple: true
+      - name: Commit to the backtest-results branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_SHA: ${{ needs.prepare.outputs.source_sha }}
+          JOBS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          git clone --quiet --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          cd repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin backtest-results > /dev/null; then
+            git checkout --quiet backtest-results
+          else
+            git switch --quiet --orphan backtest-results
+          fi
+          rm -rf latest && mkdir latest && cp -r ../results/. latest/
+          python3 - <<PY
+          import json, os, datetime
+          json.dump(dict(code_commit=os.environ["GITHUB_SHA"], code_ref=os.environ["GITHUB_REF_NAME"],
+                         source_data_commit=os.environ["SOURCE_SHA"], run_id=os.environ["GITHUB_RUN_ID"],
+                         seasons=[int(os.environ["FIRST_SEASON"]), int(os.environ["LAST_SEASON"])],
+                         jobs={k: v["result"] for k, v in json.loads(os.environ["JOBS"]).items()},
+                         finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
+                    open("latest/run.json", "w"), indent=1)
+          PY
+          git add -A
+          git commit --quiet -m "Backtest ${GITHUB_SHA::7} on source-data ${SOURCE_SHA::7} (run ${GITHUB_RUN_ID})"
+          git push --quiet origin backtest-results

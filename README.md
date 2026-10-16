@@ -49,7 +49,7 @@ Blocks can be nested, and a link to a hidden block switches to a depth that show
 |---|---|---|
 | `analysis/posts.json` | Every deep dive: match id, published probabilities (models and market), card text in both languages; after the match `fullTime` with the score and the grades quoted in the post | With each post, and after full time |
 | `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Each matchday, before kick-off |
-| `data/record.json` | Season and backtest figures for the track record, copied from the latest notebook | With each post |
+| `data/record.json` | Season and backtest figures for the track record, written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
 
 When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
 
@@ -70,10 +70,38 @@ Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analys
 1. Create a new folder and copy an existing page into it, so the top bar, the tab bar, the language switch, the share tags, the contents column, the depth switch and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages, with a three-point quick take, the depth marks and explainer terms (see *The explanatory layer*), and update the share tags (`og:` and `twitter:`) and the canonical link at the top. The reading times in the depth switch are filled in by `explain.js`; copy the numbers it shows into the HTML so nothing changes when the page loads.
 2. Make the German charts: `python analysis/tools/translate_figures.py analysis/<new post>` writes `figs/de/` from the English SVGs, keeping every number and mark and changing only the words and number formats (1,47 · 25 %). It lists any English label it does not know yet; add a rule for it at the top of the script. The German article uses `figs/de/…`.
 3. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
-4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the published probabilities (home, draw, away) for the models and the market with the odds and bookmaker, and the card text in both languages. The home page card, the track record and the Learn calculators all read from here. Update `data/record.json` with the notebook's season and backtest figures.
+4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the published probabilities (home, draw, away) for the models and the market with the odds and bookmaker, and the card text in both languages. The home page card, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
 5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
 6. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
 7. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then.
+
+## Data and the backtest
+
+The models and their data live in `analysis/pipeline/`, one copy for every post, the backtest and the Track record page.
+
+| Step | Where | What it does |
+|---|---|---|
+| Source files | `fetch_football_data.py`, workflow **Fetch source data** | Downloads the 1. and 2. Bundesliga season files from [football-data.co.uk](https://www.football-data.co.uk/) exactly as served, with a SHA-256 checksum each, and stores them on the `source-data` branch. Runs twice a week, on demand, and when the fetcher changes. That branch's history records which exact files every result used. |
+| Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets. |
+| Posts' data check | `verify_sources.py` | Compares the 2026/27 rows embedded in each post's notebook, and the old GitHub mirror, with the source files. |
+| Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost, as published. |
+| Backtest | `backtest.py`, workflow **Backtest** | Walk-forward from 2019/20: Dixon–Coles refit weekly, XGBoost per season, the Bayesian model monthly (one parallel job per season). Predictions land on the `backtest-results` branch. |
+| Grades | `evaluate.py`, `make_figures.py` | Grades against one benchmark, the market-average closing price, and writes `data/record.json` (never by hand). |
+
+**The benchmark.** "The market" means football-data.co.uk's market-average closing odds (`AvgC…`), with the margin removed proportionally: the best public estimate of the true probabilities, recorded for every match since 2019/20. Pinnacle's prices are kept in the table but never used, because football-data.co.uk flags them as stale since 23 July 2025. A post still quotes the odds that were on offer when it was published; that is a different question (could you have got that price?) from the backtest's (who forecasts better?).
+
+To refresh the Track record after new matches: run the **Backtest** workflow (Actions tab), then
+
+```bash
+git fetch origin source-data backtest-results
+git worktree add /tmp/source origin/source-data
+git worktree add /tmp/results origin/backtest-results
+python analysis/pipeline/build_matches.py /tmp/source /tmp/matches.csv
+python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/latest analysis/backtest/results.json --record data/record.json --as-of YYYY-MM-DD
+python analysis/pipeline/make_figures.py analysis/backtest/results.json analysis/backtest/figs
+```
+
+The Colab notebook [`analysis/backtest/backtest.ipynb`](analysis/backtest/backtest.ipynb) does the same from scratch, downloading from football-data.co.uk and checking every file against the published run. What changed in October 2026 and why is in [`analysis/backtest/README.md`](analysis/backtest/README.md).
 
 Posts so far:
 

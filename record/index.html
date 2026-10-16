@@ -33,10 +33,10 @@
     <link rel="stylesheet" href="../styles.css?v=10">
     <link rel="stylesheet" href="../analysis/analysis.css?v=3">
     <link rel="stylesheet" href="../pages.css?v=1">
-    <script src="../i18n.js?v=10" defer></script>
+    <script src="../i18n.js?v=11" defer></script>
     <script src="../glossary.js?v=10" defer></script>
     <script src="../explain.js?v=10" defer></script>
-    <script src="record.js?v=1" defer></script>
+    <script src="record.js?v=2" defer></script>
   </head>
   <body class="article page-record">
     <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
@@ -88,11 +88,11 @@
             <section class="page-section" id="disagree">
               <div data-lang-only="en">
                 <h2>When the models and the market disagree</h2>
-                <p>The question that matters for anyone with a betting account. In the backtest, whenever my models were at least 7 points less sure of the bookmakers’ favourite than the bookmakers were, the favourite still won more often than the models expected. The market was closer. The same check on the two models that can be replayed back to 2022/23 tells the same story with twenty times the matches.</p>
+                <p>The question that matters for anyone with a betting account. Since 2019/20, whenever my models were at least 7 points less sure of the bookmakers’ favourite than the bookmakers were, the favourite won even more often than the bookmakers said. It works the other way round too: when the models were more confident than the market, the favourite won less often than either expected. So far, disagreement has been a reason to trust the bookmakers, not to bet against them.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Wenn Modelle und Markt uneins sind</h2>
-                <p>Die Frage, die für alle mit Wettkonto zählt. Im Backtest gilt: Immer wenn meine Modelle dem Favoriten der Buchmacher mindestens 7 Punkte weniger zutrauten als die Buchmacher selbst, gewann der Favorit trotzdem öfter, als die Modelle erwartet hatten. Der Markt lag näher dran. Derselbe Check mit den beiden Modellen, die sich bis 2022/23 zurückspielen lassen, erzählt dieselbe Geschichte, mit zwanzigmal so vielen Spielen.</p>
+                <p>Die Frage, die für alle mit Wettkonto zählt. Seit 2019/20 gilt: Immer wenn meine Modelle dem Favoriten der Buchmacher mindestens 7 Punkte weniger zutrauten als die Buchmacher selbst, gewann der Favorit sogar noch öfter, als die Buchmacher gesagt hatten. Umgekehrt genauso: Waren die Modelle zuversichtlicher als der Markt, gewann der Favorit seltener, als beide erwartet hatten. Bisher war Uneinigkeit ein Grund, den Buchmachern zu glauben, nicht gegen sie zu wetten.</p>
               </div>
               <div class="disagree-chart" id="disagree-chart"></div>
             </section>
@@ -100,11 +100,11 @@
             <section class="page-section" id="backtest">
               <div data-lang-only="en">
                 <h2>The backtest</h2>
-                <p>Every match of 2025/26 and this season, replayed as if it were next weekend’s: each model refitted on only what it could have known before kick-off, then graded. This is the long run, and in the long run the bookmakers are ahead, narrowly.</p>
+                <p>Every match since 2019/20, replayed as if it were next weekend’s: each model refitted on only what it could have known before kick-off, then graded against the bookmakers’ closing odds (the market average, <button type="button" class="term" data-term="margin">margin</button> removed). This is the long run, and in the long run the bookmakers are clearly ahead, in every full season so far.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Der Backtest</h2>
-                <p>Jedes Spiel aus 2025/26 und dieser Saison, nachgespielt, als wäre es die Partie am kommenden Wochenende: Jedes Modell wird nur mit dem angepasst, was es vor dem Anpfiff wissen konnte, und dann bewertet. Das ist die lange Sicht, und auf lange Sicht liegen die Buchmacher vorn, knapp.</p>
+                <p>Jedes Spiel seit 2019/20, nachgespielt, als wäre es die Partie am kommenden Wochenende: Jedes Modell wird nur mit dem angepasst, was es vor dem Anpfiff wissen konnte, und dann an den Schlussquoten der Buchmacher gemessen (Marktdurchschnitt, <button type="button" class="term" data-term="margin">Marge</button> herausgerechnet). Das ist die lange Sicht, und auf lange Sicht liegen die Buchmacher klar vorn, bisher in jeder kompletten Saison.</p>
               </div>
               <div class="backtest" id="backtest-table"></div>
             </section>

@@ -44,9 +44,7 @@
       away: "Away",
       read: "Read the deep dive",
       ensembleRow: "Ensemble",
-      ensembleSub: "{count} matches since 2025/26",
-      twoModelsRow: "Dixon–Coles and XGBoost",
-      twoModelsSub: "{count} matches since 2022/23",
+      ensembleSub: "{count} matches since 2019/20",
       modelsSaid: "Models said",
       marketSaid: "Bookmakers said",
       happened: "Actually happened",
@@ -104,9 +102,7 @@
       away: "Auswärts",
       read: "Zur Analyse",
       ensembleRow: "Ensemble",
-      ensembleSub: "{count} Spiele seit 2025/26",
-      twoModelsRow: "Dixon–Coles und XGBoost",
-      twoModelsSub: "{count} Spiele seit 2022/23",
+      ensembleSub: "{count} Spiele seit 2019/20",
       modelsSaid: "Modelle sagten",
       marketSaid: "Buchmacher sagten",
       happened: "Tatsächlich passiert",
@@ -393,7 +389,7 @@
     }
     table.append(thead, body);
     scroll.append(table);
-    const note = element("p", "calc-fine", say("asOf", { date: when(`${state.record.asOf}T12:00:00Z`, { day: "numeric", month: "long", year: "numeric" }), label: bt.label }));
+    const note = element("p", "calc-fine", say("asOf", { date: when(`${state.record.asOf}T12:00:00Z`, { day: "numeric", month: "long", year: "numeric" }), label: typeof bt.label === "string" ? bt.label : (bt.label?.[I18N.lang] ?? bt.label?.en) }));
     box.replaceChildren(scroll, note);
   }
 
