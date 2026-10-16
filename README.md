@@ -85,24 +85,27 @@ The models and their data live in `analysis/pipeline/`, one copy for every post,
 | Step | Where | What it does |
 |---|---|---|
 | Source files | `fetch_football_data.py`, workflow **Fetch source data** | Downloads the 1. and 2. Bundesliga season files from [football-data.co.uk](https://www.football-data.co.uk/) exactly as served, with a SHA-256 checksum each, and stores them on the `source-data` branch. Runs twice a week, on demand, and when the fetcher changes. That branch's history records which exact files every result used. |
-| Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets. |
+| xG | `fetch_understat.py`, `understat.py`, workflow **Fetch Understat xG** | Understat's match xG for every 1. Bundesliga match since 2014/15, fetched weekly into the private `matchday-data` repo (Understat publishes no licence, so only checksums are public). |
+| Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets; `--understat <dir>` adds xG. |
 | Posts' data check | `verify_sources.py` | Compares the 2026/27 rows embedded in each post's notebook, and the old GitHub mirror, with the source files. |
-| Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost, as published. |
-| Backtest | `backtest.py`, workflow **Backtest** | Walk-forward from 2019/20: Dixon–Coles refit weekly, XGBoost per season, the Bayesian model monthly (one parallel job per season). Predictions land on the `backtest-results` branch. |
+| Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost. Since October 2026 the published versions learn from xG (`--xg`), after a [pre-registered test](analysis/backtest/xg/README.md); without the switch they are the original models. |
+| Backtest | `backtest.py`, workflows **Backtest (xG variants)** and **Backtest** | Walk-forward from 2019/20: Dixon–Coles refit weekly, XGBoost per season, the Bayesian model monthly (one parallel job per season). Predictions land on the `backtest-results` branch: `xg/` for the published models, `latest/` for the original ones. |
 | Grades | `evaluate.py`, `make_figures.py` | Grades against one benchmark, the market-average closing price, and writes `data/record.json` (never by hand). |
 
 **The benchmark.** "The market" means football-data.co.uk's market-average closing odds (`AvgC…`), with the margin removed proportionally: the best public estimate of the true probabilities, recorded for every match since 2019/20. Pinnacle's prices are kept in the table but never used, because football-data.co.uk flags them as stale since 23 July 2025. A post still quotes the odds that were on offer when it was published; that is a different question (could you have got that price?) from the backtest's (who forecasts better?).
 
-To refresh the Track record after new matches: run the **Backtest** workflow (Actions tab), then
+To refresh the Track record after new matches: run the **Backtest (xG variants)** workflow (Actions tab), then
 
 ```bash
 git fetch origin source-data backtest-results
 git worktree add /tmp/source origin/source-data
 git worktree add /tmp/results origin/backtest-results
-python analysis/pipeline/build_matches.py /tmp/source /tmp/matches.csv
-python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/latest analysis/backtest/results.json --record data/record.json --as-of YYYY-MM-DD
-python analysis/pipeline/make_figures.py analysis/backtest/results.json analysis/backtest/figs
+git clone https://github.com/JHvL88/matchday-data /tmp/matchday-data      # private: needs your GitHub login
+python analysis/pipeline/build_matches.py /tmp/source /tmp/matches.csv --understat /tmp/matchday-data/understat
+python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/xg analysis/backtest/xg/results_vs_market.json --no-bridge --record data/record.json --as-of YYYY-MM-DD
 ```
+
+A post's forecast uses the same switches: build the match table with `--understat` and fit the models with xG (`DixonColes(xi=0.0019, xg_weight=0.25)`, `build_features(..., use_xg=True)` with `FEATURES_XG`, `bayes_model.USE_XG = True`).
 
 ### Odds
 

@@ -7,7 +7,7 @@
 window.GLOSSARY = {
   order: [
     "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
-    "expected-goals", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
+    "expected-goals", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
     "shap", "credible-interval", "over-25", "btts", "clv",
   ],
   en: {
@@ -55,6 +55,11 @@ window.GLOSSARY = {
       term: "Expected goals",
       short: "In these forecasts, the average number of goals a model expects each side to score, for example 1.47 for Hamburg and 1.77 for Stuttgart.",
       read: "It is an average over many imagined replays, so 1.47 means one goal most often and two goals quite often. Not to be confused with shot-based xG from tracking data.",
+    },
+    xg: {
+      term: "xG (shot-based expected goals)",
+      short: "How many goals a team’s chances were worth, judged shot by shot from where and how each was taken. The numbers here come from Understat.",
+      read: "It measures the quality of chances rather than luck in front of goal, so over a few weeks it says more about a team than goals do. Since October 2026 the models learn from it, after a pre-registered test showed it helps.",
     },
     "expected-points": {
       term: "Expected points",
@@ -157,6 +162,11 @@ window.GLOSSARY = {
       term: "Erwartete Tore",
       short: "In diesen Prognosen die durchschnittliche Zahl an Toren, die ein Modell jeder Mannschaft zutraut, zum Beispiel 1,47 für Hamburg und 1,77 für Stuttgart.",
       read: "Ein Mittelwert über viele gedachte Wiederholungen: 1,47 heißt meist ein Tor, recht oft zwei. Nicht zu verwechseln mit schussbasiertem xG aus Trackingdaten.",
+    },
+    xg: {
+      term: "xG (Expected Goals aus Schüssen)",
+      short: "Wie viele Tore die Chancen einer Mannschaft wert waren, Schuss für Schuss nach Ort und Art bewertet. Die Zahlen hier stammen von Understat.",
+      read: "Es misst die Qualität der Chancen statt des Glücks vor dem Tor und sagt deshalb über wenige Wochen mehr über eine Mannschaft als die Tore. Seit Oktober 2026 lernen die Modelle daraus, nachdem ein vorab festgelegter Test gezeigt hat, dass es hilft.",
     },
     "expected-points": {
       term: "Erwartete Punkte",

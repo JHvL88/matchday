@@ -1,6 +1,8 @@
 # Models v bookmakers: the long backtest
 
-*16 October 2026. Every number below comes from [`results.json`](results.json) and [`verify_sources.json`](verify_sources.json), written by the scripts in [`analysis/pipeline/`](../pipeline/). The Colab notebook [`backtest.ipynb`](backtest.ipynb) reproduces all of it.*
+> **Update, 16 October 2026:** the published models now also learn from xG, after a pre-registered test showed they forecast better with it (gap to the market 0.0053 → 0.0044). This report describes the original models; the xG test is in [`xg/README.md`](xg/README.md), and the Track record shows the xG models.
+
+*16 October 2026. Every number below comes from [`results.json`](results.json) and [`verify_sources.json`](verify_sources.json), written by the scripts in [`analysis/pipeline/`](../pipeline/). The Colab notebook [`backtest.ipynb`](backtest.ipynb) reproduces all of it (set `XG = False` for these original models).*
 
 ## The short version
 
