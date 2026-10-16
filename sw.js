@@ -1,5 +1,7 @@
-const SHELL_CACHE = "jans-matchday-shell-v8";
+const SHELL_CACHE = "jans-matchday-shell-v9";
 const DATA_CACHE = "jans-matchday-data-v3";
+// The app shell: enough to open the home page offline. Analysis pages, charts and crests are
+// cached as they are visited (see networkFirst below).
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,12 +10,18 @@ const APP_SHELL = [
   "./i18n.js",
   "./sw.js",
   "./manifest.webmanifest",
+  "./analysis/posts.json",
+  "./assets/football-on-pitch.webp",
   "./assets/football-on-pitch.jpg",
   "./assets/apple-touch-icon.png",
   "./assets/jans-matchday-192.png",
   "./assets/jans-matchday-512.png",
-  "./analysis/2026-27-md5-augsburg-bayern/figs/fig1_forecast.svg",
-  "./analysis/2026-27-md5-augsburg-bayern/figs/de/fig1_forecast.svg",
+  "./assets/fonts/dm-sans-latin-400-normal.woff2",
+  "./assets/fonts/dm-sans-latin-500-normal.woff2",
+  "./assets/fonts/dm-sans-latin-600-normal.woff2",
+  "./assets/fonts/dm-sans-latin-700-normal.woff2",
+  "./assets/fonts/barlow-condensed-latin-600-normal.woff2",
+  "./assets/fonts/barlow-condensed-latin-700-normal.woff2",
 ];
 
 self.addEventListener("install", (event) => {

@@ -6,14 +6,32 @@
     <meta name="theme-color" content="#0c0c10">
     <meta name="description" content="Pre-match forecast for Hamburger SV vs VfB Stuttgart, Bundesliga matchday 6 2026/27: three models against the bookmakers, and who has been right when they disagree." data-i18n-attrs="content:analysis.metaMd6">
     <title data-i18n="analysis.pageTitleMd6">Hamburg vs Stuttgart: the forecast — Jan’s Matchday</title>
+    <link rel="canonical" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/">
+    <link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/?lang=en">
+    <link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/?lang=de">
+    <link rel="alternate" hreflang="x-default" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jan’s Matchday">
+    <meta property="og:title" content="Hamburg vs Stuttgart: my models pick a fight with the bookies">
+    <meta property="og:description" content="Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.">
+    <meta property="og:url" content="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/">
+    <meta property="og:image" content="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/share.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Matchday 6 · Pre-match forecast: Hamburger SV v VfB Stuttgart. Models: 32% home win, 24% draw, 44% away win.">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hamburg vs Stuttgart: my models pick a fight with the bookies">
+    <meta name="twitter:description" content="Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.">
+    <meta name="twitter:image" content="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/share.jpg">
     <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
     <link rel="manifest" href="../../manifest.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
-    <link rel="stylesheet" href="../../styles.css?v=8">
-    <link rel="stylesheet" href="../analysis.css">
-    <script src="../../i18n.js?v=8" defer></script>
+    <link rel="preload" href="../../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../../styles.css?v=9">
+    <link rel="stylesheet" href="../analysis.css?v=2">
+    <script src="../../i18n.js?v=9" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#article" data-i18n="nav.skipArticle">Skip to the article</a>
@@ -93,7 +111,7 @@
             <p>Stuttgart finished fourth last season and are back in the Champions League, which so far looks like a full-time job. Their league shot numbers are ordinary: out-shot 96 to 79, level on shots on target at 30 each. The 5–1 at Bayern on the opening night did a lot of that damage, but not all of it.</p>
             <p>Count every shot on target as a one-in-three chance of a goal, work out the odds of every possible scoreline in each match, and you get the points each side “should” have. Stuttgart come out at 7.3, Hamburg at 4.8. Same table position, different stories:</p>
             <figure class="post-figure">
-              <img src="figs/fig6_xpts.svg" alt="Dot plot of actual points against shot-based expected points for all 18 clubs. Stuttgart have 6 points but 7.3 expected; Hamburg have 6 but 4.8 expected." loading="lazy">
+              <img src="figs/fig6_xpts.svg" width="664" height="494" alt="Dot plot of actual points against shot-based expected points for all 18 clubs. Stuttgart have 6 points but 7.3 expected; Hamburg have 6 but 4.8 expected." loading="lazy">
               <figcaption>Points after five matchdays (filled) against points expected from shots on target (open). Dortmund have the biggest surplus, Hoffenheim and Gladbach the biggest shortfalls.</figcaption>
             </figure>
             <p>The whole calculation fits in a few lines:</p>
@@ -109,7 +127,7 @@ def xpts(sot_for, sot_against):
             <h2>Three models and an average</h2>
             <p>Same three models as in <a href="../2026-27-md5-augsburg-bayern/">last week’s Augsburg vs Bayern forecast</a>, which explains them in more detail. Same equal weights too. Tinkering with the recipe after a 2–2 would be the fastest way to make the backtest meaningless.</p>
             <figure class="post-figure">
-              <img src="figs/fig1_forecast.svg" alt="Stacked bars of win, draw and loss probabilities for each model, the ensemble and the bookmakers. The models give Stuttgart 42% to 49%; the bookmakers 53%." loading="lazy">
+              <img src="figs/fig1_forecast.svg" width="730" height="290" alt="Stacked bars of win, draw and loss probabilities for each model, the ensemble and the bookmakers. The models give Stuttgart 42% to 49%; the bookmakers 53%." loading="lazy">
               <figcaption>Win/draw/win probabilities. Bookmaker odds 3.80 / 4.20 / 1.80 (Bet365, quoted by KickOff on 15 October 2026) with the 5.7% margin removed.</figcaption>
             </figure>
             <ul>
@@ -118,37 +136,37 @@ def xpts(sot_for, sot_against):
               <li><strong>XGBoost</strong> lands in between, at 43% for Stuttgart. The Elo gap between the clubs does most of the work. Stuttgart conceding plenty of shots lifts Hamburg’s expected goals.</li>
             </ul>
             <figure class="post-figure">
-              <img src="figs/fig9_xgb_drivers.svg" alt="Bar charts of the features that move XGBoost's expected goals. The Elo gap lowers Hamburg's expectation and raises Stuttgart's the most." loading="lazy">
+              <img src="figs/fig9_xgb_drivers.svg" width="709" height="594" alt="Bar charts of the features that move XGBoost's expected goals. The Elo gap lowers Hamburg's expectation and raises Stuttgart's the most." loading="lazy">
               <figcaption>What drives the XGBoost forecast (SHAP contributions, shown as multipliers on expected goals).</figcaption>
             </figure>
 
             <h2>The scoreline</h2>
             <figure class="post-figure">
-              <img src="figs/fig2_scorelines.svg" alt="Heatmap of scoreline probabilities. 1-1 is the most likely at 10.5%, then 1-2 and 2-1." loading="lazy">
+              <img src="figs/fig2_scorelines.svg" width="602" height="394" alt="Heatmap of scoreline probabilities. 1-1 is the most likely at 10.5%, then 1-2 and 2-1." loading="lazy">
               <figcaption>Ensemble probability of each exact score (Hamburg goals on the vertical axis; scores not shown are each below 0.5%). The outlined cell is the most likely score.</figcaption>
             </figure>
             <p>1–1 is the single most likely score at 10.5%, followed by 1–2 (8.9%) and 2–1 (7.4%). A one-goal game either way: 37%. Stuttgart by two or more: 24%. Hamburg by two or more: 15%. Over 2.5 goals (63%) and both teams scoring (64%) come out a little below what the bookmakers’ prices imply (68% and 66%), so on goals, at least, nobody is far apart.</p>
             <figure class="post-figure">
-              <img src="figs/fig3_goals.svg" alt="Bar charts of goals per team. Both sides most likely score once." loading="lazy">
+              <img src="figs/fig3_goals.svg" width="639" height="288" alt="Bar charts of goals per team. Both sides most likely score once." loading="lazy">
               <figcaption>How many goals each side scores, from the ensemble.</figcaption>
             </figure>
 
             <h2>How strong are they, really?</h2>
             <p>The Bayesian model’s view of both clubs since 2020/21, relative to the average Bundesliga side of each season. The 2. Bundesliga years count too: Hamburg spent five of these seasons there. Shaded bands are 80% credible intervals.</p>
             <figure class="post-figure">
-              <img src="figs/fig4_strength.svg" alt="Line charts since 2020/21. Stuttgart create about 1.23 times the average shots on target; Hamburg about 0.96 times. Both concede close to or above average." loading="lazy">
+              <img src="figs/fig4_strength.svg" width="705" height="335" alt="Line charts since 2020/21. Stuttgart create about 1.23 times the average shots on target; Hamburg about 0.96 times. Both concede close to or above average." loading="lazy">
               <figcaption>Shots on target created and conceded, relative to an average Bundesliga side (conceded axis flipped, so up is better on both).</figcaption>
             </figure>
             <p>Stuttgart create about 1.23× the shots on target of an average side, second only to Bayern. Their problem is the other end: they now allow 0.98× the average, where two seasons ago they allowed 8% fewer than average. Hamburg sit at 0.96× and 1.07×: below average on both counts, but not hopelessly, and with wide bands because five games is not much evidence.</p>
             <figure class="post-figure">
-              <img src="figs/fig5_league_map.svg" alt="Scatter of all 18 Bundesliga clubs by shots on target created and conceded. Stuttgart are near the top right group; Hamburg are below average on both axes." loading="lazy">
+              <img src="figs/fig5_league_map.svg" width="685" height="523" alt="Scatter of all 18 Bundesliga clubs by shots on target created and conceded. Stuttgart are near the top right group; Hamburg are below average on both axes." loading="lazy">
               <figcaption>The 2026/27 Bundesliga by shot creation (right is better) and shot suppression (up is better).</figcaption>
             </figure>
 
             <h2>Who wins the argument?</h2>
             <p>This is the second week running that my models are kinder to the underdog than the bookmakers. Last week it worked: Augsburg drew 2–2 with Bayern and the models beat the market on that match. One match proves nothing, so I went back through the backtest and grouped every match by how much the models and the market disagreed about the favourite.</p>
             <figure class="post-figure">
-              <img src="figs/fig10_disagreement.svg" alt="Dot plot. When the models were 7 or more points less sure of the favourite than the bookmakers, the favourite won 56% of the time; the models had said 48%, the bookmakers 58%." loading="lazy">
+              <img src="figs/fig10_disagreement.svg" width="740" height="399" alt="Dot plot. When the models were 7 or more points less sure of the favourite than the bookmakers, the favourite won 56% of the time; the models had said 48%, the bookmakers 58%." loading="lazy">
               <figcaption>Out-of-sample forecasts for 351 matches (2025/26 and 2026/27 so far), grouped by the ensemble’s probability for the bookmakers’ favourite minus the bookmakers’ own.</figcaption>
             </figure>
             <p>When the models were at least 7 points less sure of the favourite than the market, as they are today (8 points), the favourite won 56% of the time. The models had said 48%, the bookmakers 58%. Those are only 59 matches, so I ran the same check on the two models that I can backtest back to 2022/23, 1,269 matches in all: 51% from the models, 61% from the bookmakers, 66% in reality. It works the other way round too. When the models liked a favourite more than the market did, the market was closer again.</p>
@@ -163,11 +181,11 @@ def xpts(sot_for, sot_against):
             <p>This season, after 45 matches, the ensemble is ahead of the bookmakers (0.2046 against 0.2119). On this blog the running score is one forecast, one win for the models. I am aware of how both of those sound, and of how little they prove.</p>
             <p>The calibration curve shows the same habit. The ensemble’s forecasts between 45% and 60%, the range this match sits in, averaged 51%; those outcomes happened 55% of the time (128 forecasts). The models are a little too timid about favourites.</p>
             <figure class="post-figure">
-              <img src="figs/fig7_backtest.svg" alt="Dot plot of ranked probability scores: bookmakers lowest, then the ensemble and Dixon-Coles, then the Bayesian model and XGBoost." loading="lazy">
+              <img src="figs/fig7_backtest.svg" width="685" height="294" alt="Dot plot of ranked probability scores: bookmakers lowest, then the ensemble and Dixon-Coles, then the Bayesian model and XGBoost." loading="lazy">
               <figcaption>Ranked probability score over 351 out-of-sample matches (2025/26 and 2026/27 so far). Lower is better.</figcaption>
             </figure>
             <figure class="post-figure narrow">
-              <img src="figs/fig8_calibration.svg" alt="Calibration curve close to the diagonal, running above it for forecasts over 50%." loading="lazy">
+              <img src="figs/fig8_calibration.svg" width="456" height="412" alt="Calibration curve close to the diagonal, running above it for forecasts over 50%." loading="lazy">
               <figcaption>Calibration of the ensemble over the same matches: forecast probability against how often the outcome happened. Dot size shows how many forecasts fall in each bin.</figcaption>
             </figure>
 
@@ -241,7 +259,7 @@ def xpts(sot_for, sot_against):
             <p>Der VfB wurde in der Vorsaison Vierter und spielt wieder Champions League, was bisher nach einem Vollzeitjob aussieht. In der Liga sind die Schusswerte unauffällig: 79 zu 96 Schüsse, bei den Schüssen aufs Tor 30 zu 30. Das 1:5 in München am Eröffnungsabend hat daran großen Anteil, aber nicht den ganzen.</p>
             <p>Zählt man jeden Schuss aufs Tor als Ein-Drittel-Chance auf einen Treffer und rechnet für jedes Spiel die Wahrscheinlichkeit jedes möglichen Ergebnisses aus, erhält man die Punkte, die jedes Team „eigentlich“ haben müsste. Stuttgart kommt auf 7,3, Hamburg auf 4,8. Gleicher Tabellenplatz, ganz andere Geschichten:</p>
             <figure class="post-figure">
-              <img src="figs/de/fig6_xpts.svg" alt="Punktdiagramm der tatsächlichen Punkte und der aus Schüssen erwarteten Punkte für alle 18 Klubs. Stuttgart hat 6 Punkte bei 7,3 erwarteten, Hamburg 6 bei 4,8 erwarteten." loading="lazy">
+              <img src="figs/de/fig6_xpts.svg" width="664" height="494" alt="Punktdiagramm der tatsächlichen Punkte und der aus Schüssen erwarteten Punkte für alle 18 Klubs. Stuttgart hat 6 Punkte bei 7,3 erwarteten, Hamburg 6 bei 4,8 erwarteten." loading="lazy">
               <figcaption>Punkte nach fünf Spieltagen (gefüllt) und aus Schüssen aufs Tor erwartete Punkte (offen). Dortmund hat das größte Plus, Hoffenheim und Gladbach das größte Minus.</figcaption>
             </figure>
             <p>Die ganze Rechnung passt in ein paar Zeilen:</p>
@@ -257,7 +275,7 @@ def xpts(sot_for, sot_against):
             <h2>Drei Modelle und ein Mittelwert</h2>
             <p>Es sind dieselben drei Modelle wie in der <a href="../2026-27-md5-augsburg-bayern/">Prognose zu Augsburg gegen Bayern</a> von letzter Woche, die sie ausführlicher erklärt. Auch die Gewichtung ist dieselbe: alle drei gleich stark. Nach einem 2:2 am Rezept herumzuschrauben wäre der schnellste Weg, den Backtest wertlos zu machen.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig1_forecast.svg" alt="Gestapelte Balken mit den Wahrscheinlichkeiten für Sieg, Remis und Niederlage für jedes Modell, das Ensemble und die Buchmacher. Die Modelle geben Stuttgart 42 % bis 49 %, die Buchmacher 53 %." loading="lazy">
+              <img src="figs/de/fig1_forecast.svg" width="737" height="290" alt="Gestapelte Balken mit den Wahrscheinlichkeiten für Sieg, Remis und Niederlage für jedes Modell, das Ensemble und die Buchmacher. Die Modelle geben Stuttgart 42 % bis 49 %, die Buchmacher 53 %." loading="lazy">
               <figcaption>Wahrscheinlichkeiten für Heimsieg, Remis und Auswärtssieg. Buchmacherquoten 3,80 / 4,20 / 1,80 (Bet365, zitiert von KickOff am 15. Oktober 2026), bereinigt um die Marge von 5,7 %.</figcaption>
             </figure>
             <ul>
@@ -266,37 +284,37 @@ def xpts(sot_for, sot_against):
               <li><strong>XGBoost</strong> landet mit 43 % für Stuttgart dazwischen. Die meiste Arbeit leistet die Elo-Differenz zwischen den Klubs. Dass Stuttgart viele Schüsse zulässt, hebt Hamburgs erwartete Tore.</li>
             </ul>
             <figure class="post-figure">
-              <img src="figs/de/fig9_xgb_drivers.svg" alt="Balkendiagramme der Merkmale, die die erwarteten Tore bei XGBoost bewegen. Die Elo-Differenz senkt Hamburgs Erwartung und hebt die von Stuttgart am stärksten." loading="lazy">
+              <img src="figs/de/fig9_xgb_drivers.svg" width="716" height="594" alt="Balkendiagramme der Merkmale, die die erwarteten Tore bei XGBoost bewegen. Die Elo-Differenz senkt Hamburgs Erwartung und hebt die von Stuttgart am stärksten." loading="lazy">
               <figcaption>Was die XGBoost-Prognose antreibt (SHAP-Beiträge, dargestellt als Faktoren auf die erwarteten Tore).</figcaption>
             </figure>
 
             <h2>Das Ergebnis</h2>
             <figure class="post-figure">
-              <img src="figs/de/fig2_scorelines.svg" alt="Heatmap der Ergebniswahrscheinlichkeiten. Am wahrscheinlichsten ist ein 1:1 mit 10,5 %, dann 1:2 und 2:1." loading="lazy">
+              <img src="figs/de/fig2_scorelines.svg" width="602" height="394" alt="Heatmap der Ergebniswahrscheinlichkeiten. Am wahrscheinlichsten ist ein 1:1 mit 10,5 %, dann 1:2 und 2:1." loading="lazy">
               <figcaption>Ensemble-Wahrscheinlichkeit für jedes genaue Ergebnis (Hamburger Tore auf der senkrechten Achse; nicht gezeigte Ergebnisse liegen jeweils unter 0,5 %). Das umrandete Feld ist das wahrscheinlichste Ergebnis.</figcaption>
             </figure>
             <p>Das 1:1 ist mit 10,5 % das wahrscheinlichste Einzelergebnis, gefolgt von 1:2 (8,9 %) und 2:1 (7,4 %). Ein Sieg mit einem Tor Unterschied, egal für wen: 37 %. Stuttgart mit zwei oder mehr Toren Vorsprung: 24 %. Hamburg mit zwei oder mehr: 15 %. Über 2,5 Tore (63 %) und beide Teams treffen (64 %) liegen etwas unter dem, was die Quoten der Buchmacher nahelegen (68 % und 66 %). Zumindest bei den Toren liegt also niemand weit daneben.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig3_goals.svg" alt="Balkendiagramme der Tore pro Team. Beide treffen am wahrscheinlichsten genau einmal." loading="lazy">
+              <img src="figs/de/fig3_goals.svg" width="639" height="288" alt="Balkendiagramme der Tore pro Team. Beide treffen am wahrscheinlichsten genau einmal." loading="lazy">
               <figcaption>Wie viele Tore jedes Team schießt, laut Ensemble.</figcaption>
             </figure>
 
             <h2>Wie stark sind sie wirklich?</h2>
             <p>So sieht das bayesianische Modell beide Klubs seit 2020/21, jeweils im Vergleich zum durchschnittlichen Bundesligisten der Saison. Die Jahre in der 2. Bundesliga zählen mit: Hamburg hat fünf dieser Spielzeiten dort verbracht. Die schattierten Bänder sind 80-%-Kredibilitätsintervalle.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig4_strength.svg" alt="Liniendiagramme seit 2020/21. Stuttgart erzeugt etwa 1,23-mal so viele Schüsse aufs Tor wie der Schnitt, Hamburg etwa 0,96-mal so viele. Beide lassen etwa durchschnittlich viele oder mehr zu." loading="lazy">
+              <img src="figs/de/fig4_strength.svg" width="706" height="335" alt="Liniendiagramme seit 2020/21. Stuttgart erzeugt etwa 1,23-mal so viele Schüsse aufs Tor wie der Schnitt, Hamburg etwa 0,96-mal so viele. Beide lassen etwa durchschnittlich viele oder mehr zu." loading="lazy">
               <figcaption>Erzeugte und zugelassene Schüsse aufs Tor im Vergleich zu einem durchschnittlichen Bundesligisten (die Achse der zugelassenen Schüsse ist umgedreht, oben ist also in beiden Fällen besser).</figcaption>
             </figure>
             <p>Stuttgart erzeugt rund 1,23-mal so viele Schüsse aufs Tor wie ein Durchschnittsteam, mehr schafft nur Bayern. Das Problem liegt am anderen Ende: Inzwischen lässt der VfB das 0,98-Fache des Schnitts zu, vor zwei Spielzeiten waren es noch 8 % weniger als der Schnitt. Hamburg liegt beim 0,96- und 1,07-Fachen: in beiden Fällen schlechter als der Schnitt, aber nicht hoffnungslos, und mit breiten Bändern, weil fünf Spiele nicht viel beweisen.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig5_league_map.svg" alt="Streudiagramm aller 18 Bundesligisten nach erzeugten und zugelassenen Schüssen aufs Tor. Stuttgart liegt nahe der Gruppe oben rechts, Hamburg auf beiden Achsen unter dem Schnitt." loading="lazy">
+              <img src="figs/de/fig5_league_map.svg" width="685" height="523" alt="Streudiagramm aller 18 Bundesligisten nach erzeugten und zugelassenen Schüssen aufs Tor. Stuttgart liegt nahe der Gruppe oben rechts, Hamburg auf beiden Achsen unter dem Schnitt." loading="lazy">
               <figcaption>Die Bundesliga 2026/27 nach erzeugten Schüssen aufs Tor (rechts ist besser) und verhinderten (oben ist besser).</figcaption>
             </figure>
 
             <h2>Wer gewinnt den Streit?</h2>
             <p>Schon die zweite Woche in Folge trauen meine Modelle dem Außenseiter mehr zu als die Buchmacher. Letzte Woche ging das gut: Augsburg spielte 2:2 gegen Bayern, und bei diesem Spiel lagen die Modelle vor dem Markt. Ein Spiel beweist nichts, also bin ich den Backtest noch einmal durchgegangen und habe jedes Spiel danach sortiert, wie uneinig sich Modelle und Markt beim Favoriten waren.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig10_disagreement.svg" alt="Punktdiagramm. Wenn die Modelle dem Favoriten 7 oder mehr Prozentpunkte weniger zutrauten als die Buchmacher, gewann der Favorit in 56 % der Fälle; die Modelle hatten 48 % gesagt, die Buchmacher 58 %." loading="lazy">
+              <img src="figs/de/fig10_disagreement.svg" width="803" height="399" alt="Punktdiagramm. Wenn die Modelle dem Favoriten 7 oder mehr Prozentpunkte weniger zutrauten als die Buchmacher, gewann der Favorit in 56 % der Fälle; die Modelle hatten 48 % gesagt, die Buchmacher 58 %." loading="lazy">
               <figcaption>Out-of-Sample-Prognosen für 351 Spiele (2025/26 und 2026/27 bisher), gruppiert nach der Ensemble-Wahrscheinlichkeit für den Favoriten der Buchmacher abzüglich deren eigener. „Punkte“ sind hier Prozentpunkte.</figcaption>
             </figure>
             <p>Wenn die Modelle dem Favoriten mindestens 7 Prozentpunkte weniger zutrauten als der Markt, so wie heute (8 Punkte), gewann der Favorit in 56 % der Fälle. Die Modelle hatten 48 % gesagt, die Buchmacher 58 %. Das sind nur 59 Spiele, also habe ich denselben Check mit den beiden Modellen gemacht, die sich rückwirkend bis 2022/23 testen lassen, insgesamt 1.269 Spiele: 51 % laut Modellen, 61 % laut Buchmachern, 66 % in der Realität. Umgekehrt gilt es auch: Wenn die Modelle einen Favoriten stärker sahen als der Markt, lag wieder der Markt näher dran.</p>
@@ -311,11 +329,11 @@ def xpts(sot_for, sot_against):
             <p>In dieser Saison liegt das Ensemble nach 45 Spielen vor den Buchmachern (0,2046 gegen 0,2119). Auf diesem Blog steht es nach einer Prognose 1:0 für die Modelle. Mir ist klar, wie beides klingt und wie wenig es beweist.</p>
             <p>Die Kalibrierungskurve zeigt dieselbe Angewohnheit. Die Ensemble-Prognosen zwischen 45 % und 60 %, also in dem Bereich, in dem dieses Spiel liegt, betrugen im Schnitt 51 %; eingetreten sind diese Ausgänge in 55 % der Fälle (128 Prognosen). Bei Favoriten sind die Modelle etwas zu zaghaft.</p>
             <figure class="post-figure">
-              <img src="figs/de/fig7_backtest.svg" alt="Punktdiagramm der Ranked Probability Scores: die Buchmacher am niedrigsten, dann Ensemble und Dixon–Coles, dann das Bayes-Modell und XGBoost." loading="lazy">
+              <img src="figs/de/fig7_backtest.svg" width="692" height="294" alt="Punktdiagramm der Ranked Probability Scores: die Buchmacher am niedrigsten, dann Ensemble und Dixon–Coles, dann das Bayes-Modell und XGBoost." loading="lazy">
               <figcaption>Ranked Probability Score über 351 Out-of-Sample-Spiele (2025/26 und 2026/27 bisher). Niedriger ist besser.</figcaption>
             </figure>
             <figure class="post-figure narrow">
-              <img src="figs/de/fig8_calibration.svg" alt="Kalibrierungskurve nahe der Diagonale, für Prognosen über 50 % oberhalb davon." loading="lazy">
+              <img src="figs/de/fig8_calibration.svg" width="458" height="412" alt="Kalibrierungskurve nahe der Diagonale, für Prognosen über 50 % oberhalb davon." loading="lazy">
               <figcaption>Kalibrierung des Ensembles über dieselben Spiele: prognostizierte Wahrscheinlichkeit gegen die tatsächliche Häufigkeit. Die Punktgröße zeigt, wie viele Prognosen in jedes Intervall fallen.</figcaption>
             </figure>
 
@@ -345,7 +363,7 @@ def xpts(sot_for, sot_against):
 
       <footer class="site-footer">
         <span data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
-        <span data-i18n="footer.forecasts">Forecasts are for fun, not betting advice.</span>
+        <p class="responsible-note" data-i18n-html="footer.responsible">18+. Forecasts are analysis, not betting advice. If betting stops being fun: <a href="https://www.check-dein-spiel.de/" target="_blank" rel="noreferrer">check-dein-spiel.de</a> (Germany) · <a href="https://www.sos-spielsucht.ch/" target="_blank" rel="noreferrer">sos-spielsucht.ch</a> (Switzerland).</p>
       </footer>
     </div>
   </body>

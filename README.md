@@ -14,8 +14,8 @@ Then visit `http://localhost:8000`.
 
 What’s on the home page:
 
-- **Matchday hub.** Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. The hub summarises the matchday: goals, home wins/draws/away wins, the biggest win and the leader.
-- **Matches.** Filters with counts (all, live, finished, upcoming); each match expands to show the venue, attendance, half-time score and a goal timeline with the running score. While a match is live the page refreshes itself every minute, and again when you come back to it.
+- **Matchday hub.** Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. Before a matchday starts, the hub shows the next kick-off, the top clash and the bottom clash (by current table position); once games are played it summarises goals, home wins/draws/away wins, the biggest win and the leader.
+- **Matches.** Filters with counts (all, live, finished, upcoming); each match expands to show the venue, attendance, half-time score and a goal timeline with the running score. While a match is live the page refreshes itself every minute, and again when you come back to it. A match with a deep dive gets a link under it with the published forecast (from `analysis/posts.json`).
 - **Table.** Overall, home and away tables after the selected matchday, with the last five results, the movement since the previous matchday and European/relegation zones. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
 - **Follow a club.** Tap a club in the table (or pick one under Insights) to highlight it in the fixtures, the table and the charts. The choice is remembered on that device.
 - **Insights.** A points race for the season so far and when the goals go in, each with hover/keyboard tooltips and a table view.
@@ -23,7 +23,11 @@ What’s on the home page:
 
 Match information is displayed in the Europe/Berlin time zone.
 
-When you change `styles.css`, `app.js` or `i18n.js`, bump the `?v=` number where they are linked (`index.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+When you change `styles.css`, `app.js`, `i18n.js` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+
+Fonts (DM Sans and Barlow Condensed, SIL Open Font License) are served from `assets/fonts`, not Google Fonts: no third-party request, nothing render-blocking, and they work offline. Club crests still come from the links OpenLigaDB provides, but `app.js` asks for 120 px Wikimedia thumbnails of the same crests (about 110 KB for all 18 clubs instead of about 1.2 MB of full-size originals) and falls back to OpenLigaDB's own link, then to the club's initials.
+
+Sharing: every page carries Open Graph and Twitter tags with a 1200 × 630 preview image (`assets/share/home.jpg`, `analysis/<post>/share.jpg`), so links show a card on WhatsApp, X, LinkedIn and Slack. `sitemap.xml` lists the pages for Google Search Console. A `robots.txt` would have to sit at `jhvl88.github.io/robots.txt`, outside this repository, so there is none. `404.html` is the page GitHub Pages shows for a missing address.
 
 ## Languages
 
@@ -35,9 +39,12 @@ Longer content that is not interface text, such as an analysis article or a thum
 
 Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed in the **Analysis** section of the home page (also reachable from the top navigation). Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post:
 
-1. Create a new folder and copy an existing page into it, so the top bar, the language switch and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages.
+1. Create a new folder and copy an existing page into it, so the top bar, the language switch, the share tags and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages and update the share tags (`og:` and `twitter:`) and the canonical link at the top.
 2. Make the German charts: `python analysis/tools/translate_figures.py analysis/<new post>` writes `figs/de/` from the English SVGs, keeping every number and mark and changing only the words and number formats (1,47 · 25 %). It lists any English label it does not know yet; add a rule for it at the top of the script. The German article uses `figs/de/…`.
-3. Add a card to the Analysis section in `index.html` (one thumbnail per language) and its keys in both dictionaries in `i18n.js`: `analysis.tag…`, `analysis.title…`, `analysis.desc…`, plus `analysis.pageTitle…` and `analysis.meta…` for the post's `<title>` and meta description.
+3. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
+4. Add the post to `analysis/posts.json`: its OpenLigaDB `matchId` (the fixture on the home page then links to it), the published probabilities (home, draw, away) for the models and the market, and the card text in both languages.
+5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
+6. Add a card to the Analysis section in `index.html` (one thumbnail per language) and its keys in both dictionaries in `i18n.js`: `analysis.tag…`, `analysis.title…`, `analysis.desc…`, plus `analysis.pageTitle…` and `analysis.meta…` for the post's `<title>` and meta description. Add the page to `sitemap.xml`.
 
 Posts so far:
 

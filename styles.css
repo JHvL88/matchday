@@ -1,6 +1,116 @@
 /* Jan's Matchday: Bundesliga red, black and white with condensed sports typography.
    Shared by the home page and the analysis posts (analysis/analysis.css builds on these tokens). */
 
+/* Fonts are served from this site (assets/fonts, SIL Open Font License) rather than Google Fonts:
+   no third-party request, no render-blocking stylesheet, and they work offline. */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/barlow-condensed-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/barlow-condensed-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-ext-500-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 :root {
   color-scheme: light;
   --bl-red: #d20515;
@@ -67,6 +177,9 @@ body::before {
   background:
     linear-gradient(180deg, rgb(8 8 12 / 84%) 0%, rgb(10 10 14 / 74%) 42%, rgb(8 8 12 / 94%) 100%),
     url("assets/football-on-pitch.jpg") center 60% / cover;
+  background-image:
+    linear-gradient(180deg, rgb(8 8 12 / 84%) 0%, rgb(10 10 14 / 74%) 42%, rgb(8 8 12 / 94%) 100%),
+    image-set(url("assets/football-on-pitch.webp") type("image/webp"), url("assets/football-on-pitch.jpg") type("image/jpeg"));
   content: "";
 }
 
@@ -135,7 +248,7 @@ abbr[title] {
 .eyebrow {
   margin: 0;
   color: var(--red-on-dark);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
@@ -233,6 +346,9 @@ abbr[title] {
 }
 
 .top-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   padding: 8px 12px;
   border-radius: 4px;
   color: var(--on-dark);
@@ -293,6 +409,9 @@ main {
   background:
     linear-gradient(100deg, rgb(10 10 14 / 92%) 0%, rgb(10 10 14 / 72%) 46%, rgb(158 3 16 / 38%) 100%),
     url("assets/football-on-pitch.jpg") 42% 61% / cover;
+  background-image:
+    linear-gradient(100deg, rgb(10 10 14 / 92%) 0%, rgb(10 10 14 / 72%) 46%, rgb(158 3 16 / 38%) 100%),
+    image-set(url("assets/football-on-pitch.webp") type("image/webp"), url("assets/football-on-pitch.jpg") type("image/jpeg"));
   box-shadow: var(--shadow);
 }
 
@@ -553,7 +672,7 @@ main {
 
 .glance dt {
   color: var(--red-on-dark);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -692,8 +811,10 @@ main {
   flex: 0 0 auto;
 }
 
+/* At least 40 × 36 px per button, so it is easy to hit on a phone. */
 .lang-switch button {
-  min-height: 28px;
+  min-width: 40px;
+  min-height: 36px;
   padding: 3px 9px;
   letter-spacing: .08em;
 }
@@ -942,8 +1063,10 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
-.score > .score-winner {
-  background: var(--bl-red);
+/* Winner in ink, loser in grey, a draw in ink on both sides. Red is kept for live matches. */
+.score > span.score-loser {
+  background: var(--surface-3);
+  color: var(--ink-2);
 }
 
 .match-card.is-live .score > span:not(.score-separator) {
@@ -953,7 +1076,7 @@ main {
 }
 
 .score-separator {
-  color: var(--line-strong);
+  color: var(--muted);
   font-size: 18px;
 }
 
@@ -970,7 +1093,7 @@ main {
 
 .match-status {
   color: var(--muted);
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: .05em;
   line-height: 1.2;
@@ -1136,6 +1259,47 @@ main {
   animation: spin .8s linear infinite;
 }
 
+/* A fixture with a deep dive gets a link row under it. */
+.match-dive {
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: -4px 0 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--bl-red-soft);
+  color: var(--ink-2);
+  font-size: 13.5px;
+  text-decoration: none;
+}
+
+.match-dive:hover {
+  background: #ffe3e6;
+}
+
+.match-dive-badge {
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--bl-red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.match-dive-text {
+  font-variant-numeric: tabular-nums;
+}
+
+.match-dive-more {
+  margin-left: auto;
+  color: var(--bl-red-dark);
+  font-weight: 700;
+}
+
 /* ---------- Standings ---------- */
 
 .standings-caption {
@@ -1299,7 +1463,7 @@ main {
   place-items: center;
   border-radius: 3px;
   color: #fff;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   cursor: default;
 }
@@ -1743,6 +1907,7 @@ main {
   content: "";
 }
 
+.responsible-note,
 .install-hint,
 .photo-credit {
   flex-basis: 100%;
@@ -1750,6 +1915,7 @@ main {
   line-height: 1.6;
 }
 
+.responsible-note a,
 .install-hint strong,
 .photo-credit a {
   color: #fff;
@@ -1853,6 +2019,10 @@ main {
     padding: 3px 7px;
   }
 
+  .top-nav a {
+    min-height: 44px;
+  }
+
   .hub-top {
     align-items: stretch;
   }
@@ -1910,9 +2080,13 @@ main {
     border-left-width: 5px;
   }
 
+  .hero {
+    padding-right: 64px;
+  }
+
   .hero::after {
-    right: -10px;
-    width: 46px;
+    right: -22px;
+    width: 40px;
     opacity: .6;
   }
 
@@ -2032,9 +2206,20 @@ main {
     font-size: 17px;
   }
 
+  /* Long statuses ("Endstand · HZ 1:1") wrap onto a second line instead of running under the names. */
   .match-status {
-    font-size: 9.5px;
-    letter-spacing: .03em;
+    font-size: 11px;
+    letter-spacing: .02em;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .match-status-sep {
+    display: none;
+  }
+
+  .match-status-ht {
+    display: block;
   }
 
   .goal-event {
@@ -2084,9 +2269,9 @@ main {
   }
 
   .form-pill {
-    width: 15px;
-    height: 17px;
-    font-size: 9.5px;
+    width: 16px;
+    height: 18px;
+    font-size: 10.5px;
   }
 
   .club-button {
@@ -2124,6 +2309,7 @@ main {
   }
 
   .lang-switch button {
+    min-width: 36px;
     padding: 3px 5px;
     letter-spacing: .04em;
   }

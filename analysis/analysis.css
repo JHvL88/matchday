@@ -326,14 +326,17 @@
   text-decoration: underline;
 }
 
-/* Shown in German only: the posts themselves are written in English. */
 @media (max-width: 620px) {
   .post {
     border-radius: 4px 12px 4px 12px;
   }
 
+  /* On phones the red stripe moves to the edge so it no longer runs through the text. */
   .post-hero {
-    padding: 24px 20px 22px;
+    padding: 24px 48px 22px 20px;
+    background:
+      linear-gradient(95deg, transparent 92%, rgb(210 5 21 / 90%) 92.2%, rgb(210 5 21 / 90%) 96%, transparent 96.2%),
+      var(--bl-black);
   }
 
   .post-body {
