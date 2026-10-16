@@ -1,0 +1,30 @@
+{
+ "model": "bayes",
+ "seasons": [
+  2026
+ ],
+ "matches_file": "matches.csv",
+ "bayes_fits": [
+  {
+   "month": "2026-08",
+   "matches": 9,
+   "seconds": 105,
+   "divergences": 0
+  },
+  {
+   "month": "2026-09",
+   "matches": 27,
+   "seconds": 92,
+   "divergences": 0
+  },
+  {
+   "month": "2026-10",
+   "matches": 9,
+   "seconds": 89,
+   "divergences": 0
+  }
+ ],
+ "bayes_warmup": 250,
+ "bayes_samples": 250,
+ "seconds": 287
+}

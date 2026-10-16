@@ -1,0 +1,16 @@
+{
+ "code_commit": "38ffe55e48eda20442adf772aa7973470d3c5c42",
+ "code_ref": "feature/benchmark-fix",
+ "source_data_commit": "559712b2dae6f434d56ee02a977dd4454cfd665f",
+ "run_id": "38901724570",
+ "seasons": [
+  2019,
+  2026
+ ],
+ "jobs": {
+  "prepare": "success",
+  "dc-xgb": "success",
+  "bayes": "success"
+ },
+ "finished_at": "2026-10-16T13:17:34+00:00"
+}
