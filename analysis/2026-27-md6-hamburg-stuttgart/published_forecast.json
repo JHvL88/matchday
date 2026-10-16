@@ -1,0 +1,28 @@
+{
+ "about": "The forecast exactly as published on 15 October 2026, read off the post's charts (the notebook's random draws mean a rerun lands within about a point, not on these numbers). Used to grade the post at full time.",
+ "home": "Hamburg",
+ "away": "Stuttgart",
+ "kickoff": "2026-10-17T13:30:00Z",
+ "models": {
+  "ensemble": [0.32, 0.24, 0.44],
+  "dixonColes": [0.28, 0.24, 0.49],
+  "bayesian": [0.36, 0.22, 0.42],
+  "xgboost": [0.32, 0.25, 0.43]
+ },
+ "modelsSource": "figs/fig1_forecast.svg (bar labels, whole percentages); the ensemble as in analysis/posts.json",
+ "market": [0.249, 0.225, 0.526],
+ "marketOdds": [3.8, 4.2, 1.8],
+ "marketSource": "Bet365 3.80 / 4.20 / 1.80, quoted by KickOff on 15 October 2026, margin removed proportionally (analysis/posts.json)",
+ "expectedGoals": [1.47, 1.77],
+ "bayesianShotsOnTarget": [4.8, 5.6],
+ "sideMarkets": {"over25": 0.63, "btts": 0.64, "homeByTwo": 0.15, "awayByTwo": 0.24, "oneGoalGame": 0.37},
+ "sideMarketsSource": "post text, section 'The scoreline'",
+ "gridPercent": [
+  [4.4, 6.6, 6.1, 3.6, 1.6, 0.6],
+  [5.4, 10.5, 8.9, 5.3, 2.4, 0.9],
+  [4.3, 7.4, 6.5, 3.8, 1.7, 0.6],
+  [2.1, 3.6, 3.2, 1.9, 0.9, null],
+  [0.8, 1.4, 1.2, 0.7, null, null]
+ ],
+ "gridSource": "figs/fig2_scorelines.svg cell labels; rows = Hamburg goals 0-4, columns = Stuttgart goals 0-5; null = below 0.5%, not labelled"
+}
