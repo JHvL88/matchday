@@ -1,4 +1,4 @@
-const SHELL_CACHE = "jans-matchday-shell-v7";
+const SHELL_CACHE = "jans-matchday-shell-v8";
 const DATA_CACHE = "jans-matchday-data-v3";
 const APP_SHELL = [
   "./",
@@ -13,6 +13,7 @@ const APP_SHELL = [
   "./assets/jans-matchday-192.png",
   "./assets/jans-matchday-512.png",
   "./analysis/2026-27-md5-augsburg-bayern/figs/fig1_forecast.svg",
+  "./analysis/2026-27-md5-augsburg-bayern/figs/de/fig1_forecast.svg",
 ];
 
 self.addEventListener("install", (event) => {
@@ -39,7 +40,7 @@ self.addEventListener("activate", (event) => {
 });
 
 // Network first, so the page, its script and its styles always come from the same release;
-// the cache is only the offline fallback. Version query strings (styles.css?v=7) are ignored
+// the cache is only the offline fallback. Version query strings (styles.css?v=8) are ignored
 // when falling back, so the precached copies still match.
 async function networkFirst(event, cacheName, fallbackUrl) {
   const { request } = event;
