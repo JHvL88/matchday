@@ -1,6 +1,6 @@
 # Frozen before kick-off
 
-The models switched to their xG versions on Friday 16 October 2026 at 22:44 CEST, after the pre-registered test ([`analysis/backtest/xg/`](../../backtest/xg/)). That was after this post was published. These two forecasts were made that same night, before Hamburg v Stuttgart kicked off, so the full-time review can grade them honestly:
+The models switched to their xG versions late on Friday 16 October 2026 (merged 22:50 CEST), after the pre-registered test ([`analysis/backtest/xg/`](../../backtest/xg/)). That was after this post was published. These two forecasts were made that same night, before Hamburg v Stuttgart kicked off, so the full-time review can grade them honestly:
 
 | File | Models | Hamburg | Draw | Stuttgart |
 |---|---|---|---|---|
