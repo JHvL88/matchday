@@ -1,0 +1,10 @@
+# Versions the October 2026 backtest ran with (GitHub Actions, CPU). In Colab, keep Colab's own
+# GPU build of jax and install the rest: pip install numpyro xgboost
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+jax==0.11.2
+jaxlib==0.11.2
+numpyro==0.22.0
+xgboost==3.4.1
+matplotlib==3.11.2
