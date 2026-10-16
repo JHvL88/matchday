@@ -77,11 +77,14 @@ def main(argv=None):
     files, failed = [], []
     for season in range(a.first, last + 1):
         rel = f"understat/{LEAGUE}/{season}.json"
+        if len(failed) >= 2 and not files:
+            print("Two seasons failed and none worked: is understat.com reachable from here? Stopping.", flush=True)
+            break
         try:
             body, how = season_data(season)
         except Exception as e:  # noqa: BLE001
-            print(f"FAILED {rel}: {e}", flush=True)
-            failed.append(dict(path=rel, error=str(e)))
+            print(f"FAILED {rel}: {str(e)[:300]}", flush=True)
+            failed.append(dict(path=rel, error=str(e)[:300]))
             continue
         n = len(json.loads(body).get("dates", []))
         path = os.path.join(a.out, rel)
