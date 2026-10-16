@@ -1,8 +1,8 @@
 {
- "code_commit": "38ffe55e48eda20442adf772aa7973470d3c5c42",
- "code_ref": "feature/benchmark-fix",
- "source_data_commit": "559712b2dae6f434d56ee02a977dd4454cfd665f",
- "run_id": "38901724570",
+ "code_commit": "5e8d2eda51976952c4e37cfc9dd50563e08a247f",
+ "code_ref": "main",
+ "source_data_commit": "e47f4cf3f56300106803e42d3349de91c05943fb",
+ "run_id": "38910301480",
  "seasons": [
   2019,
   2026
@@ -12,5 +12,5 @@
   "dc-xgb": "success",
   "bayes": "success"
  },
- "finished_at": "2026-10-16T13:17:34+00:00"
+ "finished_at": "2026-10-16T14:25:53+00:00"
 }
