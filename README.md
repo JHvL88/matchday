@@ -19,14 +19,19 @@ What’s on the home page:
 - **Table.** Overall, home and away tables after the selected matchday, with the last five results, the movement since the previous matchday and European/relegation zones. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
 - **Follow a club.** Tap a club in the table (or pick one under Insights) to highlight it in the fixtures, the table and the charts. The choice is remembered on that device.
 - **Insights.** A points race for the season so far and when the goals go in, each with hover/keyboard tooltips and a table view.
+- **English and German.** The **EN / DE** switch in the top bar changes the whole app: labels, dates, number formats, plurals and score notation (2–1 or 2:1). The first visit follows the browser language, the choice is remembered on that device, and a link such as `?lang=de` opens the page in German. The analysis pages translate their navigation and show a notice, but the articles themselves are in English.
 
 Match information is displayed in the Europe/Berlin time zone.
 
-When you change `styles.css` or `app.js`, bump the `?v=` number where they are linked (`index.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+When you change `styles.css`, `app.js` or `i18n.js`, bump the `?v=` number where they are linked (`index.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+
+## Languages
+
+All interface text lives in `i18n.js`, in two dictionaries (`en` and `de`) that must hold the same keys. Static markup uses `data-i18n="key"` (text), `data-i18n-attrs="aria-label:key"` (attributes) or `data-i18n-html="key"` (text with `<strong>`); text built in `app.js` calls `t("key", { values })`. Plural strings are `{ one, other }` pairs that read `{count}`. Dates, numbers, ordinals and scores go through the helpers on `I18N` so they follow the chosen language. To add a language, add a dictionary, its locale in `LOCALES` and a button in the `.lang-switch` of each page.
 
 ## Match analyses
 
-Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed in the **Analysis** section of the home page (also reachable from the top navigation). Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post, create a new folder and add a card to the Analysis section in `index.html`:
+Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed in the **Analysis** section of the home page (also reachable from the top navigation). Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post, create a new folder (copy an existing page so the top bar, language switch and `lang="en"` on the article come along) and add a card to the Analysis section in `index.html`, with a `data-i18n` key for its tag line in `i18n.js`:
 
 - [Hamburg vs Stuttgart, matchday 6 2026/27](https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/): the same three models with matchday 5 added, shot-based expected points, and a backtest of who was right when the models and the bookmakers disagreed. The notebook reads the fixture from `match.json`, so it can forecast any match. [Notebook](analysis/2026-27-md6-hamburg-stuttgart/hamburg_stuttgart_md6.ipynb).
 - [Augsburg vs Bayern, matchday 5 2026/27](https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/): pre-match forecast from Dixon–Coles, a Bayesian shots-to-goals model (NumPyro) and XGBoost, backtested against bookmaker odds. [Notebook](analysis/2026-27-md5-augsburg-bayern/augsburg_bayern_md5.ipynb).

@@ -8,6 +8,9 @@ const BERLIN_TIME_ZONE = "Europe/Berlin";
 const TEAM_STORAGE_KEY = "jans-matchday:team";
 const SVG_NS = "http://www.w3.org/2000/svg";
 
+// Text comes from i18n.js (loaded first); numbers, dates and scores follow the chosen language too.
+const { t } = I18N;
+
 // OpenLigaDB identifies result types by resultTypeID: 1 is half-time, 2 is the final score
 // used for the table. resultTypeKind is kept as a fallback for older cached responses.
 const RESULT_TYPE = { halfTime: 1, final: 2 };
@@ -62,6 +65,7 @@ const state = {
   teamId: readStoredTeam(),
   matches: null,
   loadedAt: 0,
+  loadFailed: false,
   openMatches: new Set(),
 };
 let loadRequest = 0;
@@ -71,15 +75,6 @@ let refreshTimer = null;
 
 function seasonLabel(year) {
   return `${year}/${String(year + 1).slice(-2)}`;
-}
-
-function getOrdinalSuffix(number) {
-  if (number % 100 >= 11 && number % 100 <= 13) return "th";
-  return ({ 1: "st", 2: "nd", 3: "rd" })[number % 10] ?? "th";
-}
-
-function ordinal(number) {
-  return `${number}${getOrdinalSuffix(number)}`;
 }
 
 function createElement(tag, className, text) {
@@ -114,10 +109,7 @@ function storeTeam(teamId) {
 }
 
 function formatBerlinDate(date, options) {
-  return new Intl.DateTimeFormat("en-GB", {
-    ...options,
-    timeZone: BERLIN_TIME_ZONE,
-  }).format(new Date(date));
+  return I18N.dateFormat(date, { ...options, timeZone: BERLIN_TIME_ZONE });
 }
 
 function getBerlinDateKey(time) {
@@ -430,6 +422,12 @@ function setBusy(isBusy) {
   dashboard.classList.toggle("is-updating", isBusy && Boolean(state.matches));
 }
 
+function showLoadFailure() {
+  state.loadFailed = true;
+  showMessage(t("error.scores.title"), t("error.scores.text"), true);
+  showStandingsMessage(t("error.standings.caption"), t("error.standings.text"));
+}
+
 // Background refreshes (live updates, returning to the tab) are quiet; the button gives feedback.
 async function refresh({ forceRefresh = false, quiet = false } = {}) {
   const request = ++loadRequest;
@@ -439,15 +437,15 @@ async function refresh({ forceRefresh = false, quiet = false } = {}) {
     if (request !== loadRequest) return;
     state.matches = matches;
     state.loadedAt = Date.now();
+    state.loadFailed = false;
     renderAll();
   } catch (error) {
     if (request !== loadRequest) return;
     console.error("Unable to load Bundesliga results.", error);
     if (!state.matches) {
-      showMessage("Scores could not be loaded", "Please check your connection and try again.", true);
-      showStandingsMessage("Standings unavailable", "Please refresh to load the match results.");
+      showLoadFailure();
     } else {
-      updatedAt.textContent = "Update failed · showing earlier scores";
+      updatedAt.textContent = t("hub.updateFailed");
     }
   } finally {
     if (request === loadRequest) {
@@ -466,13 +464,13 @@ async function start() {
   setBusy(false);
   if (matchesResult.status === "rejected") {
     console.error("Unable to load Bundesliga results.", matchesResult.reason);
-    showMessage("Scores could not be loaded", "Please check your connection and try again.", true);
-    showStandingsMessage("Standings unavailable", "Please refresh to load the match results.");
+    showLoadFailure();
     return;
   }
 
   state.matches = matchesResult.value;
   state.loadedAt = Date.now();
+  state.loadFailed = false;
   state.currentMatchday = currentResult.status === "fulfilled"
     ? currentResult.value
     : deriveCurrentMatchday(state.matches);
@@ -536,8 +534,10 @@ function renderMatchdayStrip() {
     button.setAttribute("aria-pressed", String(day === state.matchday));
     button.tabIndex = day === state.matchday ? 0 : -1;
     if (day === state.currentMatchday) button.classList.add("is-current");
-    const labels = { played: "played", partial: "in progress", live: "live now", upcoming: "upcoming" };
-    button.setAttribute("aria-label", `Matchday ${day}, ${labels[status]}${day === state.currentMatchday ? ", current" : ""}`);
+    button.setAttribute("aria-label", t(day === state.currentMatchday ? "strip.ariaCurrent" : "strip.aria", {
+      matchday: day,
+      status: t(`strip.${status}`),
+    }));
     fragment.append(button);
   }
   matchdayStrip.replaceChildren(fragment);
@@ -545,7 +545,7 @@ function renderMatchdayStrip() {
 
 function formatMatchdayDates(matches) {
   const kickoffs = matches.map(kickoffOf).filter(Number.isFinite);
-  if (!kickoffs.length) return "Dates to be confirmed";
+  if (!kickoffs.length) return t("hub.datesTbc");
   const first = Math.min(...kickoffs);
   const last = Math.max(...kickoffs);
   const day = (time, withMonth) => formatBerlinDate(time, {
@@ -559,14 +559,14 @@ function formatMatchdayDates(matches) {
 }
 
 function renderHub(matches) {
-  matchdayTitle.textContent = `Matchday ${state.matchday}`;
+  matchdayTitle.textContent = t("hub.title", { matchday: state.matchday });
   matchdayDates.textContent = formatMatchdayDates(matches);
   previousButton.disabled = state.matchday <= 1;
   nextButton.disabled = state.matchday >= MAX_MATCHDAYS;
   currentButton.hidden = !state.currentMatchday || state.matchday === state.currentMatchday;
-  currentButton.textContent = `Go to matchday ${state.currentMatchday}`;
+  currentButton.textContent = t("hub.goTo", { matchday: state.currentMatchday });
   updatedAt.textContent = state.loadedAt
-    ? `Updated ${formatBerlinDate(state.loadedAt, { hour: "2-digit", minute: "2-digit" })}`
+    ? t("hub.updated", { time: formatBerlinDate(state.loadedAt, { hour: "2-digit", minute: "2-digit" }) })
     : "";
   renderMatchdayStrip();
 }
@@ -594,12 +594,12 @@ function renderGlance(matches, standings) {
       match.matchIsFinished && matchdayOf(match) <= state.matchday && getFinalScore(match)
     ));
     const seasonGoals = seasonFinished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
-    const parts = [`${(goals / started.length).toFixed(1)} per match`];
-    if (seasonFinished.length) parts.push(`season ${(seasonGoals / seasonFinished.length).toFixed(1)}`);
-    if (liveCount) parts.push(`${liveCount} live`);
+    const parts = [t("glance.perMatch", { avg: I18N.number(goals / started.length, 1) })];
+    if (seasonFinished.length) parts.push(t("glance.season", { avg: I18N.number(seasonGoals / seasonFinished.length, 1) }));
+    if (liveCount) parts.push(t("glance.live", { count: liveCount }));
     setGlanceTile(goalsTile, String(goals), parts.join(" · "));
   } else {
-    setGlanceTile(goalsTile, "–", `${matches.length} matches to play`);
+    setGlanceTile(goalsTile, "–", t("glance.toPlay", { matches: t("count.matches", { count: matches.length }) }));
   }
 
   if (finished.length) {
@@ -612,7 +612,7 @@ function renderGlance(matches, standings) {
       else if (home < away) awayWins += 1;
       else draws += 1;
     }
-    setGlanceTile(resultsTile, `${homeWins} · ${draws} · ${awayWins}`, "Home wins · draws · away wins");
+    setGlanceTile(resultsTile, `${homeWins} · ${draws} · ${awayWins}`, t("glance.resultsSub"));
 
     const ranked = [...finished].sort((a, b) => {
       const [ah, aa] = getFinalScore(a);
@@ -622,7 +622,7 @@ function renderGlance(matches, standings) {
     const [biggestHome, biggestAway] = getFinalScore(ranked[0]);
     const margin = Math.abs(biggestHome - biggestAway);
     if (margin === 0) {
-      setGlanceTile(winTile, "–", "Every result so far is a draw");
+      setGlanceTile(winTile, "–", t("glance.allDraws"));
     } else {
       const sameMargin = ranked.filter((match) => {
         const [home, away] = getFinalScore(match);
@@ -630,14 +630,14 @@ function renderGlance(matches, standings) {
       }).length - 1;
       setGlanceTile(
         winTile,
-        `${teamName(ranked[0].team1)} ${biggestHome}–${biggestAway} ${teamName(ranked[0].team2)}`,
-        `By ${margin} ${margin === 1 ? "goal" : "goals"}${sameMargin ? ` · ${sameMargin} more by the same margin` : ""}`,
+        `${teamName(ranked[0].team1)} ${I18N.score(biggestHome, biggestAway)} ${teamName(ranked[0].team2)}`,
+        t("glance.margin", { count: margin }) + (sameMargin ? t("glance.sameMargin", { count: sameMargin }) : ""),
         { compact: true },
       );
     }
   } else {
-    setGlanceTile(resultsTile, "–", "No results yet");
-    setGlanceTile(winTile, "–", "No results yet");
+    setGlanceTile(resultsTile, "–", t("glance.noResults"));
+    setGlanceTile(winTile, "–", t("glance.noResults"));
   }
 
   const [leader, second] = standings;
@@ -645,9 +645,12 @@ function renderGlance(matches, standings) {
     const name = createElement("span", "glance-team");
     name.append(createLogo(leader.team, "glance-logo"), createElement("span", "", teamName(leader.team)));
     const gap = leader.points - (second?.points ?? 0);
-    setGlanceTile(leaderTile, name, `${leader.points} pts · ${gap ? `${gap} clear` : "top on goal difference"}`, { compact: true });
+    const detail = gap
+      ? t("glance.leaderClear", { points: leader.points, gap, count: gap })
+      : t("glance.leaderGd", { points: leader.points });
+    setGlanceTile(leaderTile, name, detail, { compact: true });
   } else {
-    setGlanceTile(leaderTile, "–", "The table starts with the first results");
+    setGlanceTile(leaderTile, "–", t("glance.leaderNone"));
   }
 }
 
@@ -703,7 +706,7 @@ function createMatchCard(match) {
     const scoreLine = createElement("span", "score");
     scoreLine.append(
       createElement("span", homeOutcome === "winner" ? "score-winner" : "", String(homeScore)),
-      createElement("span", "score-separator", "–"),
+      createElement("span", "score-separator", I18N.scoreSeparator),
       createElement("span", awayOutcome === "winner" ? "score-winner" : "", String(awayScore)),
     );
     scoreBlock.append(scoreLine);
@@ -713,10 +716,10 @@ function createMatchCard(match) {
 
   const halfTime = getHalfTimeScore(match);
   const statusText = {
-    finished: halfTime ? `Full time · HT ${halfTime[0]}–${halfTime[1]}` : "Full time",
-    live: halfTime ? "Live · 2nd half" : "Live",
-    pending: "Result pending",
-    upcoming: Number.isFinite(kickoff) ? "Kick-off" : "Date to be confirmed",
+    finished: halfTime ? t("match.fullTimeHt", { score: I18N.score(halfTime[0], halfTime[1]) }) : t("match.fullTime"),
+    live: halfTime ? t("match.liveSecondHalf") : t("match.live"),
+    pending: t("match.pending"),
+    upcoming: Number.isFinite(kickoff) ? t("match.kickoff") : t("match.dateTbc"),
   }[status];
   scoreBlock.append(createElement("span", "match-status", statusText));
 
@@ -724,7 +727,7 @@ function createMatchCard(match) {
     createTeam(match.team1, true, homeOutcome),
     scoreBlock,
     createTeam(match.team2, false, awayOutcome),
-    createElement("span", "visually-hidden", "Show match details"),
+    createElement("span", "visually-hidden", t("match.showDetails")),
   );
   card.append(summary, createMatchDetails(match, status, time));
   return card;
@@ -741,28 +744,28 @@ function createMatchDetails(match, status, kickoffTime) {
   const venue = [match.location?.locationStadium, match.location?.locationCity].filter(Boolean).join(", ");
   if (venue) metaParts.push(venue);
   const viewers = Number(match.numberOfViewers);
-  if (viewers > 0) metaParts.push(`${viewers.toLocaleString("en-GB")} spectators`);
+  if (viewers > 0) metaParts.push(t("match.spectators", { viewers: I18N.number(viewers) }));
   meta.textContent = metaParts.join(" · ");
   details.append(meta);
 
   const goals = getGoals(match);
   if (goals.length) {
-    details.append(createElement("h3", "match-events-heading", "Goals"));
+    details.append(createElement("h3", "match-events-heading", t("match.goals")));
     const timeline = createElement("ol", "goal-timeline");
     for (const { goal, side, score, minute } of goals) {
       const event = createElement("li", `goal-event${side === 2 ? " is-away" : side === 1 ? " is-home" : ""}`);
-      const notes = [goal.isOwnGoal ? "own goal" : "", goal.isPenalty ? "penalty" : ""].filter(Boolean);
+      const notes = [goal.isOwnGoal ? t("match.ownGoal") : "", goal.isPenalty ? t("match.penalty") : ""].filter(Boolean);
       const scorer = createElement("span", "goal-scorer");
       scorer.append(
-        createElement("span", "", goal.goalGetterName || "Unknown scorer"),
+        createElement("span", "", goal.goalGetterName || t("match.unknownScorer")),
         ...(notes.length ? [createElement("span", "goal-note", ` (${notes.join(", ")})`)] : []),
       );
       const team = side === 1 ? match.team1 : side === 2 ? match.team2 : null;
-      if (team) scorer.append(createElement("span", "visually-hidden", ` for ${teamName(team)}`));
+      if (team) scorer.append(createElement("span", "visually-hidden", t("match.scoredFor", { team: teamName(team) })));
       const centre = createElement("span", "goal-centre");
       centre.append(
         createElement("span", "goal-minute", minute === null ? "•" : `${minute}${goal.isOvertime ? "+" : ""}′`),
-        createElement("span", "goal-score", score ? `${score[0]}–${score[1]}` : ""),
+        createElement("span", "goal-score", score ? I18N.score(score[0], score[1]) : ""),
       );
       const homeSlot = createElement("span", "goal-side goal-side-home");
       const awaySlot = createElement("span", "goal-side goal-side-away");
@@ -773,10 +776,10 @@ function createMatchDetails(match, status, kickoffTime) {
     details.append(timeline);
   } else {
     const message = {
-      finished: getFinalScore(match)?.every((count) => count === 0) ? "Goalless." : "No goal details are available for this match.",
-      live: "No goals reported yet.",
-      pending: "Goal details are unavailable while the final result is pending.",
-      upcoming: "Goals will appear here during the match.",
+      finished: getFinalScore(match)?.every((count) => count === 0) ? t("match.noGoals.goalless") : t("match.noGoals.unavailable"),
+      live: t("match.noGoals.live"),
+      pending: t("match.noGoals.pending"),
+      upcoming: t("match.noGoals.upcoming"),
     }[status];
     details.append(createElement("p", "no-goals-message", message));
   }
@@ -803,7 +806,7 @@ function showMessage(title, message, action) {
   const box = createElement("div", action === true ? "error-state" : "empty-state");
   box.append(createElement("strong", "", title), createElement("p", "", message));
   if (action) {
-    const button = createElement("button", "", action === true ? "Try again" : action.label);
+    const button = createElement("button", "", action === true ? t("error.retry") : action.label);
     button.type = "button";
     button.addEventListener("click", action === true ? () => start() : action.onClick);
     box.append(button);
@@ -817,15 +820,11 @@ function renderMatches(matches) {
 
   if (!filteredMatches.length) {
     if (!matches.length) {
-      showMessage("No matches yet", "There are no matches listed for this matchday yet.");
+      showMessage(t("empty.noMatches.title"), t("empty.noMatches.text"));
     } else {
-      const copy = {
-        live: ["No live matches", `Nothing is being played on matchday ${state.matchday} right now.`],
-        finished: ["No results yet", `No match on matchday ${state.matchday} has finished yet.`],
-        upcoming: ["Nothing left to play", `Every match on matchday ${state.matchday} has kicked off.`],
-      }[state.filter];
-      showMessage(copy[0], copy[1], {
-        label: "Show all matches",
+      const params = { matchday: state.matchday };
+      showMessage(t(`empty.${state.filter}.title`), t(`empty.${state.filter}.text`, params), {
+        label: t("empty.showAll"),
         onClick: () => setFilter("all"),
       });
     }
@@ -846,9 +845,9 @@ function renderMatches(matches) {
     const heading = createElement("h3", "date-heading");
     heading.append(
       createElement("span", "", dateKey === "tbc"
-        ? "Date to be confirmed"
+        ? t("match.dateTbc")
         : formatBerlinDate(kickoffOf(group[0]), { weekday: "long", day: "numeric", month: "long" })),
-      createElement("span", "date-count", `${group.length} ${group.length === 1 ? "match" : "matches"}`),
+      createElement("span", "date-count", t("count.matches", { count: group.length })),
     );
     dateGroup.append(heading, ...group.map(createMatchCard));
     fragment.append(dateGroup);
@@ -880,13 +879,17 @@ function getZone(index, size) {
 function createForm(results) {
   const recent = results.slice(-5);
   const list = createElement("span", "form-list");
-  const words = { W: "win", D: "draw", L: "loss" };
+  const words = { W: t("form.win"), D: t("form.draw"), L: t("form.loss") };
   list.setAttribute("aria-label", recent.length
-    ? `Last ${recent.length}: ${recent.map((result) => words[result.outcome]).join(", ")}`
-    : "No matches yet");
+    ? t("form.aria", { count: recent.length, results: recent.map((result) => words[result.outcome]).join(", ") })
+    : t("form.none"));
   for (const result of recent) {
-    const pill = createElement("span", `form-pill is-${result.outcome.toLowerCase()}`, result.outcome);
-    pill.title = `Matchday ${result.matchday}: ${result.goalsFor}–${result.goalsAgainst} ${result.isHome ? "v" : "at"} ${teamName(result.opponent)}`;
+    const pill = createElement("span", `form-pill is-${result.outcome.toLowerCase()}`, t(`form.${result.outcome}`));
+    pill.title = t(result.isHome ? "form.titleHome" : "form.titleAway", {
+      matchday: result.matchday,
+      score: I18N.score(result.goalsFor, result.goalsAgainst),
+      opponent: teamName(result.opponent),
+    });
     pill.setAttribute("aria-hidden", "true");
     list.append(pill);
   }
@@ -896,25 +899,26 @@ function createForm(results) {
 function createMovement(change) {
   if (!change) return createElement("span", "movement is-same", "");
   const movement = createElement("span", `movement ${change > 0 ? "is-up" : "is-down"}`, change > 0 ? "▲" : "▼");
-  movement.title = `${change > 0 ? "Up" : "Down"} ${Math.abs(change)} since matchday ${state.matchday - 1}`;
-  movement.append(createElement("span", "visually-hidden", ` ${change > 0 ? "up" : "down"} ${Math.abs(change)}`));
+  const places = { count: Math.abs(change) };
+  movement.title = t(change > 0 ? "table.up" : "table.down", { ...places, matchday: state.matchday - 1 });
+  movement.append(createElement("span", "visually-hidden", t(change > 0 ? "table.upSr" : "table.downSr", places)));
   return movement;
 }
 
 function renderStandings(table) {
-  const venueLabel = { all: "", home: "Home table · ", away: "Away table · " }[state.venue];
+  const venueLabel = { all: "", home: t("table.venue.home"), away: t("table.venue.away") }[state.venue];
   const matchdayMatches = matchesForMatchday(state.matches, state.matchday);
   const toFinish = matchdayMatches.filter((match) => !match.matchIsFinished).length;
   const started = matchdayMatches.some((match) => getMatchStatus(match) !== "upcoming");
   let progress = "";
-  if (toFinish && !started) progress = " · no results from this matchday yet";
-  else if (toFinish) progress = ` · ${toFinish} ${toFinish === 1 ? "match" : "matches"} still to finish`;
-  standingsCaption.textContent = `${venueLabel}After matchday ${state.matchday}${progress}`;
-  document.querySelector("#standings-table-caption").textContent = `Bundesliga ${venueLabel.replace(" · ", "").toLowerCase() || "table"} after matchday ${state.matchday}`;
+  if (toFinish && !started) progress = t("table.progressNone");
+  else if (toFinish) progress = t("table.progressPending", { count: toFinish });
+  standingsCaption.textContent = t("table.caption", { venue: venueLabel, matchday: state.matchday, progress });
+  document.querySelector("#standings-table-caption").textContent = t(`table.ariaCaption.${state.venue}`, { matchday: state.matchday });
   standingsLegend.hidden = state.venue !== "all";
 
   if (!table.length) {
-    showStandingsMessage(standingsCaption.textContent, "No clubs listed for this season yet.");
+    showStandingsMessage(standingsCaption.textContent, t("table.empty"));
     return;
   }
 
@@ -938,7 +942,7 @@ function renderStandings(table) {
     const club = createElement("button", "club-button");
     club.type = "button";
     club.setAttribute("aria-pressed", String(followed));
-    club.title = followed ? `Stop following ${teamName(standing.team)}` : `Follow ${teamName(standing.team)}`;
+    club.title = t(followed ? "table.unfollow" : "table.follow", { team: teamName(standing.team) });
     club.dataset.teamId = String(standing.team.teamId);
     club.append(createLogo(standing.team, "standing-logo"), createElement("span", "standing-name", teamName(standing.team)));
     club.addEventListener("click", () => {
@@ -991,7 +995,7 @@ function setFollowedTeam(teamId) {
 }
 
 function renderTeamSelect(clubs) {
-  const options = [createElement("option", "", "Top of the table")];
+  const options = [createElement("option", "", t("insights.followTop"))];
   options[0].value = "";
   for (const club of [...clubs].sort((a, b) => teamName(a.team).localeCompare(teamName(b.team)))) {
     const option = createElement("option", "", teamName(club.team));
@@ -1038,8 +1042,8 @@ function renderPointsChart(progression) {
   const { lastMatchday, clubs } = progression;
   pointsChart.replaceChildren();
   if (!lastMatchday) {
-    pointsChart.append(createElement("p", "chart-empty", "The points race starts with the first results."));
-    pointsSummary.textContent = "Cumulative points after each matchday.";
+    pointsChart.append(createElement("p", "chart-empty", t("chart.points.empty")));
+    pointsSummary.textContent = t("chart.points.default");
     pointsTable.replaceChildren();
     return;
   }
@@ -1095,7 +1099,7 @@ function renderPointsChart(progression) {
   const frame = createElement("div", "chart-frame");
   frame.tabIndex = 0;
   frame.setAttribute("role", "group");
-  frame.setAttribute("aria-label", `Points race chart, ${teamName(focus.team)} highlighted. Use the left and right arrow keys to step through matchdays.`);
+  frame.setAttribute("aria-label", t("chart.points.aria", { team: teamName(focus.team) }));
   frame.append(chartSvg);
   pointsChart.append(frame);
   const tooltip = createTooltip(frame);
@@ -1113,10 +1117,15 @@ function renderPointsChart(progression) {
     hoverDot.setAttribute("cy", y(points));
     hoverDot.setAttribute("visibility", "visible");
     const dayLeader = clubs.find((club) => club.positions[day] === 1);
-    const rows = [createElement("span", "tooltip-title", day ? `After matchday ${day}` : "Start of the season")];
-    rows.push(tooltipRow(`${points} pts`, `${teamName(focus.team)}${position ? ` · ${ordinal(position)}` : ""}`, "is-focus"));
+    const rows = [createElement("span", "tooltip-title", day ? t("chart.points.after", { matchday: day }) : t("chart.points.start"))];
+    const placing = position ? ` · ${t("chart.points.position", { n: position, ord: I18N.ordinal(position) })}` : "";
+    rows.push(tooltipRow(t("chart.points.pts", { points }), `${teamName(focus.team)}${placing}`, "is-focus"));
     if (day && dayLeader && dayLeader !== focus) {
-      rows.push(tooltipRow(`${dayLeader.points[day]} pts`, `${teamName(dayLeader.team)} · leader`, "is-context"));
+      rows.push(tooltipRow(
+        t("chart.points.pts", { points: dayLeader.points[day] }),
+        t("chart.points.leader", { team: teamName(dayLeader.team) }),
+        "is-context",
+      ));
     }
     tooltip.replaceChildren(...rows);
     placeTooltip(frame, tooltip, x(day), y(points));
@@ -1146,9 +1155,17 @@ function renderPointsChart(progression) {
   const gap = isLeader
     ? leader.points[lastMatchday] - (ranked[1]?.points[lastMatchday] ?? 0)
     : leader.points[lastMatchday] - focus.points[lastMatchday];
-  pointsSummary.textContent = isLeader
-    ? `${teamName(focus.team)} lead after matchday ${lastMatchday}${gap ? `, ${gap} ${gap === 1 ? "point" : "points"} clear` : " on goal difference"}. Every other club in grey.`
-    : `${teamName(focus.team)} are ${ordinal(focus.positions[lastMatchday])}, ${gap} ${gap === 1 ? "point" : "points"} behind ${teamName(leader.team)} after matchday ${lastMatchday}.`;
+  const summary = { team: teamName(focus.team), matchday: lastMatchday, count: gap };
+  if (isLeader) {
+    pointsSummary.textContent = t(gap ? "chart.points.leadClear" : "chart.points.leadGd", summary);
+  } else {
+    const rank = focus.positions[lastMatchday];
+    pointsSummary.textContent = t("chart.points.behind", {
+      ...summary,
+      position: t("chart.points.position", { n: rank, ord: I18N.ordinal(rank) }),
+      leader: teamName(leader.team),
+    });
+  }
 
   renderPointsTable(ranked, lastMatchday, focus);
 }
@@ -1156,8 +1173,8 @@ function renderPointsChart(progression) {
 function renderPointsTable(ranked, lastMatchday, focus) {
   const table = createElement("table", "data-table");
   const head = createElement("tr");
-  head.append(createElement("th", "", "Club"));
-  for (let day = 1; day <= lastMatchday; day += 1) head.append(createElement("th", "", `MD${day}`));
+  head.append(createElement("th", "", t("chart.points.colClub")));
+  for (let day = 1; day <= lastMatchday; day += 1) head.append(createElement("th", "", t("chart.points.colMatchday", { matchday: day })));
   const thead = createElement("thead");
   thead.append(head);
   const tbody = createElement("tbody");
@@ -1175,8 +1192,8 @@ function renderPointsTable(ranked, lastMatchday, focus) {
 function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
   minutesChart.replaceChildren();
   if (!total) {
-    minutesChart.append(createElement("p", "chart-empty", "No goals recorded yet."));
-    minutesSummary.textContent = "Goals by match minute.";
+    minutesChart.append(createElement("p", "chart-empty", t("chart.minutes.empty")));
+    minutesSummary.textContent = t("chart.minutes.default");
     minutesTable.replaceChildren();
     return;
   }
@@ -1194,13 +1211,13 @@ function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
 
   const chartSvg = createSvg("svg", { viewBox: `0 0 ${width} ${height}`, width, height });
   chartSvg.setAttribute("role", "group");
-  chartSvg.setAttribute("aria-label", "Goals by match minute");
+  chartSvg.setAttribute("aria-label", t("chart.minutes.aria"));
   const baseline = margin.top + plotHeight;
   chartSvg.append(createSvg("line", { x1: margin.left, x2: width - margin.right, y1: baseline, y2: baseline, class: "chart-baseline" }));
   const halfTime = margin.left + slot * 3;
   chartSvg.append(createSvg("line", { x1: halfTime, x2: halfTime, y1: margin.top - 6, y2: baseline, class: "chart-divider" }));
   const halfTimeLabel = createSvg("text", { x: halfTime, y: margin.top - 10, class: "chart-tick", "text-anchor": "middle" });
-  halfTimeLabel.textContent = "Half-time";
+  halfTimeLabel.textContent = t("chart.minutes.halfTime");
   chartSvg.append(halfTimeLabel);
 
   const frame = createElement("div", "chart-frame");
@@ -1214,8 +1231,8 @@ function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
     const barHeight = baseline - top;
     const radius = Math.min(4, barHeight);
     const group = createSvg("g", { class: `chart-bar${bin === busiest ? " is-peak" : ""}`, tabindex: 0, role: "img" });
-    const share = Math.round((bin.goals / (total - unknown || 1)) * 100);
-    group.setAttribute("aria-label", `Minutes ${bin.label}: ${bin.goals} goals, ${share}%`);
+    const share = I18N.percent(Math.round((bin.goals / (total - unknown || 1)) * 100) / 100);
+    group.setAttribute("aria-label", t("chart.minutes.bar", { label: bin.label, count: bin.goals, share }));
     group.append(createSvg("rect", { x: centre - slot / 2, y: margin.top, width: slot, height: plotHeight, class: "chart-hit" }));
     if (barHeight > 0) {
       const left = centre - barWidth / 2;
@@ -1232,8 +1249,8 @@ function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
     group.append(value, label);
     const show = () => {
       tooltip.replaceChildren(
-        createElement("span", "tooltip-title", `Minutes ${bin.label}`),
-        tooltipRow(String(bin.goals), `goals · ${share}% of the total`, "is-bar"),
+        createElement("span", "tooltip-title", t("chart.minutes.range", { label: bin.label })),
+        tooltipRow(String(bin.goals), t("chart.minutes.tooltip", { count: bin.goals, share }), "is-bar"),
       );
       placeTooltip(frame, tooltip, centre, top);
     };
@@ -1244,13 +1261,20 @@ function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
     chartSvg.append(group);
   });
 
-  minutesSummary.textContent = `${total} goals in ${matchesCounted} matches (${(total / matchesCounted).toFixed(1)} per match). The busiest spell is minutes ${busiest.label.replace("–", "–\u2060")}.${
-    unknown ? ` ${unknown} without a recorded minute are left out.` : ""
-  }`;
+  minutesSummary.textContent = t("chart.minutes.summary", {
+    goals: t("count.goals", { count: total }),
+    matches: t("count.matchesIn", { count: matchesCounted }),
+    avg: I18N.number(total / matchesCounted, 1),
+    label: busiest.label.replace("–", "–\u2060"),
+  }) + (unknown ? t("chart.minutes.unknown", { count: unknown }) : "");
 
   const table = createElement("table", "data-table");
   const head = createElement("tr");
-  head.append(createElement("th", "", "Minutes"), createElement("th", "", "Goals"), createElement("th", "", "Share"));
+  head.append(
+    createElement("th", "", t("chart.minutes.colMinutes")),
+    createElement("th", "", t("chart.minutes.colGoals")),
+    createElement("th", "", t("chart.minutes.colShare")),
+  );
   const thead = createElement("thead");
   thead.append(head);
   const tbody = createElement("tbody");
@@ -1258,7 +1282,8 @@ function renderMinutesChart({ bins, total, unknown, matchesCounted }) {
     const row = createElement("tr");
     const label = createElement("th", "", bin.label);
     label.scope = "row";
-    row.append(label, createElement("td", "", String(bin.goals)), createElement("td", "", `${Math.round((bin.goals / (total - unknown || 1)) * 100)}%`));
+    const binShare = I18N.percent(Math.round((bin.goals / (total - unknown || 1)) * 100) / 100);
+    row.append(label, createElement("td", "", String(bin.goals)), createElement("td", "", binShare));
     tbody.append(row);
   }
   table.append(thead, tbody);
@@ -1273,8 +1298,8 @@ function renderCharts(progression = calculateProgression(state.matches, state.ma
 function renderInsights() {
   const progression = calculateProgression(state.matches, state.matchday);
   insightsCaption.textContent = progression.lastMatchday
-    ? `Season to date · through matchday ${progression.lastMatchday}`
-    : "Season to date";
+    ? t("insights.eyebrowThrough", { matchday: progression.lastMatchday })
+    : t("insights.eyebrow");
   renderTeamSelect(progression.clubs);
   renderCharts(progression);
 }
@@ -1318,6 +1343,13 @@ refreshButton.addEventListener("click", () => refresh({ forceRefresh: true }));
 filterButtons.forEach((button) => button.addEventListener("click", () => setFilter(button.dataset.filter)));
 venueButtons.forEach((button) => button.addEventListener("click", () => setVenue(button.dataset.venue)));
 teamSelect.addEventListener("change", () => setFollowedTeam(teamSelect.value ? Number(teamSelect.value) : null));
+
+// i18n.js has already swapped the static text; redraw everything built from match data.
+// Open match cards stay open (state.openMatches) and no new request is made.
+I18N.onChange(() => {
+  if (state.matches) renderAll();
+  else if (state.loadFailed) showLoadFailure();
+});
 
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "hidden") {

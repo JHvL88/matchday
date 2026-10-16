@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0c0c10">
-    <meta name="description" content="Jan’s Matchday: Bundesliga fixtures, live scores, the table, season insights and data-driven match analysis.">
-    <title>Jan’s Matchday — Bundesliga results, table and analysis</title>
+    <meta name="description" content="Jan’s Matchday: Bundesliga fixtures, live scores, the table, season insights and data-driven match analysis." data-i18n-attrs="content:meta.description">
+    <title data-i18n="meta.title">Jan’s Matchday — Bundesliga results, table and analysis</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Jan’s Matchday">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,26 +15,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
-    <link rel="stylesheet" href="styles.css?v=6">
-    <script src="app.js?v=6" defer></script>
+    <link rel="stylesheet" href="styles.css?v=7">
+    <script src="i18n.js?v=7" defer></script>
+    <script src="app.js?v=7" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#matches">Skip to matches</a>
+    <a class="skip-link" href="#matches" data-i18n="nav.skip">Skip to matches</a>
     <header class="topbar">
       <div class="app-shell topbar-inner">
-        <a class="brand" href="./" aria-label="Jan’s Matchday home">
+        <a class="brand" href="./" aria-label="Jan’s Matchday home" data-i18n-attrs="aria-label:brand.home">
           <span class="brand-mark" aria-hidden="true">J</span>
           <span class="brand-name">Jan’s Matchday</span>
         </a>
-        <nav class="top-nav" aria-label="Sections">
-          <a href="#matches">Matches</a>
-          <a href="#table">Table</a>
-          <a href="#insights">Insights</a>
-          <a href="#analysis">Analysis</a>
+        <nav class="top-nav" aria-label="Sections" data-i18n-attrs="aria-label:nav.label">
+          <a href="#matches" data-i18n="nav.matches">Matches</a>
+          <a href="#table" data-i18n="nav.table">Table</a>
+          <a href="#insights" data-i18n="nav.insights">Insights</a>
+          <a href="#analysis" data-i18n="nav.analysis">Analysis</a>
         </nav>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
           <span id="league-season">Bundesliga</span>
+        </div>
+        <div class="segmented lang-switch" role="group" aria-label="Language" data-i18n-attrs="aria-label:lang.label">
+          <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="de" lang="de" title="Deutsch" aria-pressed="false">DE</button>
         </div>
       </div>
     </header>
@@ -42,23 +47,23 @@
     <div class="app-shell">
       <main>
         <section class="hero" aria-labelledby="page-title">
-          <p class="eyebrow">A fan’s take on German football</p>
+          <p class="eyebrow" data-i18n="hero.eyebrow">A fan’s take on German football</p>
           <h1 id="page-title">Jan’s Matchday<span>.</span></h1>
-          <p class="intro">Every Bundesliga matchday in one place: live scores, the table, season trends and deeper analysis.</p>
+          <p class="intro" data-i18n="hero.intro">Every Bundesliga matchday in one place: live scores, the table, season trends and deeper analysis.</p>
         </section>
 
         <section class="matchday-hub" aria-labelledby="matchday-title">
           <div class="hub-top">
             <div class="matchday-picker">
-              <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday">
+              <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday" data-i18n-attrs="aria-label:hub.prev">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
               </button>
               <div class="matchday-copy">
                 <p class="eyebrow" id="hub-season">Bundesliga</p>
-                <h2 id="matchday-title">Matchday</h2>
+                <h2 id="matchday-title" data-i18n="hub.titlePlaceholder">Matchday</h2>
                 <p class="matchday-dates" id="matchday-dates">&nbsp;</p>
               </div>
-              <button class="icon-button" id="next-matchday" type="button" aria-label="Next matchday">
+              <button class="icon-button" id="next-matchday" type="button" aria-label="Next matchday" data-i18n-attrs="aria-label:hub.next">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
               </button>
             </div>
@@ -67,16 +72,16 @@
               <p class="updated-at" id="updated-at" aria-live="polite"></p>
               <button class="refresh-button" id="refresh-results" type="button">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 8A6.8 6.8 0 0 0 4.2 5.5L3 7m0 0V3.8M3 7h3.2M3.5 12a6.8 6.8 0 0 0 12.3 2.5L17 13m0 0v3.2M17 13h-3.2"/></svg>
-                <span>Refresh</span>
+                <span data-i18n="hub.refresh">Refresh</span>
               </button>
             </div>
           </div>
-          <div class="matchday-strip" id="matchday-strip" role="group" aria-label="Choose a matchday"></div>
-          <dl class="glance" id="glance" aria-label="Matchday at a glance">
-            <div class="glance-tile"><dt>Goals</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt>Results</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt>Biggest win</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt>Top of the table</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+          <div class="matchday-strip" id="matchday-strip" role="group" aria-label="Choose a matchday" data-i18n-attrs="aria-label:hub.stripLabel"></div>
+          <dl class="glance" id="glance" aria-label="Matchday at a glance" data-i18n-attrs="aria-label:glance.label">
+            <div class="glance-tile"><dt data-i18n="glance.goals">Goals</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt data-i18n="glance.results">Results</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt data-i18n="glance.biggestWin">Biggest win</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+            <div class="glance-tile"><dt data-i18n="glance.leader">Top of the table</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
           </dl>
         </section>
 
@@ -84,102 +89,102 @@
           <section class="panel fixtures-panel" id="matches" aria-labelledby="matches-heading">
             <div class="panel-head">
               <div>
-                <p class="eyebrow">Fixtures &amp; results</p>
-                <h2 id="matches-heading">Matches</h2>
+                <p class="eyebrow" data-i18n="fixtures.eyebrow">Fixtures &amp; results</p>
+                <h2 id="matches-heading" data-i18n="fixtures.title">Matches</h2>
               </div>
             </div>
-            <div class="filter-row" role="group" aria-label="Filter matches">
-              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All <span class="chip-count" data-count="all"></span></button>
-              <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator" aria-hidden="true"></span>Live <span class="chip-count" data-count="live"></span></button>
-              <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false">Finished <span class="chip-count" data-count="finished"></span></button>
-              <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false">Upcoming <span class="chip-count" data-count="upcoming"></span></button>
+            <div class="filter-row" role="group" aria-label="Filter matches" data-i18n-attrs="aria-label:filter.label">
+              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">All</span> <span class="chip-count" data-count="all"></span></button>
+              <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator" aria-hidden="true"></span><span data-i18n="filter.live">Live</span> <span class="chip-count" data-count="live"></span></button>
+              <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false"><span data-i18n="filter.finished">Finished</span> <span class="chip-count" data-count="finished"></span></button>
+              <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false"><span data-i18n="filter.upcoming">Upcoming</span> <span class="chip-count" data-count="upcoming"></span></button>
             </div>
             <div id="results" class="results-list" aria-live="polite" aria-busy="true">
               <div class="loading-state">
                 <span class="loading-spinner" aria-hidden="true"></span>
-                <p>Finding the latest scores…</p>
+                <p data-i18n="fixtures.loading">Finding the latest scores…</p>
               </div>
             </div>
-            <p class="panel-foot">Kick-off times in Europe/Berlin · match data from <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
+            <p class="panel-foot"><span data-i18n="fixtures.foot">Kick-off times in Europe/Berlin · match data from</span> <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
           </section>
 
           <section class="panel standings-panel" id="table" aria-labelledby="standings-heading" aria-busy="true">
             <div class="panel-head">
               <div>
-                <p class="eyebrow">Standings</p>
-                <h2 id="standings-heading">Table</h2>
+                <p class="eyebrow" data-i18n="table.eyebrow">Standings</p>
+                <h2 id="standings-heading" data-i18n="table.title">Table</h2>
               </div>
-              <div class="segmented" role="group" aria-label="Table view">
-                <button type="button" data-venue="all" aria-pressed="true">Overall</button>
-                <button type="button" data-venue="home" aria-pressed="false">Home</button>
-                <button type="button" data-venue="away" aria-pressed="false">Away</button>
+              <div class="segmented" role="group" aria-label="Table view" data-i18n-attrs="aria-label:table.viewLabel">
+                <button type="button" data-venue="all" aria-pressed="true" data-i18n="table.overall">Overall</button>
+                <button type="button" data-venue="home" aria-pressed="false" data-i18n="table.home">Home</button>
+                <button type="button" data-venue="away" aria-pressed="false" data-i18n="table.away">Away</button>
               </div>
             </div>
-            <p class="standings-caption" id="standings-caption" aria-live="polite">Loading standings…</p>
+            <p class="standings-caption" id="standings-caption" aria-live="polite" data-i18n="table.loading">Loading standings…</p>
             <div class="standings-scroll">
               <table class="standings-table">
-                <caption class="visually-hidden" id="standings-table-caption">Bundesliga table</caption>
+                <caption class="visually-hidden" id="standings-table-caption" data-i18n="table.captionDefault">Bundesliga table</caption>
                 <thead>
                   <tr>
-                    <th scope="col" class="position-column"><abbr title="Position">#</abbr></th>
-                    <th scope="col" class="club-column">Club</th>
-                    <th scope="col"><abbr title="Played">P</abbr></th>
-                    <th scope="col" class="detail-column"><abbr title="Won">W</abbr></th>
-                    <th scope="col" class="detail-column"><abbr title="Drawn">D</abbr></th>
-                    <th scope="col" class="detail-column"><abbr title="Lost">L</abbr></th>
-                    <th scope="col" class="detail-column">Goals</th>
-                    <th scope="col"><abbr title="Goal difference">GD</abbr></th>
-                    <th scope="col" class="points-column"><abbr title="Points">Pts</abbr></th>
-                    <th scope="col" class="form-column">Form</th>
+                    <th scope="col" class="position-column"><abbr title="Position" data-i18n-attrs="title:table.col.position">#</abbr></th>
+                    <th scope="col" class="club-column" data-i18n="table.col.club">Club</th>
+                    <th scope="col"><abbr title="Played" data-i18n="table.col.played" data-i18n-attrs="title:table.col.playedTitle">P</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Won" data-i18n="table.col.won" data-i18n-attrs="title:table.col.wonTitle">W</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Drawn" data-i18n="table.col.drawn" data-i18n-attrs="title:table.col.drawnTitle">D</abbr></th>
+                    <th scope="col" class="detail-column"><abbr title="Lost" data-i18n="table.col.lost" data-i18n-attrs="title:table.col.lostTitle">L</abbr></th>
+                    <th scope="col" class="detail-column" data-i18n="table.col.goals">Goals</th>
+                    <th scope="col"><abbr title="Goal difference" data-i18n="table.col.gd" data-i18n-attrs="title:table.col.gdTitle">GD</abbr></th>
+                    <th scope="col" class="points-column"><abbr title="Points" data-i18n="table.col.points" data-i18n-attrs="title:table.col.pointsTitle">Pts</abbr></th>
+                    <th scope="col" class="form-column" data-i18n="table.col.form">Form</th>
                   </tr>
                 </thead>
                 <tbody id="standings-rows">
-                  <tr><td colspan="10" class="standings-message">Loading standings…</td></tr>
+                  <tr><td colspan="10" class="standings-message" data-i18n="table.loading">Loading standings…</td></tr>
                 </tbody>
               </table>
             </div>
-            <ul class="standings-legend" id="standings-legend" aria-label="Table colour key">
-              <li style="--zone:var(--zone-ucl)">Champions League</li>
-              <li style="--zone:var(--zone-uel)">Europa League</li>
-              <li style="--zone:var(--zone-uecl)">Conference League</li>
-              <li style="--zone:var(--zone-playoff)">Relegation play-off</li>
-              <li style="--zone:var(--zone-down)">Relegation</li>
+            <ul class="standings-legend" id="standings-legend" aria-label="Table colour key" data-i18n-attrs="aria-label:table.legend.label">
+              <li style="--zone:var(--zone-ucl)" data-i18n="table.legend.ucl">Champions League</li>
+              <li style="--zone:var(--zone-uel)" data-i18n="table.legend.uel">Europa League</li>
+              <li style="--zone:var(--zone-uecl)" data-i18n="table.legend.uecl">Conference League</li>
+              <li style="--zone:var(--zone-playoff)" data-i18n="table.legend.playoff">Relegation play-off</li>
+              <li style="--zone:var(--zone-down)" data-i18n="table.legend.down">Relegation</li>
             </ul>
-            <p class="standings-note">Calculated from completed results. Ties are split by goal difference, then goals scored. Tap a club to follow it across the page.</p>
+            <p class="standings-note" data-i18n="table.note">Calculated from completed results. Ties are split by goal difference, then goals scored. Tap a club to follow it across the page.</p>
           </section>
         </div>
 
         <section class="panel insights-panel" id="insights" aria-labelledby="insights-heading">
           <div class="panel-head">
             <div>
-              <p class="eyebrow" id="insights-caption">Season to date</p>
-              <h2 id="insights-heading">Insights</h2>
+              <p class="eyebrow" id="insights-caption" data-i18n="insights.eyebrow">Season to date</p>
+              <h2 id="insights-heading" data-i18n="insights.title">Insights</h2>
             </div>
             <label class="team-picker">
-              <span>Follow</span>
+              <span data-i18n="insights.follow">Follow</span>
               <select id="team-select"></select>
             </label>
           </div>
           <div class="insights-grid">
             <figure class="chart-card">
               <figcaption>
-                <h3>Points race</h3>
-                <p id="points-chart-summary">Cumulative points after each matchday.</p>
+                <h3 data-i18n="chart.points.title">Points race</h3>
+                <p id="points-chart-summary" data-i18n="chart.points.default">Cumulative points after each matchday.</p>
               </figcaption>
               <div class="chart" id="points-chart"></div>
               <details class="chart-table">
-                <summary>Show as table</summary>
+                <summary data-i18n="chart.showTable">Show as table</summary>
                 <div class="chart-table-scroll" id="points-table"></div>
               </details>
             </figure>
             <figure class="chart-card">
               <figcaption>
-                <h3>When the goals go in</h3>
-                <p id="minutes-chart-summary">Goals by match minute.</p>
+                <h3 data-i18n="chart.minutes.title">When the goals go in</h3>
+                <p id="minutes-chart-summary" data-i18n="chart.minutes.default">Goals by match minute.</p>
               </figcaption>
               <div class="chart" id="minutes-chart"></div>
               <details class="chart-table">
-                <summary>Show as table</summary>
+                <summary data-i18n="chart.showTable">Show as table</summary>
                 <div class="chart-table-scroll" id="minutes-table"></div>
               </details>
             </figure>
@@ -189,43 +194,44 @@
         <section class="panel analysis-panel" id="analysis" aria-labelledby="analysis-heading">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Deep dives</p>
-              <h2 id="analysis-heading">Analysis</h2>
+              <p class="eyebrow" data-i18n="analysis.eyebrow">Deep dives</p>
+              <h2 id="analysis-heading" data-i18n="analysis.title">Analysis</h2>
             </div>
           </div>
           <div class="analysis-grid">
             <a class="analysis-card" href="analysis/2026-27-md6-hamburg-stuttgart/">
               <span class="analysis-thumb"><img src="analysis/2026-27-md6-hamburg-stuttgart/figs/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302"></span>
               <span class="analysis-body">
-                <span class="analysis-tag">Matchday 6 · Pre-match forecast</span>
-                <span class="analysis-title">Hamburg vs Stuttgart: my models pick a fight with the bookies</span>
-                <span class="analysis-desc">Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.</span>
-                <span class="analysis-more">Read the analysis <span aria-hidden="true">→</span></span>
+                <span class="analysis-tag" data-i18n="analysis.tagMd6">Matchday 6 · Pre-match forecast</span>
+                <span class="analysis-title" lang="en">Hamburg vs Stuttgart: my models pick a fight with the bookies</span>
+                <span class="analysis-desc" lang="en">Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.</span>
+                <span class="analysis-more"><span data-i18n="analysis.read">Read the analysis</span> <span aria-hidden="true">→</span></span>
               </span>
             </a>
             <a class="analysis-card" href="analysis/2026-27-md5-augsburg-bayern/">
               <span class="analysis-thumb"><img src="analysis/2026-27-md5-augsburg-bayern/figs/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302"></span>
               <span class="analysis-body">
-                <span class="analysis-tag">Matchday 5 · Forecast &amp; full-time review</span>
-                <span class="analysis-title">Augsburg vs Bayern: three models, one stubborn underdog</span>
-                <span class="analysis-desc">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
-                <span class="analysis-more">Read the analysis <span aria-hidden="true">→</span></span>
+                <span class="analysis-tag" data-i18n="analysis.tagMd5">Matchday 5 · Forecast &amp; full-time review</span>
+                <span class="analysis-title" lang="en">Augsburg vs Bayern: three models, one stubborn underdog</span>
+                <span class="analysis-desc" lang="en">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
+                <span class="analysis-more"><span data-i18n="analysis.read">Read the analysis</span> <span aria-hidden="true">→</span></span>
               </span>
             </a>
           </div>
+          <p class="panel-foot" data-i18n="analysis.listNote" data-lang-only="de" hidden></p>
         </section>
       </main>
 
       <footer class="site-footer">
-        <span>Jan’s pitch. Bundesliga passion.</span>
-        <span>Free football data, no sign-up needed.</span>
-        <p class="install-hint" id="install-hint" hidden>On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong> to install Jan’s Matchday.</p>
+        <span data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
+        <span data-i18n="footer.data">Free football data, no sign-up needed.</span>
+        <p class="install-hint" id="install-hint" data-i18n-html="footer.install" hidden>On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong> to install Jan’s Matchday.</p>
         <p class="photo-credit">
-          Background photos:
-          <a href="https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg" target="_blank" rel="noreferrer">Hongkou Football Stadium at night</a>
-          by Windmemories, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>;
-          <a href="https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg" target="_blank" rel="noreferrer">football on grass</a>
-          by Peter Glaser, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0</a>.
+          <span data-i18n="footer.photos">Background photos:</span>
+          <a href="https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg" target="_blank" rel="noreferrer" lang="en">Hongkou Football Stadium at night</a>
+          <span data-i18n="footer.by">by</span> Windmemories, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>;
+          <a href="https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg" target="_blank" rel="noreferrer" data-i18n="footer.photoBall">football on grass</a>
+          <span data-i18n="footer.by">by</span> Peter Glaser, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0</a>.
         </p>
       </footer>
     </div>
