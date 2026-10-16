@@ -48,7 +48,7 @@ Blocks can be nested, and a link to a hidden block switches to a depth that show
 | File | What | When to update |
 |---|---|---|
 | `analysis/posts.json` | Every deep dive: match id, published probabilities (models and market), card text in both languages; after the match `fullTime` with the score and the grades quoted in the post | With each post, and after full time |
-| `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Each matchday, before kick-off |
+| `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Automatically, once a day, by the odds recorder (see *Odds*) |
 | `data/record.json` | Season and backtest figures for the track record, written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
 
 When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
@@ -70,7 +70,10 @@ Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analys
 1. Create a new folder and copy an existing page into it, so the top bar, the tab bar, the language switch, the share tags, the contents column, the depth switch and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages, with a three-point quick take, the depth marks and explainer terms (see *The explanatory layer*), and update the share tags (`og:` and `twitter:`) and the canonical link at the top. The reading times in the depth switch are filled in by `explain.js`; copy the numbers it shows into the HTML so nothing changes when the page loads.
 2. Make the German charts: `python analysis/tools/translate_figures.py analysis/<new post>` writes `figs/de/` from the English SVGs, keeping every number and mark and changing only the words and number formats (1,47 · 25 %). It lists any English label it does not know yet; add a rule for it at the top of the script. The German article uses `figs/de/…`.
 3. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
-4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the published probabilities (home, draw, away) for the models and the market with the odds and bookmaker, and the card text in both languages. The home page card, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
+4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the models' probabilities (home, draw, away), the market, and the card text in both languages. For the market, take a snapshot when the post is ready (Actions › Record odds › Run workflow, label `md<N> post`), then run `python analysis/pipeline/odds_at.py --data-dir <matchday-data>/odds --home <club> --away <club>`. It prints the `forecast` fields to paste:
+   - `market`: the consensus probabilities across the sportsbooks;
+   - `marketOdds`: the best price at Tipico or Winamax, a price a reader could actually take, which the paper bets use;
+   - `marketQuoted` and `marketSnapshot`: when the price was recorded. The home page card, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
 5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
 6. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
 7. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then.
@@ -100,6 +103,31 @@ python analysis/pipeline/build_matches.py /tmp/source /tmp/matches.csv
 python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/latest analysis/backtest/results.json --record data/record.json --as-of YYYY-MM-DD
 python analysis/pipeline/make_figures.py analysis/backtest/results.json analysis/backtest/figs
 ```
+
+### Odds
+
+The **Record odds** workflow snapshots Bundesliga odds from [The Odds API](https://the-odds-api.com/): every bookmaker in its EU feed (Pinnacle, Betfair Exchange, Tipico, Winamax DE and about 20 more), match odds and total goals.
+
+| When | Why |
+|---|---|
+| Once a day from 07:00 UTC, while a match is less than 8 days away | The week's prices, and the home page bars |
+| 75–30 minutes before each kick-off time | The price after team news |
+| The last 30 minutes before kick-off | Our own closing line |
+| On demand: Actions › Record odds › Run workflow, with a label such as `md7 post` | The price at the moment a post goes out |
+
+It runs every 30 minutes; checking the fixture list is free, so most runs cost nothing. A snapshot costs 2 credits, about 170 a month against the free plan's 500. Below 40 credits left it only takes closing and manual snapshots.
+
+- **Where the data goes.** Raw snapshots go to the private repository `JHvL88/matchday-data` (`odds/snapshots/…json.gz`, log in `odds/state.json`), because The Odds API's terms allow storing and displaying their data but not publishing raw files. The public site gets only `data/odds.json`, the average price per match, refreshed after the daily snapshot (`site_odds.py`).
+- **Closing odds and CLV.** After each football-data.co.uk fetch, `grade_posts.py` adds every played forecast's closing odds (market average at kick-off) to `analysis/posts.json`, and the Track record shows each paper bet's closing-line value: odds taken × closing probability (margin removed) − 1.
+- **Setup, once.**
+  1. Create a free key at the-odds-api.com.
+  2. Create the private repository `matchday-data`.
+  3. Create a fine-grained token with *Contents: read and write* on that repository only.
+  4. Add both as Actions secrets in this repository: `ODDS_API_KEY` and `DATA_REPO_TOKEN`.
+  Until then the workflow logs a notice and stops.
+- **Not covered.** Swiss readers' only legal option, Swisslos Sporttip, isn't in any odds feed.
+- **Switch off the bot.** Set the repository variable `SITE_BOT` to `off` to stop the automatic commits of `data/odds.json` and `analysis/posts.json`.
+- **Tests.** `python -m pytest analysis/pipeline/tests` (no network needed).
 
 The Colab notebook [`analysis/backtest/backtest.ipynb`](analysis/backtest/backtest.ipynb) does the same from scratch, downloading from football-data.co.uk and checking every file against the published run. What changed in October 2026 and why is in [`analysis/backtest/README.md`](analysis/backtest/README.md).
 

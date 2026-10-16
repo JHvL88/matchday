@@ -66,6 +66,9 @@
       betPending: "open",
       betWon: "won {amount}",
       betLost: "lost {amount}",
+      clv: "CLV {value}",
+      clvTitle: "Closing-line value: what this bet was worth at the market-average closing odds, margin removed. Positive means a better price than the market settled on.",
+      clvAverage: "average CLV {value}",
       teamWin: "{team} win",
       theDraw: "the draw",
       loadError: "The track record could not be loaded. Try again in a moment.",
@@ -124,6 +127,9 @@
       betPending: "offen",
       betWon: "gewonnen {amount}",
       betLost: "verloren {amount}",
+      clv: "CLV {value}",
+      clvTitle: "Closing Line Value: was diese Wette zu den durchschnittlichen Schlussquoten wert war, Marge herausgerechnet. Positiv heißt: ein besserer Preis als der, auf den sich der Markt am Ende einigte.",
+      clvAverage: "CLV im Schnitt {value}",
       teamWin: "Sieg {team}",
       theDraw: "Remis",
       loadError: "Die Bilanz konnte nicht geladen werden. Bitte gleich noch einmal versuchen.",
@@ -148,6 +154,14 @@
   const num = (value, digits) => I18N.number(value, digits);
   const signed = (value, digits) => `${value > 0 ? "+" : value < 0 ? "−" : ""}${num(Math.abs(value), digits)}`;
   const pct = (value) => I18N.percent(value);
+  const signedPct = (value) => new Intl.NumberFormat(I18N.locale, { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1, signDisplay: "exceptZero" }).format(value);
+  // Closing-line value: what a bet at these odds was worth at the margin-free closing price.
+  function clvOf(odds, closing, index) {
+    if (!odds || !Array.isArray(closing) || closing.length !== 3) return null;
+    const inverse = closing.map((price) => 1 / price);
+    const total = inverse.reduce((sum, value) => sum + value, 0);
+    return odds * (inverse[index] / total) - 1;
+  }
   const euro = (value, sign = false) => new Intl.NumberFormat(I18N.locale, { style: "currency", currency: "EUR", signDisplay: sign ? "exceptZero" : "auto" }).format(value);
   const when = (iso, options) => I18N.dateFormat(iso, { timeZone: TIME_ZONE, ...options });
 
@@ -175,7 +189,7 @@
   function grade(post) {
     const f = post.forecast ?? {};
     const kickoff = new Date(post.kickoff);
-    const entry = { post, model: f.model, market: f.market, odds: f.marketOdds ?? null, kickoff, status: "pending", score: null };
+    const entry = { post, model: f.model, market: f.market, odds: f.marketOdds ?? null, closing: post.closing?.odds ?? null, kickoff, status: "pending", score: null };
     if (Date.now() < kickoff.getTime()) return entry;
     // The post's own full-time numbers win; otherwise the score comes from OpenLigaDB.
     const known = post.fullTime?.score;
@@ -412,6 +426,7 @@
 
     let settled = 0;
     let profit = 0;
+    const clvs = [];
     const list = element("ul", "paper-list");
     for (const entry of entries) {
       if (!entry.model || !entry.market) continue;
@@ -430,6 +445,13 @@
             element("strong", "", say("bet", { pick: pickLabel(entry.post, index), odds: num(odds, 2) })),
             element("span", "paper-why", ` (${say("betWhy", { model: pct(entry.model[index]), market: pct(entry.market[index]) })})`),
           );
+          const clv = clvOf(odds, entry.closing, index);
+          if (clv !== null) {
+            clvs.push(clv);
+            const tag = element("span", `paper-clv ${clv >= 0 ? "is-plus" : "is-minus"}`, say("clv", { value: signedPct(clv) }));
+            tag.title = say("clvTitle");
+            line.append(" ", tag);
+          }
           let status;
           if (entry.status === "graded") {
             settled += 1;
@@ -447,8 +469,9 @@
       }
       list.append(item);
     }
+    const average = clvs.length ? ` · ${say("clvAverage", { value: signedPct(clvs.reduce((sum, value) => sum + value, 0) / clvs.length) })}` : "";
     const total = graded >= rules.minGraded
-      ? element("p", "paper-total", say("paperTotal", { count: settled, pl: euro(profit, true), stake: euro(settled * rules.stake) }))
+      ? element("p", "paper-total", say("paperTotal", { count: settled, pl: euro(profit, true), stake: euro(settled * rules.stake) }) + average)
       : element("p", "paper-total is-hidden", say("paperHidden", { needed: rules.minGraded }));
     box.replaceChildren(progress, list, total);
   }

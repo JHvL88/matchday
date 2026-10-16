@@ -97,7 +97,15 @@
         "title": "Augsburg gegen Bayern: drei Modelle, ein hartnäckiger Außenseiter",
         "desc": "Dixon–Coles, ein bayesianisches Schüsse-zu-Toren-Modell und XGBoost im Backtest gegen die Buchmacher, dazu der Check nach dem 2:2."
       },
-      "venue": "WWK Arena"
+      "venue": "WWK Arena",
+      "closing": {
+        "odds": [13.3, 9.08, 1.14],
+        "source": {
+          "en": "market average at kick-off (football-data.co.uk)",
+          "de": "Marktdurchschnitt zum Anpfiff (football-data.co.uk)"
+        },
+        "file": "football-data/2627/D1.csv#L39"
+      }
     }
   ]
 }

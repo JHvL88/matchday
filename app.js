@@ -223,7 +223,9 @@ function shortDate(value) {
   return I18N.dateFormat(`${value}T12:00:00Z`, { day: "numeric", month: "short" });
 }
 
-function sourceLabel(bookmaker, quoted) {
+function sourceLabel(source, quoted) {
+  // A source is a bookmaker's name or, for the recorded market average, { en, de }.
+  const bookmaker = source && typeof source === "object" ? source[I18N.lang] ?? source.en : source;
   if (!quoted) return bookmaker ?? "";
   return bookmaker ? t("odds.source", { bookmaker, date: shortDate(quoted) }) : t("odds.sourceUnnamed", { date: shortDate(quoted) });
 }
