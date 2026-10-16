@@ -687,6 +687,22 @@ main {
   color: var(--ink);
 }
 
+/* Language switch (EN / DE) in the top bar: the segmented control, a little smaller. */
+.lang-switch {
+  flex: 0 0 auto;
+}
+
+.lang-switch button {
+  min-height: 28px;
+  padding: 3px 9px;
+  letter-spacing: .08em;
+}
+
+.lang-switch button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
 /* ---------- Fixtures ---------- */
 
 .filter-row {
@@ -1819,9 +1835,22 @@ main {
   }
 }
 
-@media (max-width: 720px) {
+/* The language switch needs room in the top bar, so the season label goes first. */
+@media (max-width: 899px) {
   .league-label {
     display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .top-nav a {
+    padding: 7px 8px;
+    font-size: 14px;
+    letter-spacing: .05em;
+  }
+
+  .lang-switch button {
+    padding: 3px 7px;
   }
 
   .hub-top {
@@ -1870,12 +1899,6 @@ main {
   .topbar-inner {
     height: 56px;
     gap: 10px;
-  }
-
-  .top-nav a {
-    padding: 7px 8px;
-    font-size: 14px;
-    letter-spacing: .05em;
   }
 
   main {
@@ -2077,13 +2100,47 @@ main {
   }
 }
 
-@media (max-width: 479px) {
+@media (max-width: 599px) {
   .brand-name {
+    display: none;
+  }
+}
+
+@media (max-width: 479px) {
+  .top-nav {
+    gap: 0;
+  }
+}
+
+@media (max-width: 399px) {
+  .topbar-inner {
+    gap: 6px;
+  }
+
+  .top-nav a {
+    padding: 7px 5px;
+    font-size: 13px;
+    letter-spacing: .03em;
+  }
+
+  .lang-switch button {
+    padding: 3px 5px;
+    letter-spacing: .04em;
+  }
+}
+
+/* Very narrow phones: the nav and language switch win over the round logo. */
+@media (max-width: 359px) {
+  .brand {
     display: none;
   }
 
   .top-nav {
-    gap: 0;
+    margin-left: 0;
+  }
+
+  .lang-switch {
+    margin-left: auto;
   }
 }
 

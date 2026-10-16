@@ -11,34 +11,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
-    <link rel="stylesheet" href="../../styles.css?v=6">
+    <link rel="stylesheet" href="../../styles.css?v=7">
     <link rel="stylesheet" href="../analysis.css">
+    <script src="../../i18n.js?v=7" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#article">Skip to the article</a>
+    <a class="skip-link" href="#article" data-i18n="nav.skipArticle">Skip to the article</a>
     <header class="topbar">
       <div class="app-shell topbar-inner">
-        <a class="brand" href="../../" aria-label="Jan’s Matchday home">
+        <a class="brand" href="../../" aria-label="Jan’s Matchday home" data-i18n-attrs="aria-label:brand.home">
           <span class="brand-mark" aria-hidden="true">J</span>
           <span class="brand-name">Jan’s Matchday</span>
         </a>
-        <nav class="top-nav" aria-label="Sections">
-          <a href="../../#matches">Matches</a>
-          <a href="../../#table">Table</a>
-          <a href="../../#insights">Insights</a>
-          <a href="../../#analysis" aria-current="page">Analysis</a>
+        <nav class="top-nav" aria-label="Sections" data-i18n-attrs="aria-label:nav.label">
+          <a href="../../#matches" data-i18n="nav.matches">Matches</a>
+          <a href="../../#table" data-i18n="nav.table">Table</a>
+          <a href="../../#insights" data-i18n="nav.insights">Insights</a>
+          <a href="../../#analysis" aria-current="page" data-i18n="nav.analysis">Analysis</a>
         </nav>
         <div class="league-label">
           <span class="league-dot" aria-hidden="true"></span>
           <span>Bundesliga 2026/27</span>
+        </div>
+        <div class="segmented lang-switch" role="group" aria-label="Language" data-i18n-attrs="aria-label:lang.label">
+          <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="de" lang="de" title="Deutsch" aria-pressed="false">DE</button>
         </div>
       </div>
     </header>
 
     <div class="app-shell">
       <main>
-        <a class="back-link" href="../../#analysis">← All analysis</a>
-        <article class="post" id="article">
+        <a class="back-link" href="../../#analysis" data-i18n="analysis.back">← All analysis</a>
+        <p class="lang-note" data-i18n="analysis.postNote" data-lang-only="de" hidden></p>
+        <article class="post" id="article" lang="en">
           <header class="post-hero">
             <p class="eyebrow">MATCHDAY 5 · PRE-MATCH FORECAST</p>
             <h1>Augsburg vs Bayern: three models, one stubborn underdog<span>.</span></h1>
@@ -186,8 +192,8 @@ numpyro.sample("hg", dist.Binomial(sot_home, probs=p_h), obs=goals_home)
       </main>
 
       <footer class="site-footer">
-        <span>Jan’s pitch. Bundesliga passion.</span>
-        <span>Forecasts are for fun, not betting advice.</span>
+        <span data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
+        <span data-i18n="footer.forecasts">Forecasts are for fun, not betting advice.</span>
       </footer>
     </div>
   </body>

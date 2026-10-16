@@ -326,6 +326,16 @@
   text-decoration: underline;
 }
 
+/* Shown in German only: the posts themselves are written in English. */
+.lang-note {
+  margin: 0 0 16px;
+  padding: 9px 12px;
+  border-left: 3px solid var(--bl-red);
+  background: rgb(255 255 255 / 8%);
+  color: var(--on-dark);
+  font-size: 13px;
+}
+
 @media (max-width: 620px) {
   .post {
     border-radius: 4px 12px 4px 12px;
