@@ -8,6 +8,10 @@ const BERLIN_TIME_ZONE = "Europe/Berlin";
 const TEAM_STORAGE_KEY = "jans-matchday:team";
 const SVG_NS = "http://www.w3.org/2000/svg";
 const POSTS_URL = "analysis/posts.json";
+const ODDS_URL = "data/odds.json";
+const RECORD_URL = "data/record.json";
+// A disagreement worth flagging: models at least 7 points away from the market on its favourite.
+const DISAGREEMENT = 0.07;
 
 // Club crests. OpenLigaDB links several full-size originals (1000 px PNGs of 60–190 KB each, for an
 // icon drawn at 22–30 px). Known clubs use a 120 px Wikimedia thumbnail of the same crest; any other
@@ -51,7 +55,7 @@ const MINUTE_BINS = [
 ];
 
 const resultsElement = document.querySelector("#results");
-const matchdayTitle = document.querySelector("#matchday-title");
+const matchdayTitle = document.querySelector("#matchday-title-text");
 const matchdayDates = document.querySelector("#matchday-dates");
 const matchdayStrip = document.querySelector("#matchday-strip");
 const previousButton = document.querySelector("#previous-matchday");
@@ -59,7 +63,6 @@ const nextButton = document.querySelector("#next-matchday");
 const currentButton = document.querySelector("#current-matchday");
 const refreshButton = document.querySelector("#refresh-results");
 const updatedAt = document.querySelector("#updated-at");
-const leagueSeason = document.querySelector("#league-season");
 const hubSeason = document.querySelector("#hub-season");
 const glance = document.querySelector("#glance");
 const dashboard = document.querySelector(".dashboard");
@@ -77,6 +80,18 @@ const pointsTable = document.querySelector("#points-table");
 const minutesChart = document.querySelector("#minutes-chart");
 const minutesSummary = document.querySelector("#minutes-chart-summary");
 const minutesTable = document.querySelector("#minutes-table");
+const countdown = document.querySelector("#countdown");
+const featured = document.querySelector("#featured");
+const analysisGrid = document.querySelector("#analysis-grid");
+const recordTeaser = document.querySelector("#record-teaser");
+const recordStats = document.querySelector("#record-teaser-stats");
+const probLegend = document.querySelector("#prob-legend");
+const oddsSource = document.querySelector("#odds-source");
+const followButton = document.querySelector("#follow-button");
+const followCrest = document.querySelector("#follow-crest");
+const followLabel = document.querySelector("#follow-label");
+const followDialog = document.querySelector("#follow-dialog");
+const followGrid = document.querySelector("#follow-grid");
 
 const currentDate = new Date();
 const season = currentDate.getMonth() >= 6
@@ -91,12 +106,15 @@ const state = {
   teamId: readStoredTeam(),
   matches: null,
   posts: [],
+  odds: null,
+  record: null,
   loadedAt: 0,
   loadFailed: false,
   openMatches: new Set(),
 };
 let loadRequest = 0;
 let refreshTimer = null;
+let clockTimer = null;
 
 /* ---------- Small helpers ---------- */
 
@@ -189,6 +207,116 @@ function postForMatch(match) {
 
 function postText(post, field) {
   return post?.[I18N.lang]?.[field] ?? post?.en?.[field] ?? "";
+}
+
+/* ---------- Forecasts and odds ---------- */
+
+// Bookmaker odds to probabilities that add up to 1, with the margin removed proportionally.
+function marginFree(odds) {
+  if (!Array.isArray(odds) || odds.length !== 3 || odds.some((value) => !(Number(value) > 1))) return null;
+  const inverse = odds.map((value) => 1 / Number(value));
+  const total = inverse.reduce((sum, value) => sum + value, 0);
+  return { probs: inverse.map((value) => value / total), margin: total - 1 };
+}
+
+function shortDate(value) {
+  return I18N.dateFormat(`${value}T12:00:00Z`, { day: "numeric", month: "short" });
+}
+
+function sourceLabel(bookmaker, quoted) {
+  if (!quoted) return bookmaker ?? "";
+  return bookmaker ? t("odds.source", { bookmaker, date: shortDate(quoted) }) : t("odds.sourceUnnamed", { date: shortDate(quoted) });
+}
+
+// What is known about a match before kick-off: the models (deep dives only) and the market.
+function forecastFor(match) {
+  const post = postForMatch(match);
+  const published = post?.forecast;
+  if (published?.market) {
+    return {
+      post,
+      model: published.model ?? null,
+      market: published.market,
+      odds: published.marketOdds ?? null,
+      margin: published.marketOdds ? marginFree(published.marketOdds)?.margin ?? null : null,
+      source: sourceLabel(published.marketBookmaker, published.marketQuoted),
+    };
+  }
+  const block = state.odds?.matchdays?.[String(matchdayOf(match))];
+  const odds = block?.matches?.[String(match.matchID)];
+  const free = marginFree(odds);
+  if (free) {
+    return { post, model: published?.model ?? null, market: free.probs, odds, margin: free.margin, source: sourceLabel(block.source, block.quoted) };
+  }
+  return published?.model ? { post, model: published.model, market: null, odds: null, margin: null, source: "" } : null;
+}
+
+function outcomeIndex(score) {
+  return score[0] > score[1] ? 0 : score[0] === score[1] ? 1 : 2;
+}
+
+// Ranked probability score of a home/draw/away forecast: 0 is perfect, lower is better.
+function rps(probs, outcome) {
+  let forecast = 0;
+  let actual = 0;
+  let total = 0;
+  for (let index = 0; index < 2; index += 1) {
+    forecast += probs[index];
+    actual += index === outcome ? 1 : 0;
+    total += (forecast - actual) ** 2;
+  }
+  return total / 2;
+}
+
+// The bookmakers' favourite and how far the models sit from it (negative: less sure than the market).
+function disagreement(model, market) {
+  if (!model || !market) return null;
+  const favourite = market.indexOf(Math.max(...market));
+  if (favourite === 1) return null;
+  const gap = model[favourite] - market[favourite];
+  return Math.abs(gap) >= DISAGREEMENT ? { favourite, gap } : null;
+}
+
+function percent(value) {
+  return I18N.percent(value);
+}
+
+function probabilityLabel(probs, match) {
+  return t("prob.aria", {
+    home: teamName(match?.team1) ,
+    away: teamName(match?.team2),
+    h: percent(probs[0]),
+    d: percent(probs[1]),
+    a: percent(probs[2]),
+  });
+}
+
+// A three-part bar: home win (blue), draw (grey), away win (orange).
+function probBar(probs, match, { thin = false } = {}) {
+  const bar = createElement("span", `prob-bar${thin ? " is-thin" : ""}`);
+  bar.setAttribute("role", "img");
+  bar.setAttribute("aria-label", probabilityLabel(probs, match));
+  ["home", "draw", "away"].forEach((key, index) => {
+    const segment = createElement("span", `prob-seg is-${key}`);
+    segment.style.width = `${Math.max(0, probs[index] * 100).toFixed(1)}%`;
+    bar.append(segment);
+  });
+  return bar;
+}
+
+// "Models" and "Market" bars, one above the other, with labels.
+function probRows(forecast, match) {
+  const rows = createElement("div", "prob-rows");
+  if (forecast.model) rows.append(createElement("span", "prob-row-label", t("prob.models")), probBar(forecast.model, match));
+  if (forecast.market) rows.append(createElement("span", "prob-row-label is-market", t("prob.market")), probBar(forecast.market, match, { thin: Boolean(forecast.model) }));
+  return rows;
+}
+
+function termButton(term, text) {
+  const button = createElement("button", "term", text);
+  button.type = "button";
+  button.dataset.term = term;
+  return button;
 }
 
 function toScore(home, away) {
@@ -459,12 +587,12 @@ async function loadSeasonMatches(forceRefresh = false) {
   return matches;
 }
 
-// The list of deep dives (analysis/posts.json). Optional: the page works without it.
-async function loadPosts() {
-  const response = await fetch(POSTS_URL, { cache: "no-cache" });
-  if (!response.ok) throw new Error(`posts.json returned HTTP ${response.status}.`);
-  const data = await response.json();
-  return Array.isArray(data.posts) ? data.posts : [];
+// The site's own data: deep dives, bookmaker odds and the track record. All optional: the page
+// works without them, it just shows fewer forecasts.
+async function loadSiteJson(url) {
+  const response = await fetch(url, { cache: "no-cache" });
+  if (!response.ok) throw new Error(`${url} returned HTTP ${response.status}.`);
+  return response.json();
 }
 
 async function loadCurrentMatchday() {
@@ -521,11 +649,19 @@ async function start() {
   const request = ++loadRequest;
   setBusy(true);
   const requestedMatchday = Number(new URLSearchParams(location.search).get("md"));
-  const [currentResult, matchesResult, postsResult] = await Promise.allSettled([loadCurrentMatchday(), loadSeasonMatches(), loadPosts()]);
+  const [currentResult, matchesResult, postsResult, oddsResult, recordResult] = await Promise.allSettled([
+    loadCurrentMatchday(),
+    loadSeasonMatches(),
+    loadSiteJson(POSTS_URL),
+    loadSiteJson(ODDS_URL),
+    loadSiteJson(RECORD_URL),
+  ]);
   if (request !== loadRequest) return;
   setBusy(false);
-  if (postsResult.status === "fulfilled") state.posts = postsResult.value;
+  if (postsResult.status === "fulfilled" && Array.isArray(postsResult.value.posts)) state.posts = postsResult.value.posts;
   else console.warn("Deep-dive list unavailable.", postsResult.reason);
+  if (oddsResult.status === "fulfilled") state.odds = oddsResult.value;
+  if (recordResult.status === "fulfilled") state.record = recordResult.value;
   if (matchesResult.status === "rejected") {
     console.error("Unable to load Bundesliga results.", matchesResult.reason);
     showLoadFailure();
@@ -623,8 +759,12 @@ function formatMatchdayDates(matches) {
 }
 
 function renderHub(matches) {
+  const status = state.matchday === state.currentMatchday ? "current" : state.matchday < (state.currentMatchday ?? 0) ? "past" : "future";
+  hubSeason.textContent = `Bundesliga ${seasonLabel(season)} · ${t(`hub.when.${status}`)}`;
   matchdayTitle.textContent = t("hub.title", { matchday: state.matchday });
-  matchdayDates.textContent = formatMatchdayDates(matches);
+  matchdayDates.textContent = matches.length
+    ? `${formatMatchdayDates(matches)} · ${t("count.matches", { count: matches.length })}`
+    : formatMatchdayDates(matches);
   previousButton.disabled = state.matchday <= 1;
   nextButton.disabled = state.matchday >= MAX_MATCHDAYS;
   currentButton.hidden = !state.currentMatchday || state.matchday === state.currentMatchday;
@@ -633,6 +773,64 @@ function renderHub(matches) {
     ? t("hub.updated", { time: formatBerlinDate(state.loadedAt, { hour: "2-digit", minute: "2-digit" }) })
     : "";
   renderMatchdayStrip();
+  renderCountdown(matches);
+}
+
+function setText(selector, text) {
+  document.querySelector(selector).textContent = text;
+}
+
+// Next kick-off with a countdown, live matches, or a full-time summary.
+function renderCountdown(matches) {
+  const now = Date.now();
+  const live = matches.filter((match) => getMatchStatus(match, now) === "live");
+  const upcoming = matches
+    .filter((match) => getMatchStatus(match, now) === "upcoming" && Number.isFinite(kickoffOf(match)))
+    .sort((a, b) => kickoffOf(a) - kickoffOf(b));
+  const clock = document.querySelector(".countdown-clock");
+  const value = document.querySelector("#countdown-value");
+  countdown.hidden = !matches.length;
+  countdown.classList.toggle("is-live", live.length > 0);
+  clock.hidden = false;
+  if (live.length) {
+    const [first] = live;
+    const score = getDisplayScore(first, "live") ?? [0, 0];
+    setText("#countdown-label", t("countdown.live"));
+    setText("#countdown-match", live.length === 1
+      ? `${teamName(first.team1)} ${I18N.score(score[0], score[1])} ${teamName(first.team2)}`
+      : t("countdown.liveCount", { count: live.length }));
+    setText("#countdown-when", t("countdown.refreshing"));
+    setText("#countdown-clock-label", t("countdown.status"));
+    value.textContent = t("countdown.liveBadge");
+  } else if (upcoming.length) {
+    const [next] = upcoming;
+    const minutes = Math.max(0, Math.round((kickoffOf(next) - now) / 60_000));
+    setText("#countdown-label", t("countdown.next"));
+    setText("#countdown-match", fixtureLabel(next));
+    setText("#countdown-when", formatBerlinDate(kickoffOf(next), { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }));
+    setText("#countdown-clock-label", t("countdown.startsIn"));
+    value.replaceChildren(minutes < 24 * 60
+      ? `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`
+      : t("countdown.days", { count: Math.round(minutes / (24 * 60)) }));
+    if (minutes < 24 * 60) value.append(createElement("small", "", t("countdown.hours")));
+  } else if (matches.length) {
+    const finished = matches.filter((match) => getFinalScore(match));
+    const goals = finished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
+    const nextMatchday = matchesForMatchday(state.matches, state.matchday + 1);
+    setText("#countdown-label", t("countdown.complete"));
+    setText("#countdown-match", t("countdown.completeGoals", { goals: t("count.goals", { count: goals }), matches: t("count.matchesIn", { count: finished.length }) }));
+    setText("#countdown-when", nextMatchday.length
+      ? t("countdown.nextMatchday", { matchday: state.matchday + 1, date: formatBerlinDate(Math.min(...nextMatchday.map(kickoffOf)), { weekday: "short", day: "numeric", month: "short" }) })
+      : "");
+    clock.hidden = true;
+  }
+}
+
+function startClock() {
+  clearInterval(clockTimer);
+  clockTimer = setInterval(() => {
+    if (state.matches && document.visibilityState === "visible") renderCountdown(matchesForMatchday(state.matches, state.matchday));
+  }, 30_000);
 }
 
 function setGlanceTile(tile, value, sub, { compact = false, label } = {}) {
@@ -660,44 +858,90 @@ function kickoffLabel(match) {
   return formatBerlinDate(kickoffOf(match), { weekday: "short", hour: "2-digit", minute: "2-digit" });
 }
 
-// Before a matchday starts: the next kick-off, the top clash and the bottom clash by current position.
+// Table positions before the selected matchday (empty before the first results).
+function positionsBefore() {
+  const before = calculateStandings(state.matches, state.matchday - 1);
+  return before.some((entry) => entry.played)
+    ? new Map(before.map((entry, index) => [Number(entry.team.teamId), { position: index + 1, entry }]))
+    : new Map();
+}
+
+// Before a matchday starts: the top clash and the bottom clash by current position.
 function previewTiles(matches) {
   const now = Date.now();
-  const next = matches
-    .filter((match) => getMatchStatus(match, now) === "upcoming" && Number.isFinite(kickoffOf(match)))
-    .sort((a, b) => kickoffOf(a) - kickoffOf(b))[0] ?? null;
-  const before = calculateStandings(state.matches, state.matchday - 1);
-  const rank = before.some((entry) => entry.played)
-    ? new Map(before.map((entry, index) => [Number(entry.team.teamId), index + 1]))
-    : new Map();
+  const rank = positionsBefore();
   const ranked = matches
     .filter((match) => getMatchStatus(match, now) === "upcoming")
-    .map((match) => ({ match, home: rank.get(Number(match.team1?.teamId)), away: rank.get(Number(match.team2?.teamId)) }))
+    .map((match) => ({ match, home: rank.get(Number(match.team1?.teamId))?.position, away: rank.get(Number(match.team2?.teamId))?.position }))
     .filter((entry) => entry.home && entry.away);
   const byTop = [...ranked].sort((a, b) => (a.home + a.away) - (b.home + b.away) || Math.max(a.home, a.away) - Math.max(b.home, b.away));
-  const top = byTop[0] ?? null;
-  const bottom = byTop.length > 1 ? byTop.at(-1) : null;
-  return { next, top, bottom };
+  return { top: byTop[0] ?? null, bottom: byTop.length > 1 ? byTop.at(-1) : null };
 }
 
 function clashSub(entry) {
   return `${t("glance.positions", { home: I18N.ordinal(entry.home), away: I18N.ordinal(entry.away) })} · ${kickoffLabel(entry.match)}`;
 }
 
+function leaderTile(standings) {
+  const [leader, second] = standings;
+  if (!leader?.played) return { label: "glance.leader", value: "–", sub: t("glance.leaderNone") };
+  const name = createElement("span", "glance-team");
+  name.append(createLogo(leader.team, "glance-logo"), createElement("span", "", teamName(leader.team)));
+  const gap = leader.points - (second?.points ?? 0);
+  return {
+    label: "glance.leader",
+    value: name,
+    sub: gap ? t("glance.leaderClear", { points: leader.points, gap, count: gap }) : t("glance.leaderGd", { points: leader.points }),
+    compact: true,
+  };
+}
+
+function seasonGoalsTile() {
+  const finished = state.matches.filter((match) => match.matchIsFinished && matchdayOf(match) < state.matchday && getFinalScore(match));
+  if (!finished.length) return null;
+  const goals = finished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
+  return { label: "glance.seasonGoals", value: I18N.number(goals / finished.length, 1), sub: t("glance.seasonGoalsSub", { count: finished.length }) };
+}
+
+// Before kick-off: what is at stake (clashes, favourite, closest call). Afterwards: what happened.
 function renderGlance(matches, standings) {
-  const [goalsTile, resultsTile, winTile, leaderTile] = glance.querySelectorAll(".glance-tile");
+  const tiles = [...glance.querySelectorAll(".glance-tile")];
   const now = Date.now();
   const started = matches.filter((match) => ["finished", "live"].includes(getMatchStatus(match, now)));
   const finished = matches.filter((match) => match.matchIsFinished && getFinalScore(match));
   const liveCount = started.length - finished.length;
-  const preview = finished.length ? null : previewTiles(matches);
+  const slots = [];
 
-  if (!started.length && preview?.next) {
-    setGlanceTile(goalsTile, fixtureLabel(preview.next), `${kickoffLabel(preview.next)} · ${timeUntil(kickoffOf(preview.next), now)}`, {
-      compact: true,
-      label: "glance.nextKickoff",
-    });
-  } else if (started.length) {
+  if (!finished.length) {
+    const { top, bottom } = previewTiles(matches);
+    if (top) slots.push({ label: "glance.topClash", value: fixtureLabel(top.match), sub: clashSub(top), compact: true });
+    if (bottom) slots.push({ label: "glance.bottomClash", value: fixtureLabel(bottom.match), sub: clashSub(bottom), compact: true });
+    const priced = matches
+      .filter((match) => getMatchStatus(match, now) === "upcoming")
+      .map((match) => ({ match, market: forecastFor(match)?.market }))
+      .filter((entry) => entry.market);
+    if (priced.length) {
+      const strongest = (entry) => Math.max(entry.market[0], entry.market[2]);
+      const favourite = [...priced].sort((a, b) => strongest(b) - strongest(a))[0];
+      const homeFavourite = favourite.market[0] >= favourite.market[2];
+      slots.push({
+        label: "glance.favourite",
+        value: `${teamName(homeFavourite ? favourite.match.team1 : favourite.match.team2)} ${percent(strongest(favourite))}`,
+        sub: `${t(homeFavourite ? "glance.vs" : "glance.at", { team: teamName(homeFavourite ? favourite.match.team2 : favourite.match.team1) })} · ${kickoffLabel(favourite.match)}`,
+        compact: true,
+      });
+      const closest = [...priced].sort((a, b) => strongest(a) - strongest(b))[0];
+      slots.push({
+        label: "glance.closest",
+        value: fixtureLabel(closest.match),
+        sub: `${closest.market.map((value) => Math.round(value * 100)).join(" · ")} · ${kickoffLabel(closest.match)}`,
+        compact: true,
+      });
+    }
+    slots.push(leaderTile(standings));
+    const goalsTile = seasonGoalsTile();
+    if (goalsTile) slots.push(goalsTile);
+  } else {
     const goals = started.reduce((sum, match) => {
       const score = getDisplayScore(match, getMatchStatus(match, now)) ?? [0, 0];
       return sum + score[0] + score[1];
@@ -709,22 +953,34 @@ function renderGlance(matches, standings) {
     const parts = [t("glance.perMatch", { avg: I18N.number(goals / started.length, 1) })];
     if (seasonFinished.length) parts.push(t("glance.season", { avg: I18N.number(seasonGoals / seasonFinished.length, 1) }));
     if (liveCount) parts.push(t("glance.live", { count: liveCount }));
-    setGlanceTile(goalsTile, String(goals), parts.join(" · "));
-  } else {
-    setGlanceTile(goalsTile, "–", t("glance.toPlay", { matches: t("count.matches", { count: matches.length }) }));
-  }
+    slots.push({ label: "glance.goals", value: String(goals), sub: parts.join(" · ") });
 
-  if (finished.length) {
-    let homeWins = 0;
-    let draws = 0;
-    let awayWins = 0;
-    for (const match of finished) {
-      const [home, away] = getFinalScore(match);
-      if (home > away) homeWins += 1;
-      else if (home < away) awayWins += 1;
-      else draws += 1;
+    // The biggest upset: the result the market thought least likely (only where odds are known).
+    const surprises = finished
+      .map((match) => ({ match, market: forecastFor(match)?.market, score: getFinalScore(match) }))
+      .filter((entry) => entry.market)
+      .map((entry) => ({ ...entry, chance: entry.market[outcomeIndex(entry.score)] }))
+      .sort((a, b) => a.chance - b.chance);
+    if (surprises.length && surprises[0].chance < 0.3) {
+      const [upset] = surprises;
+      slots.push({
+        label: "glance.upset",
+        value: `${teamName(upset.match.team1)} ${I18N.score(upset.score[0], upset.score[1])} ${teamName(upset.match.team2)}`,
+        sub: t("glance.upsetSub", { chance: percent(upset.chance), count: Math.round(1 / upset.chance) }),
+        compact: true,
+      });
+    } else {
+      let homeWins = 0;
+      let draws = 0;
+      let awayWins = 0;
+      for (const match of finished) {
+        const [home, away] = getFinalScore(match);
+        if (home > away) homeWins += 1;
+        else if (home < away) awayWins += 1;
+        else draws += 1;
+      }
+      slots.push({ label: "glance.results", value: `${homeWins} · ${draws} · ${awayWins}`, sub: t("glance.resultsSub") });
     }
-    setGlanceTile(resultsTile, `${homeWins} · ${draws} · ${awayWins}`, t("glance.resultsSub"));
 
     const ranked = [...finished].sort((a, b) => {
       const [ah, aa] = getFinalScore(a);
@@ -734,43 +990,164 @@ function renderGlance(matches, standings) {
     const [biggestHome, biggestAway] = getFinalScore(ranked[0]);
     const margin = Math.abs(biggestHome - biggestAway);
     if (margin === 0) {
-      setGlanceTile(winTile, "–", t("glance.allDraws"));
+      slots.push({ label: "glance.biggestWin", value: "–", sub: t("glance.allDraws") });
     } else {
       const sameMargin = ranked.filter((match) => {
         const [home, away] = getFinalScore(match);
         return Math.abs(home - away) === margin;
       }).length - 1;
-      setGlanceTile(
-        winTile,
-        `${teamName(ranked[0].team1)} ${I18N.score(biggestHome, biggestAway)} ${teamName(ranked[0].team2)}`,
-        t("glance.margin", { count: margin }) + (sameMargin ? t("glance.sameMargin", { count: sameMargin }) : ""),
-        { compact: true },
-      );
+      slots.push({
+        label: "glance.biggestWin",
+        value: `${teamName(ranked[0].team1)} ${I18N.score(biggestHome, biggestAway)} ${teamName(ranked[0].team2)}`,
+        sub: t("glance.margin", { count: margin }) + (sameMargin ? t("glance.sameMargin", { count: sameMargin }) : ""),
+        compact: true,
+      });
     }
-  } else if (preview?.top) {
-    setGlanceTile(resultsTile, fixtureLabel(preview.top.match), clashSub(preview.top), { compact: true, label: "glance.topClash" });
-    if (preview.bottom) {
-      setGlanceTile(winTile, fixtureLabel(preview.bottom.match), clashSub(preview.bottom), { compact: true, label: "glance.bottomClash" });
-    } else {
-      setGlanceTile(winTile, "–", t("glance.noResults"));
-    }
-  } else {
-    setGlanceTile(resultsTile, "–", t("glance.noResults"));
-    setGlanceTile(winTile, "–", t("glance.noResults"));
+    slots.push(leaderTile(standings));
   }
 
-  const [leader, second] = standings;
-  if (leader?.played) {
-    const name = createElement("span", "glance-team");
-    name.append(createLogo(leader.team, "glance-logo"), createElement("span", "", teamName(leader.team)));
-    const gap = leader.points - (second?.points ?? 0);
-    const detail = gap
-      ? t("glance.leaderClear", { points: leader.points, gap, count: gap })
-      : t("glance.leaderGd", { points: leader.points });
-    setGlanceTile(leaderTile, name, detail, { compact: true });
-  } else {
-    setGlanceTile(leaderTile, "–", t("glance.leaderNone"));
+  tiles.forEach((tile, index) => {
+    const slot = slots[index] ?? { label: tile.querySelector("dt").dataset.i18n, value: "–", sub: t("glance.noResults") };
+    setGlanceTile(tile, slot.value, slot.sub, { compact: slot.compact, label: slot.label });
+  });
+}
+
+/* ---------- The deep dive of the matchday ---------- */
+
+function fairOdds(probability) {
+  return probability > 0 ? I18N.number(1 / probability, 2) : "–";
+}
+
+function teamMeta(team, ranks) {
+  const info = ranks.get(Number(team?.teamId));
+  if (!info) return "";
+  return t("featured.teamMeta", { position: I18N.ordinal(info.position), points: t("count.points", { count: info.entry.points }) });
+}
+
+function featuredTeam(team, meta, isHome) {
+  const wrap = createElement("div", `featured-team${isHome ? " is-home" : ""}`);
+  const text = createElement("div", "featured-team-text");
+  text.append(createElement("p", "featured-team-name", team?.teamName || teamName(team)), createElement("p", "featured-team-meta", meta));
+  const logo = createLogo(team, "featured-logo");
+  wrap.append(...(isHome ? [text, logo] : [logo, text]));
+  return wrap;
+}
+
+function forecastNote(match, forecast) {
+  const score = getFinalScore(match);
+  const note = createElement("div", "forecast-note");
+  if (score && forecast.model && forecast.market) {
+    const outcome = outcomeIndex(score);
+    // The post's own grades (from unrounded probabilities) when it has them, so every page agrees.
+    const published = forecast.post?.fullTime?.rps;
+    const models = published?.models ?? rps(forecast.model, outcome);
+    const market = published?.market ?? rps(forecast.market, outcome);
+    note.classList.add(models < market ? "is-good" : "is-neutral");
+    const text = createElement("p");
+    text.append(
+      createElement("strong", "", t("forecast.fullTime", { home: teamName(match.team1), away: teamName(match.team2), score: I18N.score(score[0], score[1]) })),
+      " ",
+      t("forecast.gradeLead"),
+      " ",
+      termButton("rps", t("forecast.rps")),
+      `: ${t("forecast.grade", { models: I18N.number(models, 3), market: I18N.number(market, 3) })} `,
+      createElement("strong", "", t(models < market ? "forecast.modelsCloser" : models > market ? "forecast.marketCloser" : "forecast.tie")),
+    );
+    note.append(text);
+    return note;
   }
+  const gap = disagreement(forecast.model, forecast.market);
+  if (!gap) return null;
+  const team = teamName(gap.favourite === 0 ? match.team1 : match.team2);
+  const history = state.record?.disagreement?.[0];
+  note.classList.add("is-warning");
+  note.append(createElement("span", "forecast-note-icon", "!"));
+  const text = createElement("p");
+  if (gap.gap < 0 && history) {
+    text.append(
+      createElement("strong", "", t("forecast.lessSure", { team })),
+      " ",
+      t("forecast.history", { count: history.matches, actual: percent(history.actual), market: percent(history.market), models: percent(history.models) }),
+    );
+  } else {
+    text.append(createElement("strong", "", t(gap.gap < 0 ? "forecast.lessSure" : "forecast.moreSure", { team })), " ", t("forecast.historyShort"));
+  }
+  note.append(text);
+  return note;
+}
+
+function renderFeatured(matches) {
+  const candidates = matches
+    .map((match) => ({ match, forecast: forecastFor(match) }))
+    .filter((entry) => entry.forecast?.post)
+    .sort((a, b) => kickoffOf(a.match) - kickoffOf(b.match));
+  const weekend = document.querySelector(".weekend");
+  if (!candidates.length) {
+    featured.hidden = true;
+    featured.replaceChildren();
+    weekend.classList.remove("has-featured");
+    return;
+  }
+  const { match, forecast } = candidates.find((entry) => !getFinalScore(entry.match)) ?? candidates[0];
+  const { post } = forecast;
+  const ranks = positionsBefore();
+  const status = getMatchStatus(match);
+  const card = createElement("article", "featured-card");
+
+  const top = createElement("div", "featured-top");
+  const when = status === "finished"
+    ? t("featured.played", { date: formatBerlinDate(kickoffOf(match), { weekday: "short", day: "numeric", month: "short" }) })
+    : kickoffLabel(match);
+  top.append(createElement("p", "featured-tag", [t("featured.tag"), when, post.venue].filter(Boolean).join(" · ")));
+  if (post.published) top.append(createElement("span", "featured-lock", t("featured.locked", { date: shortDate(post.published) })));
+
+  const teams = createElement("div", "featured-teams");
+  const score = getFinalScore(match);
+  const middle = score
+    ? createElement("span", "featured-score", I18N.score(score[0], score[1]))
+    : createElement("span", "featured-v", t("featured.v"));
+  teams.append(featuredTeam(match.team1, teamMeta(match.team1, ranks), true), middle, featuredTeam(match.team2, teamMeta(match.team2, ranks), false));
+
+  const title = createElement("h2", "featured-title");
+  const titleLink = createElement("a", "", postText(post, "title"));
+  titleLink.href = post.path;
+  title.append(titleLink);
+
+  const tiles = createElement("div", "prob-tiles");
+  const main = forecast.model ?? forecast.market;
+  ["home", "draw", "away"].forEach((key, index) => {
+    const tile = createElement("div", `prob-tile is-${key}`);
+    const label = index === 1 ? t("prob.draw") : t("prob.win", { team: teamName(index === 0 ? match.team1 : match.team2) });
+    const parts = [];
+    if (forecast.model && forecast.market) parts.push(t("prob.marketShort", { value: percent(forecast.market[index]) }));
+    if (forecast.model) parts.push(t("prob.fairOdds", { value: fairOdds(forecast.model[index]) }));
+    // Each part is its own line on phones, so "fair odds 3.13" never breaks in the middle.
+    const sub = createElement("p", "prob-tile-sub");
+    parts.forEach((part, partIndex) => {
+      if (partIndex) sub.append(createElement("span", "prob-tile-sep", " · "));
+      sub.append(createElement("span", "prob-tile-part", part));
+    });
+    tile.append(createElement("p", "prob-tile-label", label), createElement("p", "prob-tile-value", percent(main[index])), sub);
+    tiles.append(tile);
+  });
+
+  const foot = createElement("div", "featured-foot");
+  const extras = createElement("p", "featured-extras");
+  const f = post.forecast ?? {};
+  if (f.mostLikely?.score) extras.append(createElement("span", "", t("featured.mostLikely", { score: I18N.score(f.mostLikely.score[0], f.mostLikely.score[1]), p: I18N.number(f.mostLikely.p * 100, 1) })));
+  if (Number.isFinite(f.over25)) extras.append(createElement("span", "", t("featured.over25", { p: percent(f.over25) })));
+  if (Number.isFinite(f.btts)) extras.append(createElement("span", "", t("featured.btts", { p: percent(f.btts) })));
+  const cta = createElement("a", "cta-link", t("featured.read"));
+  cta.href = post.path;
+  foot.append(extras, cta);
+
+  card.append(top, teams, title, probRows(forecast, match), tiles);
+  const note = forecastNote(match, forecast);
+  if (note) card.append(note);
+  card.append(foot);
+  featured.replaceChildren(card);
+  featured.hidden = false;
+  weekend.classList.add("has-featured");
 }
 
 /* ---------- Fixtures ---------- */
@@ -851,15 +1228,18 @@ function createMatchCard(match) {
     pending: t("match.pending"),
     upcoming: Number.isFinite(kickoff) ? t("match.kickoff") : t("match.dateTbc"),
   }[status];
-  const statusElement = createElement("span", "match-status", statusText);
-  // "Full time · HT 1–1" on one line; on phones the half-time score drops to a second line.
-  if (status === "finished" && halfTime) {
-    statusElement.append(
-      createElement("span", "match-status-sep", " · "),
-      createElement("span", "match-status-ht", t("match.halfTime", { score: I18N.score(halfTime[0], halfTime[1]) })),
-    );
+  // The time box says it all for a normal upcoming match; every other state gets a status line.
+  if (!(status === "upcoming" && Number.isFinite(kickoff))) {
+    const statusElement = createElement("span", "match-status", statusText);
+    // "Full time · HT 1–1" on one line; on phones the half-time score drops to a second line.
+    if (status === "finished" && halfTime) {
+      statusElement.append(
+        createElement("span", "match-status-sep", " · "),
+        createElement("span", "match-status-ht", t("match.halfTime", { score: I18N.score(halfTime[0], halfTime[1]) })),
+      );
+    }
+    scoreBlock.append(statusElement);
   }
-  scoreBlock.append(statusElement);
 
   summary.append(
     createTeam(match.team1, true, homeOutcome),
@@ -867,8 +1247,95 @@ function createMatchCard(match) {
     createTeam(match.team2, false, awayOutcome),
     createElement("span", "visually-hidden", t("match.showDetails")),
   );
-  card.append(summary, createMatchDetails(match, status, time));
+  const forecast = forecastFor(match);
+  const shown = forecast?.model ?? forecast?.market;
+  if (shown) {
+    const odds = createElement("span", `match-odds${status === "finished" ? " is-past" : ""}`);
+    const numbers = createElement("span", "match-odds-numbers");
+    shown.forEach((value) => numbers.append(createElement("span", "", String(Math.round(value * 100)))));
+    odds.append(
+      createElement("span", "match-odds-label", t(forecast.model ? "prob.models" : "prob.market")),
+      probBar(shown, match, { thin: true }),
+      numbers,
+    );
+    summary.append(odds);
+    card.classList.add("has-odds");
+  }
+  card.append(summary, createMatchDetails(match, status, time, forecast));
   return card;
+}
+
+// The forecast inside an opened match: models and market, fair odds, and afterwards how it went.
+function createForecastBlock(match, status, forecast) {
+  const block = createElement("div", "match-forecast");
+  const score = getFinalScore(match);
+  if (score && forecast.market) {
+    const chance = forecast.market[outcomeIndex(score)];
+    const surprise = createElement("p", "match-surprise");
+    surprise.append(t("forecast.surprise", { chance: percent(chance), count: Math.max(1, Math.round(1 / chance)) }));
+    block.append(surprise);
+    if (forecast.model) {
+      const note = forecastNote(match, forecast);
+      if (note) block.append(note);
+    }
+    return block;
+  }
+  if (status === "pending") return null;
+  block.append(createElement("h3", "match-events-heading", t("forecast.heading")), probRows(forecast, match));
+  const table = createElement("table", "forecast-table");
+  const head = createElement("tr");
+  const columns = [t("forecast.col.outcome")];
+  if (forecast.model) columns.push(t("prob.models"));
+  if (forecast.market) columns.push(t("forecast.col.market"));
+  head.append(...columns.map((label) => {
+    const cell = createElement("th", "", label);
+    cell.scope = "col";
+    return cell;
+  }));
+  if (forecast.model) {
+    const fair = createElement("th");
+    fair.scope = "col";
+    fair.append(termButton("fair-odds", t("forecast.col.fair")));
+    head.append(fair);
+  }
+  if (forecast.odds) {
+    const offered = createElement("th", "", t("forecast.col.odds"));
+    offered.scope = "col";
+    head.append(offered);
+  }
+  const thead = createElement("thead");
+  thead.append(head);
+  const tbody = createElement("tbody");
+  ["home", "draw", "away"].forEach((key, index) => {
+    const row = createElement("tr");
+    const name = createElement("th");
+    name.scope = "row";
+    name.append(createElement("span", `legend-swatch is-${key}`), index === 1 ? t("prob.draw") : teamName(index === 0 ? match.team1 : match.team2));
+    row.append(name);
+    if (forecast.model) row.append(createElement("td", "", percent(forecast.model[index])));
+    if (forecast.market) row.append(createElement("td", "", percent(forecast.market[index])));
+    if (forecast.model) row.append(createElement("td", "", fairOdds(forecast.model[index])));
+    if (forecast.odds) row.append(createElement("td", "", I18N.number(Number(forecast.odds[index]), 2)));
+    tbody.append(row);
+  });
+  table.append(thead, tbody);
+  // Five columns do not fit a small phone; the table scrolls inside its own box instead of the page.
+  const scroll = createElement("div", "forecast-scroll");
+  scroll.append(table);
+  block.append(scroll);
+  if (forecast.market) {
+    const source = createElement("p", "forecast-source");
+    source.append(
+      t("forecast.sourceLead", { source: forecast.source }),
+      " ",
+      termButton("margin", Number.isFinite(forecast.margin) ? t("forecast.marginValue", { margin: I18N.number(forecast.margin * 100, 1) }) : t("forecast.margin")),
+      ".",
+    );
+    block.append(source);
+  }
+  const note = forecastNote(match, forecast);
+  if (note) block.append(note);
+  return block;
 }
 
 // A link under a fixture that has a deep dive, with the published forecast.
@@ -896,7 +1363,7 @@ function createDiveLink(match) {
   return link;
 }
 
-function createMatchDetails(match, status, kickoffTime) {
+function createMatchDetails(match, status, kickoffTime, forecast = null) {
   const details = createElement("div", "match-details");
   const kickoff = kickoffOf(match);
   const meta = createElement("p", "match-detail-meta");
@@ -910,6 +1377,8 @@ function createMatchDetails(match, status, kickoffTime) {
   if (viewers > 0) metaParts.push(t("match.spectators", { viewers: I18N.number(viewers) }));
   meta.textContent = metaParts.join(" · ");
   details.append(meta);
+  const forecastBlock = forecast && (forecast.model || forecast.market) ? createForecastBlock(match, status, forecast) : null;
+  if (forecastBlock && !getFinalScore(match)) details.append(forecastBlock);
 
   const goals = getGoals(match);
   if (goals.length) {
@@ -946,6 +1415,7 @@ function createMatchDetails(match, status, kickoffTime) {
     }[status];
     details.append(createElement("p", "no-goals-message", message));
   }
+  if (forecastBlock && getFinalScore(match)) details.append(forecastBlock);
 
   return details;
 }
@@ -1169,6 +1639,154 @@ function renderTeamSelect(clubs) {
   teamSelect.value = state.teamId && clubs.some((club) => Number(club.team.teamId) === state.teamId)
     ? String(state.teamId)
     : "";
+}
+
+function seasonClubs() {
+  const clubs = new Map();
+  for (const match of state.matches ?? []) {
+    for (const team of [match.team1, match.team2]) {
+      if (team?.teamId !== undefined) clubs.set(Number(team.teamId), team);
+    }
+  }
+  return [...clubs.values()].sort((a, b) => (a.teamName || "").localeCompare(b.teamName || "", I18N.locale));
+}
+
+// The button in the top bar shows the followed club; the dialog lists every club.
+function renderFollow() {
+  const team = seasonClubs().find((club) => Number(club.teamId) === state.teamId);
+  followCrest.replaceChildren(...(team ? [createLogo(team, "follow-logo")] : []));
+  followLabel.textContent = team ? teamName(team) : t("follow.button");
+  followButton.classList.toggle("is-following", Boolean(team));
+  followButton.setAttribute("aria-label", team ? t("follow.change", { team: teamName(team) }) : t("follow.button"));
+  const buttons = seasonClubs().map((club) => {
+    const button = createElement("button", "follow-club");
+    button.type = "button";
+    button.dataset.teamId = String(club.teamId);
+    button.setAttribute("aria-pressed", String(Number(club.teamId) === state.teamId));
+    button.append(createLogo(club, "follow-logo"), createElement("span", "", club.teamName || teamName(club)));
+    return button;
+  });
+  followGrid.replaceChildren(...buttons);
+  document.querySelector("#follow-clear").hidden = !team;
+}
+
+function openFollowDialog() {
+  if (typeof followDialog.showModal === "function") followDialog.showModal();
+  else followDialog.setAttribute("open", "");
+  (followGrid.querySelector('[aria-pressed="true"]') ?? followGrid.querySelector("button"))?.focus();
+}
+
+function closeFollowDialog() {
+  if (typeof followDialog.close === "function") followDialog.close();
+  else followDialog.removeAttribute("open");
+  followButton.focus();
+}
+
+/* ---------- Deep dives and the track record ---------- */
+
+function crestFor(teamId) {
+  return seasonClubs().find((club) => Number(club.teamId) === Number(teamId)) ?? { teamId, teamName: "" };
+}
+
+function analysisCard(post) {
+  const card = createElement("a", "analysis-card");
+  card.href = post.path;
+  const match = state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
+  const home = match?.team1 ?? crestFor(post.home?.teamId);
+  const away = match?.team2 ?? crestFor(post.away?.teamId);
+  const thumb = createElement("span", "analysis-thumb");
+  const line = createElement("span", "analysis-thumb-teams");
+  const score = match && getFinalScore(match);
+  const middle = score
+    ? createElement("span", "analysis-thumb-score", I18N.score(score[0], score[1]))
+    : createElement("span", "analysis-thumb-when", formatBerlinDate(Date.parse(post.kickoff), { weekday: "short", hour: "2-digit", minute: "2-digit" }));
+  line.append(createLogo(home, "analysis-logo"), middle, createLogo(away, "analysis-logo"));
+  thumb.append(line);
+  const model = post.forecast?.model;
+  if (score && model && post.forecast.market) {
+    const outcome = outcomeIndex(score);
+    const closer = rps(model, outcome) < rps(post.forecast.market, outcome);
+    thumb.append(createElement("span", "analysis-thumb-note", t("analysis.thumbResult", { p: percent(model[outcome]) })));
+    thumb.append(createElement("span", `analysis-thumb-badge${closer ? " is-good" : ""}`, t(closer ? "forecast.modelsCloser" : "forecast.marketCloser")));
+  } else if (model) {
+    thumb.append(probBar(model, match ?? { team1: home, team2: away }));
+    const numbers = createElement("span", "analysis-thumb-numbers");
+    numbers.append(
+      createElement("span", "", `${teamName(home) || post.home?.name} ${percent(model[0])}`),
+      createElement("span", "", `${t("prob.draw")} ${percent(model[1])}`),
+      createElement("span", "", `${teamName(away) || post.away?.name} ${percent(model[2])}`),
+    );
+    thumb.append(numbers);
+  }
+  const body = createElement("span", "analysis-body");
+  body.append(
+    createElement("span", "analysis-tag", [postText(post, "tag"), post.minutes ? t("analysis.minutes", { count: post.minutes }) : ""].filter(Boolean).join(" · ")),
+    createElement("span", "analysis-title", postText(post, "title")),
+    createElement("span", "analysis-desc", postText(post, "desc")),
+  );
+  card.append(thumb, body);
+  return card;
+}
+
+function renderAnalysis() {
+  const cards = state.posts.map(analysisCard);
+  const learn = createElement("a", "analysis-card is-learn");
+  learn.href = "learn/";
+  const thumb = createElement("span", "analysis-thumb");
+  thumb.append(createElement("span", "analysis-learn-title", t("analysis.learnThumb")));
+  const body = createElement("span", "analysis-body");
+  body.append(
+    createElement("span", "analysis-tag", t("analysis.learnTag")),
+    createElement("span", "analysis-title", t("analysis.learnTitle")),
+    createElement("span", "analysis-desc", t("analysis.learnDesc")),
+  );
+  learn.append(thumb, body);
+  analysisGrid.replaceChildren(...cards, learn);
+}
+
+// Forecasts from the deep dives that have a final score, graded against the market.
+function gradedPosts() {
+  return state.posts.map((post) => {
+    const match = state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
+    const score = post.fullTime?.score ?? (match && getFinalScore(match));
+    const f = post.forecast;
+    if (!score || !f?.model || !f?.market) return null;
+    const outcome = outcomeIndex(score);
+    // The grades quoted in the post itself (from unrounded probabilities) win over a recalculation.
+    const published = post.fullTime?.rps;
+    return { post, models: published?.models ?? rps(f.model, outcome), market: published?.market ?? rps(f.market, outcome) };
+  }).filter(Boolean);
+}
+
+function renderRecordTeaser() {
+  const record = state.record;
+  if (!record?.season) {
+    recordTeaser.hidden = true;
+    return;
+  }
+  const graded = gradedPosts();
+  const stat = (label, value, sub) => {
+    const item = createElement("div", "record-stat");
+    item.append(createElement("dt", "", label), createElement("dd", "record-stat-value", value), createElement("dd", "record-stat-sub", sub));
+    return item;
+  };
+  const backtest = record.backtest;
+  const market = backtest?.rows?.find((row) => row.key === "market");
+  const ensemble = backtest?.rows?.find((row) => row.key === "ensemble");
+  recordStats.replaceChildren(
+    stat(t("teaser.seasonModels"), I18N.number(record.season.models, 4), t("count.matches", { count: record.season.matches })),
+    stat(t("teaser.seasonMarket"), I18N.number(record.season.market, 4), t(record.season.models < record.season.market ? "teaser.modelsAhead" : "teaser.marketAhead")),
+    ...(market && ensemble ? [stat(t("teaser.longRun"), t(market.rps < ensemble.rps ? "teaser.market" : "teaser.models"),
+      t("teaser.longRunSub", { market: I18N.number(market.rps, 4), models: I18N.number(ensemble.rps, 4), count: backtest.matches }))] : []),
+    stat(t("teaser.dives"), String(graded.length), t("teaser.divesSub", { count: graded.filter((entry) => entry.models < entry.market).length })),
+  );
+  recordTeaser.hidden = false;
+}
+
+function renderOddsSource(matches) {
+  const sources = [...new Set(matches.map((match) => forecastFor(match)).filter((forecast) => forecast?.market).map((forecast) => forecast.source).filter(Boolean))];
+  probLegend.hidden = !matches.some((match) => forecastFor(match));
+  oddsSource.textContent = sources.length ? ` · ${t("fixtures.oddsFoot", { sources: sources.join("; ") })}` : "";
 }
 
 /* ---------- Charts ---------- */
@@ -1478,12 +2096,32 @@ function renderAll() {
   renderMatches(matches);
   renderStandings(state.venue === "all" ? overall : calculateStandings(state.matches, state.matchday, state.venue));
   renderInsights();
+  renderFeatured(matches);
+  renderOddsSource(matches);
+  renderAnalysis();
+  renderRecordTeaser();
+  renderFollow();
 }
 
 /* ---------- Events ---------- */
 
-leagueSeason.textContent = `Bundesliga ${seasonLabel(season)}`;
 hubSeason.textContent = `Bundesliga ${seasonLabel(season)}`;
+followButton.addEventListener("click", openFollowDialog);
+document.querySelector("#follow-close").addEventListener("click", closeFollowDialog);
+document.querySelector("#follow-clear").addEventListener("click", () => {
+  setFollowedTeam(null);
+  closeFollowDialog();
+});
+followGrid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-team-id]");
+  if (!button) return;
+  setFollowedTeam(Number(button.dataset.teamId));
+  closeFollowDialog();
+});
+// A click on the backdrop (outside the dialog box) closes it.
+followDialog.addEventListener("click", (event) => {
+  if (event.target === followDialog) closeFollowDialog();
+});
 previousButton.addEventListener("click", () => selectMatchday(state.matchday - 1));
 nextButton.addEventListener("click", () => selectMatchday(state.matchday + 1));
 currentButton.addEventListener("click", () => selectMatchday(state.currentMatchday));
@@ -1514,6 +2152,20 @@ I18N.onChange(() => {
   else if (state.loadFailed) showLoadFailure();
 });
 
+// The bottom tab bar on phones marks the section in view.
+const tabLinks = [...document.querySelectorAll('.tabbar a[href^="#"]')];
+const sectionObserver = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    const id = entry.target.id === "matches" ? "matchday" : entry.target.id;
+    tabLinks.forEach((link) => {
+      if (link.getAttribute("href") === `#${id}`) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+  }
+}, { rootMargin: "-45% 0px -50% 0px" });
+["matchday", "matches", "table", "analysis"].forEach((id) => sectionObserver.observe(document.getElementById(id)));
+
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "hidden") {
     clearTimeout(refreshTimer);
@@ -1542,6 +2194,7 @@ const isInstalled = navigator.standalone || window.matchMedia("(display-mode: st
 installHint.hidden = !isAppleMobile || isInstalled;
 
 start();
+startClock();
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
