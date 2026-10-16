@@ -1,5 +1,6 @@
 {
  "model": "bayes",
+ "xg": false,
  "seasons": [
   2026
  ],
@@ -8,23 +9,23 @@
   {
    "month": "2026-08",
    "matches": 9,
-   "seconds": 163,
+   "seconds": 117,
    "divergences": 0
   },
   {
    "month": "2026-09",
    "matches": 27,
-   "seconds": 156,
+   "seconds": 100,
    "divergences": 0
   },
   {
    "month": "2026-10",
    "matches": 9,
-   "seconds": 177,
+   "seconds": 95,
    "divergences": 0
   }
  ],
  "bayes_warmup": 250,
  "bayes_samples": 250,
- "seconds": 497
+ "seconds": 313
 }

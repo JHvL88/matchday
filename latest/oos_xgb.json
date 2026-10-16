@@ -1,5 +1,6 @@
 {
  "model": "xgb",
+ "xg": false,
  "seasons": [
   2019,
   2020,
@@ -45,5 +46,5 @@
    "ag": 556
   }
  },
- "seconds": 6
+ "seconds": 11
 }
