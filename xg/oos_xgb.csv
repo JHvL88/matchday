@@ -1,0 +1,2188 @@
+key,xgb_lh,xgb_la
+2019-08-16|Bayern Munich|Hertha,3.141426,0.799888
+2019-08-17|Dortmund|Augsburg,2.570451,1.063148
+2019-08-17|Freiburg|Mainz,1.578713,1.283076
+2019-08-17|Leverkusen|Paderborn,2.218884,1.206694
+2019-08-17|M'gladbach|Schalke 04,1.681437,1.151386
+2019-08-17|Werder Bremen|Fortuna Dusseldorf,2.117882,1.177370
+2019-08-17|Wolfsburg|FC Koln,1.898468,1.607442
+2019-08-18|Ein Frankfurt|Hoffenheim,1.459463,1.724483
+2019-08-18|Union Berlin|RB Leipzig,1.309721,1.387330
+2019-08-23|FC Koln|Dortmund,1.300677,1.716413
+2019-08-24|Augsburg|Union Berlin,1.409101,1.460804
+2019-08-24|Fortuna Dusseldorf|Leverkusen,1.277326,1.876572
+2019-08-24|Hoffenheim|Werder Bremen,1.821444,1.342733
+2019-08-24|Mainz|M'gladbach,1.557064,1.350849
+2019-08-24|Paderborn|Freiburg,1.801107,1.168283
+2019-08-24|Schalke 04|Bayern Munich,0.814289,1.992163
+2019-08-25|Hertha|Wolfsburg,1.460983,1.393867
+2019-08-25|RB Leipzig|Ein Frankfurt,2.039022,0.959616
+2019-08-30|M'gladbach|RB Leipzig,1.300670,1.519680
+2019-08-31|Bayern Munich|Mainz,3.365743,0.821758
+2019-08-31|Freiburg|FC Koln,1.609896,1.497875
+2019-08-31|Leverkusen|Hoffenheim,2.179502,1.251854
+2019-08-31|Schalke 04|Hertha,1.446995,1.257758
+2019-08-31|Union Berlin|Dortmund,1.186699,1.627567
+2019-08-31|Wolfsburg|Paderborn,2.094310,1.318688
+2019-09-01|Ein Frankfurt|Fortuna Dusseldorf,1.842089,1.214430
+2019-09-01|Werder Bremen|Augsburg,2.365663,1.075596
+2019-09-13|Fortuna Dusseldorf|Wolfsburg,1.478113,1.407047
+2019-09-14|Augsburg|Ein Frankfurt,1.488091,1.353717
+2019-09-14|Dortmund|Leverkusen,1.914871,1.388771
+2019-09-14|FC Koln|M'gladbach,1.638618,1.194323
+2019-09-14|Mainz|Hertha,1.692336,1.266500
+2019-09-14|RB Leipzig|Bayern Munich,1.153551,1.540143
+2019-09-14|Union Berlin|Werder Bremen,1.530141,1.329847
+2019-09-15|Hoffenheim|Freiburg,2.022985,1.146106
+2019-09-15|Paderborn|Schalke 04,1.570029,1.088091
+2019-09-20|Schalke 04|Mainz,1.719262,1.229223
+2019-09-21|Bayern Munich|FC Koln,2.810609,0.844325
+2019-09-21|Freiburg|Augsburg,2.164289,1.173431
+2019-09-21|Hertha|Paderborn,1.608468,1.346717
+2019-09-21|Leverkusen|Union Berlin,2.186788,1.051085
+2019-09-21|Werder Bremen|RB Leipzig,1.540703,1.462918
+2019-09-22|Ein Frankfurt|Dortmund,1.400340,1.618580
+2019-09-22|M'gladbach|Fortuna Dusseldorf,1.830241,1.192193
+2019-09-23|Wolfsburg|Hoffenheim,2.009149,1.181443
+2019-09-27|Union Berlin|Ein Frankfurt,1.534256,1.273789
+2019-09-28|Augsburg|Leverkusen,1.159403,2.014718
+2019-09-28|Dortmund|Werder Bremen,2.320186,1.097200
+2019-09-28|Hoffenheim|M'gladbach,1.755809,1.287209
+2019-09-28|Mainz|Wolfsburg,1.404463,1.397675
+2019-09-28|Paderborn|Bayern Munich,0.848965,2.023663
+2019-09-28|RB Leipzig|Schalke 04,2.239748,0.884400
+2019-09-29|FC Koln|Hertha,1.870985,1.205292
+2019-09-29|Fortuna Dusseldorf|Freiburg,1.505661,1.367105
+2019-10-04|Hertha|Fortuna Dusseldorf,1.728140,1.238559
+2019-10-05|Bayern Munich|Hoffenheim,2.829403,0.791648
+2019-10-05|Freiburg|Dortmund,1.473107,1.773946
+2019-10-05|Leverkusen|RB Leipzig,1.755039,1.088365
+2019-10-05|Paderborn|Mainz,1.843469,1.260699
+2019-10-05|Schalke 04|FC Koln,1.852627,1.271168
+2019-10-06|Ein Frankfurt|Werder Bremen,1.707803,1.319020
+2019-10-06|M'gladbach|Augsburg,1.969902,0.984696
+2019-10-06|Wolfsburg|Union Berlin,1.992861,1.041687
+2019-10-18|Ein Frankfurt|Leverkusen,1.345961,1.776618
+2019-10-19|Augsburg|Bayern Munich,0.925362,2.076101
+2019-10-19|Dortmund|M'gladbach,2.234776,1.103595
+2019-10-19|Fortuna Dusseldorf|Mainz,1.640458,1.344490
+2019-10-19|RB Leipzig|Wolfsburg,1.938776,1.140038
+2019-10-19|Union Berlin|Freiburg,1.430244,1.304757
+2019-10-19|Werder Bremen|Hertha,1.913061,1.172285
+2019-10-20|FC Koln|Paderborn,1.874493,1.265556
+2019-10-20|Hoffenheim|Schalke 04,1.719398,1.219152
+2019-10-25|Mainz|FC Koln,1.467822,1.409725
+2019-10-26|Bayern Munich|Union Berlin,2.635240,0.835212
+2019-10-26|Freiburg|RB Leipzig,1.376770,1.609086
+2019-10-26|Hertha|Hoffenheim,1.507304,1.389052
+2019-10-26|Leverkusen|Werder Bremen,1.997921,1.073527
+2019-10-26|Paderborn|Fortuna Dusseldorf,1.668306,1.343970
+2019-10-26|Schalke 04|Dortmund,1.377765,1.759955
+2019-10-27|M'gladbach|Ein Frankfurt,1.958450,1.180398
+2019-10-27|Wolfsburg|Augsburg,2.150438,0.939693
+2019-11-01|Hoffenheim|Paderborn,2.310396,1.107616
+2019-11-02|Dortmund|Wolfsburg,2.140391,1.071547
+2019-11-02|Ein Frankfurt|Bayern Munich,1.251075,1.983183
+2019-11-02|Leverkusen|M'gladbach,1.995012,1.158527
+2019-11-02|RB Leipzig|Mainz,2.160511,1.043658
+2019-11-02|Union Berlin|Hertha,1.575023,1.294449
+2019-11-02|Werder Bremen|Freiburg,1.890633,1.226116
+2019-11-03|Augsburg|Schalke 04,1.381274,1.301499
+2019-11-03|Fortuna Dusseldorf|FC Koln,1.501976,1.408609
+2019-11-08|FC Koln|Hoffenheim,1.536435,1.405950
+2019-11-09|Bayern Munich|Dortmund,2.055583,1.103561
+2019-11-09|Hertha|RB Leipzig,1.311738,2.048259
+2019-11-09|Mainz|Union Berlin,1.404678,1.375874
+2019-11-09|Paderborn|Augsburg,1.913739,1.206207
+2019-11-09|Schalke 04|Fortuna Dusseldorf,1.707245,1.162330
+2019-11-10|Freiburg|Ein Frankfurt,1.630576,1.376738
+2019-11-10|M'gladbach|Werder Bremen,1.936131,1.181235
+2019-11-10|Wolfsburg|Leverkusen,1.327064,1.682618
+2019-11-22|Dortmund|Paderborn,2.330519,1.030937
+2019-11-23|Ein Frankfurt|Wolfsburg,1.836604,1.134249
+2019-11-23|Fortuna Dusseldorf|Bayern Munich,1.024815,2.011223
+2019-11-23|Leverkusen|Freiburg,2.162297,1.011658
+2019-11-23|RB Leipzig|FC Koln,2.390012,1.030903
+2019-11-23|Union Berlin|M'gladbach,1.465399,1.494226
+2019-11-23|Werder Bremen|Schalke 04,1.648340,1.203396
+2019-11-24|Augsburg|Hertha,1.519850,1.216384
+2019-11-24|Hoffenheim|Mainz,2.423194,1.112003
+2019-11-29|Schalke 04|Union Berlin,1.691440,1.158607
+2019-11-30|Bayern Munich|Leverkusen,2.397590,1.145911
+2019-11-30|FC Koln|Augsburg,1.624603,1.260677
+2019-11-30|Hertha|Dortmund,1.424070,1.636643
+2019-11-30|Hoffenheim|Fortuna Dusseldorf,2.220185,1.128274
+2019-11-30|Paderborn|RB Leipzig,1.253266,1.886189
+2019-12-01|M'gladbach|Freiburg,1.968635,0.987769
+2019-12-01|Wolfsburg|Werder Bremen,1.572316,1.207365
+2019-12-02|Mainz|Ein Frankfurt,1.560638,1.517766
+2019-12-06|Ein Frankfurt|Hertha,1.791303,1.081756
+2019-12-07|Augsburg|Mainz,1.578922,1.316327
+2019-12-07|Dortmund|Fortuna Dusseldorf,2.409986,1.044014
+2019-12-07|Freiburg|Wolfsburg,1.335398,1.349668
+2019-12-07|Leverkusen|Schalke 04,1.983041,1.098148
+2019-12-07|M'gladbach|Bayern Munich,1.463254,1.777940
+2019-12-07|RB Leipzig|Hoffenheim,2.296115,1.100209
+2019-12-08|Union Berlin|FC Koln,1.657215,1.223612
+2019-12-08|Werder Bremen|Paderborn,2.172491,1.115220
+2019-12-13|Hoffenheim|Augsburg,2.093239,1.203278
+2019-12-14|Bayern Munich|Werder Bremen,2.559118,0.949488
+2019-12-14|FC Koln|Leverkusen,1.192271,1.936160
+2019-12-14|Fortuna Dusseldorf|RB Leipzig,1.066635,2.056086
+2019-12-14|Hertha|Freiburg,1.629299,1.149670
+2019-12-14|Mainz|Dortmund,1.465327,1.923716
+2019-12-14|Paderborn|Union Berlin,1.474803,1.373467
+2019-12-15|Schalke 04|Ein Frankfurt,1.672576,1.378585
+2019-12-15|Wolfsburg|M'gladbach,1.530320,1.287675
+2019-12-17|Augsburg|Fortuna Dusseldorf,1.938099,1.119052
+2019-12-17|Dortmund|RB Leipzig,1.702618,1.415032
+2019-12-17|Union Berlin|Hoffenheim,1.585848,1.294172
+2019-12-17|Werder Bremen|Mainz,2.017270,1.306508
+2019-12-18|Ein Frankfurt|FC Koln,1.770914,1.266439
+2019-12-18|Freiburg|Bayern Munich,0.913274,1.942651
+2019-12-18|Leverkusen|Hertha,2.275333,1.012653
+2019-12-18|M'gladbach|Paderborn,1.985097,1.038823
+2019-12-18|Wolfsburg|Schalke 04,1.600019,1.096342
+2019-12-20|Hoffenheim|Dortmund,1.473652,1.783253
+2019-12-21|Bayern Munich|Wolfsburg,2.281626,0.925433
+2019-12-21|FC Koln|Werder Bremen,1.761708,1.221970
+2019-12-21|Hertha|M'gladbach,1.453668,1.709369
+2019-12-21|Mainz|Leverkusen,1.455523,2.095473
+2019-12-21|RB Leipzig|Augsburg,2.476049,0.946473
+2019-12-21|Schalke 04|Freiburg,1.735164,1.053808
+2019-12-22|Fortuna Dusseldorf|Union Berlin,1.299194,1.357959
+2019-12-22|Paderborn|Ein Frankfurt,1.527394,1.330320
+2020-01-17|Schalke 04|M'gladbach,1.479255,1.527059
+2020-01-18|Augsburg|Dortmund,1.397084,2.021247
+2020-01-18|FC Koln|Wolfsburg,1.481532,1.269612
+2020-01-18|Fortuna Dusseldorf|Werder Bremen,1.467985,1.258146
+2020-01-18|Hoffenheim|Ein Frankfurt,1.983043,1.254729
+2020-01-18|Mainz|Freiburg,1.756743,1.189837
+2020-01-18|RB Leipzig|Union Berlin,2.487173,0.938252
+2020-01-19|Hertha|Bayern Munich,0.969799,1.953891
+2020-01-19|Paderborn|Leverkusen,1.299177,1.874085
+2020-01-24|Dortmund|FC Koln,2.332885,0.977174
+2020-01-25|Bayern Munich|Schalke 04,2.574127,0.884556
+2020-01-25|Ein Frankfurt|RB Leipzig,1.219813,2.026772
+2020-01-25|Freiburg|Paderborn,1.736726,1.303207
+2020-01-25|M'gladbach|Mainz,1.960619,1.113367
+2020-01-25|Union Berlin|Augsburg,1.810759,1.230087
+2020-01-25|Wolfsburg|Hertha,1.798607,0.993799
+2020-01-26|Leverkusen|Fortuna Dusseldorf,2.252162,0.997519
+2020-01-26|Werder Bremen|Hoffenheim,1.500379,1.424259
+2020-01-31|Hertha|Schalke 04,1.447660,1.159514
+2020-02-01|Augsburg|Werder Bremen,1.882595,1.272623
+2020-02-01|Dortmund|Union Berlin,2.410924,0.981268
+2020-02-01|Fortuna Dusseldorf|Ein Frankfurt,1.265030,1.477627
+2020-02-01|Hoffenheim|Leverkusen,1.607441,1.814299
+2020-02-01|Mainz|Bayern Munich,0.969412,2.088330
+2020-02-01|RB Leipzig|M'gladbach,2.247359,0.975926
+2020-02-02|FC Koln|Freiburg,1.716025,1.181025
+2020-02-02|Paderborn|Wolfsburg,1.373820,1.387841
+2020-02-07|Ein Frankfurt|Augsburg,1.791141,1.278948
+2020-02-08|Freiburg|Hoffenheim,1.421234,1.480729
+2020-02-08|Hertha|Mainz,1.607998,1.295589
+2020-02-08|Leverkusen|Dortmund,1.474373,1.425098
+2020-02-08|Schalke 04|Paderborn,1.690219,1.196785
+2020-02-08|Werder Bremen|Union Berlin,1.552608,1.210277
+2020-02-08|Wolfsburg|Fortuna Dusseldorf,2.020432,1.014898
+2020-02-09|Bayern Munich|RB Leipzig,2.336720,0.979016
+2020-02-14|Dortmund|Ein Frankfurt,2.383199,1.041472
+2020-02-15|Augsburg|Freiburg,1.686885,1.158506
+2020-02-15|Fortuna Dusseldorf|M'gladbach,1.316991,1.538146
+2020-02-15|Hoffenheim|Wolfsburg,1.853802,1.312164
+2020-02-15|Paderborn|Hertha,1.546854,1.092837
+2020-02-15|RB Leipzig|Werder Bremen,2.572649,0.907522
+2020-02-15|Union Berlin|Leverkusen,1.294886,2.010484
+2020-02-16|FC Koln|Bayern Munich,1.107228,1.987819
+2020-02-16|Mainz|Schalke 04,1.656624,1.208297
+2020-02-21|Bayern Munich|Paderborn,2.870684,0.859070
+2020-02-22|Freiburg|Fortuna Dusseldorf,1.831497,1.152601
+2020-02-22|Hertha|FC Koln,1.412829,1.471000
+2020-02-22|M'gladbach|Hoffenheim,1.980180,1.185017
+2020-02-22|Schalke 04|RB Leipzig,1.253319,1.892058
+2020-02-22|Werder Bremen|Dortmund,1.185671,1.828395
+2020-02-23|Leverkusen|Augsburg,2.150710,1.075359
+2020-02-23|Wolfsburg|Mainz,1.921455,1.195351
+2020-02-24|Ein Frankfurt|Union Berlin,1.820278,1.201096
+2020-02-28|Fortuna Dusseldorf|Hertha,1.483639,1.170420
+2020-02-29|Augsburg|M'gladbach,1.513694,1.559076
+2020-02-29|Dortmund|Freiburg,2.629858,0.918329
+2020-02-29|FC Koln|Schalke 04,1.666477,1.018723
+2020-02-29|Hoffenheim|Bayern Munich,1.115354,1.929347
+2020-02-29|Mainz|Paderborn,2.004340,1.268594
+2020-03-01|RB Leipzig|Leverkusen,2.320673,1.196715
+2020-03-01|Union Berlin|Wolfsburg,1.400704,1.474457
+2020-03-06|Paderborn|FC Koln,1.404456,1.576038
+2020-03-07|Freiburg|Union Berlin,1.420422,1.352194
+2020-03-07|Hertha|Werder Bremen,1.620527,1.218365
+2020-03-07|Leverkusen|Ein Frankfurt,2.049620,1.114474
+2020-03-07|M'gladbach|Dortmund,1.437406,1.595889
+2020-03-07|Schalke 04|Hoffenheim,1.512408,1.303977
+2020-03-07|Wolfsburg|RB Leipzig,1.413108,1.645280
+2020-03-08|Bayern Munich|Augsburg,3.123585,0.816903
+2020-03-08|Mainz|Fortuna Dusseldorf,1.891672,1.133038
+2020-03-11|M'gladbach|FC Koln,1.912123,1.270313
+2020-05-16|Augsburg|Wolfsburg,1.424862,1.372045
+2020-05-16|Dortmund|Schalke 04,2.579986,0.843790
+2020-05-16|Ein Frankfurt|M'gladbach,1.493242,1.514432
+2020-05-16|Fortuna Dusseldorf|Paderborn,1.768023,1.289846
+2020-05-16|Hoffenheim|Hertha,1.893306,1.071441
+2020-05-16|RB Leipzig|Freiburg,2.441506,0.895672
+2020-05-17|FC Koln|Mainz,1.991091,1.102193
+2020-05-17|Union Berlin|Bayern Munich,0.839281,2.007239
+2020-05-18|Werder Bremen|Leverkusen,1.355018,1.774628
+2020-05-22|Hertha|Union Berlin,1.450233,1.268796
+2020-05-23|Bayern Munich|Ein Frankfurt,3.053404,0.798848
+2020-05-23|Freiburg|Werder Bremen,1.644129,1.165080
+2020-05-23|M'gladbach|Leverkusen,1.660295,1.584061
+2020-05-23|Paderborn|Hoffenheim,1.524004,1.297535
+2020-05-23|Wolfsburg|Dortmund,1.394022,1.526577
+2020-05-24|FC Koln|Fortuna Dusseldorf,2.055885,0.986508
+2020-05-24|Mainz|RB Leipzig,1.123153,2.063050
+2020-05-24|Schalke 04|Augsburg,1.817136,1.164843
+2020-05-26|Dortmund|Bayern Munich,1.348078,1.503334
+2020-05-26|Ein Frankfurt|Freiburg,1.729373,1.291883
+2020-05-26|Leverkusen|Wolfsburg,2.166613,1.022711
+2020-05-26|Werder Bremen|M'gladbach,1.438301,1.753649
+2020-05-27|Augsburg|Paderborn,1.748719,1.217263
+2020-05-27|Fortuna Dusseldorf|Schalke 04,1.471553,1.157449
+2020-05-27|Hoffenheim|FC Koln,1.442584,1.493107
+2020-05-27|RB Leipzig|Hertha,2.777781,0.783962
+2020-05-27|Union Berlin|Mainz,1.767646,1.164896
+2020-05-29|Freiburg|Leverkusen,1.351592,1.903937
+2020-05-30|Bayern Munich|Fortuna Dusseldorf,2.880585,0.704318
+2020-05-30|Hertha|Augsburg,1.817006,1.270982
+2020-05-30|Mainz|Hoffenheim,1.536399,1.336262
+2020-05-30|Schalke 04|Werder Bremen,1.560323,1.224808
+2020-05-30|Wolfsburg|Ein Frankfurt,2.082802,1.212915
+2020-05-31|M'gladbach|Union Berlin,1.960694,1.054103
+2020-05-31|Paderborn|Dortmund,1.126334,1.658562
+2020-06-01|FC Koln|RB Leipzig,1.373349,1.790327
+2020-06-03|Werder Bremen|Ein Frankfurt,1.418920,1.342449
+2020-06-05|Freiburg|M'gladbach,1.379256,1.849927
+2020-06-06|Dortmund|Hertha,2.561738,0.873318
+2020-06-06|Ein Frankfurt|Mainz,2.203339,1.118186
+2020-06-06|Fortuna Dusseldorf|Hoffenheim,1.521084,1.359183
+2020-06-06|Leverkusen|Bayern Munich,1.185634,1.684292
+2020-06-06|RB Leipzig|Paderborn,2.965867,0.842956
+2020-06-07|Augsburg|FC Koln,1.426866,1.484690
+2020-06-07|Union Berlin|Schalke 04,1.536868,1.123624
+2020-06-07|Werder Bremen|Wolfsburg,1.284566,1.675604
+2020-06-12|Hoffenheim|RB Leipzig,1.139449,1.927404
+2020-06-13|Bayern Munich|M'gladbach,2.556195,0.978958
+2020-06-13|FC Koln|Union Berlin,1.815993,1.215065
+2020-06-13|Fortuna Dusseldorf|Dortmund,1.171693,1.746596
+2020-06-13|Hertha|Ein Frankfurt,1.695440,1.291369
+2020-06-13|Paderborn|Werder Bremen,1.403201,1.189214
+2020-06-13|Wolfsburg|Freiburg,1.938640,1.031759
+2020-06-14|Mainz|Augsburg,1.700140,1.340661
+2020-06-14|Schalke 04|Leverkusen,1.343683,1.638805
+2020-06-16|Freiburg|Hertha,1.503703,1.250581
+2020-06-16|M'gladbach|Wolfsburg,1.769102,1.311899
+2020-06-16|Union Berlin|Paderborn,1.839227,1.100525
+2020-06-16|Werder Bremen|Bayern Munich,0.807653,1.925362
+2020-06-17|Augsburg|Hoffenheim,1.465326,1.335336
+2020-06-17|Dortmund|Mainz,2.728311,0.851549
+2020-06-17|Ein Frankfurt|Schalke 04,1.918990,0.964962
+2020-06-17|Leverkusen|FC Koln,2.187331,1.194862
+2020-06-17|RB Leipzig|Fortuna Dusseldorf,2.698585,0.773395
+2020-06-20|Bayern Munich|Freiburg,2.804954,0.767272
+2020-06-20|FC Koln|Ein Frankfurt,1.684902,1.380595
+2020-06-20|Fortuna Dusseldorf|Augsburg,1.700382,1.269538
+2020-06-20|Hertha|Leverkusen,1.328528,1.908605
+2020-06-20|Hoffenheim|Union Berlin,1.763919,1.210859
+2020-06-20|Mainz|Werder Bremen,1.694588,1.197713
+2020-06-20|Paderborn|M'gladbach,1.333852,1.609354
+2020-06-20|RB Leipzig|Dortmund,1.587744,0.991931
+2020-06-20|Schalke 04|Wolfsburg,1.227175,1.596375
+2020-06-27|Augsburg|RB Leipzig,1.255952,1.948660
+2020-06-27|Dortmund|Hoffenheim,2.457436,1.026586
+2020-06-27|Ein Frankfurt|Paderborn,2.212829,0.986281
+2020-06-27|Freiburg|Schalke 04,1.599263,1.101722
+2020-06-27|Leverkusen|Mainz,2.114968,1.114008
+2020-06-27|M'gladbach|Hertha,2.037081,0.955228
+2020-06-27|Union Berlin|Fortuna Dusseldorf,1.498619,1.184715
+2020-06-27|Werder Bremen|FC Koln,1.369318,1.314485
+2020-06-27|Wolfsburg|Bayern Munich,0.965797,1.757680
+2020-09-18|Bayern Munich|Schalke 04,2.962018,0.711959
+2020-09-19|Dortmund|M'gladbach,1.909775,1.477640
+2020-09-19|Ein Frankfurt|Bielefeld,1.483898,1.388312
+2020-09-19|FC Koln|Hoffenheim,1.492613,1.666794
+2020-09-19|Stuttgart|Freiburg,1.623746,1.308935
+2020-09-19|Union Berlin|Augsburg,1.531549,1.126943
+2020-09-19|Werder Bremen|Hertha,1.456721,1.210546
+2020-09-20|RB Leipzig|Mainz,2.245691,1.059963
+2020-09-20|Wolfsburg|Leverkusen,1.511623,1.597233
+2020-09-25|Hertha|Ein Frankfurt,1.572347,1.463681
+2020-09-26|Augsburg|Dortmund,1.219058,1.920168
+2020-09-26|Bielefeld|FC Koln,1.572393,1.211771
+2020-09-26|Leverkusen|RB Leipzig,1.583518,1.971240
+2020-09-26|M'gladbach|Union Berlin,2.156003,1.302569
+2020-09-26|Mainz|Stuttgart,1.405102,1.903156
+2020-09-26|Schalke 04|Werder Bremen,1.506189,1.545761
+2020-09-27|Freiburg|Wolfsburg,1.391619,1.715125
+2020-09-27|Hoffenheim|Bayern Munich,1.032766,2.499068
+2020-10-02|Union Berlin|Mainz,1.587081,1.204681
+2020-10-03|Dortmund|Freiburg,2.181185,1.018129
+2020-10-03|Ein Frankfurt|Hoffenheim,1.630698,1.869281
+2020-10-03|FC Koln|M'gladbach,1.423727,1.831862
+2020-10-03|RB Leipzig|Schalke 04,2.404185,0.826124
+2020-10-03|Stuttgart|Leverkusen,1.374560,1.752692
+2020-10-03|Werder Bremen|Bielefeld,1.376748,1.445393
+2020-10-04|Bayern Munich|Hertha,2.606880,0.975354
+2020-10-04|Wolfsburg|Augsburg,1.779310,1.163995
+2020-10-17|Augsburg|RB Leipzig,0.966029,2.229423
+2020-10-17|Bielefeld|Bayern Munich,1.066554,1.773821
+2020-10-17|Freiburg|Werder Bremen,1.642183,1.463946
+2020-10-17|Hertha|Stuttgart,1.437782,1.917737
+2020-10-17|Hoffenheim|Dortmund,1.567434,1.647870
+2020-10-17|M'gladbach|Wolfsburg,1.967046,1.231901
+2020-10-17|Mainz|Leverkusen,1.260471,1.875697
+2020-10-18|FC Koln|Ein Frankfurt,1.436810,1.591170
+2020-10-18|Schalke 04|Union Berlin,1.282741,1.602341
+2020-10-23|Stuttgart|FC Koln,1.783385,1.381166
+2020-10-24|Bayern Munich|Ein Frankfurt,2.524823,1.119814
+2020-10-24|Dortmund|Schalke 04,2.271721,0.956816
+2020-10-24|Mainz|M'gladbach,1.254681,1.845502
+2020-10-24|RB Leipzig|Hertha,2.757452,1.029229
+2020-10-24|Union Berlin|Freiburg,1.522729,1.152485
+2020-10-25|Werder Bremen|Hoffenheim,1.439867,1.491660
+2020-10-25|Wolfsburg|Bielefeld,1.495680,1.303261
+2020-10-26|Leverkusen|Augsburg,1.941794,0.837563
+2020-10-30|Schalke 04|Stuttgart,1.271386,1.772649
+2020-10-31|Augsburg|Mainz,1.582280,1.136945
+2020-10-31|Bielefeld|Dortmund,1.063292,1.852432
+2020-10-31|Ein Frankfurt|Werder Bremen,1.942339,1.307419
+2020-10-31|FC Koln|Bayern Munich,0.888604,2.432587
+2020-10-31|M'gladbach|RB Leipzig,1.513543,1.810686
+2020-11-01|Freiburg|Leverkusen,1.231284,1.709481
+2020-11-01|Hertha|Wolfsburg,1.390121,1.808119
+2020-11-02|Hoffenheim|Union Berlin,2.008010,1.311924
+2020-11-06|Werder Bremen|FC Koln,1.636998,1.259959
+2020-11-07|Augsburg|Hertha,1.632196,1.327724
+2020-11-07|Dortmund|Bayern Munich,1.550779,1.514271
+2020-11-07|Mainz|Schalke 04,1.480312,1.159032
+2020-11-07|RB Leipzig|Freiburg,2.807351,0.912968
+2020-11-07|Stuttgart|Ein Frankfurt,1.624701,1.581468
+2020-11-07|Union Berlin|Bielefeld,1.490986,1.199210
+2020-11-08|Leverkusen|M'gladbach,1.811720,1.366145
+2020-11-08|Wolfsburg|Hoffenheim,1.689354,1.529247
+2020-11-21|Bayern Munich|Werder Bremen,2.668789,1.038196
+2020-11-21|Bielefeld|Leverkusen,1.043538,1.822837
+2020-11-21|Ein Frankfurt|RB Leipzig,1.297757,2.206591
+2020-11-21|Hertha|Dortmund,1.340562,2.312876
+2020-11-21|Hoffenheim|Stuttgart,1.865251,1.582543
+2020-11-21|M'gladbach|Augsburg,2.225911,0.841454
+2020-11-21|Schalke 04|Wolfsburg,1.278067,1.839611
+2020-11-22|FC Koln|Union Berlin,1.389905,1.447092
+2020-11-22|Freiburg|Mainz,1.639309,1.226171
+2020-11-27|Wolfsburg|Werder Bremen,1.794206,1.162218
+2020-11-28|Augsburg|Freiburg,1.563802,1.247785
+2020-11-28|Dortmund|FC Koln,2.611482,1.036862
+2020-11-28|M'gladbach|Schalke 04,2.343417,1.002775
+2020-11-28|RB Leipzig|Bielefeld,2.181401,0.735723
+2020-11-28|Stuttgart|Bayern Munich,1.139942,2.434575
+2020-11-28|Union Berlin|Ein Frankfurt,1.670130,1.419427
+2020-11-29|Leverkusen|Hertha,2.401379,1.077275
+2020-11-29|Mainz|Hoffenheim,1.455155,1.676059
+2020-12-04|Hertha|Union Berlin,1.414085,1.377777
+2020-12-05|Bayern Munich|RB Leipzig,2.102553,1.261040
+2020-12-05|Bielefeld|Mainz,1.444250,1.298321
+2020-12-05|Ein Frankfurt|Dortmund,1.444509,2.312047
+2020-12-05|FC Koln|Wolfsburg,1.364959,1.581846
+2020-12-05|Freiburg|M'gladbach,1.344598,1.838861
+2020-12-06|Schalke 04|Leverkusen,1.029723,1.963800
+2020-12-06|Werder Bremen|Stuttgart,1.446421,1.473758
+2020-12-07|Hoffenheim|Augsburg,1.929483,1.049881
+2020-12-11|Wolfsburg|Ein Frankfurt,1.967099,1.391751
+2020-12-12|Dortmund|Stuttgart,2.559228,1.118252
+2020-12-12|Freiburg|Bielefeld,1.459724,1.304458
+2020-12-12|M'gladbach|Hertha,2.129522,1.170783
+2020-12-12|Mainz|FC Koln,1.508297,1.335855
+2020-12-12|RB Leipzig|Werder Bremen,2.644809,0.950175
+2020-12-12|Union Berlin|Bayern Munich,1.026261,2.115704
+2020-12-13|Augsburg|Schalke 04,1.760155,1.140684
+2020-12-13|Leverkusen|Hoffenheim,2.069689,1.271284
+2020-12-15|Ein Frankfurt|M'gladbach,1.537836,2.001964
+2020-12-15|Hertha|Mainz,1.741806,1.315924
+2020-12-15|Stuttgart|Union Berlin,1.727404,1.176354
+2020-12-15|Werder Bremen|Dortmund,1.168878,1.908307
+2020-12-16|Bayern Munich|Wolfsburg,2.251541,1.112149
+2020-12-16|Bielefeld|Augsburg,1.426520,1.085132
+2020-12-16|FC Koln|Leverkusen,1.189605,1.757310
+2020-12-16|Hoffenheim|RB Leipzig,1.319196,2.329765
+2020-12-16|Schalke 04|Freiburg,1.313692,1.674480
+2020-12-18|Union Berlin|Dortmund,1.308534,1.678103
+2020-12-19|Augsburg|Ein Frankfurt,1.420901,1.374640
+2020-12-19|Leverkusen|Bayern Munich,1.669947,1.444552
+2020-12-19|M'gladbach|Hoffenheim,2.078076,1.349718
+2020-12-19|Mainz|Werder Bremen,1.463607,1.131176
+2020-12-19|RB Leipzig|FC Koln,2.600149,0.856094
+2020-12-19|Schalke 04|Bielefeld,1.279763,1.536745
+2020-12-20|Freiburg|Hertha,1.511943,1.270820
+2020-12-20|Wolfsburg|Stuttgart,2.034635,1.483258
+2021-01-02|Bielefeld|M'gladbach,1.253292,1.934354
+2021-01-02|Ein Frankfurt|Leverkusen,1.403543,1.734287
+2021-01-02|FC Koln|Augsburg,1.524552,1.172245
+2021-01-02|Hertha|Schalke 04,1.822770,1.070132
+2021-01-02|Hoffenheim|Freiburg,1.805660,1.541121
+2021-01-02|Stuttgart|RB Leipzig,1.286355,2.067539
+2021-01-02|Werder Bremen|Union Berlin,1.363314,1.274898
+2021-01-03|Bayern Munich|Mainz,2.602867,0.917967
+2021-01-03|Dortmund|Wolfsburg,1.906739,1.320126
+2021-01-08|M'gladbach|Bayern Munich,1.584013,2.003085
+2021-01-09|Freiburg|FC Koln,1.847888,1.046200
+2021-01-09|Leverkusen|Werder Bremen,2.228815,0.761126
+2021-01-09|Mainz|Ein Frankfurt,1.358022,1.526053
+2021-01-09|RB Leipzig|Dortmund,2.069823,1.089644
+2021-01-09|Schalke 04|Hoffenheim,1.306283,1.792452
+2021-01-09|Union Berlin|Wolfsburg,1.524850,1.433582
+2021-01-10|Augsburg|Stuttgart,1.445987,1.437174
+2021-01-10|Bielefeld|Hertha,1.315797,1.652687
+2021-01-15|Union Berlin|Leverkusen,1.430901,1.443911
+2021-01-16|Dortmund|Mainz,2.494915,1.045795
+2021-01-16|FC Koln|Hertha,1.340298,1.542534
+2021-01-16|Hoffenheim|Bielefeld,1.714468,1.217184
+2021-01-16|Stuttgart|M'gladbach,1.560264,1.724380
+2021-01-16|Werder Bremen|Augsburg,1.563090,1.024237
+2021-01-16|Wolfsburg|RB Leipzig,1.431409,1.953138
+2021-01-17|Bayern Munich|Freiburg,2.312456,1.156268
+2021-01-17|Ein Frankfurt|Schalke 04,2.224974,1.011298
+2021-01-19|Hertha|Hoffenheim,1.507267,1.461186
+2021-01-19|Leverkusen|Dortmund,1.626080,1.457121
+2021-01-19|M'gladbach|Werder Bremen,2.188949,0.886136
+2021-01-19|Mainz|Wolfsburg,1.305333,1.677126
+2021-01-20|Augsburg|Bayern Munich,0.984822,2.003816
+2021-01-20|Bielefeld|Stuttgart,1.225532,1.752478
+2021-01-20|Freiburg|Ein Frankfurt,1.601035,1.461107
+2021-01-20|RB Leipzig|Union Berlin,2.247686,0.822837
+2021-01-20|Schalke 04|FC Koln,1.361596,1.263012
+2021-01-22|M'gladbach|Dortmund,1.737349,1.520228
+2021-01-23|Augsburg|Union Berlin,1.324942,1.558353
+2021-01-23|Bielefeld|Ein Frankfurt,1.245300,1.622781
+2021-01-23|Freiburg|Stuttgart,1.725104,1.436480
+2021-01-23|Hertha|Werder Bremen,1.502213,1.089594
+2021-01-23|Leverkusen|Wolfsburg,1.931409,1.049054
+2021-01-23|Mainz|RB Leipzig,0.948550,2.393806
+2021-01-24|Hoffenheim|FC Koln,1.848770,1.055550
+2021-01-24|Schalke 04|Bayern Munich,0.913921,2.053185
+2021-01-29|Stuttgart|Mainz,1.928398,1.258471
+2021-01-30|Bayern Munich|Hoffenheim,2.399639,1.073997
+2021-01-30|Dortmund|Augsburg,2.153322,0.812131
+2021-01-30|Ein Frankfurt|Hertha,2.217480,1.210560
+2021-01-30|RB Leipzig|Leverkusen,1.798338,1.026098
+2021-01-30|Union Berlin|M'gladbach,1.476596,1.378092
+2021-01-30|Werder Bremen|Schalke 04,1.689337,0.989222
+2021-01-31|FC Koln|Bielefeld,1.342202,1.167106
+2021-01-31|Wolfsburg|Freiburg,1.815745,1.115806
+2021-02-05|Hertha|Bayern Munich,1.025132,2.212631
+2021-02-06|Augsburg|Wolfsburg,1.260759,1.884816
+2021-02-06|Freiburg|Dortmund,1.479799,2.109848
+2021-02-06|Leverkusen|Stuttgart,1.943457,1.158503
+2021-02-06|M'gladbach|FC Koln,2.218384,0.949758
+2021-02-06|Mainz|Union Berlin,1.352980,1.440014
+2021-02-06|Schalke 04|RB Leipzig,1.024855,2.278501
+2021-02-07|Hoffenheim|Ein Frankfurt,1.486833,1.691837
+2021-02-12|RB Leipzig|Augsburg,2.435570,0.616788
+2021-02-13|Dortmund|Hoffenheim,2.131900,1.214819
+2021-02-13|Leverkusen|Mainz,2.258544,0.809657
+2021-02-13|Stuttgart|Hertha,1.732517,1.373392
+2021-02-13|Union Berlin|Schalke 04,1.743994,1.021409
+2021-02-13|Werder Bremen|Freiburg,1.494264,1.102473
+2021-02-14|Ein Frankfurt|FC Koln,2.185879,0.846459
+2021-02-14|Wolfsburg|M'gladbach,1.816077,1.179432
+2021-02-15|Bayern Munich|Bielefeld,2.407367,0.806918
+2021-02-19|Bielefeld|Wolfsburg,1.155084,1.943289
+2021-02-20|Ein Frankfurt|Bayern Munich,1.607832,1.594926
+2021-02-20|FC Koln|Stuttgart,1.355218,1.589694
+2021-02-20|Freiburg|Union Berlin,1.622227,1.151238
+2021-02-20|M'gladbach|Mainz,2.153393,0.951083
+2021-02-20|Schalke 04|Dortmund,1.088766,1.962983
+2021-02-21|Augsburg|Leverkusen,1.213018,2.121545
+2021-02-21|Hertha|RB Leipzig,1.140659,2.014818
+2021-02-21|Hoffenheim|Werder Bremen,1.729827,1.184400
+2021-02-26|Werder Bremen|Ein Frankfurt,1.297636,1.566261
+2021-02-27|Bayern Munich|FC Koln,2.338699,0.769462
+2021-02-27|Dortmund|Bielefeld,2.256027,0.904445
+2021-02-27|RB Leipzig|M'gladbach,2.211501,0.886883
+2021-02-27|Stuttgart|Schalke 04,2.169922,1.169803
+2021-02-27|Wolfsburg|Hertha,2.029833,0.957355
+2021-02-28|Leverkusen|Freiburg,2.045453,1.008310
+2021-02-28|Mainz|Augsburg,1.545923,0.952893
+2021-02-28|Union Berlin|Hoffenheim,1.546530,1.310588
+2021-03-05|Schalke 04|Mainz,1.308638,1.532797
+2021-03-06|Bayern Munich|Dortmund,2.269792,1.244775
+2021-03-06|Ein Frankfurt|Stuttgart,2.039809,1.242545
+2021-03-06|Freiburg|RB Leipzig,1.117368,2.249378
+2021-03-06|Hertha|Augsburg,1.407618,0.938837
+2021-03-06|Hoffenheim|Wolfsburg,1.396097,1.653611
+2021-03-06|M'gladbach|Leverkusen,1.510794,1.451008
+2021-03-07|Bielefeld|Union Berlin,1.288679,1.493932
+2021-03-07|FC Koln|Werder Bremen,1.378475,1.280838
+2021-03-10|Bielefeld|Werder Bremen,1.316998,1.453187
+2021-03-12|Augsburg|M'gladbach,1.364556,1.632999
+2021-03-13|Dortmund|Hertha,2.189403,1.151153
+2021-03-13|Mainz|Freiburg,1.443190,1.202182
+2021-03-13|Union Berlin|FC Koln,1.554299,0.876081
+2021-03-13|Werder Bremen|Bayern Munich,0.844407,2.056745
+2021-03-13|Wolfsburg|Schalke 04,2.251587,0.809345
+2021-03-14|Leverkusen|Bielefeld,2.198702,0.728733
+2021-03-14|RB Leipzig|Ein Frankfurt,2.252364,0.997440
+2021-03-14|Stuttgart|Hoffenheim,1.543609,1.536564
+2021-03-19|Bielefeld|RB Leipzig,0.874331,2.179215
+2021-03-20|Bayern Munich|Stuttgart,2.439451,1.062242
+2021-03-20|Ein Frankfurt|Union Berlin,2.024450,0.995710
+2021-03-20|FC Koln|Dortmund,1.269107,1.865560
+2021-03-20|Schalke 04|M'gladbach,1.209257,1.845067
+2021-03-20|Werder Bremen|Wolfsburg,1.040740,1.779272
+2021-03-21|Freiburg|Augsburg,1.550627,0.936970
+2021-03-21|Hertha|Leverkusen,1.195057,1.816128
+2021-03-21|Hoffenheim|Mainz,1.826435,1.194241
+2021-04-03|Augsburg|Hoffenheim,1.258983,1.621117
+2021-04-03|Dortmund|Ein Frankfurt,1.778021,1.174834
+2021-04-03|Leverkusen|Schalke 04,2.148311,1.056829
+2021-04-03|M'gladbach|Freiburg,1.915837,0.954617
+2021-04-03|Mainz|Bielefeld,1.507919,0.869260
+2021-04-03|RB Leipzig|Bayern Munich,1.660547,1.298266
+2021-04-03|Wolfsburg|FC Koln,2.307440,0.905850
+2021-04-04|Stuttgart|Werder Bremen,1.705700,0.965833
+2021-04-04|Union Berlin|Hertha,1.682475,1.162173
+2021-04-09|Bielefeld|Freiburg,1.310663,1.141631
+2021-04-10|Bayern Munich|Union Berlin,2.363745,0.952295
+2021-04-10|Ein Frankfurt|Wolfsburg,1.597365,1.459697
+2021-04-10|Hertha|M'gladbach,1.406615,1.401241
+2021-04-10|Stuttgart|Dortmund,1.531588,1.544701
+2021-04-10|Werder Bremen|RB Leipzig,0.845030,1.975121
+2021-04-11|FC Koln|Mainz,1.326412,1.730975
+2021-04-11|Schalke 04|Augsburg,1.352476,1.289655
+2021-04-12|Hoffenheim|Leverkusen,1.290366,1.646781
+2021-04-16|RB Leipzig|Hoffenheim,2.459641,0.783178
+2021-04-17|Augsburg|Bielefeld,1.399175,0.878650
+2021-04-17|Freiburg|Schalke 04,1.569890,0.993596
+2021-04-17|Leverkusen|FC Koln,1.957553,1.091902
+2021-04-17|M'gladbach|Ein Frankfurt,1.663687,1.491164
+2021-04-17|Union Berlin|Stuttgart,1.517179,1.242555
+2021-04-17|Wolfsburg|Bayern Munich,1.512986,1.647553
+2021-04-18|Dortmund|Werder Bremen,2.310552,0.853834
+2021-04-20|Bayern Munich|Leverkusen,2.165286,1.010834
+2021-04-20|Bielefeld|Schalke 04,1.435698,1.008492
+2021-04-20|Ein Frankfurt|Augsburg,2.163009,0.770717
+2021-04-20|FC Koln|RB Leipzig,0.836115,2.410269
+2021-04-21|Dortmund|Union Berlin,2.071524,1.081043
+2021-04-21|Hoffenheim|M'gladbach,1.436532,1.396553
+2021-04-21|Stuttgart|Wolfsburg,1.379913,1.718754
+2021-04-21|Werder Bremen|Mainz,1.389413,1.305475
+2021-04-23|Augsburg|FC Koln,1.451232,1.225350
+2021-04-24|Freiburg|Hoffenheim,1.310424,1.319328
+2021-04-24|Leverkusen|Ein Frankfurt,1.598035,1.336967
+2021-04-24|Mainz|Bayern Munich,0.839450,2.467293
+2021-04-24|Union Berlin|Werder Bremen,1.650283,1.064644
+2021-04-24|Wolfsburg|Dortmund,1.708072,1.529780
+2021-04-25|M'gladbach|Bielefeld,1.988777,0.782001
+2021-04-25|RB Leipzig|Stuttgart,2.731240,0.893710
+2021-05-03|Mainz|Hertha,1.496321,1.321041
+2021-05-06|Hertha|Freiburg,1.464836,1.201939
+2021-05-07|Stuttgart|Augsburg,1.572433,1.122517
+2021-05-08|Bayern Munich|M'gladbach,2.412578,1.064408
+2021-05-08|Dortmund|RB Leipzig,1.523113,1.443515
+2021-05-08|Hoffenheim|Schalke 04,1.879281,1.065606
+2021-05-08|Werder Bremen|Leverkusen,1.256499,1.829382
+2021-05-08|Wolfsburg|Union Berlin,1.876555,1.072712
+2021-05-09|Ein Frankfurt|Mainz,2.172025,1.139772
+2021-05-09|FC Koln|Freiburg,1.393106,1.192652
+2021-05-09|Hertha|Bielefeld,1.656590,0.861727
+2021-05-12|Schalke 04|Hertha,1.293003,1.815470
+2021-05-15|Augsburg|Werder Bremen,1.416166,1.292865
+2021-05-15|Bielefeld|Hoffenheim,1.167516,1.606555
+2021-05-15|Freiburg|Bayern Munich,0.897868,2.694088
+2021-05-15|Hertha|FC Koln,1.735040,1.146083
+2021-05-15|Leverkusen|Union Berlin,1.766665,1.097198
+2021-05-15|M'gladbach|Stuttgart,2.045219,1.032685
+2021-05-15|Schalke 04|Ein Frankfurt,1.238818,1.945433
+2021-05-16|Mainz|Dortmund,1.336648,1.902569
+2021-05-16|RB Leipzig|Wolfsburg,2.255369,0.907305
+2021-05-22|Bayern Munich|Augsburg,2.639397,0.911428
+2021-05-22|Dortmund|Leverkusen,2.074152,1.177765
+2021-05-22|Ein Frankfurt|Freiburg,2.005889,1.151813
+2021-05-22|FC Koln|Schalke 04,1.836464,0.966959
+2021-05-22|Hoffenheim|Hertha,1.684779,1.227553
+2021-05-22|Stuttgart|Bielefeld,1.533463,0.951786
+2021-05-22|Union Berlin|RB Leipzig,1.043209,2.029814
+2021-05-22|Werder Bremen|M'gladbach,1.376087,1.442548
+2021-05-22|Wolfsburg|Mainz,2.183141,1.042658
+2021-08-13|M'gladbach|Bayern Munich,1.328079,2.093925
+2021-08-14|Augsburg|Hoffenheim,1.188161,1.479787
+2021-08-14|Bielefeld|Freiburg,1.445716,1.100646
+2021-08-14|Dortmund|Ein Frankfurt,2.140130,1.230994
+2021-08-14|Stuttgart|Greuther Furth,1.178038,1.673507
+2021-08-14|Union Berlin|Leverkusen,1.362680,1.363484
+2021-08-14|Wolfsburg|Bochum,1.943281,1.086231
+2021-08-15|FC Koln|Hertha,1.378282,1.258974
+2021-08-15|Mainz|RB Leipzig,1.189716,2.031081
+2021-08-20|RB Leipzig|Stuttgart,2.132025,1.000802
+2021-08-21|Bochum|Mainz,1.182373,1.282139
+2021-08-21|Ein Frankfurt|Augsburg,2.278885,0.977077
+2021-08-21|Freiburg|Dortmund,1.337300,1.831134
+2021-08-21|Greuther Furth|Bielefeld,1.545370,1.060407
+2021-08-21|Hertha|Wolfsburg,1.219206,1.640258
+2021-08-21|Leverkusen|M'gladbach,1.733240,1.195546
+2021-08-22|Bayern Munich|FC Koln,2.661074,0.971460
+2021-08-22|Hoffenheim|Union Berlin,1.839196,1.069129
+2021-08-27|Dortmund|Hoffenheim,2.153717,1.074076
+2021-08-28|Augsburg|Leverkusen,1.161460,1.770471
+2021-08-28|Bayern Munich|Hertha,2.668889,0.940106
+2021-08-28|Bielefeld|Ein Frankfurt,1.373759,1.662266
+2021-08-28|FC Koln|Bochum,1.564186,1.151770
+2021-08-28|Mainz|Greuther Furth,1.422608,1.461939
+2021-08-28|Stuttgart|Freiburg,1.611527,1.234981
+2021-08-29|Union Berlin|M'gladbach,1.554134,1.215900
+2021-08-29|Wolfsburg|RB Leipzig,1.600603,1.530623
+2021-09-11|Freiburg|FC Koln,1.608508,1.212024
+2021-09-11|Greuther Furth|Wolfsburg,1.192088,1.632459
+2021-09-11|Hoffenheim|Mainz,1.717025,1.266068
+2021-09-11|Leverkusen|Dortmund,1.648102,1.476208
+2021-09-11|RB Leipzig|Bayern Munich,1.511797,1.556098
+2021-09-11|Union Berlin|Augsburg,1.866665,1.012709
+2021-09-12|Bochum|Hertha,1.340306,1.127085
+2021-09-12|Ein Frankfurt|Stuttgart,2.087642,1.233348
+2021-09-12|M'gladbach|Bielefeld,1.890126,1.036669
+2021-09-17|Hertha|Greuther Furth,1.483330,1.195804
+2021-09-18|Augsburg|M'gladbach,1.408528,1.420451
+2021-09-18|Bayern Munich|Bochum,2.855948,0.899722
+2021-09-18|Bielefeld|Hoffenheim,1.395799,1.339710
+2021-09-18|FC Koln|RB Leipzig,1.221056,1.773632
+2021-09-18|Mainz|Freiburg,1.716548,1.028974
+2021-09-19|Dortmund|Union Berlin,2.409983,0.951764
+2021-09-19|Stuttgart|Leverkusen,1.456068,1.459287
+2021-09-19|Wolfsburg|Ein Frankfurt,1.902643,1.184593
+2021-09-24|Greuther Furth|Bayern Munich,0.912172,2.093766
+2021-09-25|Ein Frankfurt|FC Koln,2.021917,1.202923
+2021-09-25|Hoffenheim|Wolfsburg,1.301804,1.572757
+2021-09-25|Leverkusen|Mainz,1.924331,1.173684
+2021-09-25|M'gladbach|Dortmund,1.488288,1.843368
+2021-09-25|RB Leipzig|Hertha,2.134239,0.888554
+2021-09-25|Union Berlin|Bielefeld,1.631999,0.990445
+2021-09-26|Bochum|Stuttgart,1.229148,1.508348
+2021-09-26|Freiburg|Augsburg,1.489704,0.910457
+2021-10-01|FC Koln|Greuther Furth,1.587013,1.183142
+2021-10-02|Dortmund|Augsburg,2.755268,0.879191
+2021-10-02|Hertha|Freiburg,1.398843,1.337180
+2021-10-02|RB Leipzig|Bochum,2.259241,0.813173
+2021-10-02|Stuttgart|Hoffenheim,1.472255,1.347039
+2021-10-02|Wolfsburg|M'gladbach,1.881715,1.180331
+2021-10-03|Bayern Munich|Ein Frankfurt,2.761341,1.046856
+2021-10-03|Bielefeld|Leverkusen,1.388124,1.508655
+2021-10-03|Mainz|Union Berlin,1.416835,1.162023
+2021-10-15|Hoffenheim|FC Koln,1.642601,1.351993
+2021-10-16|Dortmund|Mainz,2.496989,1.060899
+2021-10-16|Ein Frankfurt|Hertha,1.972335,1.159272
+2021-10-16|Freiburg|RB Leipzig,1.163433,1.890895
+2021-10-16|Greuther Furth|Bochum,1.651598,1.067952
+2021-10-16|M'gladbach|Stuttgart,2.025174,1.170653
+2021-10-16|Union Berlin|Wolfsburg,1.349143,1.373084
+2021-10-17|Augsburg|Bielefeld,1.273581,1.185333
+2021-10-17|Leverkusen|Bayern Munich,1.428923,1.822695
+2021-10-22|Mainz|Augsburg,1.686468,0.981344
+2021-10-23|Bayern Munich|Hoffenheim,2.614610,0.956692
+2021-10-23|Bielefeld|Dortmund,1.105234,1.959856
+2021-10-23|Hertha|M'gladbach,1.359462,1.589767
+2021-10-23|RB Leipzig|Greuther Furth,2.273712,0.813404
+2021-10-23|Wolfsburg|Freiburg,1.788517,1.099213
+2021-10-24|Bochum|Ein Frankfurt,1.279446,1.344649
+2021-10-24|FC Koln|Leverkusen,1.528711,1.459805
+2021-10-24|Stuttgart|Union Berlin,1.478485,1.259009
+2021-10-29|Hoffenheim|Hertha,1.788221,1.107509
+2021-10-30|Bielefeld|Mainz,1.237180,1.437922
+2021-10-30|Dortmund|FC Koln,2.456905,1.049131
+2021-10-30|Ein Frankfurt|RB Leipzig,1.213220,1.936429
+2021-10-30|Freiburg|Greuther Furth,1.675345,0.980916
+2021-10-30|Leverkusen|Wolfsburg,1.758082,1.307025
+2021-10-30|Union Berlin|Bayern Munich,1.059991,1.799788
+2021-10-31|Augsburg|Stuttgart,1.209955,1.362949
+2021-10-31|M'gladbach|Bochum,1.996379,1.043222
+2021-11-05|Mainz|M'gladbach,1.541351,1.300823
+2021-11-06|Bayern Munich|Freiburg,2.736732,0.925415
+2021-11-06|Bochum|Hoffenheim,1.168923,1.374330
+2021-11-06|RB Leipzig|Dortmund,1.786719,1.183072
+2021-11-06|Stuttgart|Bielefeld,1.588505,1.124850
+2021-11-06|Wolfsburg|Augsburg,2.069013,1.026545
+2021-11-07|FC Koln|Union Berlin,1.427787,1.313491
+2021-11-07|Greuther Furth|Ein Frankfurt,1.422298,1.179843
+2021-11-07|Hertha|Leverkusen,1.471146,1.307097
+2021-11-19|Augsburg|Bayern Munich,0.724349,2.177382
+2021-11-20|Bielefeld|Wolfsburg,1.115915,1.652892
+2021-11-20|Dortmund|Stuttgart,2.568783,0.939092
+2021-11-20|Hoffenheim|RB Leipzig,1.170704,1.869162
+2021-11-20|Leverkusen|Bochum,1.827531,1.121644
+2021-11-20|M'gladbach|Greuther Furth,1.933773,1.109740
+2021-11-20|Union Berlin|Hertha,1.703569,1.102204
+2021-11-21|Freiburg|Ein Frankfurt,1.699962,1.110631
+2021-11-21|Mainz|FC Koln,1.726901,1.261957
+2021-11-26|Stuttgart|Mainz,1.346471,1.377482
+2021-11-27|Bayern Munich|Bielefeld,3.080967,0.800828
+2021-11-27|Bochum|Freiburg,1.432347,1.219457
+2021-11-27|FC Koln|M'gladbach,1.543664,1.537491
+2021-11-27|Greuther Furth|Hoffenheim,1.196396,1.494434
+2021-11-27|Hertha|Augsburg,1.561277,1.079535
+2021-11-27|Wolfsburg|Dortmund,1.644177,1.386463
+2021-11-28|Ein Frankfurt|Union Berlin,1.690650,1.202673
+2021-11-28|RB Leipzig|Leverkusen,2.077150,0.991921
+2021-12-03|Union Berlin|RB Leipzig,1.353059,1.669901
+2021-12-04|Augsburg|Bochum,1.410389,1.124463
+2021-12-04|Bielefeld|FC Koln,1.268048,1.648237
+2021-12-04|Dortmund|Bayern Munich,1.654518,1.803695
+2021-12-04|Hoffenheim|Ein Frankfurt,1.815018,1.152445
+2021-12-04|Leverkusen|Greuther Furth,1.949362,0.894061
+2021-12-04|Mainz|Wolfsburg,1.429621,1.388013
+2021-12-05|M'gladbach|Freiburg,1.889306,1.168153
+2021-12-05|Stuttgart|Hertha,1.506920,1.254822
+2021-12-10|FC Koln|Augsburg,1.850180,1.113695
+2021-12-11|Bayern Munich|Mainz,2.720737,0.990518
+2021-12-11|Bochum|Dortmund,1.324330,1.599744
+2021-12-11|Freiburg|Hoffenheim,1.697840,1.416661
+2021-12-11|Hertha|Bielefeld,1.551470,1.045188
+2021-12-11|RB Leipzig|M'gladbach,2.028436,1.263913
+2021-12-11|Wolfsburg|Stuttgart,1.856140,1.034578
+2021-12-12|Ein Frankfurt|Leverkusen,1.650948,1.257260
+2021-12-12|Greuther Furth|Union Berlin,1.208403,1.361154
+2021-12-14|Bielefeld|Bochum,1.367411,1.136648
+2021-12-14|Mainz|Hertha,1.655952,1.153489
+2021-12-14|Stuttgart|Bayern Munich,0.706550,2.196884
+2021-12-14|Wolfsburg|FC Koln,1.689972,1.259642
+2021-12-15|Augsburg|RB Leipzig,1.246593,2.030489
+2021-12-15|Dortmund|Greuther Furth,2.687670,0.856234
+2021-12-15|Leverkusen|Hoffenheim,1.778523,1.373199
+2021-12-15|M'gladbach|Ein Frankfurt,1.523001,1.482752
+2021-12-15|Union Berlin|Freiburg,1.593374,1.182112
+2021-12-17|Bayern Munich|Wolfsburg,2.680692,0.931987
+2021-12-18|Bochum|Union Berlin,1.236542,1.347512
+2021-12-18|Ein Frankfurt|Mainz,1.949243,1.339937
+2021-12-18|Greuther Furth|Augsburg,1.198335,1.235813
+2021-12-18|Hertha|Dortmund,1.296391,1.708389
+2021-12-18|Hoffenheim|M'gladbach,2.098043,1.227848
+2021-12-18|RB Leipzig|Bielefeld,2.254227,0.846649
+2021-12-19|FC Koln|Stuttgart,1.775175,1.115659
+2021-12-19|Freiburg|Leverkusen,1.635816,1.203715
+2022-01-07|Bayern Munich|M'gladbach,3.092534,0.957200
+2022-01-08|Ein Frankfurt|Dortmund,1.683968,1.508068
+2022-01-08|Freiburg|Bielefeld,1.940974,0.917222
+2022-01-08|Greuther Furth|Stuttgart,1.349984,1.131266
+2022-01-08|Hoffenheim|Augsburg,2.075438,1.056444
+2022-01-08|Leverkusen|Union Berlin,1.818799,1.191977
+2022-01-08|RB Leipzig|Mainz,2.045571,1.294658
+2022-01-09|Bochum|Wolfsburg,1.317963,1.412451
+2022-01-09|Hertha|FC Koln,1.388227,1.416671
+2022-01-14|Dortmund|Freiburg,2.288888,1.084644
+2022-01-15|FC Koln|Bayern Munich,0.897294,2.080795
+2022-01-15|M'gladbach|Leverkusen,1.611894,1.292915
+2022-01-15|Mainz|Bochum,1.647205,1.034642
+2022-01-15|Stuttgart|RB Leipzig,1.112925,2.046926
+2022-01-15|Union Berlin|Hoffenheim,1.571159,1.353338
+2022-01-15|Wolfsburg|Hertha,1.688600,1.267724
+2022-01-16|Augsburg|Ein Frankfurt,1.449454,1.319880
+2022-01-16|Bielefeld|Greuther Furth,1.493303,0.991410
+2022-01-21|Ein Frankfurt|Bielefeld,1.981646,1.012204
+2022-01-22|Bochum|FC Koln,1.338500,1.452347
+2022-01-22|Freiburg|Stuttgart,1.910384,1.103633
+2022-01-22|Greuther Furth|Mainz,1.230548,1.592926
+2022-01-22|Hoffenheim|Dortmund,1.591932,1.607650
+2022-01-22|Leverkusen|Augsburg,2.138301,1.104106
+2022-01-22|M'gladbach|Union Berlin,1.200548,1.296384
+2022-01-23|Hertha|Bayern Munich,0.762857,2.052241
+2022-01-23|RB Leipzig|Wolfsburg,2.075317,1.068954
+2022-02-04|Hertha|Bochum,1.343265,1.243358
+2022-02-05|Augsburg|Union Berlin,1.185982,1.353639
+2022-02-05|Bayern Munich|RB Leipzig,2.439747,0.923316
+2022-02-05|Bielefeld|M'gladbach,1.451634,1.328675
+2022-02-05|FC Koln|Freiburg,1.569824,1.361439
+2022-02-05|Mainz|Hoffenheim,1.337289,1.454801
+2022-02-05|Stuttgart|Ein Frankfurt,1.437100,1.359542
+2022-02-06|Dortmund|Leverkusen,2.437977,1.301157
+2022-02-06|Wolfsburg|Greuther Furth,1.748901,1.077699
+2022-02-11|RB Leipzig|FC Koln,2.093425,1.087591
+2022-02-12|Bochum|Bayern Munich,0.780329,2.199489
+2022-02-12|Ein Frankfurt|Wolfsburg,1.940219,1.231008
+2022-02-12|Freiburg|Mainz,1.705210,1.312240
+2022-02-12|Greuther Furth|Hertha,1.320884,1.098528
+2022-02-12|Leverkusen|Stuttgart,2.207132,1.111449
+2022-02-12|M'gladbach|Augsburg,1.639087,1.276908
+2022-02-13|Hoffenheim|Bielefeld,2.129820,0.958842
+2022-02-13|Union Berlin|Dortmund,1.356134,1.689140
+2022-02-18|Mainz|Leverkusen,1.587856,1.455285
+2022-02-19|Augsburg|Freiburg,1.267313,1.437385
+2022-02-19|Bielefeld|Union Berlin,1.260973,1.327409
+2022-02-19|FC Koln|Ein Frankfurt,1.535775,1.320953
+2022-02-19|Stuttgart|Bochum,1.376481,1.288900
+2022-02-19|Wolfsburg|Hoffenheim,1.278395,1.568439
+2022-02-20|Bayern Munich|Greuther Furth,3.291114,0.925492
+2022-02-20|Dortmund|M'gladbach,2.867833,1.088809
+2022-02-20|Hertha|RB Leipzig,1.219360,1.725005
+2022-02-25|Hoffenheim|Stuttgart,2.259121,1.053825
+2022-02-26|Ein Frankfurt|Bayern Munich,0.863420,2.120928
+2022-02-26|Freiburg|Hertha,2.044433,1.031166
+2022-02-26|Greuther Furth|FC Koln,1.298123,1.383077
+2022-02-26|Leverkusen|Bielefeld,2.308707,0.921650
+2022-02-26|M'gladbach|Wolfsburg,1.387601,1.374181
+2022-02-26|Union Berlin|Mainz,1.428743,1.358112
+2022-02-27|Augsburg|Dortmund,1.020162,1.931740
+2022-02-27|Bochum|RB Leipzig,1.199708,1.855182
+2022-03-04|Bielefeld|Augsburg,1.343282,1.267367
+2022-03-05|Bayern Munich|Leverkusen,2.777490,1.145843
+2022-03-05|Bochum|Greuther Furth,1.584695,1.028636
+2022-03-05|Hertha|Ein Frankfurt,1.212231,1.298922
+2022-03-05|RB Leipzig|Freiburg,2.090889,1.155847
+2022-03-05|Stuttgart|M'gladbach,1.465999,1.362400
+2022-03-05|Wolfsburg|Union Berlin,1.427138,1.257656
+2022-03-06|FC Koln|Hoffenheim,1.315201,1.531112
+2022-03-12|Freiburg|Wolfsburg,1.793329,1.112666
+2022-03-12|Hoffenheim|Bayern Munich,1.222782,1.813622
+2022-03-12|M'gladbach|Hertha,1.729441,1.220562
+2022-03-12|Union Berlin|Stuttgart,1.792018,1.178624
+2022-03-13|Dortmund|Bielefeld,2.497946,0.845962
+2022-03-13|Ein Frankfurt|Bochum,1.668996,1.258885
+2022-03-13|Greuther Furth|RB Leipzig,1.072160,1.999936
+2022-03-13|Leverkusen|FC Koln,2.259258,1.146774
+2022-03-16|Mainz|Dortmund,1.295170,1.667642
+2022-03-18|Bochum|M'gladbach,1.572019,1.380110
+2022-03-19|Bayern Munich|Union Berlin,2.566896,0.946612
+2022-03-19|Greuther Furth|Freiburg,1.241841,1.608121
+2022-03-19|Hertha|Hoffenheim,1.125520,1.895202
+2022-03-19|Mainz|Bielefeld,1.842130,1.041544
+2022-03-19|Stuttgart|Augsburg,1.432726,1.210118
+2022-03-20|FC Koln|Dortmund,1.210084,1.896358
+2022-03-20|RB Leipzig|Ein Frankfurt,2.274336,1.047342
+2022-03-20|Wolfsburg|Leverkusen,1.497677,1.650394
+2022-04-01|Union Berlin|FC Koln,1.488730,1.193074
+2022-04-02|Bielefeld|Stuttgart,1.322638,1.584934
+2022-04-02|Dortmund|RB Leipzig,2.015765,1.297651
+2022-04-02|Ein Frankfurt|Greuther Furth,1.832419,0.876003
+2022-04-02|Freiburg|Bayern Munich,1.019295,2.018168
+2022-04-02|Hoffenheim|Bochum,1.867680,1.209980
+2022-04-02|Leverkusen|Hertha,2.395647,0.935382
+2022-04-03|Augsburg|Wolfsburg,1.379686,1.301751
+2022-04-03|M'gladbach|Mainz,1.357369,1.447775
+2022-04-06|Augsburg|Mainz,1.392051,1.483956
+2022-04-08|Stuttgart|Dortmund,1.249285,1.706458
+2022-04-09|Bayern Munich|Augsburg,2.992021,0.895652
+2022-04-09|FC Koln|Mainz,1.379795,1.445554
+2022-04-09|Greuther Furth|M'gladbach,1.304785,1.399397
+2022-04-09|Hertha|Union Berlin,1.280409,1.319478
+2022-04-09|Wolfsburg|Bielefeld,1.617404,1.026717
+2022-04-10|Bochum|Leverkusen,1.454383,1.699981
+2022-04-10|Ein Frankfurt|Freiburg,1.534312,1.287788
+2022-04-10|RB Leipzig|Hoffenheim,2.232804,1.067429
+2022-04-16|Augsburg|Hertha,1.609706,1.040272
+2022-04-16|Dortmund|Wolfsburg,2.308924,1.067624
+2022-04-16|Freiburg|Bochum,1.772353,1.261497
+2022-04-16|M'gladbach|FC Koln,1.687632,1.230536
+2022-04-16|Mainz|Stuttgart,1.849931,1.285943
+2022-04-17|Bielefeld|Bayern Munich,0.646926,2.179021
+2022-04-17|Hoffenheim|Greuther Furth,2.124524,0.911347
+2022-04-17|Leverkusen|RB Leipzig,1.620228,1.321885
+2022-04-17|Union Berlin|Ein Frankfurt,1.647899,1.156036
+2022-04-22|Wolfsburg|Mainz,1.383500,1.426343
+2022-04-23|Bayern Munich|Dortmund,2.259406,0.958232
+2022-04-23|Ein Frankfurt|Hoffenheim,1.516755,1.326339
+2022-04-23|FC Koln|Bielefeld,2.021531,0.932682
+2022-04-23|Freiburg|M'gladbach,1.986872,1.208751
+2022-04-23|Greuther Furth|Leverkusen,1.166872,2.012717
+2022-04-23|RB Leipzig|Union Berlin,2.070318,0.990203
+2022-04-24|Bochum|Augsburg,1.481581,1.160531
+2022-04-24|Hertha|Stuttgart,1.322853,1.370377
+2022-04-29|Union Berlin|Greuther Furth,2.098599,0.871457
+2022-04-30|Augsburg|FC Koln,1.417688,1.341839
+2022-04-30|Bielefeld|Hertha,1.356385,1.207804
+2022-04-30|Dortmund|Bochum,2.279107,1.048265
+2022-04-30|Hoffenheim|Freiburg,1.531439,1.402566
+2022-04-30|Mainz|Bayern Munich,0.769886,2.070725
+2022-04-30|Stuttgart|Wolfsburg,1.504145,1.293852
+2022-05-02|Leverkusen|Ein Frankfurt,2.098022,1.000159
+2022-05-02|M'gladbach|RB Leipzig,1.166219,1.649407
+2022-05-06|Bochum|Bielefeld,1.853426,0.968773
+2022-05-07|FC Koln|Wolfsburg,1.821952,1.185521
+2022-05-07|Freiburg|Union Berlin,1.911731,1.241989
+2022-05-07|Greuther Furth|Dortmund,1.048845,2.085400
+2022-05-07|Hertha|Mainz,1.262100,1.528957
+2022-05-07|Hoffenheim|Leverkusen,1.452802,1.571008
+2022-05-08|Bayern Munich|Stuttgart,3.047480,0.994011
+2022-05-08|Ein Frankfurt|M'gladbach,1.576448,1.237260
+2022-05-08|RB Leipzig|Augsburg,2.096403,0.904055
+2022-05-14|Augsburg|Greuther Furth,1.601998,1.091204
+2022-05-14|Bielefeld|RB Leipzig,0.856197,1.997278
+2022-05-14|Dortmund|Hertha,2.652010,0.891274
+2022-05-14|Leverkusen|Freiburg,2.113568,1.143369
+2022-05-14|M'gladbach|Hoffenheim,1.792965,1.300572
+2022-05-14|Mainz|Ein Frankfurt,1.751965,1.216087
+2022-05-14|Stuttgart|FC Koln,1.392146,1.453542
+2022-05-14|Union Berlin|Bochum,1.909929,1.075337
+2022-05-14|Wolfsburg|Bayern Munich,0.884076,2.192029
+2022-08-05|Ein Frankfurt|Bayern Munich,1.228649,2.057122
+2022-08-06|Augsburg|Freiburg,1.455883,1.487832
+2022-08-06|Bochum|Mainz,1.481010,1.431509
+2022-08-06|Dortmund|Leverkusen,1.854706,1.508613
+2022-08-06|M'gladbach|Hoffenheim,1.780980,1.319140
+2022-08-06|Union Berlin|Hertha,2.178499,0.909851
+2022-08-06|Wolfsburg|Werder Bremen,1.537214,1.615018
+2022-08-07|FC Koln|Schalke 04,1.813172,1.502756
+2022-08-07|Stuttgart|RB Leipzig,1.282670,1.820321
+2022-08-12|Freiburg|Dortmund,1.429817,1.563346
+2022-08-13|Hertha|Ein Frankfurt,1.424095,1.278278
+2022-08-13|Hoffenheim|Bochum,1.534258,1.202951
+2022-08-13|Leverkusen|Augsburg,2.104136,0.884848
+2022-08-13|RB Leipzig|FC Koln,1.973932,1.047846
+2022-08-13|Schalke 04|M'gladbach,1.563354,1.586261
+2022-08-13|Werder Bremen|Stuttgart,1.635623,1.279493
+2022-08-14|Bayern Munich|Wolfsburg,2.606920,0.961400
+2022-08-14|Mainz|Union Berlin,1.490031,1.376398
+2022-08-19|M'gladbach|Hertha,2.047703,1.031326
+2022-08-20|Augsburg|Mainz,1.384820,1.482871
+2022-08-20|Dortmund|Werder Bremen,2.331646,1.164880
+2022-08-20|Leverkusen|Hoffenheim,2.111814,1.065591
+2022-08-20|Stuttgart|Freiburg,1.557869,1.493188
+2022-08-20|Union Berlin|RB Leipzig,1.475523,1.396422
+2022-08-20|Wolfsburg|Schalke 04,1.573549,1.508837
+2022-08-21|Bochum|Bayern Munich,1.144016,2.532048
+2022-08-21|Ein Frankfurt|FC Koln,1.476298,1.547022
+2022-08-26|Freiburg|Bochum,2.050140,1.095257
+2022-08-27|Bayern Munich|M'gladbach,2.536200,1.166372
+2022-08-27|Hertha|Dortmund,1.268435,1.894108
+2022-08-27|Hoffenheim|Augsburg,1.934656,0.950548
+2022-08-27|Mainz|Leverkusen,1.617348,1.401524
+2022-08-27|RB Leipzig|Wolfsburg,2.111979,0.872258
+2022-08-27|Schalke 04|Union Berlin,1.317864,1.528992
+2022-08-28|FC Koln|Stuttgart,1.780215,1.274858
+2022-08-28|Werder Bremen|Ein Frankfurt,1.653282,1.007669
+2022-09-02|Dortmund|Hoffenheim,2.174298,1.157389
+2022-09-03|Bochum|Werder Bremen,1.356151,1.485536
+2022-09-03|Ein Frankfurt|RB Leipzig,1.281227,1.878372
+2022-09-03|Leverkusen|Freiburg,1.840510,1.267461
+2022-09-03|Stuttgart|Schalke 04,1.674285,1.147970
+2022-09-03|Union Berlin|Bayern Munich,1.395365,1.776551
+2022-09-03|Wolfsburg|FC Koln,1.430008,1.437068
+2022-09-04|Augsburg|Hertha,1.502869,1.142366
+2022-09-04|M'gladbach|Mainz,1.634797,1.385494
+2022-09-09|Werder Bremen|Augsburg,2.003461,0.860589
+2022-09-10|Bayern Munich|Stuttgart,2.595657,1.013901
+2022-09-10|Ein Frankfurt|Wolfsburg,1.746650,1.035917
+2022-09-10|Hertha|Leverkusen,1.364390,1.891163
+2022-09-10|Hoffenheim|Mainz,1.461466,1.493878
+2022-09-10|RB Leipzig|Dortmund,1.664577,1.411338
+2022-09-10|Schalke 04|Bochum,1.755192,1.206721
+2022-09-11|FC Koln|Union Berlin,1.597720,1.265513
+2022-09-11|Freiburg|M'gladbach,1.849601,1.185285
+2022-09-16|Mainz|Hertha,1.720146,1.106932
+2022-09-17|Augsburg|Bayern Munich,1.033637,2.468188
+2022-09-17|Dortmund|Schalke 04,2.118447,1.076771
+2022-09-17|Leverkusen|Werder Bremen,1.945094,1.254510
+2022-09-17|M'gladbach|RB Leipzig,1.458285,1.468861
+2022-09-17|Stuttgart|Ein Frankfurt,1.507463,1.303225
+2022-09-18|Bochum|FC Koln,1.294340,1.493071
+2022-09-18|Hoffenheim|Freiburg,1.662438,1.422236
+2022-09-18|Union Berlin|Wolfsburg,1.940764,0.921438
+2022-09-30|Bayern Munich|Leverkusen,2.337687,1.075515
+2022-10-01|Ein Frankfurt|Union Berlin,1.475853,1.495504
+2022-10-01|FC Koln|Dortmund,1.395655,1.519693
+2022-10-01|Freiburg|Mainz,1.748424,1.204824
+2022-10-01|RB Leipzig|Bochum,2.284325,0.982352
+2022-10-01|Werder Bremen|M'gladbach,1.589432,1.262978
+2022-10-01|Wolfsburg|Stuttgart,1.523834,1.422181
+2022-10-02|Hertha|Hoffenheim,1.428017,1.437585
+2022-10-02|Schalke 04|Augsburg,1.638769,1.065424
+2022-10-07|Hoffenheim|Werder Bremen,1.637761,1.386227
+2022-10-08|Augsburg|Wolfsburg,1.425771,1.255755
+2022-10-08|Bochum|Ein Frankfurt,1.269115,1.441717
+2022-10-08|Dortmund|Bayern Munich,1.442807,1.778562
+2022-10-08|Leverkusen|Schalke 04,2.032195,1.189133
+2022-10-08|Mainz|RB Leipzig,1.327525,1.735878
+2022-10-09|Hertha|Freiburg,1.429972,1.644373
+2022-10-09|M'gladbach|FC Koln,1.644348,1.444199
+2022-10-09|Stuttgart|Union Berlin,1.410446,1.572394
+2022-10-14|Schalke 04|Hoffenheim,1.533274,1.501766
+2022-10-15|Ein Frankfurt|Leverkusen,1.585439,1.494158
+2022-10-15|RB Leipzig|Hertha,2.167756,0.881325
+2022-10-15|Stuttgart|Bochum,1.615765,1.051530
+2022-10-15|Werder Bremen|Mainz,1.593112,1.216259
+2022-10-15|Wolfsburg|M'gladbach,1.492768,1.475244
+2022-10-16|Bayern Munich|Freiburg,2.316665,0.994075
+2022-10-16|FC Koln|Augsburg,1.902401,0.947611
+2022-10-16|Union Berlin|Dortmund,1.595556,1.273258
+2022-10-21|Mainz|FC Koln,1.558595,1.381920
+2022-10-22|Augsburg|RB Leipzig,1.139037,2.103252
+2022-10-22|Dortmund|Stuttgart,2.073181,1.104212
+2022-10-22|Freiburg|Werder Bremen,1.776866,1.316507
+2022-10-22|Hoffenheim|Bayern Munich,1.296692,2.110255
+2022-10-22|Leverkusen|Wolfsburg,1.827689,1.065924
+2022-10-22|M'gladbach|Ein Frankfurt,1.704717,1.416958
+2022-10-23|Bochum|Union Berlin,1.239652,1.723576
+2022-10-23|Hertha|Schalke 04,1.539590,1.103171
+2022-10-28|Werder Bremen|Hertha,1.625355,1.124203
+2022-10-29|Bayern Munich|Mainz,2.389577,0.950470
+2022-10-29|Ein Frankfurt|Dortmund,1.640018,1.457721
+2022-10-29|RB Leipzig|Leverkusen,1.898318,1.208723
+2022-10-29|Stuttgart|Augsburg,1.584492,1.060382
+2022-10-29|Wolfsburg|Bochum,1.692282,1.061697
+2022-10-30|FC Koln|Hoffenheim,1.639588,1.363345
+2022-10-30|Schalke 04|Freiburg,1.384998,1.551404
+2022-10-30|Union Berlin|M'gladbach,1.718044,1.165909
+2022-11-04|M'gladbach|Stuttgart,1.836655,1.351456
+2022-11-05|Augsburg|Ein Frankfurt,1.199958,1.919467
+2022-11-05|Dortmund|Bochum,2.350068,0.840218
+2022-11-05|Hertha|Bayern Munich,1.160030,2.239410
+2022-11-05|Hoffenheim|RB Leipzig,1.337822,1.789136
+2022-11-05|Mainz|Wolfsburg,1.702674,1.259722
+2022-11-05|Werder Bremen|Schalke 04,1.771845,0.960873
+2022-11-06|Freiburg|FC Koln,1.868113,1.219410
+2022-11-06|Leverkusen|Union Berlin,1.494055,1.309443
+2022-11-08|Bayern Munich|Werder Bremen,2.484047,0.935575
+2022-11-08|Bochum|M'gladbach,1.373516,1.426593
+2022-11-08|Stuttgart|Hertha,1.641290,1.174553
+2022-11-08|Wolfsburg|Dortmund,1.484576,1.690197
+2022-11-09|Ein Frankfurt|Hoffenheim,1.856833,1.142478
+2022-11-09|FC Koln|Leverkusen,1.511455,1.336505
+2022-11-09|RB Leipzig|Freiburg,1.845876,1.190490
+2022-11-09|Schalke 04|Mainz,1.416882,1.456785
+2022-11-09|Union Berlin|Augsburg,1.860282,0.863751
+2022-11-11|M'gladbach|Dortmund,1.537647,1.583659
+2022-11-12|Augsburg|Bochum,1.534082,1.148022
+2022-11-12|Hertha|FC Koln,1.459742,1.401796
+2022-11-12|Hoffenheim|Wolfsburg,1.550316,1.302477
+2022-11-12|Leverkusen|Stuttgart,1.938839,1.205412
+2022-11-12|Schalke 04|Bayern Munich,1.128790,2.263336
+2022-11-12|Werder Bremen|RB Leipzig,1.230615,1.847626
+2022-11-13|Freiburg|Union Berlin,1.637167,1.213477
+2022-11-13|Mainz|Ein Frankfurt,1.372786,1.565582
+2023-01-20|RB Leipzig|Bayern Munich,1.453046,1.812695
+2023-01-21|Bochum|Hertha,1.475086,1.290631
+2023-01-21|Ein Frankfurt|Schalke 04,2.197774,0.905252
+2023-01-21|FC Koln|Werder Bremen,1.579245,1.142539
+2023-01-21|Stuttgart|Mainz,1.492232,1.415244
+2023-01-21|Union Berlin|Hoffenheim,1.771052,1.192738
+2023-01-21|Wolfsburg|Freiburg,1.540181,1.365273
+2023-01-22|Dortmund|Augsburg,2.265255,0.898471
+2023-01-22|M'gladbach|Leverkusen,1.612984,1.402431
+2023-01-24|Bayern Munich|FC Koln,2.642708,0.924352
+2023-01-24|Hertha|Wolfsburg,1.477349,1.357698
+2023-01-24|Hoffenheim|Stuttgart,1.704530,1.427979
+2023-01-24|Schalke 04|RB Leipzig,1.125486,2.218071
+2023-01-25|Augsburg|M'gladbach,1.418786,1.470072
+2023-01-25|Freiburg|Ein Frankfurt,1.723455,1.453009
+2023-01-25|Leverkusen|Bochum,2.094228,0.891944
+2023-01-25|Mainz|Dortmund,1.517093,1.725530
+2023-01-25|Werder Bremen|Union Berlin,1.267947,1.519751
+2023-01-27|RB Leipzig|Stuttgart,2.400310,0.903525
+2023-01-28|Bayern Munich|Ein Frankfurt,2.494043,0.889477
+2023-01-28|Freiburg|Augsburg,2.042348,0.942065
+2023-01-28|Hertha|Union Berlin,1.208069,1.435973
+2023-01-28|Hoffenheim|M'gladbach,1.616390,1.217733
+2023-01-28|Mainz|Bochum,1.660794,1.077816
+2023-01-28|Werder Bremen|Wolfsburg,1.444517,1.515890
+2023-01-29|Leverkusen|Dortmund,1.715901,1.516640
+2023-01-29|Schalke 04|FC Koln,1.388598,1.439008
+2023-02-03|Augsburg|Leverkusen,1.347475,1.609752
+2023-02-04|Bochum|Hoffenheim,1.428408,1.536917
+2023-02-04|Dortmund|Freiburg,1.949206,1.232353
+2023-02-04|Ein Frankfurt|Hertha,2.061533,0.917357
+2023-02-04|FC Koln|RB Leipzig,1.248679,1.961608
+2023-02-04|M'gladbach|Schalke 04,1.960577,1.093404
+2023-02-04|Union Berlin|Mainz,1.883162,1.135449
+2023-02-05|Stuttgart|Werder Bremen,1.568084,1.162260
+2023-02-05|Wolfsburg|Bayern Munich,1.358146,2.234163
+2023-02-10|Schalke 04|Wolfsburg,1.400730,1.618354
+2023-02-11|Bayern Munich|Bochum,2.914181,0.765809
+2023-02-11|Freiburg|Stuttgart,1.971760,1.276285
+2023-02-11|Hoffenheim|Leverkusen,1.469995,1.639707
+2023-02-11|Mainz|Augsburg,1.727911,1.009922
+2023-02-11|RB Leipzig|Union Berlin,1.952428,0.848062
+2023-02-11|Werder Bremen|Dortmund,1.431056,1.689542
+2023-02-12|FC Koln|Ein Frankfurt,1.487289,1.294861
+2023-02-12|Hertha|M'gladbach,1.437741,1.304297
+2023-02-17|Augsburg|Hoffenheim,1.516192,1.408568
+2023-02-18|Bochum|Freiburg,1.422954,1.465614
+2023-02-18|Ein Frankfurt|Werder Bremen,1.746534,0.951046
+2023-02-18|M'gladbach|Bayern Munich,1.108922,2.413509
+2023-02-18|Stuttgart|FC Koln,1.465453,1.316869
+2023-02-18|Wolfsburg|RB Leipzig,1.532697,1.595142
+2023-02-19|Dortmund|Hertha,2.352046,1.029507
+2023-02-19|Leverkusen|Mainz,1.859923,1.216504
+2023-02-19|Union Berlin|Schalke 04,2.031566,0.962286
+2023-02-24|Mainz|M'gladbach,1.670591,1.161684
+2023-02-25|FC Koln|Wolfsburg,1.521059,1.197202
+2023-02-25|Hertha|Augsburg,1.483064,1.031112
+2023-02-25|Hoffenheim|Dortmund,1.433012,1.837366
+2023-02-25|RB Leipzig|Ein Frankfurt,1.981876,0.831711
+2023-02-25|Schalke 04|Stuttgart,1.444216,1.443719
+2023-02-25|Werder Bremen|Bochum,1.564596,1.103662
+2023-02-26|Bayern Munich|Union Berlin,2.269763,0.859105
+2023-02-26|Freiburg|Leverkusen,1.761456,1.380692
+2023-03-03|Dortmund|RB Leipzig,1.722969,1.343150
+2023-03-04|Augsburg|Werder Bremen,1.430485,1.150230
+2023-03-04|Bochum|Schalke 04,1.451407,1.363098
+2023-03-04|M'gladbach|Freiburg,1.564243,1.363135
+2023-03-04|Mainz|Hoffenheim,1.998852,1.039041
+2023-03-04|Stuttgart|Bayern Munich,1.103595,2.191424
+2023-03-04|Union Berlin|FC Koln,1.700947,1.032731
+2023-03-05|Leverkusen|Hertha,2.128414,1.071264
+2023-03-05|Wolfsburg|Ein Frankfurt,1.538654,1.202802
+2023-03-10|FC Koln|Bochum,1.724501,0.955122
+2023-03-11|Bayern Munich|Augsburg,2.790274,0.693397
+2023-03-11|Ein Frankfurt|Stuttgart,1.882103,1.149623
+2023-03-11|Hertha|Mainz,1.405311,1.497014
+2023-03-11|RB Leipzig|M'gladbach,2.387090,0.893665
+2023-03-11|Schalke 04|Dortmund,1.376384,1.963266
+2023-03-12|Freiburg|Hoffenheim,1.787497,1.040041
+2023-03-12|Werder Bremen|Leverkusen,1.334212,1.711851
+2023-03-12|Wolfsburg|Union Berlin,1.543713,1.000095
+2023-03-17|M'gladbach|Werder Bremen,1.574160,1.277648
+2023-03-18|Augsburg|Schalke 04,1.476278,1.293047
+2023-03-18|Bochum|RB Leipzig,1.099145,2.146954
+2023-03-18|Dortmund|FC Koln,2.237133,1.040133
+2023-03-18|Hoffenheim|Hertha,1.490416,1.307885
+2023-03-18|Stuttgart|Wolfsburg,1.464440,1.412583
+2023-03-19|Leverkusen|Bayern Munich,1.395764,2.017849
+2023-03-19|Mainz|Freiburg,1.657697,1.151210
+2023-03-19|Union Berlin|Ein Frankfurt,1.603648,1.139636
+2023-03-31|Ein Frankfurt|Bochum,1.869539,0.915694
+2023-04-01|Bayern Munich|Dortmund,2.030335,1.233672
+2023-04-01|Freiburg|Hertha,1.812221,1.011547
+2023-04-01|RB Leipzig|Mainz,2.179257,0.914121
+2023-04-01|Schalke 04|Leverkusen,1.335390,1.743877
+2023-04-01|Union Berlin|Stuttgart,1.701082,1.096078
+2023-04-01|Wolfsburg|Augsburg,1.974642,0.946475
+2023-04-02|FC Koln|M'gladbach,1.460882,1.190612
+2023-04-02|Werder Bremen|Hoffenheim,1.546250,1.265378
+2023-04-08|Augsburg|FC Koln,1.391846,1.320976
+2023-04-08|Dortmund|Union Berlin,1.999229,1.044388
+2023-04-08|Freiburg|Bayern Munich,1.281663,2.029007
+2023-04-08|Hertha|RB Leipzig,1.237926,2.046555
+2023-04-08|Leverkusen|Ein Frankfurt,1.821474,1.154166
+2023-04-08|Mainz|Werder Bremen,2.011095,0.982901
+2023-04-09|Bochum|Stuttgart,1.468483,1.465621
+2023-04-09|Hoffenheim|Schalke 04,1.559507,1.155445
+2023-04-09|M'gladbach|Wolfsburg,1.466003,1.354327
+2023-04-14|Schalke 04|Hertha,1.438745,1.213446
+2023-04-15|Bayern Munich|Hoffenheim,2.782618,1.046284
+2023-04-15|Ein Frankfurt|M'gladbach,1.604287,1.145694
+2023-04-15|FC Koln|Mainz,1.449575,1.490412
+2023-04-15|RB Leipzig|Augsburg,2.299938,0.736080
+2023-04-15|Stuttgart|Dortmund,1.503744,1.798424
+2023-04-16|Union Berlin|Bochum,1.781808,0.850119
+2023-04-16|Werder Bremen|Freiburg,1.456516,1.391770
+2023-04-16|Wolfsburg|Leverkusen,1.474189,1.619238
+2023-04-21|Augsburg|Stuttgart,1.458866,1.622522
+2023-04-22|Bochum|Wolfsburg,1.363403,1.400777
+2023-04-22|Dortmund|Ein Frankfurt,2.399219,1.135072
+2023-04-22|Hertha|Werder Bremen,1.470318,1.162373
+2023-04-22|Hoffenheim|FC Koln,1.384829,1.307109
+2023-04-22|Mainz|Bayern Munich,1.356697,1.950044
+2023-04-23|Freiburg|Schalke 04,1.691517,1.103757
+2023-04-23|Leverkusen|RB Leipzig,1.592265,1.365013
+2023-04-23|M'gladbach|Union Berlin,1.492821,1.144868
+2023-04-28|Bochum|Dortmund,1.239999,2.132062
+2023-04-29|Ein Frankfurt|Augsburg,1.866937,1.010895
+2023-04-29|FC Koln|Freiburg,1.502665,1.222447
+2023-04-29|RB Leipzig|Hoffenheim,2.254911,0.909677
+2023-04-29|Schalke 04|Werder Bremen,1.397480,1.242217
+2023-04-29|Stuttgart|M'gladbach,1.546625,1.209035
+2023-04-29|Union Berlin|Leverkusen,1.530054,1.446963
+2023-04-30|Bayern Munich|Hertha,2.967238,0.889890
+2023-04-30|Wolfsburg|Mainz,1.611862,1.343072
+2023-05-05|Leverkusen|FC Koln,2.043562,1.013633
+2023-05-05|Mainz|Schalke 04,2.013507,1.017924
+2023-05-06|Augsburg|Union Berlin,1.443911,1.232832
+2023-05-06|Freiburg|RB Leipzig,1.431937,1.580089
+2023-05-06|Hertha|Stuttgart,1.396132,1.487845
+2023-05-06|Hoffenheim|Ein Frankfurt,1.350351,1.450421
+2023-05-06|M'gladbach|Bochum,1.684929,1.091483
+2023-05-06|Werder Bremen|Bayern Munich,1.210999,2.228669
+2023-05-07|Dortmund|Wolfsburg,2.239678,1.131506
+2023-05-12|FC Koln|Hertha,1.799811,0.962764
+2023-05-13|Bayern Munich|Schalke 04,2.668604,0.912457
+2023-05-13|Bochum|Augsburg,1.444464,1.196642
+2023-05-13|Dortmund|M'gladbach,2.390334,1.000190
+2023-05-13|Ein Frankfurt|Mainz,1.497818,1.240410
+2023-05-13|Union Berlin|Freiburg,1.525380,1.124618
+2023-05-13|Wolfsburg|Hoffenheim,1.902765,1.001864
+2023-05-14|RB Leipzig|Werder Bremen,2.310481,0.769584
+2023-05-14|Stuttgart|Leverkusen,1.496242,1.450740
+2023-05-19|Freiburg|Wolfsburg,1.642133,1.198453
+2023-05-20|Bayern Munich|RB Leipzig,2.222999,0.995137
+2023-05-20|Hertha|Bochum,1.480765,1.186789
+2023-05-20|Hoffenheim|Union Berlin,1.452556,1.222098
+2023-05-20|Schalke 04|Ein Frankfurt,1.333515,1.510763
+2023-05-20|Werder Bremen|FC Koln,1.358419,1.592417
+2023-05-21|Augsburg|Dortmund,1.325242,2.182043
+2023-05-21|Leverkusen|M'gladbach,2.054569,0.966417
+2023-05-21|Mainz|Stuttgart,1.685823,1.271518
+2023-05-27|Bochum|Leverkusen,1.194235,1.685513
+2023-05-27|Dortmund|Mainz,2.471294,1.002708
+2023-05-27|Ein Frankfurt|Freiburg,1.531703,1.273234
+2023-05-27|FC Koln|Bayern Munich,1.290087,2.164408
+2023-05-27|M'gladbach|Augsburg,1.830726,1.032983
+2023-05-27|RB Leipzig|Schalke 04,2.409692,0.862564
+2023-05-27|Stuttgart|Hoffenheim,1.621000,1.186883
+2023-05-27|Union Berlin|Werder Bremen,1.701605,0.963088
+2023-05-27|Wolfsburg|Hertha,2.001728,0.912385
+2023-08-18|Werder Bremen|Bayern Munich,1.024384,2.403379
+2023-08-19|Augsburg|M'gladbach,1.231141,1.163486
+2023-08-19|Dortmund|FC Koln,2.780773,1.153364
+2023-08-19|Hoffenheim|Freiburg,1.425166,1.520259
+2023-08-19|Leverkusen|RB Leipzig,1.496888,1.467246
+2023-08-19|Stuttgart|Bochum,1.915159,1.269229
+2023-08-19|Wolfsburg|Heidenheim,1.671862,1.388278
+2023-08-20|Ein Frankfurt|Darmstadt,1.989481,0.900110
+2023-08-20|Union Berlin|Mainz,1.656803,0.866205
+2023-08-25|RB Leipzig|Stuttgart,2.096521,1.040873
+2023-08-26|Bochum|Dortmund,0.916338,2.792059
+2023-08-26|Darmstadt|Union Berlin,1.284766,1.209793
+2023-08-26|FC Koln|Wolfsburg,1.630309,1.209110
+2023-08-26|Freiburg|Werder Bremen,2.027822,0.963988
+2023-08-26|Heidenheim|Hoffenheim,1.492156,1.371309
+2023-08-26|M'gladbach|Leverkusen,1.472020,1.594139
+2023-08-27|Bayern Munich|Augsburg,3.414070,0.842463
+2023-08-27|Mainz|Ein Frankfurt,1.437249,1.834914
+2023-09-01|Dortmund|Heidenheim,2.735437,0.851350
+2023-09-02|Augsburg|Bochum,1.436563,0.934248
+2023-09-02|Hoffenheim|Wolfsburg,1.449582,1.477579
+2023-09-02|Leverkusen|Darmstadt,2.203039,1.006946
+2023-09-02|M'gladbach|Bayern Munich,0.979534,2.681585
+2023-09-02|Stuttgart|Freiburg,1.628416,1.711463
+2023-09-02|Werder Bremen|Mainz,1.335282,1.328289
+2023-09-03|Ein Frankfurt|FC Koln,1.500903,1.235479
+2023-09-03|Union Berlin|RB Leipzig,1.486463,1.967876
+2023-09-15|Bayern Munich|Leverkusen,2.440159,1.101711
+2023-09-16|Bochum|Ein Frankfurt,1.243309,1.463562
+2023-09-16|FC Koln|Hoffenheim,1.760542,0.989910
+2023-09-16|Freiburg|Dortmund,1.514623,2.073570
+2023-09-16|Mainz|Stuttgart,1.355267,1.627774
+2023-09-16|RB Leipzig|Augsburg,3.095124,0.845587
+2023-09-16|Wolfsburg|Union Berlin,1.835896,0.958396
+2023-09-17|Darmstadt|M'gladbach,1.556833,1.218614
+2023-09-17|Heidenheim|Werder Bremen,1.704809,1.377246
+2023-09-22|Stuttgart|Darmstadt,2.244347,0.709688
+2023-09-23|Augsburg|Mainz,1.460559,1.156929
+2023-09-23|Bayern Munich|Bochum,2.961679,1.139237
+2023-09-23|Dortmund|Wolfsburg,2.545803,1.181173
+2023-09-23|M'gladbach|RB Leipzig,1.106307,2.616712
+2023-09-23|Union Berlin|Hoffenheim,1.740640,0.795609
+2023-09-23|Werder Bremen|FC Koln,1.396502,1.513530
+2023-09-24|Ein Frankfurt|Freiburg,1.548481,1.345475
+2023-09-24|Leverkusen|Heidenheim,2.306969,1.025759
+2023-09-29|Hoffenheim|Dortmund,1.453440,2.011630
+2023-09-30|Bochum|M'gladbach,1.449107,1.204903
+2023-09-30|FC Koln|Stuttgart,1.356079,1.672999
+2023-09-30|Heidenheim|Union Berlin,1.356521,1.280280
+2023-09-30|Mainz|Leverkusen,1.195744,2.194788
+2023-09-30|RB Leipzig|Bayern Munich,1.543275,1.686965
+2023-09-30|Wolfsburg|Ein Frankfurt,1.666633,1.138218
+2023-10-01|Darmstadt|Werder Bremen,1.415215,1.344421
+2023-10-01|Freiburg|Augsburg,1.898934,0.952794
+2023-10-06|M'gladbach|Mainz,1.889683,1.441102
+2023-10-07|Augsburg|Darmstadt,1.505379,0.919219
+2023-10-07|Dortmund|Union Berlin,2.722070,1.014984
+2023-10-07|RB Leipzig|Bochum,3.055098,0.742666
+2023-10-07|Stuttgart|Wolfsburg,1.815190,1.111434
+2023-10-07|Werder Bremen|Hoffenheim,1.587528,1.246432
+2023-10-08|Bayern Munich|Freiburg,2.891499,0.957465
+2023-10-08|Ein Frankfurt|Heidenheim,1.688636,0.837112
+2023-10-08|Leverkusen|FC Koln,2.374753,1.040335
+2023-10-20|Dortmund|Werder Bremen,3.019665,0.895833
+2023-10-21|Darmstadt|RB Leipzig,0.950453,2.019671
+2023-10-21|Freiburg|Bochum,1.999914,1.056347
+2023-10-21|Hoffenheim|Ein Frankfurt,1.733411,1.215967
+2023-10-21|Mainz|Bayern Munich,0.863993,2.290639
+2023-10-21|Union Berlin|Stuttgart,1.488337,1.505388
+2023-10-21|Wolfsburg|Leverkusen,1.280758,2.019387
+2023-10-22|FC Koln|M'gladbach,1.542270,1.280155
+2023-10-22|Heidenheim|Augsburg,1.425438,1.034995
+2023-10-27|Bochum|Mainz,1.508644,1.299005
+2023-10-28|Augsburg|Wolfsburg,1.438532,1.385856
+2023-10-28|Bayern Munich|Darmstadt,3.228291,0.732971
+2023-10-28|M'gladbach|Heidenheim,1.792851,1.159645
+2023-10-28|RB Leipzig|FC Koln,2.527603,0.980913
+2023-10-28|Stuttgart|Hoffenheim,2.157579,1.009875
+2023-10-28|Werder Bremen|Union Berlin,1.400444,1.703060
+2023-10-29|Ein Frankfurt|Dortmund,1.354146,1.717376
+2023-10-29|Leverkusen|Freiburg,2.287821,1.137966
+2023-11-03|Darmstadt|Bochum,1.443398,1.015303
+2023-11-04|Dortmund|Bayern Munich,1.709851,1.769406
+2023-11-04|FC Koln|Augsburg,1.810845,1.139056
+2023-11-04|Freiburg|M'gladbach,1.718870,1.169272
+2023-11-04|Hoffenheim|Leverkusen,1.312801,2.040852
+2023-11-04|Mainz|RB Leipzig,0.982097,2.104821
+2023-11-04|Union Berlin|Ein Frankfurt,1.456759,1.168031
+2023-11-05|Heidenheim|Stuttgart,1.086206,1.824900
+2023-11-05|Wolfsburg|Werder Bremen,1.911709,1.229346
+2023-11-10|M'gladbach|Wolfsburg,1.628393,1.553732
+2023-11-11|Augsburg|Hoffenheim,1.515110,1.101224
+2023-11-11|Bayern Munich|Heidenheim,3.062279,0.555788
+2023-11-11|Bochum|FC Koln,1.369101,1.605718
+2023-11-11|Darmstadt|Mainz,1.407116,1.372846
+2023-11-11|Stuttgart|Dortmund,1.701794,1.443826
+2023-11-12|Leverkusen|Union Berlin,2.590527,0.875630
+2023-11-12|RB Leipzig|Freiburg,2.301617,0.980889
+2023-11-12|Werder Bremen|Ein Frankfurt,1.451734,1.299237
+2023-11-24|FC Koln|Bayern Munich,0.865712,2.700454
+2023-11-25|Dortmund|M'gladbach,2.808298,1.154850
+2023-11-25|Ein Frankfurt|Stuttgart,1.663051,1.583240
+2023-11-25|Freiburg|Darmstadt,1.974726,0.968394
+2023-11-25|Union Berlin|Augsburg,1.673774,1.052690
+2023-11-25|Werder Bremen|Leverkusen,1.099039,2.364685
+2023-11-25|Wolfsburg|RB Leipzig,1.223807,2.231962
+2023-11-26|Heidenheim|Bochum,1.572061,1.290736
+2023-11-26|Hoffenheim|Mainz,1.646669,1.228756
+2023-12-01|Darmstadt|FC Koln,1.300884,1.107089
+2023-12-02|Bochum|Wolfsburg,1.471276,1.436547
+2023-12-02|M'gladbach|Hoffenheim,1.705341,1.479517
+2023-12-02|RB Leipzig|Heidenheim,2.644842,0.652300
+2023-12-02|Stuttgart|Werder Bremen,2.363733,1.008984
+2023-12-03|Augsburg|Ein Frankfurt,1.412694,1.186998
+2023-12-03|Leverkusen|Dortmund,2.147027,1.607081
+2023-12-03|Mainz|Freiburg,1.467425,1.307447
+2023-12-08|Hoffenheim|Bochum,1.711722,1.348329
+2023-12-09|Dortmund|RB Leipzig,1.890978,1.638399
+2023-12-09|Ein Frankfurt|Bayern Munich,1.049352,2.270683
+2023-12-09|Heidenheim|Darmstadt,1.548964,0.719161
+2023-12-09|Union Berlin|M'gladbach,1.603611,0.990814
+2023-12-09|Werder Bremen|Augsburg,1.517235,1.199334
+2023-12-09|Wolfsburg|Freiburg,1.532252,1.436427
+2023-12-10|FC Koln|Mainz,1.440285,1.527042
+2023-12-10|Stuttgart|Leverkusen,1.536802,1.388495
+2023-12-15|M'gladbach|Werder Bremen,1.725645,1.181926
+2023-12-16|Augsburg|Dortmund,1.263554,1.794759
+2023-12-16|Bochum|Union Berlin,1.564162,1.536799
+2023-12-16|Darmstadt|Wolfsburg,1.328366,1.581007
+2023-12-16|Mainz|Heidenheim,1.749313,0.759269
+2023-12-16|RB Leipzig|Hoffenheim,2.883933,1.065444
+2023-12-17|Bayern Munich|Stuttgart,2.784567,0.875895
+2023-12-17|Freiburg|FC Koln,1.896735,0.952546
+2023-12-17|Leverkusen|Ein Frankfurt,2.341211,0.978223
+2023-12-19|Dortmund|Mainz,2.399220,1.442732
+2023-12-19|Hoffenheim|Darmstadt,1.736542,0.913913
+2023-12-19|Werder Bremen|RB Leipzig,0.971092,2.263684
+2023-12-20|Ein Frankfurt|M'gladbach,1.655122,0.869457
+2023-12-20|Heidenheim|Freiburg,1.247524,1.204403
+2023-12-20|Leverkusen|Bochum,2.608606,0.970900
+2023-12-20|Stuttgart|Augsburg,2.308397,1.123971
+2023-12-20|Union Berlin|FC Koln,1.790323,0.806582
+2023-12-20|Wolfsburg|Bayern Munich,0.904833,2.481244
+2024-01-12|Bayern Munich|Hoffenheim,3.433182,0.928026
+2024-01-13|Augsburg|Leverkusen,0.852255,2.344300
+2024-01-13|Darmstadt|Dortmund,1.208221,2.188780
+2024-01-13|FC Koln|Heidenheim,1.406574,0.942720
+2024-01-13|Freiburg|Union Berlin,1.755041,1.276656
+2024-01-13|Mainz|Wolfsburg,1.536064,1.085764
+2024-01-13|RB Leipzig|Ein Frankfurt,2.448484,0.940364
+2024-01-14|Bochum|Werder Bremen,1.692306,1.294032
+2024-01-14|M'gladbach|Stuttgart,1.338302,2.160586
+2024-01-20|Bochum|Stuttgart,1.397716,1.872369
+2024-01-20|Darmstadt|Ein Frankfurt,1.277031,1.399936
+2024-01-20|FC Koln|Dortmund,1.251960,2.202164
+2024-01-20|Freiburg|Hoffenheim,1.943143,1.293762
+2024-01-20|Heidenheim|Wolfsburg,1.564131,1.283407
+2024-01-20|RB Leipzig|Leverkusen,1.655383,1.123103
+2024-01-21|Bayern Munich|Werder Bremen,3.024657,0.702551
+2024-01-21|M'gladbach|Augsburg,1.892026,0.946153
+2024-01-24|Bayern Munich|Union Berlin,2.843092,0.644222
+2024-01-26|Ein Frankfurt|Mainz,1.697862,0.986599
+2024-01-27|Augsburg|Bayern Munich,0.811906,2.672466
+2024-01-27|Hoffenheim|Heidenheim,1.626716,1.293443
+2024-01-27|Leverkusen|M'gladbach,2.819304,0.815423
+2024-01-27|Stuttgart|RB Leipzig,1.485663,1.802649
+2024-01-27|Werder Bremen|Freiburg,1.377686,1.411263
+2024-01-27|Wolfsburg|FC Koln,1.821385,0.968673
+2024-01-28|Dortmund|Bochum,2.622231,1.164533
+2024-01-28|Union Berlin|Darmstadt,1.684659,0.999372
+2024-02-02|Heidenheim|Dortmund,1.224445,2.122049
+2024-02-03|Bayern Munich|M'gladbach,3.393754,0.803840
+2024-02-03|Bochum|Augsburg,1.698556,1.408045
+2024-02-03|Darmstadt|Leverkusen,0.738180,2.295516
+2024-02-03|FC Koln|Ein Frankfurt,1.391153,1.412954
+2024-02-03|Freiburg|Stuttgart,1.482136,1.759653
+2024-02-03|Mainz|Werder Bremen,1.514944,0.954817
+2024-02-04|RB Leipzig|Union Berlin,2.443311,0.977714
+2024-02-04|Wolfsburg|Hoffenheim,1.681582,1.348680
+2024-02-07|Mainz|Union Berlin,1.455012,1.032399
+2024-02-09|Dortmund|Freiburg,2.441769,1.017148
+2024-02-10|Augsburg|RB Leipzig,1.208019,2.321389
+2024-02-10|Ein Frankfurt|Bochum,1.569287,1.161716
+2024-02-10|Leverkusen|Bayern Munich,1.669741,1.227907
+2024-02-10|M'gladbach|Darmstadt,1.584120,0.909058
+2024-02-10|Union Berlin|Wolfsburg,1.406716,1.370347
+2024-02-10|Werder Bremen|Heidenheim,1.484952,0.823305
+2024-02-11|Hoffenheim|FC Koln,1.883991,1.210819
+2024-02-11|Stuttgart|Mainz,2.298085,0.967788
+2024-02-16|FC Koln|Werder Bremen,1.385408,1.227860
+2024-02-17|Darmstadt|Stuttgart,0.930295,2.300553
+2024-02-17|Heidenheim|Leverkusen,0.738703,3.127322
+2024-02-17|Hoffenheim|Union Berlin,1.662063,1.379363
+2024-02-17|Mainz|Augsburg,1.631612,1.079623
+2024-02-17|RB Leipzig|M'gladbach,2.596963,1.070468
+2024-02-17|Wolfsburg|Dortmund,1.379400,1.952588
+2024-02-18|Bochum|Bayern Munich,0.964434,2.652210
+2024-02-18|Freiburg|Ein Frankfurt,1.464688,1.328349
+2024-02-23|Leverkusen|Mainz,2.809808,0.956031
+2024-02-24|Bayern Munich|RB Leipzig,2.290819,1.202989
+2024-02-24|M'gladbach|Bochum,1.571995,1.255799
+2024-02-24|Stuttgart|FC Koln,2.571151,0.925325
+2024-02-24|Union Berlin|Heidenheim,1.421378,1.009168
+2024-02-24|Werder Bremen|Darmstadt,1.791665,0.958697
+2024-02-25|Augsburg|Freiburg,1.385114,1.427925
+2024-02-25|Dortmund|Hoffenheim,2.717743,1.114551
+2024-02-25|Ein Frankfurt|Wolfsburg,1.570523,1.159389
+2024-03-01|Freiburg|Bayern Munich,0.955027,2.405614
+2024-03-02|Bochum|RB Leipzig,1.158354,2.398204
+2024-03-02|Darmstadt|Augsburg,1.325177,1.229807
+2024-03-02|Heidenheim|Ein Frankfurt,1.472823,1.836742
+2024-03-02|Mainz|M'gladbach,1.558101,1.128084
+2024-03-02|Union Berlin|Dortmund,1.302417,2.200979
+2024-03-02|Wolfsburg|Stuttgart,1.394053,1.717425
+2024-03-03|FC Koln|Leverkusen,0.808617,2.087803
+2024-03-03|Hoffenheim|Werder Bremen,1.670954,1.445009
+2024-03-08|Stuttgart|Union Berlin,2.074766,0.950682
+2024-03-09|Augsburg|Heidenheim,1.639157,1.200825
+2024-03-09|Bayern Munich|Mainz,2.968466,0.932762
+2024-03-09|M'gladbach|FC Koln,1.677240,1.509613
+2024-03-09|RB Leipzig|Darmstadt,2.799428,0.779004
+2024-03-09|Werder Bremen|Dortmund,1.335469,2.000954
+2024-03-10|Bochum|Freiburg,1.425775,1.281435
+2024-03-10|Ein Frankfurt|Hoffenheim,1.667972,1.157238
+2024-03-10|Leverkusen|Wolfsburg,2.904417,0.732373
+2024-03-15|FC Koln|RB Leipzig,1.095725,1.943882
+2024-03-16|Darmstadt|Bayern Munich,0.956687,2.608613
+2024-03-16|Heidenheim|M'gladbach,1.501139,1.187262
+2024-03-16|Hoffenheim|Stuttgart,1.343587,2.012310
+2024-03-16|Mainz|Bochum,1.659281,0.971787
+2024-03-16|Union Berlin|Werder Bremen,1.410560,1.280393
+2024-03-16|Wolfsburg|Augsburg,1.452039,1.259454
+2024-03-17|Dortmund|Ein Frankfurt,2.347287,1.117843
+2024-03-17|Freiburg|Leverkusen,0.843309,2.489502
+2024-03-30|Bayern Munich|Dortmund,2.331457,1.165287
+2024-03-30|Ein Frankfurt|Union Berlin,1.719189,1.124042
+2024-03-30|Leverkusen|Hoffenheim,3.470420,0.641984
+2024-03-30|M'gladbach|Freiburg,1.616325,1.326793
+2024-03-30|RB Leipzig|Mainz,2.728256,1.201537
+2024-03-30|Werder Bremen|Wolfsburg,1.563492,1.354805
+2024-03-31|Augsburg|FC Koln,1.983416,1.074677
+2024-03-31|Bochum|Darmstadt,1.935661,0.908729
+2024-03-31|Stuttgart|Heidenheim,2.205842,0.919933
+2024-04-05|Ein Frankfurt|Werder Bremen,1.800672,0.933519
+2024-04-06|Dortmund|Stuttgart,2.016540,1.544262
+2024-04-06|FC Koln|Bochum,1.364371,1.434500
+2024-04-06|Freiburg|RB Leipzig,1.248607,1.937884
+2024-04-06|Heidenheim|Bayern Munich,1.083948,2.839997
+2024-04-06|Mainz|Darmstadt,1.843882,0.842978
+2024-04-06|Union Berlin|Leverkusen,0.797125,2.150469
+2024-04-07|Hoffenheim|Augsburg,1.304013,1.656517
+2024-04-07|Wolfsburg|M'gladbach,1.714221,1.249725
+2024-04-12|Augsburg|Union Berlin,1.595859,1.202980
+2024-04-13|Bayern Munich|FC Koln,3.209874,0.636445
+2024-04-13|Bochum|Heidenheim,1.477459,1.208853
+2024-04-13|M'gladbach|Dortmund,1.448688,2.529026
+2024-04-13|Mainz|Hoffenheim,1.780730,0.940291
+2024-04-13|RB Leipzig|Wolfsburg,2.750653,1.057896
+2024-04-13|Stuttgart|Ein Frankfurt,2.128362,1.124550
+2024-04-14|Darmstadt|Freiburg,1.209988,1.041845
+2024-04-14|Leverkusen|Werder Bremen,2.993021,0.582432
+2024-04-19|Ein Frankfurt|Augsburg,1.770656,1.226900
+2024-04-20|FC Koln|Darmstadt,1.758601,0.943584
+2024-04-20|Heidenheim|RB Leipzig,1.228446,2.195352
+2024-04-20|Hoffenheim|M'gladbach,1.291121,1.603402
+2024-04-20|Union Berlin|Bayern Munich,1.101528,2.327825
+2024-04-20|Wolfsburg|Bochum,1.735216,1.341141
+2024-04-21|Dortmund|Leverkusen,1.493698,1.582346
+2024-04-21|Freiburg|Mainz,1.610260,1.508054
+2024-04-21|Werder Bremen|Stuttgart,1.181860,2.406853
+2024-04-26|Bochum|Hoffenheim,1.705299,1.173101
+2024-04-27|Augsburg|Werder Bremen,1.653664,1.140786
+2024-04-27|Bayern Munich|Ein Frankfurt,2.784587,0.871384
+2024-04-27|Freiburg|Wolfsburg,1.583455,1.281180
+2024-04-27|Leverkusen|Stuttgart,2.629093,0.796179
+2024-04-27|RB Leipzig|Dortmund,2.068154,1.162465
+2024-04-28|Darmstadt|Heidenheim,1.266678,1.133389
+2024-04-28|M'gladbach|Union Berlin,1.708313,1.389465
+2024-04-28|Mainz|FC Koln,1.989862,1.007143
+2024-05-03|Hoffenheim|RB Leipzig,1.053568,2.918614
+2024-05-04|Dortmund|Augsburg,2.495460,1.041399
+2024-05-04|FC Koln|Freiburg,1.474025,1.255061
+2024-05-04|Stuttgart|Bayern Munich,1.724888,1.718482
+2024-05-04|Werder Bremen|M'gladbach,1.623592,1.501227
+2024-05-04|Wolfsburg|Darmstadt,2.135268,0.843823
+2024-05-05|Ein Frankfurt|Leverkusen,0.807814,2.124382
+2024-05-05|Heidenheim|Mainz,1.350474,1.356318
+2024-05-05|Union Berlin|Bochum,1.503078,1.543155
+2024-05-10|Augsburg|Stuttgart,1.240241,2.645582
+2024-05-11|FC Koln|Union Berlin,1.465685,1.300232
+2024-05-11|Freiburg|Heidenheim,1.498591,1.251630
+2024-05-11|M'gladbach|Ein Frankfurt,1.529944,1.517139
+2024-05-11|Mainz|Dortmund,1.441187,2.152274
+2024-05-11|RB Leipzig|Werder Bremen,2.672541,0.975320
+2024-05-12|Bayern Munich|Wolfsburg,2.865885,1.136347
+2024-05-12|Bochum|Leverkusen,0.897524,2.222918
+2024-05-12|Darmstadt|Hoffenheim,1.394790,1.025809
+2024-05-18|Dortmund|Darmstadt,3.415207,0.712577
+2024-05-18|Ein Frankfurt|RB Leipzig,1.499800,1.787758
+2024-05-18|Heidenheim|FC Koln,1.409198,1.211167
+2024-05-18|Hoffenheim|Bayern Munich,1.306405,2.712389
+2024-05-18|Leverkusen|Augsburg,3.557959,0.746305
+2024-05-18|Stuttgart|M'gladbach,2.659312,1.146973
+2024-05-18|Union Berlin|Freiburg,1.502393,1.282065
+2024-05-18|Werder Bremen|Bochum,1.736172,1.247977
+2024-05-18|Wolfsburg|Mainz,1.472265,1.181748
+2024-08-23|M'gladbach|Leverkusen,0.860174,2.594210
+2024-08-24|Augsburg|Werder Bremen,1.533614,1.400914
+2024-08-24|Dortmund|Ein Frankfurt,2.200351,1.156686
+2024-08-24|Freiburg|Stuttgart,1.245792,2.173478
+2024-08-24|Hoffenheim|Holstein Kiel,1.716572,1.508533
+2024-08-24|Mainz|Union Berlin,1.900854,1.173513
+2024-08-24|RB Leipzig|Bochum,2.690099,1.011955
+2024-08-25|St Pauli|Heidenheim,1.713641,1.052108
+2024-08-25|Wolfsburg|Bayern Munich,1.418852,1.807643
+2024-08-30|Union Berlin|St Pauli,1.286907,1.521293
+2024-08-31|Bochum|M'gladbach,1.593004,1.488466
+2024-08-31|Ein Frankfurt|Hoffenheim,1.821097,1.492496
+2024-08-31|Holstein Kiel|Wolfsburg,1.808313,1.247982
+2024-08-31|Leverkusen|RB Leipzig,2.220056,1.129299
+2024-08-31|Stuttgart|Mainz,2.236293,1.126607
+2024-08-31|Werder Bremen|Dortmund,1.422079,1.760176
+2024-09-01|Bayern Munich|Freiburg,2.530715,0.916188
+2024-09-01|Heidenheim|Augsburg,1.649640,1.022763
+2024-09-13|Dortmund|Heidenheim,2.117178,1.040392
+2024-09-14|Freiburg|Bochum,1.823244,1.190424
+2024-09-14|Hoffenheim|Leverkusen,1.386720,2.762875
+2024-09-14|Holstein Kiel|Bayern Munich,1.339808,1.940736
+2024-09-14|M'gladbach|Stuttgart,1.328624,2.384511
+2024-09-14|RB Leipzig|Union Berlin,2.331043,0.909050
+2024-09-14|Wolfsburg|Ein Frankfurt,1.524343,1.281023
+2024-09-15|Augsburg|St Pauli,1.177100,1.755147
+2024-09-15|Mainz|Werder Bremen,1.766656,1.360616
+2024-09-20|Augsburg|Mainz,1.501465,1.508509
+2024-09-21|Bochum|Holstein Kiel,1.493583,1.361219
+2024-09-21|Ein Frankfurt|M'gladbach,2.058118,1.247788
+2024-09-21|Heidenheim|Freiburg,1.611181,1.330461
+2024-09-21|Union Berlin|Hoffenheim,1.673997,1.325167
+2024-09-21|Werder Bremen|Bayern Munich,1.232080,2.261268
+2024-09-22|Leverkusen|Wolfsburg,2.760548,0.853822
+2024-09-22|St Pauli|RB Leipzig,1.259076,1.664197
+2024-09-22|Stuttgart|Dortmund,1.879222,1.452867
+2024-09-27|Dortmund|Bochum,2.586516,1.001973
+2024-09-28|Bayern Munich|Leverkusen,1.716166,1.421089
+2024-09-28|Freiburg|St Pauli,1.606282,1.197251
+2024-09-28|M'gladbach|Union Berlin,1.559820,1.396193
+2024-09-28|Mainz|Heidenheim,1.690878,1.307084
+2024-09-28|RB Leipzig|Augsburg,2.431982,1.004958
+2024-09-28|Wolfsburg|Stuttgart,1.219560,2.038594
+2024-09-29|Hoffenheim|Werder Bremen,1.629815,1.284018
+2024-09-29|Holstein Kiel|Ein Frankfurt,1.431116,1.549785
+2024-10-04|Augsburg|M'gladbach,1.558585,1.449180
+2024-10-05|Bochum|Wolfsburg,1.423312,1.387380
+2024-10-05|Leverkusen|Holstein Kiel,2.837171,0.883402
+2024-10-05|St Pauli|Mainz,1.643779,1.166530
+2024-10-05|Union Berlin|Dortmund,1.398572,1.754215
+2024-10-05|Werder Bremen|Freiburg,1.597421,1.369115
+2024-10-06|Ein Frankfurt|Bayern Munich,1.507101,2.038502
+2024-10-06|Heidenheim|RB Leipzig,1.350290,1.608150
+2024-10-06|Stuttgart|Hoffenheim,2.657926,1.075014
+2024-10-18|Dortmund|St Pauli,2.073606,1.060453
+2024-10-19|Bayern Munich|Stuttgart,2.069027,1.325644
+2024-10-19|Freiburg|Augsburg,1.809914,1.229736
+2024-10-19|Hoffenheim|Bochum,1.939402,1.361874
+2024-10-19|Leverkusen|Ein Frankfurt,2.718979,0.974728
+2024-10-19|M'gladbach|Heidenheim,1.556837,1.316118
+2024-10-19|Mainz|RB Leipzig,1.435872,1.629291
+2024-10-20|Holstein Kiel|Union Berlin,1.411651,1.375256
+2024-10-20|Wolfsburg|Werder Bremen,1.565930,1.230084
+2024-10-25|Mainz|M'gladbach,1.721630,1.372257
+2024-10-26|Augsburg|Dortmund,1.375375,1.924536
+2024-10-26|RB Leipzig|Freiburg,2.334530,0.999168
+2024-10-26|St Pauli|Wolfsburg,1.584625,1.348728
+2024-10-26|Stuttgart|Holstein Kiel,2.595576,0.909077
+2024-10-26|Werder Bremen|Leverkusen,1.231147,2.418924
+2024-10-27|Bochum|Bayern Munich,1.043464,2.564962
+2024-10-27|Heidenheim|Hoffenheim,1.828047,1.293486
+2024-10-27|Union Berlin|Ein Frankfurt,1.534501,1.250791
+2024-11-01|Leverkusen|Stuttgart,2.384557,1.237125
+2024-11-02|Bayern Munich|Union Berlin,2.668956,0.809023
+2024-11-02|Dortmund|RB Leipzig,1.769088,1.445955
+2024-11-02|Ein Frankfurt|Bochum,2.336174,1.043962
+2024-11-02|Hoffenheim|St Pauli,1.503000,1.370369
+2024-11-02|Holstein Kiel|Heidenheim,1.414875,1.414513
+2024-11-02|Wolfsburg|Augsburg,1.610243,1.322649
+2024-11-03|Freiburg|Mainz,1.694923,1.225480
+2024-11-03|M'gladbach|Werder Bremen,1.629428,1.472489
+2024-11-08|Union Berlin|Freiburg,1.449819,1.361488
+2024-11-09|Bochum|Leverkusen,1.042770,2.759790
+2024-11-09|Mainz|Dortmund,1.380173,1.843799
+2024-11-09|RB Leipzig|M'gladbach,2.398735,1.116060
+2024-11-09|St Pauli|Bayern Munich,1.072047,2.097430
+2024-11-09|Werder Bremen|Holstein Kiel,1.827489,1.158040
+2024-11-10|Augsburg|Hoffenheim,1.698519,1.282204
+2024-11-10|Heidenheim|Wolfsburg,1.605393,1.364018
+2024-11-10|Stuttgart|Ein Frankfurt,2.157784,1.230569
+2024-11-22|Bayern Munich|Augsburg,2.948392,0.743671
+2024-11-23|Dortmund|Freiburg,2.073803,1.113379
+2024-11-23|Ein Frankfurt|Werder Bremen,2.007946,1.293111
+2024-11-23|Hoffenheim|RB Leipzig,1.283629,1.592083
+2024-11-23|Leverkusen|Heidenheim,2.696487,0.929990
+2024-11-23|Stuttgart|Bochum,2.751216,1.006691
+2024-11-23|Wolfsburg|Union Berlin,1.570181,1.184230
+2024-11-24|Holstein Kiel|Mainz,1.313437,1.442991
+2024-11-24|M'gladbach|St Pauli,1.579633,1.202169
+2024-11-29|St Pauli|Holstein Kiel,1.621692,1.106023
+2024-11-30|Augsburg|Bochum,1.857788,1.156602
+2024-11-30|Dortmund|Bayern Munich,1.508249,2.017532
+2024-11-30|Freiburg|M'gladbach,1.608144,1.321761
+2024-11-30|RB Leipzig|Wolfsburg,2.281624,0.953225
+2024-11-30|Union Berlin|Leverkusen,1.074473,2.278160
+2024-11-30|Werder Bremen|Stuttgart,1.399740,2.069544
+2024-12-01|Heidenheim|Ein Frankfurt,1.483686,1.529856
+2024-12-01|Mainz|Hoffenheim,1.961885,1.196487
+2024-12-06|Stuttgart|Union Berlin,2.255068,0.891091
+2024-12-07|Bayern Munich|Heidenheim,2.852587,0.762363
+2024-12-07|Bochum|Werder Bremen,1.306881,1.532334
+2024-12-07|Ein Frankfurt|Augsburg,2.200201,0.894930
+2024-12-07|Holstein Kiel|RB Leipzig,1.286035,1.549358
+2024-12-07|Leverkusen|St Pauli,2.665790,0.781730
+2024-12-07|M'gladbach|Dortmund,1.529033,1.740155
+2024-12-08|Hoffenheim|Freiburg,1.503254,1.414590
+2024-12-08|Wolfsburg|Mainz,1.568077,1.430095
+2024-12-13|Freiburg|Wolfsburg,1.581969,1.197871
+2024-12-14|Augsburg|Leverkusen,1.066025,2.340963
+2024-12-14|M'gladbach|Holstein Kiel,2.009261,1.091434
+2024-12-14|Mainz|Bayern Munich,1.399678,2.029996
+2024-12-14|St Pauli|Werder Bremen,1.468861,1.246686
+2024-12-14|Union Berlin|Bochum,1.812157,1.000704
+2024-12-15|Dortmund|Hoffenheim,2.417593,1.071639
+2024-12-15|Heidenheim|Stuttgart,1.311162,2.041332
+2024-12-15|RB Leipzig|Ein Frankfurt,1.916480,1.381499
+2024-12-20|Bayern Munich|RB Leipzig,2.313336,0.942405
+2024-12-21|Ein Frankfurt|Mainz,1.923439,1.430598
+2024-12-21|Hoffenheim|M'gladbach,1.561196,1.531261
+2024-12-21|Holstein Kiel|Augsburg,1.325094,1.304981
+2024-12-21|Leverkusen|Freiburg,2.713687,0.932453
+2024-12-21|Stuttgart|St Pauli,2.322581,0.950340
+2024-12-21|Werder Bremen|Union Berlin,1.734369,1.189589
+2024-12-22|Bochum|Heidenheim,1.538652,1.341545
+2024-12-22|Wolfsburg|Dortmund,1.555978,1.522408
+2025-01-10|Dortmund|Leverkusen,1.501170,1.944154
+2025-01-11|Freiburg|Holstein Kiel,1.999937,1.045892
+2025-01-11|Heidenheim|Union Berlin,1.404405,1.390630
+2025-01-11|Hoffenheim|Wolfsburg,1.575565,1.398119
+2025-01-11|M'gladbach|Bayern Munich,1.287055,2.537864
+2025-01-11|Mainz|Bochum,2.231099,0.886472
+2025-01-11|St Pauli|Ein Frankfurt,1.439050,1.491097
+2025-01-12|Augsburg|Stuttgart,1.316771,2.018182
+2025-01-12|RB Leipzig|Werder Bremen,1.981261,1.184943
+2025-01-14|Ein Frankfurt|Freiburg,2.002375,1.259963
+2025-01-14|Holstein Kiel|Dortmund,1.318340,1.689759
+2025-01-14|Leverkusen|Mainz,2.539491,0.933831
+2025-01-14|Wolfsburg|M'gladbach,1.810002,1.147060
+2025-01-15|Bayern Munich|Hoffenheim,2.847851,0.859505
+2025-01-15|Bochum|St Pauli,1.360535,1.428119
+2025-01-15|Stuttgart|RB Leipzig,1.903708,1.246466
+2025-01-15|Union Berlin|Augsburg,1.562065,1.169887
+2025-01-15|Werder Bremen|Heidenheim,1.852583,0.991413
+2025-01-17|Ein Frankfurt|Dortmund,1.910764,1.334716
+2025-01-18|Bayern Munich|Wolfsburg,2.815681,0.853036
+2025-01-18|Bochum|RB Leipzig,1.322068,1.586185
+2025-01-18|Heidenheim|St Pauli,1.483522,1.309365
+2025-01-18|Holstein Kiel|Hoffenheim,1.557028,1.282574
+2025-01-18|Leverkusen|M'gladbach,2.714064,0.875734
+2025-01-18|Stuttgart|Freiburg,2.219162,1.041693
+2025-01-19|Union Berlin|Mainz,1.348116,1.463768
+2025-01-19|Werder Bremen|Augsburg,1.714034,1.059451
+2025-01-24|Wolfsburg|Holstein Kiel,1.932171,1.121520
+2025-01-25|Augsburg|Heidenheim,1.613061,1.109641
+2025-01-25|Dortmund|Werder Bremen,1.908352,1.186446
+2025-01-25|Freiburg|Bayern Munich,1.026270,2.467527
+2025-01-25|M'gladbach|Bochum,1.611213,1.250689
+2025-01-25|Mainz|Stuttgart,1.506562,1.811168
+2025-01-25|RB Leipzig|Leverkusen,1.459993,2.139086
+2025-01-26|Hoffenheim|Ein Frankfurt,1.396017,1.671133
+2025-01-26|St Pauli|Union Berlin,1.495729,1.155844
+2025-01-31|Werder Bremen|Mainz,1.595444,1.295838
+2025-02-01|Bayern Munich|Holstein Kiel,3.226887,0.653897
+2025-02-01|Bochum|Freiburg,1.424862,1.356289
+2025-02-01|Heidenheim|Dortmund,1.367621,1.458523
+2025-02-01|St Pauli|Augsburg,1.500832,1.133795
+2025-02-01|Stuttgart|M'gladbach,2.314456,0.989182
+2025-02-01|Union Berlin|RB Leipzig,1.493077,1.370272
+2025-02-02|Ein Frankfurt|Wolfsburg,2.012616,1.270742
+2025-02-02|Leverkusen|Hoffenheim,2.850480,0.916106
+2025-02-07|Bayern Munich|Werder Bremen,2.848854,0.797354
+2025-02-08|Dortmund|Stuttgart,1.741398,1.549228
+2025-02-08|Freiburg|Heidenheim,1.749736,1.066532
+2025-02-08|Hoffenheim|Union Berlin,1.740441,1.315703
+2025-02-08|M'gladbach|Ein Frankfurt,1.529527,1.638604
+2025-02-08|Mainz|Augsburg,1.806152,1.040847
+2025-02-08|Wolfsburg|Leverkusen,1.297513,2.298605
+2025-02-09|Holstein Kiel|Bochum,1.507842,1.238131
+2025-02-09|RB Leipzig|St Pauli,1.708373,1.093998
+2025-02-14|Augsburg|RB Leipzig,1.437945,1.296399
+2025-02-15|Bochum|Dortmund,1.216373,1.650859
+2025-02-15|Leverkusen|Bayern Munich,1.712671,1.683053
+2025-02-15|St Pauli|Freiburg,1.395619,1.208369
+2025-02-15|Stuttgart|Wolfsburg,2.060599,1.134247
+2025-02-15|Union Berlin|M'gladbach,1.628338,1.139990
+2025-02-16|Ein Frankfurt|Holstein Kiel,2.458334,0.960042
+2025-02-16|Heidenheim|Mainz,1.373188,1.410422
+2025-02-16|Werder Bremen|Hoffenheim,1.707550,1.305261
+2025-02-21|Freiburg|Werder Bremen,1.585509,1.128202
+2025-02-22|Dortmund|Union Berlin,1.960235,1.190624
+2025-02-22|Holstein Kiel|Leverkusen,1.160393,2.092246
+2025-02-22|M'gladbach|Augsburg,1.652088,1.053583
+2025-02-22|Mainz|St Pauli,1.639466,0.938709
+2025-02-22|Wolfsburg|Bochum,2.175178,1.055704
+2025-02-23|Bayern Munich|Ein Frankfurt,2.731011,1.064051
+2025-02-23|Hoffenheim|Stuttgart,1.391287,1.750131
+2025-02-23|RB Leipzig|Heidenheim,1.978114,0.910906
+2025-02-28|Stuttgart|Bayern Munich,1.408720,1.934439
+2025-03-01|Bochum|Hoffenheim,1.592591,1.446357
+2025-03-01|Ein Frankfurt|Leverkusen,1.477673,1.865155
+2025-03-01|Heidenheim|M'gladbach,1.419287,1.383602
+2025-03-01|RB Leipzig|Mainz,1.704225,1.180620
+2025-03-01|St Pauli|Dortmund,1.323218,1.670605
+2025-03-01|Werder Bremen|Wolfsburg,1.453557,1.401814
+2025-03-02|Augsburg|Freiburg,1.461243,1.311492
+2025-03-02|Union Berlin|Holstein Kiel,1.774331,1.093192
+2025-03-07|M'gladbach|Mainz,1.539649,1.295801
+2025-03-08|Bayern Munich|Bochum,3.039418,0.837564
+2025-03-08|Dortmund|Augsburg,2.038035,0.996412
+2025-03-08|Freiburg|RB Leipzig,1.534453,1.231194
+2025-03-08|Holstein Kiel|Stuttgart,1.225595,1.944551
+2025-03-08|Leverkusen|Werder Bremen,2.951185,0.742122
+2025-03-08|Wolfsburg|St Pauli,1.811170,0.957424
+2025-03-09|Ein Frankfurt|Union Berlin,2.264617,1.128433
+2025-03-09|Hoffenheim|Heidenheim,1.860162,1.178915
+2025-03-14|St Pauli|Hoffenheim,1.507587,1.369076
+2025-03-15|Augsburg|Wolfsburg,1.472426,1.232985
+2025-03-15|Mainz|Freiburg,1.784078,1.040441
+2025-03-15|RB Leipzig|Dortmund,1.671360,1.528163
+2025-03-15|Union Berlin|Bayern Munich,1.041844,2.336024
+2025-03-15|Werder Bremen|M'gladbach,1.622696,1.247789
+2025-03-16|Bochum|Ein Frankfurt,1.439362,1.814288
+2025-03-16|Heidenheim|Holstein Kiel,1.613081,1.188632
+2025-03-16|Stuttgart|Leverkusen,1.502076,1.756416
+2025-03-28|Leverkusen|Bochum,2.946691,0.900297
+2025-03-29|Bayern Munich|St Pauli,2.866353,0.750911
+2025-03-29|Ein Frankfurt|Stuttgart,1.901353,1.425343
+2025-03-29|Hoffenheim|Augsburg,1.480171,1.128679
+2025-03-29|Holstein Kiel|Werder Bremen,1.454695,1.431588
+2025-03-29|M'gladbach|RB Leipzig,1.519653,1.393342
+2025-03-29|Wolfsburg|Heidenheim,1.943686,1.034397
+2025-03-30|Dortmund|Mainz,1.795433,1.181850
+2025-03-30|Freiburg|Union Berlin,1.659178,1.037773
+2025-04-04|Augsburg|Bayern Munich,1.034784,2.239385
+2025-04-05|Bochum|Stuttgart,1.342995,1.455587
+2025-04-05|Freiburg|Dortmund,1.383472,1.528503
+2025-04-05|Heidenheim|Leverkusen,1.077422,2.154312
+2025-04-05|Mainz|Holstein Kiel,2.050868,0.873216
+2025-04-05|RB Leipzig|Hoffenheim,1.950850,1.110557
+2025-04-05|Werder Bremen|Ein Frankfurt,1.616414,1.542281
+2025-04-06|St Pauli|M'gladbach,1.472652,1.293409
+2025-04-06|Union Berlin|Wolfsburg,1.486711,1.346006
+2025-04-11|Wolfsburg|RB Leipzig,1.579768,1.307351
+2025-04-12|Bayern Munich|Dortmund,2.741996,0.961623
+2025-04-12|Bochum|Augsburg,1.338884,1.183970
+2025-04-12|Hoffenheim|Mainz,1.386471,1.427281
+2025-04-12|Holstein Kiel|St Pauli,1.323799,1.283263
+2025-04-12|Leverkusen|Union Berlin,2.757805,0.812021
+2025-04-12|M'gladbach|Freiburg,1.598249,1.308018
+2025-04-13|Ein Frankfurt|Heidenheim,2.149883,1.044059
+2025-04-13|Stuttgart|Werder Bremen,1.970549,1.230674
+2025-04-19|Freiburg|Hoffenheim,1.714113,1.167464
+2025-04-19|Heidenheim|Bayern Munich,1.029500,2.451217
+2025-04-19|Mainz|Wolfsburg,1.649059,1.280098
+2025-04-19|RB Leipzig|Holstein Kiel,2.092526,0.932459
+2025-04-19|Union Berlin|Stuttgart,1.408947,1.403865
+2025-04-19|Werder Bremen|Bochum,2.200331,1.057014
+2025-04-20|Augsburg|Ein Frankfurt,1.446787,1.535825
+2025-04-20|Dortmund|M'gladbach,2.173979,1.115043
+2025-04-20|St Pauli|Leverkusen,1.124288,1.746853
+2025-04-25|Stuttgart|Heidenheim,2.240068,0.828505
+2025-04-26|Bayern Munich|Mainz,2.771162,0.789479
+2025-04-26|Ein Frankfurt|RB Leipzig,1.829382,1.407040
+2025-04-26|Hoffenheim|Dortmund,1.384770,1.659207
+2025-04-26|Holstein Kiel|M'gladbach,1.406183,1.347529
+2025-04-26|Leverkusen|Augsburg,2.414046,0.683203
+2025-04-26|Wolfsburg|Freiburg,1.612294,1.342401
+2025-04-27|Bochum|Union Berlin,1.360654,1.341968
+2025-04-27|Werder Bremen|St Pauli,1.632094,1.191051
+2025-05-02|Heidenheim|Bochum,1.516382,1.399238
+2025-05-03|Dortmund|Wolfsburg,2.185975,1.050232
+2025-05-03|M'gladbach|Hoffenheim,1.554187,1.411766
+2025-05-03|RB Leipzig|Bayern Munich,1.109843,2.235516
+2025-05-03|St Pauli|Stuttgart,1.407813,1.324348
+2025-05-03|Union Berlin|Werder Bremen,1.434894,1.393823
+2025-05-04|Augsburg|Holstein Kiel,1.607408,0.991471
+2025-05-04|Freiburg|Leverkusen,1.240048,1.553356
+2025-05-04|Mainz|Ein Frankfurt,1.552721,1.623004
+2025-05-09|Wolfsburg|Hoffenheim,1.634866,1.412956
+2025-05-10|Bayern Munich|M'gladbach,3.135057,0.734201
+2025-05-10|Bochum|Mainz,1.427776,1.386140
+2025-05-10|Holstein Kiel|Freiburg,1.290752,1.419444
+2025-05-10|Union Berlin|Heidenheim,1.740413,1.077856
+2025-05-10|Werder Bremen|RB Leipzig,1.627940,1.209119
+2025-05-11|Ein Frankfurt|St Pauli,2.030430,0.978056
+2025-05-11|Leverkusen|Dortmund,2.027709,1.232586
+2025-05-11|Stuttgart|Augsburg,2.074005,1.030260
+2025-05-17|Augsburg|Union Berlin,1.460467,1.256661
+2025-05-17|Dortmund|Holstein Kiel,2.611072,0.966857
+2025-05-17|Freiburg|Ein Frankfurt,1.659905,1.387564
+2025-05-17|Heidenheim|Werder Bremen,1.412950,1.510930
+2025-05-17|Hoffenheim|Bayern Munich,1.075060,2.511469
+2025-05-17|M'gladbach|Wolfsburg,1.519276,1.389377
+2025-05-17|Mainz|Leverkusen,1.393949,1.601120
+2025-05-17|RB Leipzig|Stuttgart,1.671566,1.663921
+2025-05-17|St Pauli|Bochum,1.608310,1.123450
+2025-08-22|Bayern Munich|RB Leipzig,2.779000,0.851272
+2025-08-23|Ein Frankfurt|Werder Bremen,2.114204,1.249907
+2025-08-23|Freiburg|Augsburg,1.691743,1.048695
+2025-08-23|Heidenheim|Wolfsburg,1.405495,1.470996
+2025-08-23|Leverkusen|Hoffenheim,2.533710,1.002498
+2025-08-23|St Pauli|Dortmund,1.325985,1.772214
+2025-08-23|Union Berlin|Stuttgart,1.250285,1.900105
+2025-08-24|M'gladbach|Hamburg,1.402697,1.720140
+2025-08-24|Mainz|FC Koln,1.875863,1.404782
+2025-08-29|Hamburg|St Pauli,1.654482,1.009478
+2025-08-30|Augsburg|Bayern Munich,0.986098,2.397249
+2025-08-30|Hoffenheim|Ein Frankfurt,1.410327,1.893963
+2025-08-30|RB Leipzig|Heidenheim,1.703680,1.271295
+2025-08-30|Stuttgart|M'gladbach,2.309304,0.997118
+2025-08-30|Werder Bremen|Leverkusen,1.404392,1.588564
+2025-08-31|Dortmund|Union Berlin,2.341287,0.966401
+2025-08-31|FC Koln|Freiburg,1.462740,1.357073
+2025-08-31|Wolfsburg|Mainz,1.573076,1.446847
+2025-09-12|Leverkusen|Ein Frankfurt,1.820980,1.527275
+2025-09-13|Bayern Munich|Hamburg,2.764889,0.908308
+2025-09-13|Freiburg|Stuttgart,1.360914,1.609982
+2025-09-13|Heidenheim|Dortmund,1.225313,2.059160
+2025-09-13|Mainz|RB Leipzig,1.755095,1.198328
+2025-09-13|Union Berlin|Hoffenheim,1.476816,1.328670
+2025-09-13|Wolfsburg|FC Koln,1.484144,1.473411
+2025-09-14|M'gladbach|Werder Bremen,1.500373,1.710586
+2025-09-14|St Pauli|Augsburg,1.506042,1.095132
+2025-09-19|Stuttgart|St Pauli,1.869105,1.038766
+2025-09-20|Augsburg|Mainz,1.396834,1.550448
+2025-09-20|Hamburg|Heidenheim,1.836561,0.985518
+2025-09-20|Hoffenheim|Bayern Munich,1.062205,2.449213
+2025-09-20|RB Leipzig|FC Koln,1.746557,1.565520
+2025-09-20|Werder Bremen|Freiburg,1.850674,1.269433
+2025-09-21|Dortmund|Wolfsburg,2.320937,1.000821
+2025-09-21|Ein Frankfurt|Union Berlin,2.165878,0.926630
+2025-09-21|Leverkusen|M'gladbach,2.400812,1.002270
+2025-09-26|Bayern Munich|Werder Bremen,2.818202,0.954019
+2025-09-27|Heidenheim|Augsburg,1.374228,1.332311
+2025-09-27|M'gladbach|Ein Frankfurt,1.368221,1.976593
+2025-09-27|Mainz|Dortmund,1.578436,1.757498
+2025-09-27|St Pauli|Leverkusen,1.248962,1.652215
+2025-09-27|Wolfsburg|RB Leipzig,1.549701,1.412035
+2025-09-28|FC Koln|Stuttgart,1.402660,1.801786
+2025-09-28|Freiburg|Hoffenheim,1.895545,1.155355
+2025-09-28|Union Berlin|Hamburg,1.513643,1.470046
+2025-10-03|Hoffenheim|FC Koln,1.601856,1.441813
+2025-10-04|Augsburg|Wolfsburg,1.409536,1.545856
+2025-10-04|Dortmund|RB Leipzig,2.165354,1.293609
+2025-10-04|Ein Frankfurt|Bayern Munich,1.452693,2.233891
+2025-10-04|Leverkusen|Union Berlin,2.318014,0.911961
+2025-10-04|Werder Bremen|St Pauli,1.538113,1.417650
+2025-10-05|Hamburg|Mainz,1.455576,1.550380
+2025-10-05|M'gladbach|Freiburg,1.460978,1.523996
+2025-10-05|Stuttgart|Heidenheim,2.400735,0.810224
+2025-10-17|Union Berlin|M'gladbach,1.554097,1.364527
+2025-10-18|Bayern Munich|Dortmund,2.551851,1.087669
+2025-10-18|FC Koln|Augsburg,1.658661,1.238042
+2025-10-18|Heidenheim|Werder Bremen,1.381608,1.551653
+2025-10-18|Mainz|Leverkusen,1.319786,1.678616
+2025-10-18|RB Leipzig|Hamburg,1.932225,1.382325
+2025-10-18|Wolfsburg|Stuttgart,1.339719,1.972044
+2025-10-19|Freiburg|Ein Frankfurt,1.542204,1.504208
+2025-10-19|St Pauli|Hoffenheim,1.486765,1.325778
+2025-10-24|Werder Bremen|Union Berlin,1.822203,1.328063
+2025-10-25|Augsburg|RB Leipzig,1.365072,1.633493
+2025-10-25|Dortmund|FC Koln,2.129236,1.105571
+2025-10-25|Ein Frankfurt|St Pauli,2.145931,0.969784
+2025-10-25|Hamburg|Wolfsburg,1.709270,1.234259
+2025-10-25|Hoffenheim|Heidenheim,1.878305,1.141588
+2025-10-25|M'gladbach|Bayern Munich,0.827435,2.550923
+2025-10-26|Leverkusen|Freiburg,2.482586,0.963310
+2025-10-26|Stuttgart|Mainz,2.195275,1.029794
+2025-10-31|Augsburg|Dortmund,1.229406,1.967512
+2025-11-01|Bayern Munich|Leverkusen,2.552216,1.084582
+2025-11-01|Heidenheim|Ein Frankfurt,1.284068,1.970214
+2025-11-01|Mainz|Werder Bremen,1.654018,1.385025
+2025-11-01|RB Leipzig|Stuttgart,1.782007,1.726279
+2025-11-01|St Pauli|M'gladbach,1.555788,1.173540
+2025-11-01|Union Berlin|Freiburg,1.475041,1.338518
+2025-11-02|FC Koln|Hamburg,1.423175,1.527945
+2025-11-02|Wolfsburg|Hoffenheim,1.482483,1.560710
+2025-11-07|Werder Bremen|Wolfsburg,1.666757,1.320230
+2025-11-08|Hamburg|Dortmund,1.265472,2.151079
+2025-11-08|Hoffenheim|RB Leipzig,1.527610,1.638203
+2025-11-08|Leverkusen|Heidenheim,2.668357,0.867421
+2025-11-08|M'gladbach|FC Koln,1.507402,1.561917
+2025-11-08|Union Berlin|Bayern Munich,0.787192,2.182749
+2025-11-09|Ein Frankfurt|Mainz,2.163004,1.017635
+2025-11-09|Freiburg|St Pauli,1.811129,0.937328
+2025-11-09|Stuttgart|Augsburg,2.317278,0.853701
+2025-11-21|Mainz|Hoffenheim,1.486516,1.485843
+2025-11-22|Augsburg|Hamburg,1.400259,1.461701
+2025-11-22|Bayern Munich|Freiburg,2.943426,0.849707
+2025-11-22|Dortmund|Stuttgart,1.914043,1.319387
+2025-11-22|FC Koln|Ein Frankfurt,1.346543,2.077260
+2025-11-22|Heidenheim|M'gladbach,1.454422,1.444895
+2025-11-22|Wolfsburg|Leverkusen,1.195348,2.127043
+2025-11-23|RB Leipzig|Werder Bremen,2.114432,1.232326
+2025-11-23|St Pauli|Union Berlin,1.392809,1.367547
+2025-11-28|M'gladbach|RB Leipzig,1.512046,1.760554
+2025-11-29|Bayern Munich|St Pauli,3.021646,0.751172
+2025-11-29|Hoffenheim|Augsburg,1.830086,1.169338
+2025-11-29|Leverkusen|Dortmund,1.975396,1.513114
+2025-11-29|Union Berlin|Heidenheim,1.700504,0.937097
+2025-11-29|Werder Bremen|FC Koln,1.609432,1.496154
+2025-11-30|Ein Frankfurt|Wolfsburg,2.331695,1.004247
+2025-11-30|Freiburg|Mainz,1.557988,1.175503
+2025-11-30|Hamburg|Stuttgart,1.382488,1.910839
+2025-12-05|Mainz|M'gladbach,1.526178,1.368968
+2025-12-06|Augsburg|Leverkusen,1.241232,2.027774
+2025-12-06|FC Koln|St Pauli,1.771503,1.070724
+2025-12-06|Heidenheim|Freiburg,1.240582,1.496281
+2025-12-06|RB Leipzig|Ein Frankfurt,1.873735,1.568726
+2025-12-06|Stuttgart|Bayern Munich,1.483928,2.084166
+2025-12-06|Wolfsburg|Union Berlin,1.507027,1.267556
+2025-12-07|Dortmund|Hoffenheim,2.075674,1.161184
+2025-12-07|Hamburg|Werder Bremen,1.536943,1.343567
+2025-12-12|Union Berlin|RB Leipzig,1.351502,1.730667
+2025-12-13|Ein Frankfurt|Augsburg,2.144408,0.930194
+2025-12-13|Hoffenheim|Hamburg,1.669334,1.270017
+2025-12-13|Leverkusen|FC Koln,2.265860,1.168871
+2025-12-13|M'gladbach|Wolfsburg,1.611375,1.339102
+2025-12-13|St Pauli|Heidenheim,1.476873,1.307244
+2025-12-14|Bayern Munich|Mainz,3.296939,0.872283
+2025-12-14|Freiburg|Dortmund,1.388381,1.510342
+2025-12-14|Werder Bremen|Stuttgart,1.498506,1.649723
+2025-12-19|Dortmund|M'gladbach,2.253879,1.015280
+2025-12-20|Augsburg|Werder Bremen,1.537315,1.313714
+2025-12-20|FC Koln|Union Berlin,1.450562,1.383302
+2025-12-20|Hamburg|Ein Frankfurt,1.433674,1.613913
+2025-12-20|RB Leipzig|Leverkusen,1.814104,1.540578
+2025-12-20|Stuttgart|Hoffenheim,2.020810,1.250948
+2025-12-20|Wolfsburg|Freiburg,1.503425,1.440955
+2025-12-21|Heidenheim|Bayern Munich,0.923246,2.314070
+2025-12-21|Mainz|St Pauli,1.496066,1.227481
+2026-01-09|Ein Frankfurt|Dortmund,1.749737,1.234426
+2026-01-10|Freiburg|Hamburg,1.764551,1.096804
+2026-01-10|Heidenheim|FC Koln,1.359613,1.492137
+2026-01-10|Leverkusen|Stuttgart,2.235143,1.222686
+2026-01-10|Union Berlin|Mainz,1.649544,1.101726
+2026-01-11|Bayern Munich|Wolfsburg,3.377814,0.848559
+2026-01-11|M'gladbach|Augsburg,1.499410,1.370399
+2026-01-13|Dortmund|Werder Bremen,2.380304,0.962165
+2026-01-13|Mainz|Heidenheim,1.644874,1.144206
+2026-01-13|Stuttgart|Ein Frankfurt,2.004964,1.187548
+2026-01-14|FC Koln|Bayern Munich,0.870924,2.335555
+2026-01-14|Hoffenheim|M'gladbach,1.828195,1.196754
+2026-01-14|RB Leipzig|Freiburg,2.087353,1.278849
+2026-01-14|Wolfsburg|St Pauli,1.622397,1.102172
+2026-01-15|Augsburg|Union Berlin,1.411852,1.400535
+2026-01-16|Werder Bremen|Ein Frankfurt,1.392432,1.517658
+2026-01-17|Dortmund|St Pauli,2.449043,0.694649
+2026-01-17|FC Koln|Mainz,1.578988,1.245661
+2026-01-17|Hamburg|M'gladbach,1.604999,1.340162
+2026-01-17|Hoffenheim|Leverkusen,1.716043,1.567204
+2026-01-17|RB Leipzig|Bayern Munich,1.366563,2.107942
+2026-01-17|Wolfsburg|Heidenheim,1.882201,0.971546
+2026-01-18|Augsburg|Freiburg,1.435543,1.469676
+2026-01-18|Stuttgart|Union Berlin,2.270428,0.998221
+2026-01-23|St Pauli|Hamburg,1.314211,1.503773
+2026-01-24|Bayern Munich|Augsburg,3.015759,0.922969
+2026-01-24|Ein Frankfurt|Hoffenheim,1.738312,1.531629
+2026-01-24|Heidenheim|RB Leipzig,1.293224,2.057694
+2026-01-24|Leverkusen|Werder Bremen,2.201281,0.958785
+2026-01-24|Mainz|Wolfsburg,1.440046,1.459341
+2026-01-24|Union Berlin|Dortmund,1.302503,1.740720
+2026-01-25|Freiburg|FC Koln,1.841335,1.217537
+2026-01-25|M'gladbach|Stuttgart,1.356848,2.091924
+2026-01-27|St Pauli|RB Leipzig,1.267477,1.881083
+2026-01-27|Werder Bremen|Hoffenheim,1.378607,1.733995
+2026-01-30|FC Koln|Wolfsburg,1.647502,1.311474
+2026-01-31|Augsburg|St Pauli,1.601641,1.049314
+2026-01-31|Ein Frankfurt|Leverkusen,1.635535,1.524487
+2026-01-31|Hamburg|Bayern Munich,0.986241,2.328788
+2026-01-31|Hoffenheim|Union Berlin,1.972251,1.060245
+2026-01-31|RB Leipzig|Mainz,2.283549,0.984961
+2026-01-31|Werder Bremen|M'gladbach,1.591133,1.285753
+2026-02-01|Dortmund|Heidenheim,2.583984,0.890901
+2026-02-01|Stuttgart|Freiburg,2.228253,1.095553
+2026-02-06|Union Berlin|Ein Frankfurt,1.512041,1.200564
+2026-02-07|Freiburg|Werder Bremen,1.783992,1.130651
+2026-02-07|Heidenheim|Hamburg,1.330188,1.608080
+2026-02-07|M'gladbach|Leverkusen,1.342895,1.841669
+2026-02-07|Mainz|Augsburg,1.716245,1.407219
+2026-02-07|St Pauli|Stuttgart,1.267107,2.051660
+2026-02-07|Wolfsburg|Dortmund,1.192208,2.070542
+2026-02-08|Bayern Munich|Hoffenheim,2.737836,0.931590
+2026-02-08|FC Koln|RB Leipzig,1.387145,1.871729
+2026-02-13|Dortmund|Mainz,2.502602,1.175861
+2026-02-14|Ein Frankfurt|M'gladbach,1.813487,1.017838
+2026-02-14|Hamburg|Union Berlin,1.436888,1.319889
+2026-02-14|Hoffenheim|Freiburg,1.974723,1.344715
+2026-02-14|Leverkusen|St Pauli,2.070029,0.914402
+2026-02-14|Stuttgart|FC Koln,2.351353,1.001790
+2026-02-14|Werder Bremen|Bayern Munich,0.998385,2.351493
+2026-02-15|Augsburg|Heidenheim,1.836600,1.111923
+2026-02-15|RB Leipzig|Wolfsburg,2.367480,0.956635
+2026-02-20|Mainz|Hamburg,1.601586,1.533510
+2026-02-21|Bayern Munich|Ein Frankfurt,2.790436,0.929609
+2026-02-21|FC Koln|Hoffenheim,1.334184,1.732874
+2026-02-21|RB Leipzig|Dortmund,1.801013,1.675041
+2026-02-21|Union Berlin|Leverkusen,1.418730,1.565653
+2026-02-21|Wolfsburg|Augsburg,1.484448,1.409264
+2026-02-22|Freiburg|M'gladbach,1.748677,1.076157
+2026-02-22|Heidenheim|Stuttgart,1.192002,2.080133
+2026-02-22|St Pauli|Werder Bremen,1.438778,1.260812
+2026-02-27|Augsburg|FC Koln,1.596220,1.342576
+2026-02-28|Dortmund|Bayern Munich,1.492878,2.204722
+2026-02-28|Hoffenheim|St Pauli,2.164986,0.807707
+2026-02-28|Leverkusen|Mainz,2.036169,1.168983
+2026-02-28|M'gladbach|Union Berlin,1.420820,1.392956
+2026-02-28|Werder Bremen|Heidenheim,1.809050,1.044439
+2026-03-01|Ein Frankfurt|Freiburg,1.672029,1.284999
+2026-03-01|Hamburg|RB Leipzig,1.432480,1.715573
+2026-03-01|Stuttgart|Wolfsburg,2.423141,0.914995
+2026-03-04|Hamburg|Leverkusen,1.339887,1.752414
+2026-03-06|Bayern Munich|M'gladbach,2.993185,0.774894
+2026-03-07|FC Koln|Dortmund,1.256983,1.988343
+2026-03-07|Freiburg|Leverkusen,1.351815,1.803310
+2026-03-07|Heidenheim|Hoffenheim,1.271313,2.067009
+2026-03-07|Mainz|Stuttgart,1.412597,2.117336
+2026-03-07|RB Leipzig|Augsburg,2.284074,1.000404
+2026-03-07|Wolfsburg|Hamburg,1.420622,1.382210
+2026-03-08|St Pauli|Ein Frankfurt,1.325599,1.480029
+2026-03-08|Union Berlin|Werder Bremen,1.511226,1.330614
+2026-03-13|M'gladbach|St Pauli,1.464095,1.175130
+2026-03-14|Dortmund|Augsburg,2.420564,1.096075
+2026-03-14|Ein Frankfurt|Heidenheim,1.966101,0.832523
+2026-03-14|Hamburg|FC Koln,1.662879,1.226908
+2026-03-14|Hoffenheim|Wolfsburg,2.404817,0.932507
+2026-03-14|Leverkusen|Bayern Munich,1.404767,2.163096
+2026-03-15|Freiburg|Union Berlin,1.658915,1.134822
+2026-03-15|Stuttgart|RB Leipzig,2.010508,1.482592
+2026-03-15|Werder Bremen|Mainz,1.549605,1.370996
+2026-03-20|RB Leipzig|Hoffenheim,1.980698,1.548775
+2026-03-21|Bayern Munich|Union Berlin,2.750314,0.904796
+2026-03-21|Dortmund|Hamburg,2.419993,1.067075
+2026-03-21|FC Koln|M'gladbach,1.423293,1.296474
+2026-03-21|Heidenheim|Leverkusen,1.206700,2.056987
+2026-03-21|Wolfsburg|Werder Bremen,1.394825,1.542702
+2026-03-22|Augsburg|Stuttgart,1.366208,1.943159
+2026-03-22|Mainz|Ein Frankfurt,1.621196,1.418728
+2026-03-22|St Pauli|Freiburg,1.323550,1.419471
+2026-04-04|Freiburg|Bayern Munich,1.111916,2.477650
+2026-04-04|Hamburg|Augsburg,1.466862,1.307667
+2026-04-04|Hoffenheim|Mainz,2.049772,1.256352
+2026-04-04|Leverkusen|Wolfsburg,2.270928,0.921884
+2026-04-04|M'gladbach|Heidenheim,1.751570,0.954671
+2026-04-04|Stuttgart|Dortmund,1.883379,1.474974
+2026-04-04|Werder Bremen|RB Leipzig,1.370025,1.732039
+2026-04-05|Ein Frankfurt|FC Koln,1.743997,1.034163
+2026-04-05|Union Berlin|St Pauli,1.498707,1.160391
+2026-04-10|Augsburg|Hoffenheim,1.395765,1.726965
+2026-04-11|Dortmund|Leverkusen,2.066927,1.491568
+2026-04-11|Heidenheim|Union Berlin,1.355981,1.412293
+2026-04-11|RB Leipzig|M'gladbach,2.345529,0.946182
+2026-04-11|St Pauli|Bayern Munich,1.006287,2.270501
+2026-04-11|Wolfsburg|Ein Frankfurt,1.365381,1.547322
+2026-04-12|FC Koln|Werder Bremen,1.435156,1.479386
+2026-04-12|Mainz|Freiburg,1.680173,1.334321
+2026-04-12|Stuttgart|Hamburg,2.368239,0.901807
+2026-04-17|St Pauli|FC Koln,1.343872,1.506791
+2026-04-18|Ein Frankfurt|RB Leipzig,1.576006,1.654197
+2026-04-18|Hoffenheim|Dortmund,1.631997,1.922476
+2026-04-18|Leverkusen|Augsburg,2.584584,1.052665
+2026-04-18|Union Berlin|Wolfsburg,1.632334,1.133215
+2026-04-18|Werder Bremen|Hamburg,1.614324,1.037166
+2026-04-19|Bayern Munich|Stuttgart,2.575435,1.167067
+2026-04-19|Freiburg|Heidenheim,1.917454,1.006826
+2026-04-19|M'gladbach|Mainz,1.425008,1.411517
+2026-04-24|RB Leipzig|Union Berlin,2.273376,0.933653
+2026-04-25|Augsburg|Ein Frankfurt,1.500747,1.485129
+2026-04-25|FC Koln|Leverkusen,1.350587,1.981316
+2026-04-25|Hamburg|Hoffenheim,1.287454,1.832746
+2026-04-25|Heidenheim|St Pauli,1.472692,1.174698
+2026-04-25|Mainz|Bayern Munich,1.184282,2.215158
+2026-04-25|Wolfsburg|M'gladbach,1.488638,1.390238
+2026-04-26|Dortmund|Freiburg,2.301485,1.153677
+2026-04-26|Stuttgart|Werder Bremen,2.370126,1.176582
+2026-05-02|Bayern Munich|Heidenheim,2.859181,0.962321
+2026-05-02|Ein Frankfurt|Hamburg,1.933742,0.977627
+2026-05-02|Hoffenheim|Stuttgart,1.881037,1.587494
+2026-05-02|Leverkusen|RB Leipzig,1.928558,1.706805
+2026-05-02|Union Berlin|FC Koln,1.399255,1.583958
+2026-05-02|Werder Bremen|Augsburg,1.625067,1.278230
+2026-05-03|Freiburg|Wolfsburg,1.905452,1.117780
+2026-05-03|M'gladbach|Dortmund,1.208129,2.146349
+2026-05-03|St Pauli|Mainz,1.314167,1.800159
+2026-05-08|Dortmund|Ein Frankfurt,2.250078,1.115484
+2026-05-09|Augsburg|M'gladbach,1.728378,1.290119
+2026-05-09|Hoffenheim|Werder Bremen,2.301897,1.117108
+2026-05-09|RB Leipzig|St Pauli,2.336428,0.843090
+2026-05-09|Stuttgart|Leverkusen,1.910999,1.709469
+2026-05-09|Wolfsburg|Bayern Munich,1.182092,2.552534
+2026-05-10|FC Koln|Heidenheim,1.893524,1.173708
+2026-05-10|Hamburg|Freiburg,1.352367,1.495603
+2026-05-10|Mainz|Union Berlin,2.117193,0.994250
+2026-05-16|Bayern Munich|FC Koln,2.867977,1.185368
+2026-05-16|Ein Frankfurt|Stuttgart,1.425150,1.873412
+2026-05-16|Freiburg|RB Leipzig,1.365200,1.934845
+2026-05-16|Heidenheim|Mainz,1.524584,1.786413
+2026-05-16|Leverkusen|Hamburg,2.328228,1.092045
+2026-05-16|M'gladbach|Hoffenheim,1.338109,1.924564
+2026-05-16|St Pauli|Wolfsburg,1.434707,1.355164
+2026-05-16|Union Berlin|Augsburg,1.516125,1.497941
+2026-05-16|Werder Bremen|Dortmund,1.226352,2.154150
+2026-08-28|Bayern Munich|Stuttgart,2.769030,1.275286
+2026-08-29|Dortmund|Hamburg,2.339562,0.779960
+2026-08-29|Elversberg|Leverkusen,1.574941,1.661416
+2026-08-29|FC Koln|Hoffenheim,1.516961,1.857083
+2026-08-29|Mainz|Paderborn,1.928259,1.134658
+2026-08-29|RB Leipzig|M'gladbach,2.236516,1.049809
+2026-08-29|Union Berlin|Ein Frankfurt,1.522991,1.387657
+2026-08-30|Augsburg|Schalke 04,1.462033,1.414556
+2026-08-30|Freiburg|Werder Bremen,1.668124,1.132721
+2026-09-04|Stuttgart|FC Koln,2.193398,1.297167
+2026-09-05|Hoffenheim|Dortmund,1.446612,1.898739
+2026-09-05|Leverkusen|Union Berlin,2.225936,1.320499
+2026-09-05|M'gladbach|Elversberg,1.328955,1.148179
+2026-09-05|Paderborn|Freiburg,1.488250,1.495561
+2026-09-05|Schalke 04|Bayern Munich,1.214086,2.833259
+2026-09-05|Werder Bremen|RB Leipzig,1.359566,2.261817
+2026-09-06|Ein Frankfurt|Augsburg,1.654015,1.592740
+2026-09-06|Hamburg|Mainz,1.398808,1.801192
+2026-09-11|Union Berlin|Schalke 04,1.435353,1.046009
+2026-09-12|Augsburg|Leverkusen,1.648520,2.286080
+2026-09-12|Dortmund|Paderborn,2.548839,1.008764
+2026-09-12|FC Koln|Werder Bremen,1.779771,1.193656
+2026-09-12|Freiburg|M'gladbach,1.919694,1.065506
+2026-09-12|Hoffenheim|Stuttgart,1.705742,1.586761
+2026-09-12|Mainz|Ein Frankfurt,2.070540,1.299548
+2026-09-13|Elversberg|Bayern Munich,1.329397,3.020749
+2026-09-13|RB Leipzig|Hamburg,2.299231,0.880134
+2026-09-18|Bayern Munich|Union Berlin,3.103118,0.991774
+2026-09-19|Ein Frankfurt|Freiburg,1.559485,1.615891
+2026-09-19|Hamburg|FC Koln,1.392735,1.776822
+2026-09-19|M'gladbach|Mainz,1.403855,1.862339
+2026-09-19|Stuttgart|Dortmund,1.644935,2.149531
+2026-09-19|Werder Bremen|Augsburg,1.482748,1.528104
+2026-09-20|Leverkusen|RB Leipzig,2.017306,1.807804
+2026-09-20|Paderborn|Hoffenheim,1.377303,1.948404
+2026-09-20|Schalke 04|Elversberg,1.502177,1.253011
+2026-10-09|Dortmund|Werder Bremen,2.451050,1.079007
+2026-10-10|Augsburg|Bayern Munich,1.174996,3.503965
+2026-10-10|Hoffenheim|Hamburg,2.120827,0.987900
+2026-10-10|Mainz|Leverkusen,1.725073,2.024244
+2026-10-10|Paderborn|Stuttgart,1.396872,1.553412
+2026-10-10|RB Leipzig|Ein Frankfurt,2.142065,1.216597
+2026-10-10|Union Berlin|Elversberg,1.364825,1.216708
+2026-10-11|FC Koln|M'gladbach,1.850062,1.172883
+2026-10-11|Freiburg|Schalke 04,1.849857,0.963917
