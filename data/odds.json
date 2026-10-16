@@ -1,21 +1,45 @@
 {
-  "about": "Bookmaker 1X2 odds (home win, draw, away win) per OpenLigaDB matchId, one block per matchday. The site turns them into probabilities by removing the bookmaker margin proportionally. Add a block each week; matches without odds simply show no bar.",
+  "about": "Bookmaker 1X2 odds (home win, draw, away win) per OpenLigaDB matchId, one block per matchday. Written by analysis/pipeline/site_odds.py from the odds recorder: the average price across the sportsbooks in The Odds API's EU feed. The site turns them into probabilities by removing the margin proportionally. Matches without odds simply show no bar.",
   "season": 2026,
   "matchdays": {
     "6": {
-      "source": "1xBet",
-      "quoted": "2026-10-13",
-      "url": "https://rg.org/en-ca/news/soccer/bayern-vs-leipzig-leverkusen-vs-freiburg-bundesliga-matchday-6-odds",
+      "source": {
+        "en": "average of 21 bookmakers",
+        "de": "Schnitt von 21 Buchmachern"
+      },
+      "quoted": "2026-10-16",
+      "url": "https://the-odds-api.com/",
       "matches": {
-        "83203": [2.00, 4.30, 3.52],
-        "83204": [4.98, 4.52, 1.69],
-        "83206": [4.08, 4.08, 1.90],
-        "83207": [1.84, 4.26, 4.21],
-        "83208": [3.16, 3.67, 2.34],
-        "83209": [2.55, 3.92, 2.71],
-        "83201": [1.26, 7.36, 11.30],
-        "83202": [1.75, 4.42, 4.62],
-        "83205": [3.33, 4.21, 2.10]
+        "83203": [2.1, 2.9, 3.72],
+        "83204": [5.12, 4.38, 1.57],
+        "83206": [4.0, 4.04, 1.78],
+        "83207": [1.78, 4.08, 3.97],
+        "83208": [2.96, 3.58, 2.26],
+        "83209": [2.44, 3.77, 2.6],
+        "83201": [1.22, 7.61, 9.78],
+        "83202": [1.69, 4.24, 4.3],
+        "83205": [3.07, 4.03, 2.05]
+      },
+      "books": 21
+    },
+    "7": {
+      "matches": {
+        "83215": [1.83, 3.88, 3.73],
+        "83211": [1.33, 5.56, 7.15],
+        "83213": [2.6, 3.9, 2.28],
+        "83210": [1.44, 4.92, 5.7],
+        "83216": [1.66, 4.09, 4.37],
+        "83218": [2.26, 3.63, 2.81],
+        "83217": [1.97, 3.74, 3.32],
+        "83212": [1.37, 5.39, 6.24],
+        "83214": [5.38, 5.4, 1.42]
+      },
+      "books": 16,
+      "quoted": "2026-10-16",
+      "url": "https://the-odds-api.com/",
+      "source": {
+        "en": "average of 16 bookmakers",
+        "de": "Schnitt von 16 Buchmachern"
       }
     }
   }
