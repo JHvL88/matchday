@@ -1,8 +1,8 @@
 {
  "variant": "xg",
- "code_commit": "9075a9950cc07c12da059e004237b505a9bc9579",
- "code_ref": "feature/xg-test",
- "run_id": "38957575663",
+ "code_commit": "ec35a2ad02350aa4df2ace8aff125e639bf789f3",
+ "code_ref": "main",
+ "run_id": "38965172848",
  "seasons": [
   2019,
   2026
@@ -11,5 +11,5 @@
   "dc-xgb": "success",
   "bayes": "success"
  },
- "finished_at": "2026-10-16T20:32:46+00:00"
+ "finished_at": "2026-10-16T21:28:14+00:00"
 }
