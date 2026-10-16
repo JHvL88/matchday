@@ -12,6 +12,7 @@ the private data repository, never the public one; only derived numbers are publ
 import argparse
 import codecs
 import datetime as dt
+import gzip
 import hashlib
 import json
 import os
@@ -31,9 +32,11 @@ def get(url, headers, retries=3, pause=3.0):
     last = None
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA, **headers})
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip", **headers})
             with urllib.request.urlopen(req, timeout=60) as r:
-                return r.read()
+                body = r.read()
+            # Understat answers gzip-compressed whether or not it was asked to
+            return gzip.decompress(body) if body[:2] == b"\x1f\x8b" else body
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
             last = e
             if isinstance(e, urllib.error.HTTPError) and e.code == 404:
