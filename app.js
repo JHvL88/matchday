@@ -7,6 +7,32 @@ const STALE_AFTER_MS = 2 * 60_000;
 const BERLIN_TIME_ZONE = "Europe/Berlin";
 const TEAM_STORAGE_KEY = "jans-matchday:team";
 const SVG_NS = "http://www.w3.org/2000/svg";
+const POSTS_URL = "analysis/posts.json";
+
+// Club crests. OpenLigaDB links several full-size originals (1000 px PNGs of 60–190 KB each, for an
+// icon drawn at 22–30 px). Known clubs use a 120 px Wikimedia thumbnail of the same crest; any other
+// Wikimedia link is converted to its 120 px thumbnail; anything else is used as given.
+const WIKIMEDIA = "https://upload.wikimedia.org/wikipedia/";
+const CREST_THUMBS = {
+  6: "de/thumb/f/f7/Bayer_Leverkusen_Logo.svg/120px-Bayer_Leverkusen_Logo.svg.png",
+  7: "commons/thumb/6/67/Borussia_Dortmund_logo.svg/120px-Borussia_Dortmund_logo.svg.png",
+  9: "commons/thumb/9/97/FC_Schalke_04_Logo.png/120px-FC_Schalke_04_Logo.png",
+  16: "commons/thumb/e/eb/VfB_Stuttgart_1893_Logo.svg/120px-VfB_Stuttgart_1893_Logo.svg.png",
+  31: "commons/thumb/e/e3/SC_Paderborn_07_Logo.svg/120px-SC_Paderborn_07_Logo.svg.png",
+  40: "commons/thumb/1/1f/Logo_FC_Bayern_M%C3%BCnchen_%282002%E2%80%932017%29.svg/120px-Logo_FC_Bayern_M%C3%BCnchen_%282002%E2%80%932017%29.svg.png",
+  65: "commons/thumb/0/01/1._FC_Koeln_Logo_2014%E2%80%93.svg/120px-1._FC_Koeln_Logo_2014%E2%80%93.svg.png",
+  80: "commons/thumb/4/44/1._FC_Union_Berlin_Logo.svg/120px-1._FC_Union_Berlin_Logo.svg.png",
+  81: "commons/thumb/9/9e/Logo_Mainz_05.svg/120px-Logo_Mainz_05.svg.png",
+  87: "commons/thumb/8/81/Borussia_M%C3%B6nchengladbach_logo.svg/120px-Borussia_M%C3%B6nchengladbach_logo.svg.png",
+  91: "de/thumb/3/32/Logo_Eintracht_Frankfurt_1998.svg/120px-Logo_Eintracht_Frankfurt_1998.svg.png",
+  95: "de/thumb/b/b5/Logo_FC_Augsburg.svg/120px-Logo_FC_Augsburg.svg.png",
+  100: "commons/thumb/f/f7/Hamburger_SV_logo.svg/120px-Hamburger_SV_logo.svg.png",
+  112: "de/thumb/b/bf/SC_Freiburg_Logo.svg/120px-SC_Freiburg_Logo.svg.png",
+  134: "commons/thumb/b/be/SV-Werder-Bremen-Logo.svg/120px-SV-Werder-Bremen-Logo.svg.png",
+  175: "commons/thumb/e/e7/Logo_TSG_Hoffenheim.svg/120px-Logo_TSG_Hoffenheim.svg.png",
+  198: "commons/thumb/3/35/SV_Elversberg_Logo.svg/120px-SV_Elversberg_Logo.svg.png",
+  1635: "en/thumb/0/04/RB_Leipzig_2014_logo.svg/120px-RB_Leipzig_2014_logo.svg.png",
+};
 
 // Text comes from i18n.js (loaded first); numbers, dates and scores follow the chosen language too.
 const { t } = I18N;
@@ -64,6 +90,7 @@ const state = {
   venue: "all",
   teamId: readStoredTeam(),
   matches: null,
+  posts: [],
   loadedAt: 0,
   loadFailed: false,
   openMatches: new Set(),
@@ -135,6 +162,33 @@ function matchdayOf(match) {
 
 function teamName(team) {
   return team?.shortName || team?.teamName || "TBC";
+}
+
+// Scorer names arrive as "J. Vagnoman", "Younes Ebnoutalib" or " Poulsen, Yussuf"; the last becomes "Yussuf Poulsen".
+function scorerName(name) {
+  const clean = String(name ?? "").trim().replace(/\s+/g, " ");
+  const parts = clean.split(",").map((part) => part.trim()).filter(Boolean);
+  return parts.length === 2 ? `${parts[1]} ${parts[0]}` : clean;
+}
+
+function crestUrl(team) {
+  const known = CREST_THUMBS[Number(team?.teamId)];
+  if (known) return WIKIMEDIA + known;
+  const url = team?.teamIconUrl || "";
+  const match = url.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/([^/]+)\/(?:thumb\/)?([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+?)(?:\/\d+px-[^/?#]+)?$/);
+  if (!match) return url;
+  const [, project, a, ab, file] = match;
+  return `${WIKIMEDIA}${project}/thumb/${a}/${ab}/${file}/120px-${file}${/\.svg$/i.test(file) ? ".png" : ""}`;
+}
+
+/* ---------- Deep dives ---------- */
+
+function postForMatch(match) {
+  return state.posts.find((post) => Number(post.matchId) === Number(match.matchID)) ?? null;
+}
+
+function postText(post, field) {
+  return post?.[I18N.lang]?.[field] ?? post?.en?.[field] ?? "";
 }
 
 function toScore(home, away) {
@@ -405,6 +459,14 @@ async function loadSeasonMatches(forceRefresh = false) {
   return matches;
 }
 
+// The list of deep dives (analysis/posts.json). Optional: the page works without it.
+async function loadPosts() {
+  const response = await fetch(POSTS_URL, { cache: "no-cache" });
+  if (!response.ok) throw new Error(`posts.json returned HTTP ${response.status}.`);
+  const data = await response.json();
+  return Array.isArray(data.posts) ? data.posts : [];
+}
+
 async function loadCurrentMatchday() {
   const group = await fetchJson(`/getcurrentgroup/${LEAGUE}`);
   const matchday = Number(group.groupOrderID);
@@ -459,9 +521,11 @@ async function start() {
   const request = ++loadRequest;
   setBusy(true);
   const requestedMatchday = Number(new URLSearchParams(location.search).get("md"));
-  const [currentResult, matchesResult] = await Promise.allSettled([loadCurrentMatchday(), loadSeasonMatches()]);
+  const [currentResult, matchesResult, postsResult] = await Promise.allSettled([loadCurrentMatchday(), loadSeasonMatches(), loadPosts()]);
   if (request !== loadRequest) return;
   setBusy(false);
+  if (postsResult.status === "fulfilled") state.posts = postsResult.value;
+  else console.warn("Deep-dive list unavailable.", postsResult.reason);
   if (matchesResult.status === "rejected") {
     console.error("Unable to load Bundesliga results.", matchesResult.reason);
     showLoadFailure();
@@ -571,11 +635,53 @@ function renderHub(matches) {
   renderMatchdayStrip();
 }
 
-function setGlanceTile(tile, value, sub, { compact = false } = {}) {
+function setGlanceTile(tile, value, sub, { compact = false, label } = {}) {
   const valueElement = tile.querySelector(".glance-value");
   valueElement.replaceChildren(value);
   valueElement.classList.toggle("is-compact", compact && value !== "–");
   tile.querySelector(".glance-sub").textContent = sub;
+  const term = tile.querySelector("dt");
+  term.textContent = t(label ?? term.dataset.i18n);
+}
+
+// "in 9 h 15 min" / "in 3 days" until a kick-off.
+function timeUntil(time, now = Date.now()) {
+  const minutes = Math.max(0, Math.round((time - now) / 60_000));
+  if (minutes < 60) return t("time.inMinutes", { count: minutes });
+  if (minutes < 24 * 60) return t("time.inHours", { hours: Math.floor(minutes / 60), minutes: minutes % 60 });
+  return t("time.inDays", { count: Math.round(minutes / (24 * 60)) });
+}
+
+function fixtureLabel(match) {
+  return t("glance.fixture", { home: teamName(match.team1), away: teamName(match.team2) });
+}
+
+function kickoffLabel(match) {
+  return formatBerlinDate(kickoffOf(match), { weekday: "short", hour: "2-digit", minute: "2-digit" });
+}
+
+// Before a matchday starts: the next kick-off, the top clash and the bottom clash by current position.
+function previewTiles(matches) {
+  const now = Date.now();
+  const next = matches
+    .filter((match) => getMatchStatus(match, now) === "upcoming" && Number.isFinite(kickoffOf(match)))
+    .sort((a, b) => kickoffOf(a) - kickoffOf(b))[0] ?? null;
+  const before = calculateStandings(state.matches, state.matchday - 1);
+  const rank = before.some((entry) => entry.played)
+    ? new Map(before.map((entry, index) => [Number(entry.team.teamId), index + 1]))
+    : new Map();
+  const ranked = matches
+    .filter((match) => getMatchStatus(match, now) === "upcoming")
+    .map((match) => ({ match, home: rank.get(Number(match.team1?.teamId)), away: rank.get(Number(match.team2?.teamId)) }))
+    .filter((entry) => entry.home && entry.away);
+  const byTop = [...ranked].sort((a, b) => (a.home + a.away) - (b.home + b.away) || Math.max(a.home, a.away) - Math.max(b.home, b.away));
+  const top = byTop[0] ?? null;
+  const bottom = byTop.length > 1 ? byTop.at(-1) : null;
+  return { next, top, bottom };
+}
+
+function clashSub(entry) {
+  return `${t("glance.positions", { home: I18N.ordinal(entry.home), away: I18N.ordinal(entry.away) })} · ${kickoffLabel(entry.match)}`;
 }
 
 function renderGlance(matches, standings) {
@@ -584,8 +690,14 @@ function renderGlance(matches, standings) {
   const started = matches.filter((match) => ["finished", "live"].includes(getMatchStatus(match, now)));
   const finished = matches.filter((match) => match.matchIsFinished && getFinalScore(match));
   const liveCount = started.length - finished.length;
+  const preview = finished.length ? null : previewTiles(matches);
 
-  if (started.length) {
+  if (!started.length && preview?.next) {
+    setGlanceTile(goalsTile, fixtureLabel(preview.next), `${kickoffLabel(preview.next)} · ${timeUntil(kickoffOf(preview.next), now)}`, {
+      compact: true,
+      label: "glance.nextKickoff",
+    });
+  } else if (started.length) {
     const goals = started.reduce((sum, match) => {
       const score = getDisplayScore(match, getMatchStatus(match, now)) ?? [0, 0];
       return sum + score[0] + score[1];
@@ -635,6 +747,13 @@ function renderGlance(matches, standings) {
         { compact: true },
       );
     }
+  } else if (preview?.top) {
+    setGlanceTile(resultsTile, fixtureLabel(preview.top.match), clashSub(preview.top), { compact: true, label: "glance.topClash" });
+    if (preview.bottom) {
+      setGlanceTile(winTile, fixtureLabel(preview.bottom.match), clashSub(preview.bottom), { compact: true, label: "glance.bottomClash" });
+    } else {
+      setGlanceTile(winTile, "–", t("glance.noResults"));
+    }
   } else {
     setGlanceTile(resultsTile, "–", t("glance.noResults"));
     setGlanceTile(winTile, "–", t("glance.noResults"));
@@ -658,14 +777,23 @@ function renderGlance(matches, standings) {
 
 function createLogo(team, className) {
   const logo = document.createElement("img");
+  const original = team?.teamIconUrl || "";
   logo.className = className;
-  logo.src = team?.teamIconUrl || "";
   logo.alt = "";
+  logo.width = 30;
+  logo.height = 30;
   logo.loading = "lazy";
   logo.decoding = "async";
+  logo.referrerPolicy = "no-referrer";
+  // Thumbnail first, then OpenLigaDB's own link, then the club's initials.
   logo.addEventListener("error", () => {
+    if (original && logo.getAttribute("src") !== original) {
+      logo.src = original;
+      return;
+    }
     logo.replaceWith(createElement("span", `${className} logo-fallback`, teamName(team).slice(0, 2)));
-  }, { once: true });
+  });
+  logo.src = crestUrl(team) || original;
   return logo;
 }
 
@@ -704,10 +832,12 @@ function createMatchCard(match) {
   const scoreBlock = createElement("span", "score-block");
   if (score) {
     const scoreLine = createElement("span", "score");
+    // Winner in ink, loser in grey; red is kept for live matches.
+    const scoreClass = (outcome) => (outcome === "winner" ? "score-winner" : outcome === "loser" ? "score-loser" : "");
     scoreLine.append(
-      createElement("span", homeOutcome === "winner" ? "score-winner" : "", String(homeScore)),
+      createElement("span", scoreClass(homeOutcome), String(homeScore)),
       createElement("span", "score-separator", I18N.scoreSeparator),
-      createElement("span", awayOutcome === "winner" ? "score-winner" : "", String(awayScore)),
+      createElement("span", scoreClass(awayOutcome), String(awayScore)),
     );
     scoreBlock.append(scoreLine);
   } else {
@@ -716,12 +846,20 @@ function createMatchCard(match) {
 
   const halfTime = getHalfTimeScore(match);
   const statusText = {
-    finished: halfTime ? t("match.fullTimeHt", { score: I18N.score(halfTime[0], halfTime[1]) }) : t("match.fullTime"),
+    finished: t("match.fullTime"),
     live: halfTime ? t("match.liveSecondHalf") : t("match.live"),
     pending: t("match.pending"),
     upcoming: Number.isFinite(kickoff) ? t("match.kickoff") : t("match.dateTbc"),
   }[status];
-  scoreBlock.append(createElement("span", "match-status", statusText));
+  const statusElement = createElement("span", "match-status", statusText);
+  // "Full time · HT 1–1" on one line; on phones the half-time score drops to a second line.
+  if (status === "finished" && halfTime) {
+    statusElement.append(
+      createElement("span", "match-status-sep", " · "),
+      createElement("span", "match-status-ht", t("match.halfTime", { score: I18N.score(halfTime[0], halfTime[1]) })),
+    );
+  }
+  scoreBlock.append(statusElement);
 
   summary.append(
     createTeam(match.team1, true, homeOutcome),
@@ -731,6 +869,31 @@ function createMatchCard(match) {
   );
   card.append(summary, createMatchDetails(match, status, time));
   return card;
+}
+
+// A link under a fixture that has a deep dive, with the published forecast.
+function createDiveLink(match) {
+  const post = postForMatch(match);
+  if (!post?.path) return null;
+  const link = createElement("a", `match-dive${isFollowed(match) ? " is-followed" : ""}`);
+  link.href = post.path;
+  const model = post.forecast?.model;
+  const text = Array.isArray(model) && model.length === 3
+    ? t("match.dive.forecast", {
+      home: teamName(match.team1),
+      away: teamName(match.team2),
+      h: I18N.percent(model[0]),
+      d: I18N.percent(model[1]),
+      a: I18N.percent(model[2]),
+    })
+    : postText(post, "tag");
+  link.append(
+    createElement("span", "match-dive-badge", t("match.dive.badge")),
+    createElement("span", "match-dive-text", text),
+    createElement("span", "match-dive-more", t("match.dive.read")),
+  );
+  link.setAttribute("aria-label", `${t("match.dive.badge")}: ${postText(post, "title")}. ${text}`);
+  return link;
 }
 
 function createMatchDetails(match, status, kickoffTime) {
@@ -757,7 +920,7 @@ function createMatchDetails(match, status, kickoffTime) {
       const notes = [goal.isOwnGoal ? t("match.ownGoal") : "", goal.isPenalty ? t("match.penalty") : ""].filter(Boolean);
       const scorer = createElement("span", "goal-scorer");
       scorer.append(
-        createElement("span", "", goal.goalGetterName || t("match.unknownScorer")),
+        createElement("span", "", scorerName(goal.goalGetterName) || t("match.unknownScorer")),
         ...(notes.length ? [createElement("span", "goal-note", ` (${notes.join(", ")})`)] : []),
       );
       const team = side === 1 ? match.team1 : side === 2 ? match.team2 : null;
@@ -849,7 +1012,7 @@ function renderMatches(matches) {
         : formatBerlinDate(kickoffOf(group[0]), { weekday: "long", day: "numeric", month: "long" })),
       createElement("span", "date-count", t("count.matches", { count: group.length })),
     );
-    dateGroup.append(heading, ...group.map(createMatchCard));
+    dateGroup.append(heading, ...group.flatMap((match) => [createMatchCard(match), createDiveLink(match)].filter(Boolean)));
     fragment.append(dateGroup);
   }
   resultsElement.replaceChildren(fragment);

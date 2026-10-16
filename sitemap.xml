@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Submit https://jhvl88.github.io/matchday/sitemap.xml in Google Search Console. Add a <url> for every new post. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://jhvl88.github.io/matchday/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/?lang=de"/>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/analysis/2026-27-md6-hamburg-stuttgart/?lang=de"/>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/?lang=de"/>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+</urlset>
