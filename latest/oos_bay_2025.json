@@ -9,65 +9,65 @@
   {
    "month": "2025-08",
    "matches": 18,
-   "seconds": 168,
-   "divergences": 0
+   "seconds": 159,
+   "divergences": 1
   },
   {
    "month": "2025-09",
    "matches": 27,
-   "seconds": 141,
+   "seconds": 130,
    "divergences": 0
   },
   {
    "month": "2025-10",
    "matches": 28,
-   "seconds": 140,
-   "divergences": 1
+   "seconds": 118,
+   "divergences": 0
   },
   {
    "month": "2025-11",
    "matches": 35,
-   "seconds": 188,
+   "seconds": 155,
    "divergences": 0
   },
   {
    "month": "2025-12",
    "matches": 27,
-   "seconds": 148,
-   "divergences": 1
+   "seconds": 130,
+   "divergences": 0
   },
   {
    "month": "2026-01",
    "matches": 42,
-   "seconds": 213,
-   "divergences": 1
+   "seconds": 176,
+   "divergences": 0
   },
   {
    "month": "2026-02",
    "matches": 35,
-   "seconds": 364,
-   "divergences": 0
+   "seconds": 297,
+   "divergences": 4
   },
   {
    "month": "2026-03",
    "matches": 31,
-   "seconds": 212,
+   "seconds": 178,
    "divergences": 1
   },
   {
    "month": "2026-04",
    "matches": 36,
-   "seconds": 198,
-   "divergences": 0
+   "seconds": 150,
+   "divergences": 3
   },
   {
    "month": "2026-05",
    "matches": 27,
-   "seconds": 185,
-   "divergences": 0
+   "seconds": 129,
+   "divergences": 9
   }
  ],
  "bayes_warmup": 250,
  "bayes_samples": 250,
- "seconds": 1959
+ "seconds": 1623
 }

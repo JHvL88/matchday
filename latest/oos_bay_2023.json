@@ -9,65 +9,65 @@
   {
    "month": "2023-08",
    "matches": 18,
-   "seconds": 91,
+   "seconds": 61,
    "divergences": 0
   },
   {
    "month": "2023-09",
    "matches": 34,
-   "seconds": 95,
+   "seconds": 62,
    "divergences": 2
   },
   {
    "month": "2023-10",
    "matches": 29,
-   "seconds": 130,
+   "seconds": 92,
    "divergences": 12
   },
   {
    "month": "2023-11",
    "matches": 27,
-   "seconds": 102,
+   "seconds": 66,
    "divergences": 0
   },
   {
    "month": "2023-12",
    "matches": 35,
-   "seconds": 105,
+   "seconds": 68,
    "divergences": 6
   },
   {
    "month": "2024-01",
    "matches": 27,
-   "seconds": 132,
+   "seconds": 87,
    "divergences": 0
   },
   {
    "month": "2024-02",
    "matches": 37,
-   "seconds": 115,
+   "seconds": 81,
    "divergences": 24
   },
   {
    "month": "2024-03",
    "matches": 36,
-   "seconds": 111,
+   "seconds": 74,
    "divergences": 0
   },
   {
    "month": "2024-04",
    "matches": 36,
-   "seconds": 193,
+   "seconds": 119,
    "divergences": 0
   },
   {
    "month": "2024-05",
    "matches": 27,
-   "seconds": 163,
+   "seconds": 102,
    "divergences": 0
   }
  ],
  "bayes_warmup": 250,
  "bayes_samples": 250,
- "seconds": 1239
+ "seconds": 814
 }
