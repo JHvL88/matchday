@@ -1,0 +1,99 @@
+# Records Bundesliga odds from The Odds API (EU feed: Pinnacle, Betfair Exchange, Tipico, Winamax and
+# about 20 more) into the private data repository, and refreshes the home page's odds once a day.
+#
+# Runs every 30 minutes from 07:00 to 21:00 UTC. Most runs only check the fixture list (free) and
+# stop; a snapshot (2 credits) is taken daily, about an hour before and just before each kick-off,
+# and on demand: Actions tab > Record odds > Run workflow, with a label such as "md7 post".
+#
+# Needs two repository secrets (Settings > Secrets and variables > Actions):
+#   ODDS_API_KEY      key from https://the-odds-api.com (free plan: 500 credits a month)
+#   DATA_REPO_TOKEN   fine-grained token with Contents read/write on the private data repository
+# Optional repository variables: DATA_REPO (default: <this repo>-data), SITE_BOT=off to stop the
+# automatic data/odds.json commits.
+name: Record odds
+
+on:
+  schedule:
+    - cron: "7,37 7-20 * * *"
+  workflow_dispatch:
+    inputs:
+      label:
+        description: "Take a snapshot now and tag it, e.g. 'md7 post' (leave empty for a normal check)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: record-odds
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+      DATA_REPO: ${{ vars.DATA_REPO || format('{0}-data', github.repository) }}
+      LABEL: ${{ inputs.label }}
+    steps:
+      - name: Check the setup
+        id: setup
+        run: |
+          if [ -z "$ODDS_API_KEY" ] || [ -z "$DATA_REPO_TOKEN" ]; then
+            echo "::notice::Odds recorder not set up yet: add the ODDS_API_KEY and DATA_REPO_TOKEN secrets (see README, 'Odds')."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.setup.outputs.ready == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.setup.outputs.ready == 'true'
+        with:
+          python-version: "3.13"
+
+      - name: Clone the data repository
+        if: steps.setup.outputs.ready == 'true'
+        run: git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+
+      - name: Take a snapshot if one is due
+        id: rec
+        if: steps.setup.outputs.ready == 'true'
+        run: python analysis/pipeline/record_odds.py --data-dir data-repo/odds --label "$LABEL"
+
+      - name: Save the snapshot in the data repository
+        if: steps.rec.outputs.snapshot == 'true'
+        run: |
+          cd data-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit --quiet -m "Odds snapshot (${{ steps.rec.outputs.reasons }}) ${LABEL}"
+          git push --quiet
+
+      - name: Refresh the home page odds
+        if: >-
+          steps.rec.outputs.snapshot == 'true' && github.ref == 'refs/heads/main' && vars.SITE_BOT != 'off' &&
+          (contains(steps.rec.outputs.reasons, 'daily') || contains(steps.rec.outputs.reasons, 'manual'))
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install -q numpy==2.5.3 pandas==3.0.5
+          SEASON=$(python3 -c "import datetime as d; t = d.date.today(); print(t.year if t.month >= 7 else t.year - 1)")
+          python analysis/pipeline/site_odds.py --data-dir data-repo/odds --season "$SEASON" --out data/odds.json
+          if git diff --quiet data/odds.json; then echo "Odds unchanged."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/odds.json
+          git commit --quiet -m "Update odds from the recorder (${{ steps.rec.outputs.reasons }})"
+          git pull --quiet --rebase origin main
+          git push --quiet origin HEAD:main
+          # pushes made with this token don't start other workflows, so ask Pages to rebuild
+          curl -fsS -X POST -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds" > /dev/null || echo "::warning::Pages rebuild request failed; the odds go live with the next push."

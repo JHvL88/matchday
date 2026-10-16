@@ -32,11 +32,11 @@
     <link rel="preload" href="../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../styles.css?v=10">
     <link rel="stylesheet" href="../analysis/analysis.css?v=3">
-    <link rel="stylesheet" href="../pages.css?v=1">
+    <link rel="stylesheet" href="../pages.css?v=2">
     <script src="../i18n.js?v=11" defer></script>
-    <script src="../glossary.js?v=10" defer></script>
+    <script src="../glossary.js?v=11" defer></script>
     <script src="../explain.js?v=10" defer></script>
-    <script src="record.js?v=2" defer></script>
+    <script src="record.js?v=3" defer></script>
   </head>
   <body class="article page-record">
     <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
@@ -112,13 +112,13 @@
             <section class="page-section" id="paper">
               <div data-lang-only="en">
                 <h2>Paper betting</h2>
-                <p>The rule is fixed in advance: whenever my models give an outcome at least 5 points more than the market does, the ledger puts an imaginary €1 on it at the published odds. No real money, no cherry-picking, no quietly deleting the losers.</p>
-                <p>Profit and loss stay hidden until 20 forecasts have been graded, so one lucky Saturday can’t make the headline. After that the ledger also tracks <button type="button" class="term" data-term="clv">closing-line value</button>, the better test of whether there is any skill in it.</p>
+                <p>The rule is fixed in advance: whenever my models give an outcome at least 5 points more than the market does, the ledger puts an imaginary €1 on it at the published odds. From matchday 7 those are recorded prices you could actually have taken, the best of Tipico and Winamax when the post went out. No real money, no cherry-picking, no quietly deleting the losers.</p>
+                <p>Profit and loss stay hidden until 20 forecasts have been graded, so one lucky Saturday can’t make the headline. What shows straight away is each bet’s <button type="button" class="term" data-term="clv">closing-line value</button> (CLV), once the closing odds are in: whether the price beat the one the market settled on at kick-off. It is a far quicker test of skill than profit, which needs thousands of bets to mean anything.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Wetten auf dem Papier</h2>
-                <p>Die Regel steht vorher fest: Immer wenn meine Modelle einem Ausgang mindestens 5 Punkte mehr zutrauen als der Markt, setzt das Kassenbuch einen imaginären Euro darauf, zur veröffentlichten Quote. Kein echtes Geld, keine Rosinenpickerei, kein heimliches Löschen der Verlierer.</p>
-                <p>Gewinn und Verlust bleiben verborgen, bis 20 Prognosen bewertet sind, damit kein glücklicher Samstag die Schlagzeile macht. Danach verfolgt das Kassenbuch auch den <button type="button" class="term" data-term="clv">Closing Line Value</button>, den besseren Test dafür, ob Können dahintersteckt.</p>
+                <p>Die Regel steht vorher fest: Immer wenn meine Modelle einem Ausgang mindestens 5 Punkte mehr zutrauen als der Markt, setzt das Kassenbuch einen imaginären Euro darauf, zur veröffentlichten Quote. Ab dem 7. Spieltag sind das aufgezeichnete Quoten, die man wirklich hätte bekommen können: die beste von Tipico und Winamax zum Zeitpunkt des Beitrags. Kein echtes Geld, keine Rosinenpickerei, kein heimliches Löschen der Verlierer.</p>
+                <p>Gewinn und Verlust bleiben verborgen, bis 20 Prognosen bewertet sind, damit kein glücklicher Samstag die Schlagzeile macht. Sofort sichtbar ist dagegen der <button type="button" class="term" data-term="clv">Closing Line Value</button> (CLV) jeder Wette, sobald die Schlussquoten feststehen: ob die Quote besser war als die, auf die sich der Markt zum Anpfiff einigte. Das ist ein viel schnellerer Test für Können als der Gewinn, der Tausende Wetten braucht, um etwas zu bedeuten.</p>
               </div>
               <div class="paper" id="paper-ledger"></div>
             </section>

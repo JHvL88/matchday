@@ -109,7 +109,7 @@ window.GLOSSARY = {
     clv: {
       term: "Closing-line value",
       short: "Whether a bet got better odds than the final price just before kick-off.",
-      read: "Closing odds carry all the late news, so beating them over many bets is the best single sign of real skill. Winning money without beating them is usually luck.",
+      read: "Closing odds carry all the late news, so beating them over many bets is the best single sign of real skill. Winning money without beating them is usually luck. Here it is the odds taken times the closing probability (margin removed), minus one: +5% means the bet was worth 5% more than its stake at kick-off.",
     },
   },
   de: {
@@ -211,7 +211,7 @@ window.GLOSSARY = {
     clv: {
       term: "Closing Line Value",
       short: "Ob eine Wette eine bessere Quote bekommen hat als den letzten Preis kurz vor dem Anpfiff.",
-      read: "Die Schlussquote enthält alle späten Nachrichten. Sie über viele Wetten zu schlagen, ist das beste einzelne Zeichen für echtes Können. Wer gewinnt, ohne sie zu schlagen, hatte meist Glück.",
+      read: "Die Schlussquote enthält alle späten Nachrichten. Sie über viele Wetten zu schlagen, ist das beste einzelne Zeichen für echtes Können. Wer gewinnt, ohne sie zu schlagen, hatte meist Glück. Hier: die genommene Quote mal die Schlusswahrscheinlichkeit (ohne Marge), minus eins. +5 % heißt, die Wette war zum Anpfiff 5 % mehr wert als ihr Einsatz.",
     },
   },
 };
