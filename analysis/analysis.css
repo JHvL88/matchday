@@ -2,6 +2,7 @@
 
 .post {
   overflow: hidden;
+  overflow: clip; /* clip, unlike hidden, keeps the contents column sticky */
   border-radius: 4px 16px 4px 16px;
   background: #fff;
   box-shadow: 0 18px 46px rgb(0 0 0 / 38%);
@@ -70,7 +71,9 @@
   transform: skewX(-22deg);
 }
 
-.post-body h2:first-child {
+.post-body h2:first-child,
+.depth-switch + h2,
+.depth-switch + .update-box + h2 {
   margin-top: 0;
 }
 
@@ -118,7 +121,14 @@
   margin: 0 0 12px;
 }
 
+/* Label, value and bookmaker line share rows across the three tiles, so the numbers line up
+   even when one label wraps on a phone. */
 .verdict-tile {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+  row-gap: 0;
   padding: 14px 16px 12px;
   border-top: 4px solid var(--tile, #9a9aa4);
   border-radius: 3px 3px 10px 10px;
@@ -149,9 +159,9 @@
   font-size: 12px;
 }
 
-.tile-home { --tile: #008300; }
-.tile-draw { --tile: #9a9aa4; }
-.tile-away { --tile: #e34948; }
+.tile-home { --tile: var(--home); }
+.tile-draw { --tile: var(--draw-bar); }
+.tile-away { --tile: var(--away); }
 
 .verdict-strip {
   display: flex;
@@ -167,6 +177,14 @@
 
 .verdict-strip b {
   color: #fff;
+}
+
+.verdict-strip .term {
+  color: #fff;
+}
+
+.verdict-strip .term:hover {
+  color: var(--red-on-dark);
 }
 
 /* Figures */
@@ -357,8 +375,8 @@
   }
 
   .verdict-tile .label {
-    font-size: 9.5px;
-    letter-spacing: .06em;
+    font-size: 10.5px;
+    letter-spacing: .05em;
   }
 
   .post-table:not(.wide) th,
@@ -402,4 +420,437 @@
 
 .post-body h2[id] {
   scroll-margin-top: 16px;
+}
+
+/* ---------- The explanatory layer (explain.js) ---------- */
+
+/* Reading depth. Blocks marked data-show appear only at some depths; with no choice yet, the page reads as "full". */
+.post:not([data-depth="nerd"]) [data-show="nerd"],
+.post:not([data-depth="quick"]) [data-show="quick"],
+.post[data-depth="quick"] [data-show="full"],
+.post[data-depth="quick"] [data-show="full-only"],
+.post[data-depth="nerd"] [data-show="full-only"] {
+  display: none !important;
+}
+
+.depth-switch {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 0 30px;
+  padding: 4px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.depth-button {
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  line-height: 1.15;
+  text-align: center;
+  cursor: pointer;
+}
+
+.depth-button:hover {
+  background: #fff;
+  color: var(--ink);
+}
+
+.depth-name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.depth-time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.depth-button[aria-pressed="true"] {
+  background: var(--bl-black);
+  color: #fff;
+  box-shadow: inset 0 -3px var(--bl-red);
+}
+
+.depth-button[aria-pressed="true"] .depth-time {
+  color: var(--on-dark-2);
+}
+
+/* The quick take: what the full analysis says, in three points. */
+.quick-take {
+  margin: 4px 0 34px;
+  padding: 18px 20px 20px;
+  border-radius: 4px 14px 4px 14px;
+  background: var(--bl-black);
+  color: #e2e2e6;
+}
+
+.quick-take-title {
+  margin: 0 0 12px !important;
+  color: var(--red-on-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.quick-take-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  counter-reset: take;
+  list-style: none;
+}
+
+.quick-take-list li {
+  position: relative;
+  margin: 0;
+  padding-left: 38px;
+  counter-increment: take;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.quick-take-list li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bl-red);
+  color: #fff;
+  content: counter(take);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.post-body .quick-take strong {
+  color: #fff;
+}
+
+.quick-take-more {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgb(255 255 255 / 34%);
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quick-take-more:hover,
+.quick-take-more:focus-visible {
+  border-color: var(--bl-red);
+  background: var(--bl-red);
+}
+
+/* "Show the code": the way into nerd mode from the full analysis. */
+.depth-peek {
+  margin: -2px 0 20px !important;
+}
+
+.depth-peek button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.depth-peek button::before {
+  color: var(--bl-red-dark);
+  content: "</>";
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.depth-peek button:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* How to read a chart */
+.howto {
+  margin-top: 6px;
+  font-size: 13.5px;
+}
+
+.howto summary {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--bl-red-dark);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.howto summary::-webkit-details-marker {
+  display: none;
+}
+
+.howto summary::before {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  flex: 0 0 18px;
+  place-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  content: "?";
+  font-size: 11px;
+}
+
+.howto[open] summary::before {
+  content: "×";
+}
+
+.post-body .howto p {
+  max-width: 62ch;
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--bl-red);
+  border-radius: 0 6px 6px 0;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+/* Contents: a sticky column beside the text on wide screens. */
+.post-toc {
+  display: none;
+}
+
+.post-toc-title {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.post-toc-list {
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--line);
+  list-style: none;
+}
+
+.post-toc-list a {
+  display: block;
+  margin-left: -2px;
+  padding: 6px 0 6px 12px;
+  border-left: 2px solid transparent;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.post-toc-list a:hover {
+  color: var(--ink);
+}
+
+.post-toc-list a[aria-current] {
+  border-left-color: var(--bl-red);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+@media (min-width: 1100px) {
+  .post-layout {
+    display: grid;
+    grid-template-columns: minmax(170px, 210px) minmax(0, 780px);
+    justify-content: center;
+    gap: 0 28px;
+    padding: 0 24px;
+  }
+
+  .post-layout .post-body {
+    margin: 0;
+  }
+
+  .post-toc {
+    position: sticky;
+    top: calc(64px + env(safe-area-inset-top));
+    display: block;
+    align-self: start;
+    max-height: calc(100vh - 64px);
+    overflow: auto;
+    padding: 38px 0 24px;
+  }
+}
+
+/* Reading progress, under the top bar */
+.reading-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 1;
+  height: 3px;
+  background: var(--bl-red);
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* Charts on phones: tap to see them at a readable size. */
+.figure-enlarge {
+  display: none;
+}
+
+.figure-viewer {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: calc(10px + env(safe-area-inset-top)) 0 calc(16px + env(safe-area-inset-bottom));
+  border: 0;
+  background: #fff;
+  color: var(--ink);
+}
+
+.figure-viewer[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.figure-viewer-close {
+  align-self: flex-end;
+}
+
+.figure-viewer-scroll {
+  margin-top: auto;
+}
+
+.figure-viewer > :last-child {
+  margin-bottom: auto;
+}
+
+.figure-viewer::backdrop {
+  background: rgb(8 8 12 / 70%);
+}
+
+.figure-viewer-close {
+  width: 44px;
+  height: 44px;
+  display: block;
+  margin: 0 12px 6px auto;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.figure-viewer-scroll {
+  overflow-x: auto;
+  padding: 6px 16px 10px;
+}
+
+.figure-viewer-scroll img {
+  width: 760px;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+
+.figure-viewer-hint,
+.figure-viewer-caption {
+  margin: 6px 16px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.figure-viewer-hint {
+  color: var(--bl-red-dark);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .post-figure img {
+    cursor: zoom-in;
+  }
+
+  .figure-enlarge {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 10px 0 0;
+    padding: 6px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .figure-enlarge::before {
+    content: "⤢";
+  }
+
+  .howto {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .howto[open] {
+    display: block;
+  }
+
+  .quick-take {
+    padding: 16px 16px 18px;
+  }
+
+  .depth-name {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 380px) {
+  .depth-name {
+    font-size: 14px;
+    letter-spacing: .02em;
+  }
 }

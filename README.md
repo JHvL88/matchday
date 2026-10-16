@@ -14,16 +14,44 @@ Then visit `http://localhost:8000`.
 
 What’s on the home page:
 
-- **Matchday hub.** Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. Before a matchday starts, the hub shows the next kick-off, the top clash and the bottom clash (by current table position); once games are played it summarises goals, home wins/draws/away wins, the biggest win and the leader.
-- **Matches.** Filters with counts (all, live, finished, upcoming); each match expands to show the venue, attendance, half-time score and a goal timeline with the running score. While a match is live the page refreshes itself every minute, and again when you come back to it. A match with a deep dive gets a link under it with the published forecast (from `analysis/posts.json`).
+- **This weekend.** The matchday, a countdown to the next kick-off (or what is live), and the matchday’s deep dive with its forecast next to the bookmakers’. Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. Before a matchday starts, the tiles show the top and bottom clash, the biggest favourite and the closest call; once games are played they show goals, the biggest upset or the results, the biggest win and the leader.
+- **Matches.** Filters with counts (all, live, finished, upcoming). Every match with bookmaker odds gets a thin home/draw/away bar (blue, grey, orange). Each match expands to show the forecast against the market with fair odds, then the venue, attendance, half-time score and a goal timeline; after full time the forecast is graded. While a match is live the page refreshes itself every minute, and again when you come back to it.
 - **Table.** Overall, home and away tables after the selected matchday, with the last five results, the movement since the previous matchday and European/relegation zones. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
-- **Follow a club.** Tap a club in the table (or pick one under Insights) to highlight it in the fixtures, the table and the charts. The choice is remembered on that device.
+- **Follow a club.** The button in the top bar, a tap on a club in the table or the picker under Insights highlights it in the fixtures, the table and the charts. The choice is remembered on that device.
 - **Insights.** A points race for the season so far and when the goals go in, each with hover/keyboard tooltips and a table view.
+- **Deep dives and the track record.** Cards for every post (from `analysis/posts.json`) and a teaser of the scoreboard.
+- **Phones.** The sections move to a tab bar at the bottom of the screen.
 - **English and German.** The **EN / DE** switch in the top bar changes the whole app: labels, dates, number formats, plurals and score notation (2–1 or 2:1). The first visit follows the browser language, the choice is remembered on that device, and a link such as `?lang=de` opens the page in German. The analysis posts switch too, charts included.
 
 Match information is displayed in the Europe/Berlin time zone.
 
-When you change `styles.css`, `app.js`, `i18n.js` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+Two more pages: **Learn** (`learn/`) explains probabilities, odds and grading, with an odds calculator, a "grade it yourself" box and the glossary; **Track record** (`record/`) grades every published forecast against the bookmakers, with the season and backtest figures, the disagreement check and a paper-betting ledger.
+
+### The explanatory layer
+
+`glossary.js` holds every term in both languages (what it is, how to read it). `explain.js` turns any `<button type="button" class="term" data-term="rps">…</button>` into an explainer: next to the word on wide screens, a sheet from the bottom on phones, with a link to the entry on the Learn page. Keep the button text short (a word or two), because it does not break across lines.
+
+On deep dives `explain.js` also runs the reading depth (Quick take, Full analysis, Nerd mode, remembered per device), the contents column, the reading-progress line and "Enlarge chart" on phones. The article marks blocks with `data-show`:
+
+| Mark | Shown in |
+|---|---|
+| none | every depth |
+| `data-show="quick"` | Quick take only (the three-point summary) |
+| `data-show="full"` | Full analysis and Nerd mode |
+| `data-show="nerd"` | Nerd mode only (code, model internals) |
+| `data-show="full-only"` | Full analysis only (the "show the code" buttons) |
+
+Blocks can be nested, and a link to a hidden block switches to a depth that shows it. Chart notes use `<details class="howto"><summary>How to read this chart</summary><p>…</p></details>` inside the `<figure>`.
+
+### Site data
+
+| File | What | When to update |
+|---|---|---|
+| `analysis/posts.json` | Every deep dive: match id, published probabilities (models and market), card text in both languages; after the match `fullTime` with the score and the grades quoted in the post | With each post, and after full time |
+| `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Each matchday, before kick-off |
+| `data/record.json` | Season and backtest figures for the track record, copied from the latest notebook | With each post |
+
+When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
 
 Fonts (DM Sans and Barlow Condensed, SIL Open Font License) are served from `assets/fonts`, not Google Fonts: no third-party request, nothing render-blocking, and they work offline. Club crests still come from the links OpenLigaDB provides, but `app.js` asks for 120 px Wikimedia thumbnails of the same crests (about 110 KB for all 18 clubs instead of about 1.2 MB of full-size originals) and falls back to OpenLigaDB's own link, then to the club's initials.
 
@@ -37,14 +65,15 @@ Longer content that is not interface text, such as an analysis article or a thum
 
 ## Match analyses
 
-Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed in the **Analysis** section of the home page (also reachable from the top navigation). Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post:
+Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analysis.css`. They are listed under **Deep dives** on the home page. Each post folder holds the page, its charts in `figs/` and a Google Colab notebook that reproduces the analysis from public data. To add a post:
 
-1. Create a new folder and copy an existing page into it, so the top bar, the language switch, the share tags and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages and update the share tags (`og:` and `twitter:`) and the canonical link at the top.
+1. Create a new folder and copy an existing page into it, so the top bar, the tab bar, the language switch, the share tags, the contents column, the depth switch and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages, with a three-point quick take, the depth marks and explainer terms (see *The explanatory layer*), and update the share tags (`og:` and `twitter:`) and the canonical link at the top. The reading times in the depth switch are filled in by `explain.js`; copy the numbers it shows into the HTML so nothing changes when the page loads.
 2. Make the German charts: `python analysis/tools/translate_figures.py analysis/<new post>` writes `figs/de/` from the English SVGs, keeping every number and mark and changing only the words and number formats (1,47 · 25 %). It lists any English label it does not know yet; add a rule for it at the top of the script. The German article uses `figs/de/…`.
 3. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
-4. Add the post to `analysis/posts.json`: its OpenLigaDB `matchId` (the fixture on the home page then links to it), the published probabilities (home, draw, away) for the models and the market, and the card text in both languages.
+4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the published probabilities (home, draw, away) for the models and the market with the odds and bookmaker, and the card text in both languages. The home page card, the track record and the Learn calculators all read from here. Update `data/record.json` with the notebook's season and backtest figures.
 5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
-6. Add a card to the Analysis section in `index.html` (one thumbnail per language) and its keys in both dictionaries in `i18n.js`: `analysis.tag…`, `analysis.title…`, `analysis.desc…`, plus `analysis.pageTitle…` and `analysis.meta…` for the post's `<title>` and meta description. Add the page to `sitemap.xml`.
+6. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
+7. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then.
 
 Posts so far:
 

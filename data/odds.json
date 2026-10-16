@@ -1,0 +1,22 @@
+{
+  "about": "Bookmaker 1X2 odds (home win, draw, away win) per OpenLigaDB matchId, one block per matchday. The site turns them into probabilities by removing the bookmaker margin proportionally. Add a block each week; matches without odds simply show no bar.",
+  "season": 2026,
+  "matchdays": {
+    "6": {
+      "source": "1xBet",
+      "quoted": "2026-10-13",
+      "url": "https://rg.org/en-ca/news/soccer/bayern-vs-leipzig-leverkusen-vs-freiburg-bundesliga-matchday-6-odds",
+      "matches": {
+        "83203": [2.00, 4.30, 3.52],
+        "83204": [4.98, 4.52, 1.69],
+        "83206": [4.08, 4.08, 1.90],
+        "83207": [1.84, 4.26, 4.21],
+        "83208": [3.16, 3.67, 2.34],
+        "83209": [2.55, 3.92, 2.71],
+        "83201": [1.26, 7.36, 11.30],
+        "83202": [1.75, 4.42, 4.62],
+        "83205": [3.33, 4.21, 2.10]
+      }
+    }
+  }
+}

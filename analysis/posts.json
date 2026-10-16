@@ -1,5 +1,5 @@
 {
-  "about": "Every deep dive on the site, newest first. The home page links fixtures to these posts by OpenLigaDB matchId. Probabilities are home win, draw, away win, as published before kick-off; market = bookmaker odds with the margin removed proportionally.",
+  "about": "Every deep dive on the site, newest first. The home page links fixtures to these posts by OpenLigaDB matchId. Probabilities are home win, draw, away win, as published before kick-off; market = bookmaker odds with the margin removed proportionally. After the match, fullTime holds the final score and the ranked probability scores quoted in the post (worked out from the unrounded probabilities, so they can differ from the rounded ones here in the third decimal).",
   "posts": [
     {
       "slug": "2026-27-md6-hamburg-stuttgart",
@@ -8,17 +8,34 @@
       "matchday": 6,
       "matchId": 83206,
       "kickoff": "2026-10-17T13:30:00Z",
-      "home": { "teamId": 100, "name": "Hamburger SV" },
-      "away": { "teamId": 16, "name": "VfB Stuttgart" },
+      "home": {
+        "teamId": 100,
+        "name": "Hamburger SV"
+      },
+      "away": {
+        "teamId": 16,
+        "name": "VfB Stuttgart"
+      },
       "published": "2026-10-15",
       "minutes": 11,
       "forecast": {
         "model": [0.32, 0.24, 0.44],
         "market": [0.249, 0.225, 0.526],
-        "marketOdds": [3.80, 4.20, 1.80],
-        "marketSource": "Bet365, quoted by KickOff on 15 October 2026"
+        "marketOdds": [3.8, 4.2, 1.8],
+        "expectedGoals": [1.47, 1.77],
+        "mostLikely": {
+          "score": [1, 1],
+          "p": 0.105
+        },
+        "over25": 0.63,
+        "btts": 0.64,
+        "marketBookmaker": "Bet365",
+        "marketQuoted": "2026-10-15"
       },
-      "thumb": { "en": "figs/fig1_forecast.svg", "de": "figs/de/fig1_forecast.svg" },
+      "thumb": {
+        "en": "figs/fig1_forecast.svg",
+        "de": "figs/de/fig1_forecast.svg"
+      },
       "en": {
         "tag": "Matchday 6 · Pre-match forecast",
         "title": "Hamburg vs Stuttgart: my models pick a fight with the bookies",
@@ -28,7 +45,8 @@
         "tag": "Spieltag 6 · Prognose vor dem Spiel",
         "title": "Hamburg gegen Stuttgart: Meine Modelle legen sich mit den Buchmachern an",
         "desc": "Je sechs Punkte, sehr unterschiedliche Zahlen dahinter und ein Check, wer recht hatte, wenn Modelle und Markt uneins waren."
-      }
+      },
+      "venue": "Volksparkstadion"
     },
     {
       "slug": "2026-27-md5-augsburg-bayern",
@@ -37,17 +55,38 @@
       "matchday": 5,
       "matchId": 83196,
       "kickoff": "2026-10-10T13:30:00Z",
-      "home": { "teamId": 95, "name": "FC Augsburg" },
-      "away": { "teamId": 40, "name": "FC Bayern München" },
+      "home": {
+        "teamId": 95,
+        "name": "FC Augsburg"
+      },
+      "away": {
+        "teamId": 40,
+        "name": "FC Bayern München"
+      },
       "published": "2026-10-10",
-      "minutes": 14,
+      "minutes": 11,
       "forecast": {
         "model": [0.12, 0.16, 0.72],
-        "market": [0.079, 0.111, 0.810],
-        "marketOdds": [12.00, 8.50, 1.17],
-        "marketSource": "Bookmaker odds as published in the post, 10 October 2026"
+        "market": [0.079, 0.111, 0.81],
+        "marketOdds": [12.0, 8.5, 1.17],
+        "expectedGoals": [1.08, 2.77],
+        "mostLikely": {
+          "score": [1, 2],
+          "p": 0.087
+        },
+        "over25": 0.73,
+        "btts": 0.62,
+        "marketBookmaker": null,
+        "marketQuoted": "2026-10-10"
       },
-      "thumb": { "en": "figs/fig1_forecast.svg", "de": "figs/de/fig1_forecast.svg" },
+      "fullTime": {
+        "score": [2, 2],
+        "rps": { "models": 0.267, "market": 0.331 }
+      },
+      "thumb": {
+        "en": "figs/fig1_forecast.svg",
+        "de": "figs/de/fig1_forecast.svg"
+      },
       "en": {
         "tag": "Matchday 5 · Forecast & full-time review",
         "title": "Augsburg vs Bayern: three models, one stubborn underdog",
@@ -57,7 +96,8 @@
         "tag": "Spieltag 5 · Prognose und Rückblick nach dem Spiel",
         "title": "Augsburg gegen Bayern: drei Modelle, ein hartnäckiger Außenseiter",
         "desc": "Dixon–Coles, ein bayesianisches Schüsse-zu-Toren-Modell und XGBoost im Backtest gegen die Buchmacher, dazu der Check nach dem 2:2."
-      }
+      },
+      "venue": "WWK Arena"
     }
   ]
 }

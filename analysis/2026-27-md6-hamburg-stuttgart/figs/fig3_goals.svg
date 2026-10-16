@@ -43,7 +43,7 @@ L 40.511688 187.992
 L 40.511688 93.501277 
 L 20.253719 93.501277 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 48.389787 187.992 
@@ -51,7 +51,7 @@ L 68.647757 187.992
 L 68.647757 51.741153 
 L 48.389787 51.741153 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 76.525856 187.992 
@@ -59,7 +59,7 @@ L 96.783825 187.992
 L 96.783825 88.502696 
 L 76.525856 88.502696 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 104.661924 187.992 
@@ -67,7 +67,7 @@ L 124.919894 187.992
 L 124.919894 138.814726 
 L 104.661924 138.814726 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 132.797993 187.992 
@@ -75,7 +75,7 @@ L 153.055962 187.992
 L 153.055962 169.416117 
 L 132.797993 169.416117 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 160.934061 187.992 
@@ -83,7 +83,7 @@ L 181.192031 187.992
 L 181.192031 182.247893 
 L 160.934061 182.247893 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 189.07013 187.992 
@@ -91,7 +91,7 @@ L 209.328099 187.992
 L 209.328099 186.017836 
 L 189.07013 186.017836 
 z
-" clip-path="url(#p1003a13648)" style="fill: #2a78d6; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p1003a13648)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -1099,7 +1099,7 @@ L 290.08987 187.992
 L 290.08987 117.698303 
 L 269.831901 117.698303 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
     <path d="M 297.967969 187.992 
@@ -1107,7 +1107,7 @@ L 318.225939 187.992
 L 318.225939 66.267604 
 L 297.967969 66.267604 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_14">
     <path d="M 326.104038 187.992 
@@ -1115,7 +1115,7 @@ L 346.362007 187.992
 L 346.362007 81.121488 
 L 326.104038 81.121488 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
     <path d="M 354.240106 187.992 
@@ -1123,7 +1123,7 @@ L 374.498076 187.992
 L 374.498076 124.592415 
 L 354.240106 124.592415 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
     <path d="M 382.376175 187.992 
@@ -1131,7 +1131,7 @@ L 402.634144 187.992
 L 402.634144 159.403152 
 L 382.376175 159.403152 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_17">
     <path d="M 410.512243 187.992 
@@ -1139,7 +1139,7 @@ L 430.770213 187.992
 L 430.770213 177.535524 
 L 410.512243 177.535524 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_18">
     <path d="M 438.648312 187.992 
@@ -1147,7 +1147,7 @@ L 458.906281 187.992
 L 458.906281 183.623211 
 L 438.648312 183.623211 
 z
-" clip-path="url(#paaff40adf0)" style="fill: #e34948; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#paaff40adf0)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_3">
     <g id="xtick_8">
