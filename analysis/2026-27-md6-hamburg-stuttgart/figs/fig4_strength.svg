@@ -76,7 +76,7 @@ z
 "/>
     </defs>
     <g clip-path="url(#p9b01819fd4)">
-     <use xlink:href="#m373cb87a9a" x="0" y="250.929" style="fill: #e34948; fill-opacity: 0.14"/>
+     <use xlink:href="#m373cb87a9a" x="0" y="250.929" style="fill: #c25a00; fill-opacity: 0.14"/>
     </g>
    </g>
    <g id="FillBetweenPolyCollection_2">
@@ -113,7 +113,7 @@ z
 "/>
     </defs>
     <g clip-path="url(#p9b01819fd4)">
-     <use xlink:href="#m57b8c81014" x="0" y="250.929" style="fill: #2a78d6; fill-opacity: 0.14"/>
+     <use xlink:href="#m57b8c81014" x="0" y="250.929" style="fill: #2f6fdb; fill-opacity: 0.14"/>
     </g>
    </g>
    <g id="matplotlib.axis_1">
@@ -650,7 +650,7 @@ L 175.643169 87.781412
 L 190.393653 76.598505 
 L 205.144136 74.875969 
 L 219.89462 77.537059 
-" clip-path="url(#p9b01819fd4)" style="fill: none; stroke: #e34948; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p9b01819fd4)" style="fill: none; stroke: #c25a00; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="line2d_15">
     <path d="M 42.888817 177.369456 
@@ -666,7 +666,7 @@ L 175.643169 157.612195
 L 190.393653 166.773481 
 L 205.144136 167.41596 
 L 219.89462 177.446378 
-" clip-path="url(#p9b01819fd4)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p9b01819fd4)" style="fill: none; stroke: #2f6fdb; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="patch_3">
     <path d="M 38.463672 220.76 
@@ -1432,7 +1432,7 @@ z
 "/>
     </defs>
     <g clip-path="url(#p03c7902bfb)">
-     <use xlink:href="#me4b9ba6c8b" x="0" y="250.929" style="fill: #e34948; fill-opacity: 0.14"/>
+     <use xlink:href="#me4b9ba6c8b" x="0" y="250.929" style="fill: #c25a00; fill-opacity: 0.14"/>
     </g>
    </g>
    <g id="FillBetweenPolyCollection_4">
@@ -1469,7 +1469,7 @@ z
 "/>
     </defs>
     <g clip-path="url(#p03c7902bfb)">
-     <use xlink:href="#m9cbda45780" x="0" y="250.929" style="fill: #2a78d6; fill-opacity: 0.14"/>
+     <use xlink:href="#m9cbda45780" x="0" y="250.929" style="fill: #2f6fdb; fill-opacity: 0.14"/>
     </g>
    </g>
    <g id="matplotlib.axis_3">
@@ -1673,7 +1673,7 @@ L 425.221351 68.744436
 L 439.971834 90.93286 
 L 454.722318 91.976655 
 L 469.472801 94.715842 
-" clip-path="url(#p03c7902bfb)" style="fill: none; stroke: #e34948; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p03c7902bfb)" style="fill: none; stroke: #c25a00; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="line2d_29">
     <path d="M 292.466999 149.943935 
@@ -1689,7 +1689,7 @@ L 425.221351 127.115528
 L 439.971834 137.933999 
 L 454.722318 137.884624 
 L 469.472801 143.756842 
-" clip-path="url(#p03c7902bfb)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p03c7902bfb)" style="fill: none; stroke: #2f6fdb; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="patch_6">
     <path d="M 288.041854 220.76 
