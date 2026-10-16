@@ -229,8 +229,15 @@
       "analysis.tagMd6": "Matchday 6 · Pre-match forecast",
       "analysis.tagMd5": "Matchday 5 · Forecast & full-time review",
       "analysis.read": "Read the analysis",
-      "analysis.listNote": "The analyses are written in English only for now.",
-      "analysis.postNote": "This analysis is written in English only for now.",
+      /* One block per post: card on the home page, plus the post's <title> and meta description */
+      "analysis.titleMd6": "Hamburg vs Stuttgart: my models pick a fight with the bookies",
+      "analysis.descMd6": "Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.",
+      "analysis.pageTitleMd6": "Hamburg vs Stuttgart: the forecast — Jan’s Matchday",
+      "analysis.metaMd6": "Pre-match forecast for Hamburger SV vs VfB Stuttgart, Bundesliga matchday 6 2026/27: three models against the bookmakers, and who has been right when they disagree.",
+      "analysis.titleMd5": "Augsburg vs Bayern: three models, one stubborn underdog",
+      "analysis.descMd5": "Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.",
+      "analysis.pageTitleMd5": "Augsburg vs Bayern: the forecast — Jan’s Matchday",
+      "analysis.metaMd5": "Pre-match forecast for FC Augsburg vs FC Bayern, Bundesliga matchday 5 2026/27: Dixon-Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers.",
       "analysis.back": "← All analysis",
 
       /* Footer */
@@ -456,8 +463,14 @@
       "analysis.tagMd6": "Spieltag 6 · Prognose vor dem Spiel",
       "analysis.tagMd5": "Spieltag 5 · Prognose und Rückblick nach dem Spiel",
       "analysis.read": "Analyse lesen",
-      "analysis.listNote": "Die Analysen erscheinen vorerst nur auf Englisch.",
-      "analysis.postNote": "Diese Analyse erscheint vorerst nur auf Englisch.",
+      "analysis.titleMd6": "Hamburg gegen Stuttgart: Meine Modelle legen sich mit den Buchmachern an",
+      "analysis.descMd6": "Je sechs Punkte, sehr unterschiedliche Zahlen dahinter und ein Check, wer recht hatte, wenn Modelle und Markt uneins waren.",
+      "analysis.pageTitleMd6": "Hamburg gegen Stuttgart: die Prognose — Jan’s Matchday",
+      "analysis.metaMd6": "Prognose vor dem Spiel Hamburger SV gegen VfB Stuttgart, 6. Spieltag der Bundesliga 2026/27: drei Modelle gegen die Buchmacher, und wer recht hatte, wenn sie sich uneinig waren.",
+      "analysis.titleMd5": "Augsburg gegen Bayern: drei Modelle, ein hartnäckiger Außenseiter",
+      "analysis.descMd5": "Dixon–Coles, ein bayesianisches Schüsse-zu-Toren-Modell und XGBoost im Backtest gegen die Buchmacher, dazu der Check nach dem 2:2.",
+      "analysis.pageTitleMd5": "Augsburg gegen Bayern: die Prognose — Jan’s Matchday",
+      "analysis.metaMd5": "Prognose vor dem Spiel FC Augsburg gegen FC Bayern, 5. Spieltag der Bundesliga 2026/27: Dixon–Coles, ein bayesianisches Schüsse-zu-Toren-Modell und XGBoost im Backtest gegen die Buchmacher.",
       "analysis.back": "← Alle Analysen",
 
       /* Fußzeile */
