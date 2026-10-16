@@ -1,0 +1,81 @@
+{
+ "embedded": [
+  {
+   "notebook": "analysis/2026-27-md5-augsburg-bayern/augsburg_bayern_md5.ipynb",
+   "rows": 36,
+   "cells": 432,
+   "missing_in_source": 0,
+   "mismatched_cells": 3,
+   "mismatches": [
+    {
+     "date": "05/09/2026",
+     "home": "Leverkusen",
+     "away": "Union Berlin",
+     "column": "AvgCH",
+     "embedded": 1.38,
+     "source": 1.34
+    },
+    {
+     "date": "05/09/2026",
+     "home": "Leverkusen",
+     "away": "Union Berlin",
+     "column": "AvgCD",
+     "embedded": 5.38,
+     "source": 5.43
+    },
+    {
+     "date": "05/09/2026",
+     "home": "Leverkusen",
+     "away": "Union Berlin",
+     "column": "AvgCA",
+     "embedded": 6.69,
+     "source": 7.38
+    }
+   ]
+  },
+  {
+   "notebook": "analysis/2026-27-md6-hamburg-stuttgart/hamburg_stuttgart_md6.ipynb",
+   "rows": 45,
+   "cells": 630,
+   "missing_in_source": 0,
+   "mismatched_cells": 0,
+   "mismatches": []
+  }
+ ],
+ "mirror": {
+  "mirror_rows": 15331,
+  "source_rows": 15331,
+  "matched": 14465,
+  "only_in_mirror": 866,
+  "only_in_source_up_to_mirror_end": 866,
+  "field_mismatches": {
+   "goals": 1,
+   "shots": 1,
+   "shots_on_target": 1,
+   "red_cards": 1
+  },
+  "mirror_odds_equal_to": {
+   "b365": {
+    "compared": 13299,
+    "identical": 0.7189262350552673
+   },
+   "b365c": {
+    "compared": 4118,
+    "identical": 0.004613890237979602
+   },
+   "avg": {
+    "compared": 12173,
+    "identical": 0.28530354062268953
+   },
+   "avgc": {
+    "compared": 4118,
+    "identical": 0.0007285089849441476
+   }
+  },
+  "mirror_odds_equal_to_since_2025_26": {
+   "b365": 1.0,
+   "b365c": 0.06327160493827161,
+   "avgc": 0.0
+  }
+ }
+}

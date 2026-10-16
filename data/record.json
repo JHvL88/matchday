@@ -1,25 +1,63 @@
 {
-  "about": "Backtest figures behind the Track record page, copied from the latest deep dive's notebook output. Update after each post. RPS = ranked probability score (lower is better; one-third for everything scores 0.238).",
-  "asOf": "2026-10-15",
-  "source": "analysis/2026-27-md6-hamburg-stuttgart/",
-  "season": { "matches": 45, "models": 0.2046, "market": 0.2119 },
+  "about": "Figures behind the Track record page, written by analysis/pipeline/evaluate.py --record (never typed by hand). Benchmark: market-average closing odds, margin removed. RPS = ranked probability score (lower is better).",
+  "asOf": "2026-10-16",
+  "source": "analysis/backtest/",
+  "season": {
+    "matches": 45,
+    "models": 0.206,
+    "market": 0.2131
+  },
   "backtest": {
-    "label": "2025/26 and 2026/27 so far",
-    "matches": 351,
+    "label": "2019/20 to 2026/27 so far",
+    "matches": 2187,
     "rows": [
-      { "key": "market", "rps": 0.1931, "logLoss": 0.955, "topPick": 0.55 },
-      { "key": "ensemble", "rps": 0.1957, "logLoss": 0.966, "topPick": 0.55 },
-      { "key": "dixonColes", "rps": 0.1957, "logLoss": 0.968, "topPick": 0.55 },
-      { "key": "bayesian", "rps": 0.1958, "logLoss": 0.968, "topPick": 0.54 },
-      { "key": "xgboost", "rps": 0.1986, "logLoss": 0.973, "topPick": 0.54 }
+      {
+        "key": "market",
+        "rps": 0.198,
+        "logLoss": 0.974,
+        "topPick": 0.53
+      },
+      {
+        "key": "ensemble",
+        "rps": 0.2033,
+        "logLoss": 0.992,
+        "topPick": 0.52
+      },
+      {
+        "key": "dixonColes",
+        "rps": 0.2035,
+        "logLoss": 0.992,
+        "topPick": 0.52
+      },
+      {
+        "key": "bayesian",
+        "rps": 0.2038,
+        "logLoss": 0.994,
+        "topPick": 0.51
+      },
+      {
+        "key": "xgboost",
+        "rps": 0.206,
+        "logLoss": 1.0,
+        "topPick": 0.51
+      }
     ],
-    "gap": 0.0026,
-    "gapLow": -0.0017,
-    "gapHigh": 0.0068
+    "gap": 0.0053,
+    "gapLow": 0.0034,
+    "gapHigh": 0.0072
   },
   "disagreement": [
-    { "key": "ensemble", "matches": 59, "models": 0.48, "market": 0.58, "actual": 0.56 },
-    { "key": "twoModels", "matches": 1269, "models": 0.51, "market": 0.61, "actual": 0.66 }
+    {
+      "key": "ensemble",
+      "matches": 467,
+      "models": 0.5,
+      "market": 0.61,
+      "actual": 0.64
+    }
   ],
-  "paperBetting": { "threshold": 0.05, "stake": 1, "minGraded": 20 }
+  "paperBetting": {
+    "threshold": 0.05,
+    "stake": 1,
+    "minGraded": 20
+  }
 }
