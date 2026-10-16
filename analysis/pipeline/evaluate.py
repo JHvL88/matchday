@@ -81,8 +81,12 @@ def disagreement(o, models, bench="avgc"):
 def evaluate(o, mirror_last_date=None, published=None):
     full = o.dropna(subset=cols("bay"))
     seasons = sorted(full.season.unique())
-    label = f"{seasons[0]}/{(seasons[0] + 1) % 100:02d} to {seasons[-1]}/{(seasons[-1] + 1) % 100:02d} so far"
-    res = dict(window=label, seasons=[int(seasons[0]), int(seasons[-1])], matches=int(len(full)),
+    first = f"{seasons[0]}/{(seasons[0] + 1) % 100:02d}"
+    last = f"{seasons[-1]}/{(seasons[-1] + 1) % 100:02d}"
+    ongoing = (full.season == seasons[-1]).sum() < 306
+    label = f"{first} to {last}" + (" so far" if ongoing else "")
+    label_de = f"{first} bis heute" if ongoing else f"{first} bis {last}"
+    res = dict(window=label, window_de=label_de, seasons=[int(seasons[0]), int(seasons[-1])], matches=int(len(full)),
                benchmark="avgc", benchmark_label=BENCHMARKS["avgc"])
     res["rows"] = {m: score(full, m) for m in ["avgc"] + MODELS}
     res["uniform_rps"] = float(rps(np.full((len(full), 3), 1 / 3), full.y.values).mean())
@@ -122,7 +126,7 @@ def record_block(res, as_of, source):
         asOf=as_of, source=source,
         season=dict(matches=res["current_season"]["n"], models=round(res["current_season"]["models"], 4),
                     market=round(res["current_season"]["market"], 4)),
-        backtest=dict(label=res["window"], matches=res["matches"],
+        backtest=dict(label=dict(en=res["window"], de=res["window_de"]), matches=res["matches"],
                       rows=[dict(key=names[m], rps=round(res["rows"][m]["rps"], 4), logLoss=round(res["rows"][m]["logLoss"], 3),
                                  topPick=round(res["rows"][m]["topPick"], 2)) for m in order],
                       gap=round(res["gap"]["gap"], 4), gapLow=round(res["gap"]["low"], 4), gapHigh=round(res["gap"]["high"], 4)),

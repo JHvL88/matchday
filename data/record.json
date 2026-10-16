@@ -8,7 +8,10 @@
     "market": 0.2131
   },
   "backtest": {
-    "label": "2019/20 to 2026/27 so far",
+    "label": {
+      "en": "2019/20 to 2026/27 so far",
+      "de": "2019/20 bis heute"
+    },
     "matches": 2187,
     "rows": [
       {

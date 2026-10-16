@@ -389,7 +389,7 @@
     }
     table.append(thead, body);
     scroll.append(table);
-    const note = element("p", "calc-fine", say("asOf", { date: when(`${state.record.asOf}T12:00:00Z`, { day: "numeric", month: "long", year: "numeric" }), label: bt.label }));
+    const note = element("p", "calc-fine", say("asOf", { date: when(`${state.record.asOf}T12:00:00Z`, { day: "numeric", month: "long", year: "numeric" }), label: typeof bt.label === "string" ? bt.label : (bt.label?.[I18N.lang] ?? bt.label?.en) }));
     box.replaceChildren(scroll, note);
   }
 

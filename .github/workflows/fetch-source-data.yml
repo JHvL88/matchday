@@ -37,7 +37,7 @@ jobs:
         run: python analysis/pipeline/fetch_football_data.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/fetch_log.txt"
 
       - name: Commit to the source-data branch
-        if: always()
+        # Runs only if every file downloaded, so a partial fetch never replaces good files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -51,6 +51,16 @@ jobs:
             git checkout --quiet source-data
           else
             git switch --quiet --orphan source-data
+          fi
+          # Only record a new version when a file actually changed (the manifest's timestamps always do)
+          if [ -f manifest.json ] && [ -f "$RUNNER_TEMP/out/manifest.json" ] && python3 - "$RUNNER_TEMP/out/manifest.json" <<'PY'
+          import json, sys
+          files = lambda p: sorted((f["path"], f["sha256"]) for f in json.load(open(p))["files"])
+          sys.exit(0 if files("manifest.json") == files(sys.argv[1]) else 1)
+          PY
+          then
+            echo "Every file is unchanged since the last fetch."
+            exit 0
           fi
           rm -rf football-data
           if [ -d "$RUNNER_TEMP/out" ]; then cp -r "$RUNNER_TEMP/out/." .; fi
