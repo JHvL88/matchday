@@ -37,8 +37,18 @@ jobs:
         with:
           python-version: "3.13"
       - name: Download from Understat
+        id: dl
         if: steps.setup.outputs.ready == 'true'
-        run: python analysis/pipeline/fetch_understat.py --out "$RUNNER_TEMP/out"
+        run: python analysis/pipeline/fetch_understat.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/understat_log.txt"
+      - name: Keep the log in the data repository if the download failed
+        if: failure() && steps.setup.outputs.ready == 'true'
+        run: |
+          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" log-repo
+          mkdir -p log-repo/logs && cp "$RUNNER_TEMP/understat_log.txt" log-repo/logs/understat_last_failure.txt
+          cd log-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add logs && git commit --quiet -m "Understat fetch failed: log" && git push --quiet
       - name: Save in the data repository (only if something changed)
         if: steps.setup.outputs.ready == 'true'
         run: |

@@ -52,11 +52,13 @@ def season_data(season):
         if data.get("dates"):
             return body, "getLeagueData"
     except Exception as e:  # noqa: BLE001 - try the old layout next
-        print(f"  getLeagueData {season}: {e}", flush=True)
+        detail = getattr(e, "read", lambda: b"")()[:200] if hasattr(e, "read") else b""
+        print(f"  getLeagueData {season}: {type(e).__name__}: {e} {detail!r}", flush=True)
     html = get(referer, {}).decode("utf-8", errors="replace")
     m = re.search(r"datesData\s*=\s*JSON\.parse\('(?P<j>.*?)'\)", html)
     if not m:
-        raise RuntimeError(f"no match data found for {season}")
+        snippet = re.sub(r"\s+", " ", html[:600])
+        raise RuntimeError(f"no match data found for {season}; page starts: {snippet}")
     dates = json.loads(codecs.decode(m.group("j"), "unicode_escape"))
     return json.dumps({"dates": dates}, ensure_ascii=False).encode(), "league page"
 
