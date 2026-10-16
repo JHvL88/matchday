@@ -1,0 +1,63 @@
+# Downloads Understat's Bundesliga match xG (2014/15 onwards) into the private data repository.
+# Runs weekly on Mondays, on demand, and when the fetcher changes. Needs the DATA_REPO_TOKEN secret.
+name: Fetch Understat xG
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - analysis/pipeline/fetch_understat.py
+      - .github/workflows/fetch-understat.yml
+  schedule:
+    - cron: "47 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: understat
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+      DATA_REPO: ${{ vars.DATA_REPO || format('{0}-data', github.repository) }}
+    steps:
+      - name: Check the setup
+        id: setup
+        run: |
+          if [ -z "$DATA_REPO_TOKEN" ]; then echo "::notice::DATA_REPO_TOKEN missing: skipping."; echo "ready=false" >> "$GITHUB_OUTPUT"; else echo "ready=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/checkout@v4
+        if: steps.setup.outputs.ready == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.setup.outputs.ready == 'true'
+        with:
+          python-version: "3.13"
+      - name: Download from Understat
+        if: steps.setup.outputs.ready == 'true'
+        run: python analysis/pipeline/fetch_understat.py --out "$RUNNER_TEMP/out"
+      - name: Save in the data repository (only if something changed)
+        if: steps.setup.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+          cd data-repo
+          if [ -f understat/manifest.json ] && python3 - "$RUNNER_TEMP/out/understat/manifest.json" <<'PY'
+          import json, sys
+          files = lambda p: sorted((f["path"], f["sha256"]) for f in json.load(open(p))["files"])
+          sys.exit(0 if files("understat/manifest.json") == files(sys.argv[1]) else 1)
+          PY
+          then
+            echo "Every file is unchanged."
+            exit 0
+          fi
+          rm -rf understat
+          cp -r "$RUNNER_TEMP/out/understat" .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit --quiet -m "Understat Bundesliga xG ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push --quiet
