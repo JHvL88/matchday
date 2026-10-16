@@ -35,7 +35,7 @@ def current_season(today=None):
     return today.year if today.month >= 7 else today.year - 1
 
 
-def download(url, retries=4, pause=3.0):
+def download(url, retries=3, pause=3.0):
     """Return (bytes, headers). Retries with backoff on 429/5xx and network errors."""
     last = None
     for attempt in range(retries):
@@ -51,9 +51,10 @@ def download(url, retries=4, pause=3.0):
                 raise
         except (urllib.error.URLError, TimeoutError) as e:
             last = e
-        wait = pause * (2 ** attempt)
-        print(f"  retry {attempt + 1}/{retries - 1} in {wait:.0f}s ({last})", flush=True)
-        time.sleep(wait)
+        if attempt < retries - 1:
+            wait = pause * (2 ** attempt)
+            print(f"  retry {attempt + 1}/{retries - 1} in {wait:.0f}s ({last})", flush=True)
+            time.sleep(wait)
     raise last
 
 
@@ -63,13 +64,16 @@ def main(argv=None):
     ap.add_argument("--from", dest="first", type=int, default=FIRST_SEASON, help="first season start year")
     ap.add_argument("--to", dest="last", type=int, default=None, help="last season start year (default: current)")
     ap.add_argument("--pause", type=float, default=2.0, help="seconds between requests (be polite)")
+    ap.add_argument("--max-failures", type=int, default=3, help="stop after this many failures in a row (blocked network)")
     args = ap.parse_args(argv)
 
     last = args.last or current_season()
-    files, failed = [], []
+    files, failed, streak = [], [], 0
     for season in range(args.first, last + 1):
         code = season_code(season)
         for div in DIVISIONS:
+            if streak >= args.max_failures:
+                break
             url = BASE.format(code=code, div=div)
             rel = f"football-data/{code}/{div}.csv"
             try:
@@ -77,7 +81,9 @@ def main(argv=None):
             except Exception as e:  # noqa: BLE001 - record and carry on, fail at the end
                 print(f"FAILED {rel}: {e}", flush=True)
                 failed.append(dict(path=rel, url=url, error=str(e)))
+                streak += 1
                 continue
+            streak = 0
             path = os.path.join(args.out, rel)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "wb") as f:
@@ -91,6 +97,8 @@ def main(argv=None):
             print(f"ok {rel}  {len(body):>7} bytes  sha256 {files[-1]['sha256'][:12]}", flush=True)
             time.sleep(args.pause)
 
+    if streak >= args.max_failures:
+        print(f"{streak} failures in a row: is football-data.co.uk reachable from here? Stopped early.", flush=True)
     manifest = dict(
         source="football-data.co.uk (results, match statistics and odds; see https://www.football-data.co.uk/notes.txt)",
         created_at=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
