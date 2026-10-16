@@ -45,6 +45,9 @@ def team_long(df):
     away = pd.DataFrame({**base, "team": df.away.values, "opp": df.home.values, "is_home": 0,
                          "gf": df.ag.values, "ga": df.hg.values, "sf": df.as_.values, "sa": df.hs.values,
                          "tf": df.ast.values, "ta": df.hst.values})
+    if "hxg" in df:   # xG for / against (NaN where Understat has none)
+        home["xf"], home["xa"] = df.hxg.values, df.axg.values
+        away["xf"], away["xa"] = df.axg.values, df.hxg.values
     return pd.concat([home, away]).sort_values(["team", "date", "mid"]).reset_index(drop=True)
 
 
@@ -62,17 +65,18 @@ def ewm_form(long, halflife=8, stats=("gf", "ga", "sf", "sa", "tf", "ta")):
     return out
 
 
-def build_features(df, halflife=8):
+def build_features(df, halflife=8, use_xg=False):
     df = df.sort_values(["date", "div", "home"]).reset_index(drop=True)
     df["elo_h_own"], df["elo_a_own"] = elo_ratings(df)
     long = team_long(df)
-    form = ewm_form(long, halflife)
+    stats = ("gf", "ga", "sf", "sa", "tf", "ta") + (("xf", "xa") if use_xg and "xf" in long else ())
+    form = ewm_form(long, halflife, stats)
     is_home = long.is_home.values == 1
     fh = form[is_home].set_index("mid").add_prefix("h_")
     fa = form[~is_home].set_index("mid").add_prefix("a_")
     X = df.join(fh, how="left").join(fa, how="left")
     X["elo_diff"] = X.elo_h_own - X.elo_a_own
-    for s in ["gf", "ga", "sf", "sa", "tf", "ta"]:
+    for s in [s for s in stats]:
         X[f"d_{s}"] = X[f"h_{s}_ewm"] - X[f"a_{s}_ewm"]
     X["h_conv"] = X.h_gf_ewm / X.h_tf_ewm.clip(lower=0.5)
     X["a_conv"] = X.a_gf_ewm / X.a_tf_ewm.clip(lower=0.5)
@@ -97,3 +101,6 @@ FEATURES = [
     "h_pts_last5", "a_pts_last5", "h_rest_days", "a_rest_days",
     "h_promoted", "a_promoted", "ghost",
 ]
+
+# Pre-registered xG variant: the 30 features above plus xG for/against form and their gaps.
+FEATURES_XG = FEATURES + ["h_xf_ewm", "h_xa_ewm", "a_xf_ewm", "a_xa_ewm", "d_xf", "d_xa"]

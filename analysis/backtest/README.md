@@ -1,6 +1,8 @@
 # Models v bookmakers: the long backtest
 
-*16 October 2026. Every number below comes from [`results.json`](results.json) and [`verify_sources.json`](verify_sources.json), written by the scripts in [`analysis/pipeline/`](../pipeline/). The Colab notebook [`backtest.ipynb`](backtest.ipynb) reproduces all of it.*
+> **Update, 16 October 2026:** the published models now also learn from xG, after a pre-registered test showed they forecast better with it (gap to the market 0.0053 → 0.0044). This report describes the original models; the xG test is in [`xg/README.md`](xg/README.md), and the Track record shows the xG models.
+
+*16 October 2026. Every number below comes from [`results.json`](results.json) and [`verify_sources.json`](verify_sources.json), written by the scripts in [`analysis/pipeline/`](../pipeline/). The Colab notebook [`backtest.ipynb`](backtest.ipynb) reproduces all of it (set `XG = False` for these original models).*
 
 ## The short version
 
@@ -85,7 +87,7 @@ The mirror's odds columns equal Bet365's early-week prices for every match since
 
 **Elo.** The mirror's Elo columns were loaded but never used: the models compute their own Elo from results. The earlier data review got this wrong.
 
-**Bayesian fits.** 71 monthly NUTS refits (250 warm-up and 250 draws per chain, 2 chains, as in the posts). 150 of 35,500 draws diverged (0.4%), but three fits had 20 or more (April 2021, February 2024, January 2025), so the sampler occasionally struggles with this model's geometry. A non-centred parameterisation is the usual cure. It isn't changed here, so these remain the published models.
+**Bayesian fits.** 71 monthly NUTS refits (250 warm-up and 250 draws per chain, 2 chains, as in the posts). 150 of 35,500 draws diverged (0.4%), but three fits had 20 or more (April 2021, February 2024, January 2025), so the sampler occasionally struggles with this model's geometry. (An earlier version of this note suggested a non-centred parameterisation; the team random walks already are non-centred, so the next things to try are a higher acceptance target and longer warm-up.) It isn't changed here, so these remain the published models.
 
 ## Things worth knowing for later
 

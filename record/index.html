@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="../analysis/analysis.css?v=3">
     <link rel="stylesheet" href="../pages.css?v=2">
     <script src="../i18n.js?v=11" defer></script>
-    <script src="../glossary.js?v=11" defer></script>
+    <script src="../glossary.js?v=12" defer></script>
     <script src="../explain.js?v=10" defer></script>
     <script src="record.js?v=3" defer></script>
   </head>
@@ -100,11 +100,11 @@
             <section class="page-section" id="backtest">
               <div data-lang-only="en">
                 <h2>The backtest</h2>
-                <p>Every match since 2019/20, replayed as if it were next weekend’s: each model refitted on only what it could have known before kick-off, then graded against the bookmakers’ closing odds (the market average, <button type="button" class="term" data-term="margin">margin</button> removed). This is the long run, and in the long run the bookmakers are clearly ahead, in every full season so far.</p>
+                <p>Every match since 2019/20, replayed as if it were next weekend’s: each model refitted on only what it could have known before kick-off, then graded against the bookmakers’ closing odds (the market average, <button type="button" class="term" data-term="margin">margin</button> removed). Since October 2026 the models also learn from <button type="button" class="term" data-term="xg">xG</button>, after a test whose rules were written down before it ran showed that it helps: it closed about a sixth of the gap. This is the long run, and in the long run the bookmakers are still clearly ahead, in every full season so far.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Der Backtest</h2>
-                <p>Jedes Spiel seit 2019/20, nachgespielt, als wäre es die Partie am kommenden Wochenende: Jedes Modell wird nur mit dem angepasst, was es vor dem Anpfiff wissen konnte, und dann an den Schlussquoten der Buchmacher gemessen (Marktdurchschnitt, <button type="button" class="term" data-term="margin">Marge</button> herausgerechnet). Das ist die lange Sicht, und auf lange Sicht liegen die Buchmacher klar vorn, bisher in jeder kompletten Saison.</p>
+                <p>Jedes Spiel seit 2019/20, nachgespielt, als wäre es die Partie am kommenden Wochenende: Jedes Modell wird nur mit dem angepasst, was es vor dem Anpfiff wissen konnte, und dann an den Schlussquoten der Buchmacher gemessen (Marktdurchschnitt, <button type="button" class="term" data-term="margin">Marge</button> herausgerechnet). Seit Oktober 2026 lernen die Modelle auch aus <button type="button" class="term" data-term="xg">xG</button>, nachdem ein Test, dessen Regeln vor dem Lauf feststanden, gezeigt hat, dass es hilft: Es schloss etwa ein Sechstel des Abstands. Das ist die lange Sicht, und auf lange Sicht liegen die Buchmacher weiterhin klar vorn, bisher in jeder kompletten Saison.</p>
               </div>
               <div class="backtest" id="backtest-table"></div>
             </section>

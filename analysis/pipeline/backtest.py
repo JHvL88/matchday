@@ -23,6 +23,10 @@ import pandas as pd
 
 KEY_COLS = ["date", "season", "home", "away", "hg", "ag"]
 XI_GRID = [0.0012, 0.0019, 0.0028, 0.004]
+# xG variants (analysis/backtest/xg/PREREGISTRATION.md): time decay fixed at the step 1 choice,
+# the goals/xG blend tuned on the season before the window.
+XG_XI = 0.0019
+XG_WEIGHTS = [0.0, 0.25, 0.5, 0.75, 1.0]
 
 
 def load(path):
@@ -31,14 +35,14 @@ def load(path):
     return df
 
 
-def dc_walk_forward(df, d1, xi, seasons):
+def dc_walk_forward(df, d1, xi, seasons, xg_weight=0.0):
     from bl_models import DixonColes, score_matrix, outcome_probs
     rows = []
     for s in seasons:
         hist = df[df.season >= s - 8]
         test = d1[d1.season == s]
         for _, g in test.groupby(test.date.dt.to_period("W-MON")):     # Tue..Mon blocks
-            m = DixonColes(xi=xi).fit(hist, g.date.min())
+            m = DixonColes(xi=xi, xg_weight=xg_weight).fit(hist, g.date.min())
             for r in g.itertuples():
                 lh, la = m.rates(r.home, r.away)
                 p = outcome_probs(score_matrix(lh, la, m.rho))
@@ -63,21 +67,38 @@ def run_dc(df, seasons, meta):
     return dc_walk_forward(df, d1, xi, seasons)
 
 
-def run_xgb(df, seasons, meta):
+def run_dc_xg(df, seasons, meta):
+    from bl_models import rps
+    d1 = df[df["div"] == "D1"]
+    tune_season = seasons[0] - 1
+    scores = {}
+    for w in XG_WEIGHTS:
+        p = dc_walk_forward(df, d1, XG_XI, [tune_season], xg_weight=w)
+        y = d1.set_index("key").loc[p.key]
+        yv = np.where(y.hg > y.ag, 0, np.where(y.hg == y.ag, 1, 2))
+        scores[w] = float(rps(p[["dc_H", "dc_D", "dc_A"]].values, yv).mean())
+        print(f"  xG weight {w}: RPS {tune_season}/{tune_season % 100 + 1:02d} = {scores[w]:.5f}", flush=True)
+    w = min(scores, key=scores.get)
+    meta.update(dc_tune_season=tune_season, dc_xi=XG_XI, dc_xg_weight_scores=scores, dc_xg_weight=w)
+    return dc_walk_forward(df, d1, XG_XI, seasons, xg_weight=w)
+
+
+def run_xgb(df, seasons, meta, use_xg=False):
     import xgboost as xgb
-    from features import build_features, FEATURES
+    from features import build_features, FEATURES, FEATURES_XG
     from backtest_utils import train_xgb_pair
-    X = build_features(df.drop(columns=["key"]))
+    X = build_features(df.drop(columns=["key"]), use_xg=use_xg)
+    feats = FEATURES_XG if use_xg else FEATURES
     X["key"] = X.date.dt.strftime("%Y-%m-%d") + "|" + X.home + "|" + X.away
     d1 = X[X["div"] == "D1"]
     pool = d1[(d1.season >= 2008) & (d1.h_n_prev >= 5) & (d1.a_n_prev >= 5)]
     rows, rounds = [], {}
     for s in seasons:
-        models, best = train_xgb_pair(pool[pool.season < s])
+        models, best = train_xgb_pair(pool[pool.season < s], features=feats)
         rounds[s] = best
         test = d1[d1.season == s]
-        lh = models["hg"].predict(xgb.DMatrix(test[FEATURES]))
-        la = models["ag"].predict(xgb.DMatrix(test[FEATURES]))
+        lh = models["hg"].predict(xgb.DMatrix(test[feats]))
+        la = models["ag"].predict(xgb.DMatrix(test[feats]))
         # H/D/A come later from the score grid with Dixon-Coles' rho, as in the published posts
         rows += [dict(key=k, xgb_lh=float(a), xgb_la=float(b)) for k, a, b in zip(test.key, lh, la)]
         print(f"XGB season {s}: {len(test)} matches, rounds {best}", flush=True)
@@ -85,12 +106,13 @@ def run_xgb(df, seasons, meta):
     return pd.DataFrame(rows)
 
 
-def run_bayes(df, seasons, meta, warmup, samples):
+def run_bayes(df, seasons, meta, warmup, samples, use_xg=False):
     import numpyro
     numpyro.set_host_device_count(2)
     import bayes_model as bm
     from bl_models import outcome_probs
     bm.PERIODS_PER_SEASON = 2
+    bm.USE_XG = use_xg
     base = df.drop(columns=["key"])
     d1 = df[(df["div"] == "D1") & df.season.isin(seasons)].sort_values("date")
     rows, fits = [], []
@@ -123,17 +145,20 @@ def main(argv=None):
     ap.add_argument("--seasons", nargs=2, type=int, required=True, metavar=("FIRST", "LAST"))
     ap.add_argument("--warmup", type=int, default=250)
     ap.add_argument("--samples", type=int, default=250)
+    ap.add_argument("--xg", action="store_true", help="the pre-registered xG variant (needs hxg/axg columns)")
     a = ap.parse_args(argv)
     df = load(a.matches)
     seasons = list(range(a.seasons[0], a.seasons[1] + 1))
-    meta = dict(model=a.model, seasons=seasons, matches_file=os.path.basename(a.matches))
+    meta = dict(model=a.model, xg=a.xg, seasons=seasons, matches_file=os.path.basename(a.matches))
+    if a.xg and "hxg" not in df:
+        raise SystemExit("--xg needs a match table with hxg/axg (build_matches.py --understat)")
     t = time.time()
     if a.model == "dc":
-        out = run_dc(df, seasons, meta)
+        out = run_dc_xg(df, seasons, meta) if a.xg else run_dc(df, seasons, meta)
     elif a.model == "xgb":
-        out = run_xgb(df, seasons, meta)
+        out = run_xgb(df, seasons, meta, use_xg=a.xg)
     else:
-        out = run_bayes(df, seasons, meta, a.warmup, a.samples)
+        out = run_bayes(df, seasons, meta, a.warmup, a.samples, use_xg=a.xg)
     meta["seconds"] = round(time.time() - t)
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     out.to_csv(a.out, index=False, float_format="%.6f")

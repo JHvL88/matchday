@@ -1,0 +1,98 @@
+{
+ "source": "understat.com",
+ "league": "Bundesliga",
+ "note": "Checksums of the Understat files the xG backtest used (the files themselves are in the private data repo).",
+ "files": [
+  {
+   "path": "understat/Bundesliga/2014.json",
+   "season": 2014,
+   "matches": 306,
+   "sha256": "9a142949ea22aba9c5e31c0818d5538f50330f6fa81bebe61d13aa10d3d7f4c4",
+   "fetched_at": "2026-10-16T19:36:23+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2015.json",
+   "season": 2015,
+   "matches": 306,
+   "sha256": "c4e424e7afc026a346dbabd208f3b7cba03434059ed6bdaed348e608a801ee9a",
+   "fetched_at": "2026-10-16T19:36:26+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2016.json",
+   "season": 2016,
+   "matches": 306,
+   "sha256": "47d5decc9ceb83a5785a35f10383c61dc85625021a7c825df754ca05aa6e2cf4",
+   "fetched_at": "2026-10-16T19:36:30+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2017.json",
+   "season": 2017,
+   "matches": 306,
+   "sha256": "6b457404f71431068232e6f55ae8527f452ae9d4c0709f140b3b12afa40b0ff1",
+   "fetched_at": "2026-10-16T19:36:34+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2018.json",
+   "season": 2018,
+   "matches": 306,
+   "sha256": "b88510dedab462d322f32bac678e914302c9827a0b11594ed001a527daa25f9d",
+   "fetched_at": "2026-10-16T19:36:38+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2019.json",
+   "season": 2019,
+   "matches": 306,
+   "sha256": "16ab6c73ff4ad3e25018b712ebb4e8cda8100d7a161c95b5ab1572776375dae1",
+   "fetched_at": "2026-10-16T19:36:42+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2020.json",
+   "season": 2020,
+   "matches": 306,
+   "sha256": "563c2387197f37df90ff2695f38445f16825cef9272c61840a37c96d51c4de69",
+   "fetched_at": "2026-10-16T19:36:46+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2021.json",
+   "season": 2021,
+   "matches": 306,
+   "sha256": "69b04e84a7fda771d3aea525f8bc33f1239c3fc6a6ffca6a2367ab30deddaec3",
+   "fetched_at": "2026-10-16T19:36:50+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2022.json",
+   "season": 2022,
+   "matches": 306,
+   "sha256": "b2b8bbf9bf58d19c2b4935cd19fae4d7e012be568525fdc17c4670dcdd52dd1f",
+   "fetched_at": "2026-10-16T19:36:54+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2023.json",
+   "season": 2023,
+   "matches": 306,
+   "sha256": "25284b1ed5bc2c469a49af6d369a6a0f64859d0ebfe71c33a297d230b9f349f0",
+   "fetched_at": "2026-10-16T19:36:58+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2024.json",
+   "season": 2024,
+   "matches": 306,
+   "sha256": "cf74ce4ced626e5f02a1472174a2cbcced499b19c465af519098d0a89c542717",
+   "fetched_at": "2026-10-16T19:37:01+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2025.json",
+   "season": 2025,
+   "matches": 306,
+   "sha256": "c0a30b3e91fcfb780dee08947bd7dc925ddc1888f92b415b6ea75f22908c465b",
+   "fetched_at": "2026-10-16T19:37:05+00:00"
+  },
+  {
+   "path": "understat/Bundesliga/2026.json",
+   "season": 2026,
+   "matches": 306,
+   "sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+   "fetched_at": "2026-10-16T19:37:09+00:00"
+  }
+ ]
+}

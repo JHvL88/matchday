@@ -1,0 +1,109 @@
+# The pre-registered xG test (analysis/backtest/xg/PREREGISTRATION.md): walk-forward backtest of the
+# three xG model variants, 2019/20 to today. Understat's xG comes from the private data repository,
+# so every job builds its own match table and only predictions leave the job.
+# Results land in xg/ on the backtest-results branch.
+name: Backtest (xG variants)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/backtest-xg.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backtest-xg
+  cancel-in-progress: true
+
+env:
+  FIRST_SEASON: "2019"
+  LAST_SEASON: "2026"
+  DATA_REPO: ${{ vars.DATA_REPO || format('{0}-data', github.repository) }}
+
+jobs:
+  dc-xgb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: source-data
+          path: source
+      - name: Build the match table with xG
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+        run: |
+          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+          pip install -q -r analysis/pipeline/requirements.txt
+          python analysis/pipeline/build_matches.py source data/matches.csv --understat data-repo/understat
+      - run: python analysis/pipeline/backtest.py dc data/matches.csv out/oos_dc.csv --seasons $FIRST_SEASON $LAST_SEASON --xg
+      - run: python analysis/pipeline/backtest.py xgb data/matches.csv out/oos_xgb.csv --seasons $FIRST_SEASON $LAST_SEASON --xg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xg-dc-xgb
+          path: out/
+          retention-days: 3
+
+  bayes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        season: [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: source-data
+          path: source
+      - name: Build the match table with xG
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+        run: |
+          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+          pip install -q -r analysis/pipeline/requirements.txt
+          python analysis/pipeline/build_matches.py source data/matches.csv --understat data-repo/understat
+      - run: python analysis/pipeline/backtest.py bayes data/matches.csv out/oos_bay_${{ matrix.season }}.csv --seasons ${{ matrix.season }} ${{ matrix.season }} --xg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xg-bay-${{ matrix.season }}
+          path: out/
+          retention-days: 3
+
+  collect:
+    needs: [dc-xgb, bayes]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: xg-*
+          merge-multiple: true
+      - name: Commit to the backtest-results branch (xg/)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JOBS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          git clone --quiet --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          cd repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --quiet backtest-results
+          rm -rf xg && mkdir xg && cp -r ../results/. xg/
+          python3 - <<PY
+          import json, os, datetime
+          json.dump(dict(variant="xg", code_commit=os.environ["GITHUB_SHA"], code_ref=os.environ["GITHUB_REF_NAME"],
+                         run_id=os.environ["GITHUB_RUN_ID"], seasons=[int(os.environ["FIRST_SEASON"]), int(os.environ["LAST_SEASON"])],
+                         jobs={k: v["result"] for k, v in json.loads(os.environ["JOBS"]).items()},
+                         finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
+                    open("xg/run.json", "w"), indent=1)
+          PY
+          git add -A
+          git commit --quiet -m "xG backtest ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
+          git push --quiet origin backtest-results

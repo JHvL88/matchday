@@ -4,7 +4,7 @@
   "source": "analysis/backtest/",
   "season": {
     "matches": 45,
-    "models": 0.206,
+    "models": 0.2073,
     "market": 0.2131
   },
   "backtest": {
@@ -21,39 +21,39 @@
         "topPick": 0.53
       },
       {
-        "key": "ensemble",
-        "rps": 0.2033,
-        "logLoss": 0.992,
+        "key": "bayesian",
+        "rps": 0.2024,
+        "logLoss": 0.99,
         "topPick": 0.52
+      },
+      {
+        "key": "ensemble",
+        "rps": 0.2024,
+        "logLoss": 0.989,
+        "topPick": 0.51
       },
       {
         "key": "dixonColes",
-        "rps": 0.2035,
-        "logLoss": 0.992,
+        "rps": 0.2029,
+        "logLoss": 0.99,
         "topPick": 0.52
       },
       {
-        "key": "bayesian",
-        "rps": 0.2038,
-        "logLoss": 0.994,
-        "topPick": 0.51
-      },
-      {
         "key": "xgboost",
-        "rps": 0.206,
-        "logLoss": 1.0,
+        "rps": 0.205,
+        "logLoss": 0.997,
         "topPick": 0.51
       }
     ],
-    "gap": 0.0053,
-    "gapLow": 0.0034,
-    "gapHigh": 0.0072
+    "gap": 0.0044,
+    "gapLow": 0.0026,
+    "gapHigh": 0.0062
   },
   "disagreement": [
     {
       "key": "ensemble",
-      "matches": 467,
-      "models": 0.5,
+      "matches": 377,
+      "models": 0.51,
       "market": 0.61,
       "actual": 0.64
     }

@@ -143,9 +143,10 @@ if __name__ == "__main__":
     ap.add_argument("out")
     ap.add_argument("--record", help="update this data/record.json in place (keeps 'about' and 'paperBetting')")
     ap.add_argument("--as-of", help="date for the record, YYYY-MM-DD")
+    ap.add_argument("--no-bridge", action="store_true", help="skip the step-1 bridge (it describes the original models)")
     a = ap.parse_args()
     o = load(a.matches, a.results_dir)
-    published = dict(first_season=2025, gap=0.0026, matches=351)   # data/record.json before this change
+    published = None if a.no_bridge else dict(first_season=2025, gap=0.0026, matches=351)   # record.json before step 1
     res = evaluate(o, mirror_last_date="2026-08-30", published=published)   # the old mirror's last match day
     json.dump(res, open(a.out, "w"), indent=1)
     r = res["rows"]
