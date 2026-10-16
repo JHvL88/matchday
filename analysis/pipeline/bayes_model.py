@@ -21,6 +21,7 @@ import numpyro.distributions as dist
 from numpyro.infer import MCMC, NUTS, init_to_median
 
 PERIODS_PER_SEASON = 4
+USE_XG = False   # pre-registered xG variant: xG as a second, noisy view of chance creation
 
 
 def period_of(month):
@@ -47,7 +48,12 @@ def build_data(df, first_season, ref_date):
     has = ~(np.isnan(hst) | np.isnan(ast))
     hst = np.where(has, np.maximum(np.nan_to_num(hst), df.hg.values), 0).astype(int)
     ast = np.where(has, np.maximum(np.nan_to_num(ast), df.ag.values), 0).astype(int)
+    use_xg = USE_XG and "hxg" in df
+    has_xg = (df.hxg.notna() & df.axg.notna()).values if use_xg else np.zeros(len(df), bool)
+    xg_h = np.maximum(df.hxg.fillna(1.0).values, 0.02) if use_xg else np.ones(len(df))
+    xg_a = np.maximum(df.axg.fillna(1.0).values, 0.02) if use_xg else np.ones(len(df))
     data = dict(
+        has_xg=has_xg, xg_h=xg_h, xg_a=xg_a,
         h=df.home.map(tid).values, a=df.away.map(tid).values,
         per=per.astype(int), sea=(df.season.values - first_season).astype(int),
         d2=(df["div"] == "D2").values.astype(int), ghost=ghost,
@@ -57,7 +63,7 @@ def build_data(df, first_season, ref_date):
     # summer boundaries (period p where p % 4 == 0 starts a new season)
     new_season = (np.arange(P) % PERIODS_PER_SEASON == 0).astype(float)
     meta = dict(teams=teams, tid=tid, S=S, P=P, T=len(teams), new_season=new_season,
-                first_season=first_season)
+                first_season=first_season, use_xg=bool(use_xg))
     return {k: jnp.asarray(v) for k, v in data.items()}, meta
 
 
@@ -115,6 +121,13 @@ def model(d, meta):
         with numpyro.handlers.mask(mask=~has):
             numpyro.sample("hg_m", nb(lam_h * p_h), obs=d["hg"])
             numpyro.sample("ag_m", nb(lam_a * p_a), obs=d["ag"])
+    if meta.get("use_xg"):
+        # xG ~ Gamma with mean psi * expected shots on target: more evidence on att/def, no new team parameters
+        psi = numpyro.sample("psi", dist.LogNormal(jnp.log(0.32), 0.3))
+        kappa = numpyro.sample("kappa", dist.Gamma(2.0, 0.5))
+        with numpyro.plate("xg_matches", len(h)), numpyro.handlers.mask(mask=d["has_xg"]):
+            numpyro.sample("xg_h", dist.Gamma(kappa, kappa / (psi * lam_h)), obs=d["xg_h"])
+            numpyro.sample("xg_a", dist.Gamma(kappa, kappa / (psi * lam_a)), obs=d["xg_a"])
 
 
 def reconstruct(samples, meta):

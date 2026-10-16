@@ -108,8 +108,17 @@ def market_probs(df, prefix="avgc"):
 
 
 if __name__ == "__main__":
-    src, out = sys.argv[1], sys.argv[2]
-    df = build(src)
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("source")
+    ap.add_argument("out")
+    ap.add_argument("--understat", help="add Understat match xG (hxg, axg) from this folder")
+    a = ap.parse_args()
+    out = a.out
+    df = build(a.source)
+    if a.understat:
+        from understat import add_xg
+        df = add_xg(df, a.understat)
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     df.to_csv(out, index=False)
     d1 = df[df["div"] == "D1"]

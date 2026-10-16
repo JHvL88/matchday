@@ -64,8 +64,10 @@ class DixonColes:
     Sum-to-zero constraints via centring; weights w = exp(-xi * days_ago).
     """
 
-    def __init__(self, xi=0.0025, ridge=1e-3):
-        self.xi, self.ridge = xi, ridge
+    def __init__(self, xi=0.0025, ridge=1e-3, xg_weight=0.0):
+        # xg_weight > 0: the Poisson part learns from w*xG + (1-w)*goals where xG exists (hxg/axg
+        # columns); the low-score correction still uses actual goals. 0 = the published model.
+        self.xi, self.ridge, self.xg_weight = xi, ridge, xg_weight
 
     def fit(self, df, ref_date):
         df = df[df.date < ref_date]
@@ -75,6 +77,11 @@ class DixonColes:
         a = jnp.array(df.away.map(self.idx).values)
         x = jnp.array(df.hg.values, dtype=float)
         y = jnp.array(df.ag.values, dtype=float)
+        tx, ty = x, y
+        if self.xg_weight > 0 and "hxg" in df:
+            w_xg = self.xg_weight
+            tx = jnp.array(np.where(df.hxg.notna(), w_xg * df.hxg.fillna(0) + (1 - w_xg) * df.hg, df.hg), dtype=float)
+            ty = jnp.array(np.where(df.axg.notna(), w_xg * df.axg.fillna(0) + (1 - w_xg) * df.ag, df.ag), dtype=float)
         d2 = jnp.array((df["div"] == "D2").values, dtype=float)
         days = (pd.Timestamp(ref_date) - df.date).dt.days.values
         w = jnp.array(np.exp(-self.xi * days))
@@ -89,7 +96,7 @@ class DixonColes:
             att, de, mu, home, div2, rho = unpack(p)
             lh = jnp.exp(mu + div2 * d2 + home + att[h] - de[a])
             la = jnp.exp(mu + div2 * d2 + att[a] - de[h])
-            ll = x * jnp.log(lh) - lh - gammaln(x + 1) + y * jnp.log(la) - la - gammaln(y + 1)
+            ll = tx * jnp.log(lh) - lh - gammaln(tx + 1) + ty * jnp.log(la) - la - gammaln(ty + 1)
             tau = jnp.where((x == 0) & (y == 0), 1 - lh * la * rho,
                   jnp.where((x == 0) & (y == 1), 1 + lh * rho,
                   jnp.where((x == 1) & (y == 0), 1 + la * rho,
