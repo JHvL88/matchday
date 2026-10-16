@@ -35,7 +35,10 @@ jobs:
           python-version: "3.13"
 
       - name: Download football-data.co.uk files
-        run: python analysis/pipeline/fetch_football_data.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/fetch_log.txt"
+        run: |
+          set -o pipefail   # without it, tee would hide a failed download
+          python analysis/pipeline/fetch_football_data.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/fetch_log.txt"
+          python3 -c "import json,sys; m=json.load(open('$RUNNER_TEMP/out/manifest.json')); sys.exit(1 if m['failed'] or not m['files'] else 0)"
 
       - name: Commit to the source-data branch
         # Runs only if every file downloaded, so a partial fetch never replaces good files
