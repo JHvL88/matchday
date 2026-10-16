@@ -33,11 +33,13 @@
     <link rel="preconnect" href="https://api.openligadb.de">
     <link rel="preload" href="assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="styles.css?v=9">
-    <script src="i18n.js?v=9" defer></script>
-    <script src="app.js?v=9" defer></script>
+    <link rel="stylesheet" href="styles.css?v=10">
+    <script src="i18n.js?v=10" defer></script>
+    <script src="glossary.js?v=10" defer></script>
+    <script src="explain.js?v=10" defer></script>
+    <script src="app.js?v=10" defer></script>
   </head>
-  <body>
+  <body class="home">
     <a class="skip-link" href="#matches" data-i18n="nav.skip">Skip to matches</a>
     <header class="topbar">
       <div class="app-shell topbar-inner">
@@ -46,15 +48,16 @@
           <span class="brand-name">Jan’s Matchday</span>
         </a>
         <nav class="top-nav" aria-label="Sections" data-i18n-attrs="aria-label:nav.label">
-          <a href="#matches" data-i18n="nav.matches">Matches</a>
+          <a href="#matchday" aria-current="page" data-i18n="nav.matchday">Matchday</a>
           <a href="#table" data-i18n="nav.table">Table</a>
-          <a href="#insights" data-i18n="nav.insights">Insights</a>
-          <a href="#analysis" data-i18n="nav.analysis">Analysis</a>
+          <a href="#analysis" data-i18n="nav.dives">Deep dives</a>
+          <a href="record/" data-i18n="nav.record">Track record</a>
+          <a href="learn/" data-i18n="nav.learn">Learn</a>
         </nav>
-        <div class="league-label">
-          <span class="league-dot" aria-hidden="true"></span>
-          <span id="league-season">Bundesliga</span>
-        </div>
+        <button class="follow-button" id="follow-button" type="button" aria-haspopup="dialog" aria-controls="follow-dialog">
+          <span class="follow-crest" id="follow-crest" aria-hidden="true"></span>
+          <span class="follow-label" id="follow-label" data-i18n="follow.button">Follow a club</span>
+        </button>
         <div class="segmented lang-switch" role="group" aria-label="Language" data-i18n-attrs="aria-label:lang.label">
           <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
           <button type="button" data-lang="de" lang="de" title="Deutsch" aria-pressed="false">DE</button>
@@ -62,60 +65,74 @@
       </div>
     </header>
 
-    <div class="app-shell">
-      <main>
-        <section class="hero" aria-labelledby="page-title">
-          <p class="eyebrow" data-i18n="hero.eyebrow">A fan’s take on German football</p>
-          <h1 id="page-title">Jan’s Matchday<span>.</span></h1>
-          <p class="intro" data-i18n="hero.intro">Every Bundesliga matchday in one place: live scores, the table, season trends and deeper analysis.</p>
-        </section>
-
-        <section class="matchday-hub" aria-labelledby="matchday-title">
-          <div class="hub-top">
-            <div class="matchday-picker">
+    <main>
+      <section class="weekend" id="matchday" aria-labelledby="matchday-title">
+        <div class="app-shell weekend-inner">
+          <div class="weekend-main">
+            <p class="eyebrow" id="hub-season">Bundesliga</p>
+            <h1 id="matchday-title"><span id="matchday-title-text" data-i18n="hub.titlePlaceholder">Matchday</span><span class="full-stop" aria-hidden="true">.</span></h1>
+            <p class="matchday-dates" id="matchday-dates">&nbsp;</p>
+            <p class="weekend-intro" data-i18n="hero.intro">Forecasts, results and the table for every Bundesliga matchday, with the maths explained.</p>
+            <div class="countdown" id="countdown" hidden>
+              <div class="countdown-part">
+                <p class="countdown-label" id="countdown-label"></p>
+                <p class="countdown-match" id="countdown-match"></p>
+                <p class="countdown-when" id="countdown-when"></p>
+              </div>
+              <div class="countdown-part countdown-clock">
+                <p class="countdown-label" id="countdown-clock-label"></p>
+                <p class="countdown-value" id="countdown-value"></p>
+              </div>
+            </div>
+            <div class="hub-actions">
               <button class="icon-button" id="previous-matchday" type="button" aria-label="Previous matchday" data-i18n-attrs="aria-label:hub.prev">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"/></svg>
               </button>
-              <div class="matchday-copy">
-                <p class="eyebrow" id="hub-season">Bundesliga</p>
-                <h2 id="matchday-title" data-i18n="hub.titlePlaceholder">Matchday</h2>
-                <p class="matchday-dates" id="matchday-dates">&nbsp;</p>
-              </div>
               <button class="icon-button" id="next-matchday" type="button" aria-label="Next matchday" data-i18n-attrs="aria-label:hub.next">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></svg>
               </button>
-            </div>
-            <div class="hub-actions">
               <button class="ghost-button" id="current-matchday" type="button" hidden>Go to current matchday</button>
-              <p class="updated-at" id="updated-at" aria-live="polite"></p>
               <button class="refresh-button" id="refresh-results" type="button">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 8A6.8 6.8 0 0 0 4.2 5.5L3 7m0 0V3.8M3 7h3.2M3.5 12a6.8 6.8 0 0 0 12.3 2.5L17 13m0 0v3.2M17 13h-3.2"/></svg>
                 <span data-i18n="hub.refresh">Refresh</span>
               </button>
+              <p class="updated-at" id="updated-at" aria-live="polite"></p>
             </div>
           </div>
+          <aside class="featured" id="featured" hidden data-i18n-attrs="aria-label:featured.label" aria-label="Deep dive"></aside>
+        </div>
+        <div class="app-shell">
           <div class="matchday-strip" id="matchday-strip" role="group" aria-label="Choose a matchday" data-i18n-attrs="aria-label:hub.stripLabel"></div>
-          <dl class="glance" id="glance" aria-label="Matchday at a glance" data-i18n-attrs="aria-label:glance.label">
-            <div class="glance-tile"><dt data-i18n="glance.goals">Goals</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt data-i18n="glance.results">Results</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt data-i18n="glance.biggestWin">Biggest win</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-            <div class="glance-tile"><dt data-i18n="glance.leader">Top of the table</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
-          </dl>
-        </section>
+        </div>
+      </section>
+
+      <div class="app-shell">
+        <dl class="glance" id="glance" aria-label="Matchday at a glance" data-i18n-attrs="aria-label:glance.label">
+          <div class="glance-tile"><dt data-i18n="glance.goals">Goals</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+          <div class="glance-tile"><dt data-i18n="glance.results">Results</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+          <div class="glance-tile"><dt data-i18n="glance.biggestWin">Biggest win</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+          <div class="glance-tile"><dt data-i18n="glance.leader">Top of the table</dt><dd class="glance-value">–</dd><dd class="glance-sub">&nbsp;</dd></div>
+        </dl>
 
         <div class="dashboard">
           <section class="panel fixtures-panel" id="matches" aria-labelledby="matches-heading">
             <div class="panel-head">
               <div>
-                <p class="eyebrow" data-i18n="fixtures.eyebrow">Fixtures &amp; results</p>
+                <p class="eyebrow" data-i18n="fixtures.eyebrow">Fixtures, forecasts and odds</p>
                 <h2 id="matches-heading" data-i18n="fixtures.title">Matches</h2>
               </div>
+              <div class="filter-row" role="group" aria-label="Filter matches" data-i18n-attrs="aria-label:filter.label">
+                <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">All</span> <span class="chip-count" data-count="all"></span></button>
+                <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator" aria-hidden="true"></span><span data-i18n="filter.live">Live</span> <span class="chip-count" data-count="live"></span></button>
+                <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false"><span data-i18n="filter.finished">Finished</span> <span class="chip-count" data-count="finished"></span></button>
+                <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false"><span data-i18n="filter.upcoming">Upcoming</span> <span class="chip-count" data-count="upcoming"></span></button>
+              </div>
             </div>
-            <div class="filter-row" role="group" aria-label="Filter matches" data-i18n-attrs="aria-label:filter.label">
-              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">All</span> <span class="chip-count" data-count="all"></span></button>
-              <button class="filter-chip" type="button" data-filter="live" aria-pressed="false"><span class="live-indicator" aria-hidden="true"></span><span data-i18n="filter.live">Live</span> <span class="chip-count" data-count="live"></span></button>
-              <button class="filter-chip" type="button" data-filter="finished" aria-pressed="false"><span data-i18n="filter.finished">Finished</span> <span class="chip-count" data-count="finished"></span></button>
-              <button class="filter-chip" type="button" data-filter="upcoming" aria-pressed="false"><span data-i18n="filter.upcoming">Upcoming</span> <span class="chip-count" data-count="upcoming"></span></button>
+            <div class="prob-legend" id="prob-legend" hidden>
+              <span class="legend-item"><span class="legend-swatch is-home" aria-hidden="true"></span><span data-i18n="legend.home">Home win</span></span>
+              <span class="legend-item"><span class="legend-swatch is-draw" aria-hidden="true"></span><span data-i18n="legend.draw">Draw</span></span>
+              <span class="legend-item"><span class="legend-swatch is-away" aria-hidden="true"></span><span data-i18n="legend.away">Away win</span></span>
+              <button type="button" class="term legend-explain" data-term="market-probability" data-i18n="legend.explain">What do the bars show?</button>
             </div>
             <div id="results" class="results-list" aria-live="polite" aria-busy="true">
               <div class="loading-state">
@@ -123,7 +140,7 @@
                 <p data-i18n="fixtures.loading">Finding the latest scores…</p>
               </div>
             </div>
-            <p class="panel-foot"><span data-i18n="fixtures.foot">Kick-off times in Europe/Berlin · match data from</span> <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a></p>
+            <p class="panel-foot" id="fixtures-foot"><span data-i18n="fixtures.foot">Kick-off times in Europe/Berlin · match data from</span> <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a><span id="odds-source"></span></p>
           </section>
 
           <section class="panel standings-panel" id="table" aria-labelledby="standings-heading" aria-busy="true">
@@ -172,6 +189,16 @@
           </section>
         </div>
 
+        <section class="section-block analysis-panel" id="analysis" aria-labelledby="analysis-heading">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow" data-i18n="analysis.eyebrow">One match, three models, every week</p>
+              <h2 id="analysis-heading" data-i18n="analysis.title">Deep dives</h2>
+            </div>
+          </div>
+          <div class="analysis-grid" id="analysis-grid"></div>
+        </section>
+
         <section class="panel insights-panel" id="insights" aria-labelledby="insights-heading">
           <div class="panel-head">
             <div>
@@ -209,49 +236,68 @@
           </div>
         </section>
 
-        <section class="panel analysis-panel" id="analysis" aria-labelledby="analysis-heading">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow" data-i18n="analysis.eyebrow">Deep dives</p>
-              <h2 id="analysis-heading" data-i18n="analysis.title">Analysis</h2>
-            </div>
+        <section class="record-teaser" id="record-teaser" aria-labelledby="record-heading" hidden>
+          <div class="record-teaser-copy">
+            <p class="eyebrow" data-i18n="teaser.eyebrow">Keeping score</p>
+            <h2 id="record-heading" data-i18n="teaser.title">Model vs market</h2>
+            <p class="record-teaser-text"><span data-i18n="teaser.text">Every forecast is graded with the ranked probability score: 0 is perfect, 0.238 is a shrug.</span> <button type="button" class="term" data-term="rps" data-i18n="teaser.what">What is RPS?</button></p>
           </div>
-          <div class="analysis-grid">
-            <a class="analysis-card" href="analysis/2026-27-md6-hamburg-stuttgart/">
-              <span class="analysis-thumb"><img src="analysis/2026-27-md6-hamburg-stuttgart/figs/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302" data-lang-only="en"><img src="analysis/2026-27-md6-hamburg-stuttgart/figs/de/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302" data-lang-only="de" hidden></span>
-              <span class="analysis-body">
-                <span class="analysis-tag" data-i18n="analysis.tagMd6">Matchday 6 · Pre-match forecast</span>
-                <span class="analysis-title" data-i18n="analysis.titleMd6">Hamburg vs Stuttgart: my models pick a fight with the bookies</span>
-                <span class="analysis-desc" data-i18n="analysis.descMd6">Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree.</span>
-                <span class="analysis-more"><span data-i18n="analysis.read">Read the analysis</span> <span aria-hidden="true">→</span></span>
-              </span>
-            </a>
-            <a class="analysis-card" href="analysis/2026-27-md5-augsburg-bayern/">
-              <span class="analysis-thumb"><img src="analysis/2026-27-md5-augsburg-bayern/figs/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302" data-lang-only="en"><img src="analysis/2026-27-md5-augsburg-bayern/figs/de/fig1_forecast.svg" alt="" loading="lazy" width="760" height="302" data-lang-only="de" hidden></span>
-              <span class="analysis-body">
-                <span class="analysis-tag" data-i18n="analysis.tagMd5">Matchday 5 · Forecast &amp; full-time review</span>
-                <span class="analysis-title" data-i18n="analysis.titleMd5">Augsburg vs Bayern: three models, one stubborn underdog</span>
-                <span class="analysis-desc" data-i18n="analysis.descMd5">Dixon–Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers, plus how the forecast fared at 2–2.</span>
-                <span class="analysis-more"><span data-i18n="analysis.read">Read the analysis</span> <span aria-hidden="true">→</span></span>
-              </span>
-            </a>
-          </div>
+          <dl class="record-teaser-stats" id="record-teaser-stats"></dl>
+          <a class="outline-link" href="record/" data-i18n="teaser.link">Full track record →</a>
         </section>
-      </main>
+      </div>
+    </main>
 
-      <footer class="site-footer">
-        <span data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
-        <span data-i18n="footer.data">Free football data, no sign-up needed.</span>
-        <p class="responsible-note" data-i18n-html="footer.responsible">18+. Forecasts are analysis, not betting advice. If betting stops being fun: <a href="https://www.check-dein-spiel.de/" target="_blank" rel="noreferrer">check-dein-spiel.de</a> (Germany) · <a href="https://www.sos-spielsucht.ch/" target="_blank" rel="noreferrer">sos-spielsucht.ch</a> (Switzerland).</p>
-        <p class="install-hint" id="install-hint" data-i18n-html="footer.install" hidden>On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong> to install Jan’s Matchday.</p>
-        <p class="photo-credit">
-          <span data-i18n="footer.photos">Background photos:</span>
-          <a href="https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg" target="_blank" rel="noreferrer" lang="en">Hongkou Football Stadium at night</a>
-          <span data-i18n="footer.by">by</span> Windmemories, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>;
-          <a href="https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg" target="_blank" rel="noreferrer" data-i18n="footer.photoBall">football on grass</a>
-          <span data-i18n="footer.by">by</span> Peter Glaser, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0</a>.
-        </p>
-      </footer>
-    </div>
+    <footer class="app-shell site-footer">
+      <span class="footer-tagline" data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
+      <nav class="footer-links" aria-label="More" data-i18n-attrs="aria-label:footer.more">
+        <a href="learn/" data-i18n="footer.howItWorks">How it works</a>
+        <a href="learn/#glossary" data-i18n="footer.glossary">Glossary</a>
+        <a href="record/" data-i18n="nav.record">Track record</a>
+        <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer" data-i18n="footer.github">Notebooks on GitHub</a>
+      </nav>
+      <p class="responsible-note" data-i18n-html="footer.responsible">18+. Forecasts are analysis, not betting advice.</p>
+      <p class="install-hint" id="install-hint" data-i18n-html="footer.install" hidden>On iPhone or iPad: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong> to install Jan’s Matchday.</p>
+      <p class="photo-credit">
+        <span data-i18n="footer.photos">Background photos:</span>
+        <a href="https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg" target="_blank" rel="noreferrer" lang="en">Hongkou Football Stadium at night</a>
+        <span data-i18n="footer.by">by</span> Windmemories, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>;
+        <a href="https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg" target="_blank" rel="noreferrer" data-i18n="footer.photoBall">football on grass</a>
+        <span data-i18n="footer.by">by</span> Peter Glaser, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noreferrer">CC0</a>.
+      </p>
+    </footer>
+
+    <nav class="tabbar" aria-label="Main" data-i18n-attrs="aria-label:nav.main">
+      <a href="#matchday" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span data-i18n="tab.matchday">Matchday</span>
+      </a>
+      <a href="#table">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span data-i18n="tab.table">Table</span>
+      </a>
+      <a href="#analysis">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        <span data-i18n="tab.dives">Deep dives</span>
+      </a>
+      <a href="record/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        <span data-i18n="tab.record">Record</span>
+      </a>
+      <a href="learn/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>
+        <span data-i18n="tab.learn">Learn</span>
+      </a>
+    </nav>
+
+    <dialog class="follow-dialog" id="follow-dialog" aria-labelledby="follow-title">
+      <div class="follow-dialog-head">
+        <h2 id="follow-title" data-i18n="follow.title">Follow a club</h2>
+        <button type="button" class="dialog-close" id="follow-close" aria-label="Close" data-i18n-attrs="aria-label:dialog.close">×</button>
+      </div>
+      <p class="follow-dialog-text" data-i18n="follow.text">Your club is highlighted in the fixtures, the table and the charts. The choice stays on this device.</p>
+      <div class="follow-grid" id="follow-grid"></div>
+      <button type="button" class="ghost-button follow-clear" id="follow-clear" data-i18n="follow.clear">Stop following</button>
+    </dialog>
   </body>
 </html>

@@ -19,4 +19,16 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/analysis/2026-27-md5-augsburg-bayern/?lang=de"/>
     <lastmod>2026-10-16</lastmod>
   </url>
+  <url>
+    <loc>https://jhvl88.github.io/matchday/learn/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/learn/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/learn/?lang=de"/>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://jhvl88.github.io/matchday/record/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/record/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/record/?lang=de"/>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>

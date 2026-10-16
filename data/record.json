@@ -1,0 +1,25 @@
+{
+  "about": "Backtest figures behind the Track record page, copied from the latest deep dive's notebook output. Update after each post. RPS = ranked probability score (lower is better; one-third for everything scores 0.238).",
+  "asOf": "2026-10-15",
+  "source": "analysis/2026-27-md6-hamburg-stuttgart/",
+  "season": { "matches": 45, "models": 0.2046, "market": 0.2119 },
+  "backtest": {
+    "label": "2025/26 and 2026/27 so far",
+    "matches": 351,
+    "rows": [
+      { "key": "market", "rps": 0.1931, "logLoss": 0.955, "topPick": 0.55 },
+      { "key": "ensemble", "rps": 0.1957, "logLoss": 0.966, "topPick": 0.55 },
+      { "key": "dixonColes", "rps": 0.1957, "logLoss": 0.968, "topPick": 0.55 },
+      { "key": "bayesian", "rps": 0.1958, "logLoss": 0.968, "topPick": 0.54 },
+      { "key": "xgboost", "rps": 0.1986, "logLoss": 0.973, "topPick": 0.54 }
+    ],
+    "gap": 0.0026,
+    "gapLow": -0.0017,
+    "gapHigh": 0.0068
+  },
+  "disagreement": [
+    { "key": "ensemble", "matches": 59, "models": 0.48, "market": 0.58, "actual": 0.56 },
+    { "key": "twoModels", "matches": 1269, "models": 0.51, "market": 0.61, "actual": 0.66 }
+  ],
+  "paperBetting": { "threshold": 0.05, "stake": 1, "minGraded": 20 }
+}
