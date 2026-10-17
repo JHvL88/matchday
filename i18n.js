@@ -234,6 +234,8 @@
       /* Each post's <title> and meta description (the cards come from analysis/posts.json) */
       "analysis.pageTitleMd6": "Hamburg vs Stuttgart: the forecast — Jan’s Matchday",
       "analysis.metaMd6": "Pre-match forecast for Hamburger SV vs VfB Stuttgart, Bundesliga matchday 6 2026/27: three models against the bookmakers, and who has been right when they disagree.",
+      "analysis.pageTitleMd6Bl": "Bayern vs Leipzig: the forecast — Jan’s Matchday",
+      "analysis.metaMd6Bl": "Pre-match forecast for FC Bayern vs RB Leipzig, Bundesliga matchday 6 2026/27: three xG models against the bookmakers on a big favourite and a 4.5-goal line.",
       "analysis.pageTitleMd5": "Augsburg vs Bayern: the forecast — Jan’s Matchday",
       "analysis.metaMd5": "Pre-match forecast for FC Augsburg vs FC Bayern, Bundesliga matchday 5 2026/27: Dixon-Coles, a Bayesian shots-to-goals model and XGBoost, backtested against the bookmakers.",
       "analysis.back": "← All deep dives",
@@ -593,6 +595,8 @@
       "analysis.title": "Analysen",
       "analysis.pageTitleMd6": "Hamburg gegen Stuttgart: die Prognose — Jan’s Matchday",
       "analysis.metaMd6": "Prognose vor dem Spiel Hamburger SV gegen VfB Stuttgart, 6. Spieltag der Bundesliga 2026/27: drei Modelle gegen die Buchmacher, und wer recht hatte, wenn sie sich uneinig waren.",
+      "analysis.pageTitleMd6Bl": "Bayern gegen Leipzig: die Prognose — Jan’s Matchday",
+      "analysis.metaMd6Bl": "Prognose vor dem Spiel FC Bayern gegen RB Leipzig, 6. Spieltag der Bundesliga 2026/27: drei xG-Modelle gegen die Buchmacher bei einem klaren Favoriten und einer Torlinie von 4,5.",
       "analysis.pageTitleMd5": "Augsburg gegen Bayern: die Prognose — Jan’s Matchday",
       "analysis.metaMd5": "Prognose vor dem Spiel FC Augsburg gegen FC Bayern, 5. Spieltag der Bundesliga 2026/27: Dixon–Coles, ein bayesianisches Schüsse-zu-Toren-Modell und XGBoost im Backtest gegen die Buchmacher.",
       "analysis.back": "← Alle Analysen",

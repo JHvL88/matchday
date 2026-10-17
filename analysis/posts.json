@@ -2,6 +2,54 @@
   "about": "Every deep dive on the site, newest first. The home page links fixtures to these posts by OpenLigaDB matchId. Probabilities are home win, draw, away win, as published before kick-off; market = bookmaker odds with the margin removed proportionally. After the match, fullTime holds the final score and the ranked probability scores quoted in the post (worked out from the unrounded probabilities, so they can differ from the rounded ones here in the third decimal).",
   "posts": [
     {
+      "slug": "2026-27-md6-bayern-leipzig",
+      "path": "analysis/2026-27-md6-bayern-leipzig/",
+      "season": 2026,
+      "matchday": 6,
+      "matchId": 83201,
+      "kickoff": "2026-10-17T16:30:00Z",
+      "home": {
+        "teamId": 40,
+        "name": "FC Bayern München"
+      },
+      "away": {
+        "teamId": 1635,
+        "name": "RB Leipzig"
+      },
+      "published": "2026-10-17",
+      "minutes": 12,
+      "forecast": {
+        "model": [0.712, 0.152, 0.136],
+        "market": [0.7944, 0.1173, 0.0883],
+        "marketOdds": [1.18, 9.0, 11.0],
+        "expectedGoals": [2.97, 1.27],
+        "mostLikely": {
+          "score": [2, 1],
+          "p": 0.08
+        },
+        "over25": 0.79,
+        "btts": 0.68,
+        "marketBookmaker": "Tipico",
+        "marketQuoted": "2026-10-17",
+        "marketSnapshot": "2026-10-17T07:29:49Z"
+      },
+      "thumb": {
+        "en": "figs/fig1_forecast.svg",
+        "de": "figs/de/fig1_forecast.svg"
+      },
+      "en": {
+        "tag": "Matchday 6 · Pre-match forecast",
+        "title": "Bayern vs Leipzig: my models are scared of heights",
+        "desc": "The bookmakers expect Bayern to win and goals to fly. My models are more cautious. Seven seasons of data say they shouldn’t be."
+      },
+      "de": {
+        "tag": "Spieltag 6 · Prognose vor dem Spiel",
+        "title": "Bayern gegen Leipzig: Meine Modelle haben Höhenangst",
+        "desc": "Die Buchmacher erwarten einen Bayern-Sieg und viele Tore. Meine Modelle sind vorsichtiger. Sieben Spielzeiten Daten sagen: zu Unrecht."
+      },
+      "venue": "Allianz Arena"
+    },
+    {
       "slug": "2026-27-md6-hamburg-stuttgart",
       "path": "analysis/2026-27-md6-hamburg-stuttgart/",
       "season": 2026,
