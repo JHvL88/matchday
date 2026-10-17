@@ -1,0 +1,220 @@
+{
+ "slug": "2026-27-md6-hamburg-stuttgart",
+ "score": [
+  1,
+  0
+ ],
+ "outcome": "home",
+ "rps": {
+  "ensemble": 0.328,
+  "dixonColes": 0.3789,
+  "bayesian": 0.293,
+  "xgboost": 0.3236,
+  "market": 0.4203,
+  "frozen_xg_dc": 0.3717,
+  "frozen_xg_bay": 0.3343,
+  "frozen_xg_xgb": 0.3398,
+  "frozen_xg_ens": 0.3483,
+  "frozen_pre_xg_dc": 0.3813,
+  "frozen_pre_xg_bay": 0.2881,
+  "frozen_pre_xg_xgb": 0.3372,
+  "frozen_pre_xg_ens": 0.3344
+ },
+ "exactScore": {
+  "rank": 7,
+  "percent": 5.4
+ },
+ "sideMarkets": {
+  "over25": {
+   "p": 0.63,
+   "hit": false
+  },
+  "btts": {
+   "p": 0.64,
+   "hit": false
+  },
+  "homeByTwo": {
+   "p": 0.15,
+   "hit": false
+  },
+  "awayByTwo": {
+   "p": 0.24,
+   "hit": false
+  },
+  "oneGoalGame": {
+   "p": 0.37,
+   "hit": true
+  }
+ },
+ "odds": {
+  "published": {
+   "odds": [
+    3.8,
+    4.2,
+    1.8
+   ],
+   "fair": [
+    0.249,
+    0.2253,
+    0.5257
+   ],
+   "source": "Bet365 3.80 / 4.20 / 1.80, quoted by KickOff on 15 October 2026, margin removed proportionally (analysis/posts.json)"
+  },
+  "snapshots": [
+   {
+    "consensus": [
+     0.2363,
+     0.2336,
+     0.5301
+    ],
+    "books": 21,
+    "margin": 0.0608,
+    "average_odds": [
+     4.0,
+     4.04,
+     1.78
+    ],
+    "pinnacle": [
+     4.28,
+     4.07,
+     1.8
+    ],
+    "reader_best": [
+     {
+      "odds": 4.2,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 4.1,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 1.76,
+      "bookmaker": "Winamax"
+     }
+    ],
+    "taken_at": "2026-10-16T19:15:53Z",
+    "minutes_before": 1094,
+    "reasons": [
+     "manual",
+     "daily"
+    ],
+    "label": "test",
+    "file": "snapshots/2026/10/16/20261016T191553Z.json.gz"
+   },
+   {
+    "consensus": [
+     0.2381,
+     0.2327,
+     0.5292
+    ],
+    "books": 21,
+    "margin": 0.0607,
+    "average_odds": [
+     3.97,
+     4.06,
+     1.78
+    ],
+    "pinnacle": [
+     4.11,
+     4.18,
+     1.81
+    ],
+    "reader_best": [
+     {
+      "odds": 4.1,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 4.2,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 1.76,
+      "bookmaker": "Winamax"
+     }
+    ],
+    "taken_at": "2026-10-17T07:29:49Z",
+    "minutes_before": 360,
+    "reasons": [
+     "manual",
+     "daily"
+    ],
+    "label": "md6 bayern-leipzig post",
+    "file": "snapshots/2026/10/17/20261017T072949Z.json.gz"
+   },
+   {
+    "consensus": [
+     0.229,
+     0.2283,
+     0.5426
+    ],
+    "books": 20,
+    "margin": 0.0599,
+    "average_odds": [
+     4.13,
+     4.14,
+     1.74
+    ],
+    "pinnacle": [
+     4.47,
+     4.26,
+     1.75
+    ],
+    "reader_best": [
+     {
+      "odds": 4.3,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 4.3,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 1.7,
+      "bookmaker": "Tipico"
+     }
+    ],
+    "taken_at": "2026-10-17T13:11:10Z",
+    "minutes_before": 19,
+    "reasons": [
+     "manual",
+     "close"
+    ],
+    "label": "md6 close",
+    "file": "snapshots/2026/10/17/20261017T131110Z.json.gz"
+   }
+  ]
+ },
+ "paperBets": [
+  {
+   "pick": "home",
+   "odds": 3.8,
+   "model": 0.32,
+   "market": 0.249,
+   "gap": 0.071,
+   "won": true,
+   "profit": 2.8,
+   "clv_consensus": -0.1298,
+   "clv_pinnacle": -0.1746,
+   "closing_consensus": 0.229,
+   "closing_snapshot": "2026-10-17T13:11:10Z"
+  }
+ ],
+ "understat": {
+  "xg": [
+   1.67,
+   2.64
+  ],
+  "goals": [
+   1,
+   0
+  ],
+  "understat_id": "32291",
+  "xgResultSplit": [
+   0.2028,
+   0.2018,
+   0.5954
+  ]
+ }
+}
