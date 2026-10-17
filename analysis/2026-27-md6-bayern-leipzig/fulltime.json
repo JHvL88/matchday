@@ -1,0 +1,243 @@
+{
+ "slug": "2026-27-md6-bayern-leipzig",
+ "score": [
+  6,
+  1
+ ],
+ "outcome": "home",
+ "rps": {
+  "ensemble": 0.0507,
+  "dixonColes": 0.052,
+  "bayesian": 0.0369,
+  "xgboost": 0.0655,
+  "market": 0.025
+ },
+ "exactScore": {
+  "rank": 18,
+  "percent": 1.78
+ },
+ "sideMarkets": {
+  "over25": {
+   "p": 0.7907,
+   "hit": true
+  },
+  "over45": {
+   "p": 0.418,
+   "hit": true
+  },
+  "btts": {
+   "p": 0.6803,
+   "hit": true
+  },
+  "homeByTwo": {
+   "p": 0.5221,
+   "hit": true
+  },
+  "homeByThree": {
+   "p": 0.3336,
+   "hit": true
+  },
+  "awayNoScore": {
+   "p": 0.2825,
+   "hit": false
+  }
+ },
+ "odds": {
+  "published": {
+   "odds": [
+    1.18,
+    9.0,
+    11.0
+   ],
+   "fair": [
+    0.8075,
+    0.1059,
+    0.0866
+   ],
+   "source": "consensus of 21 sportsbooks, margins removed, recorded 2026-10-17 07:29 UTC (market.json); odds are the best German-licensed prices, Tipico 1.18 / 9.00 / 11.00"
+  },
+  "snapshots": [
+   {
+    "consensus": [
+     0.778,
+     0.1246,
+     0.0974
+    ],
+    "books": 21,
+    "margin": 0.0578,
+    "average_odds": [
+     1.22,
+     7.61,
+     9.78
+    ],
+    "pinnacle": [
+     1.22,
+     8.17,
+     10.18
+    ],
+    "reader_best": [
+     {
+      "odds": 1.22,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 8.2,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 9.0,
+      "bookmaker": "Tipico"
+     }
+    ],
+    "taken_at": "2026-10-16T19:15:53Z",
+    "minutes_before": 1274,
+    "reasons": [
+     "manual",
+     "daily"
+    ],
+    "label": "test",
+    "file": "snapshots/2026/10/16/20261016T191553Z.json.gz"
+   },
+   {
+    "consensus": [
+     0.7944,
+     0.1173,
+     0.0883
+    ],
+    "books": 21,
+    "margin": 0.0572,
+    "average_odds": [
+     1.19,
+     8.1,
+     10.8
+    ],
+    "pinnacle": [
+     1.21,
+     8.47,
+     11.18
+    ],
+    "reader_best": [
+     {
+      "odds": 1.18,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 9.0,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 11.0,
+      "bookmaker": "Tipico"
+     }
+    ],
+    "taken_at": "2026-10-17T07:29:49Z",
+    "minutes_before": 540,
+    "reasons": [
+     "manual",
+     "daily"
+    ],
+    "label": "md6 bayern-leipzig post",
+    "file": "snapshots/2026/10/17/20261017T072949Z.json.gz"
+   },
+   {
+    "consensus": [
+     0.7908,
+     0.1186,
+     0.0906
+    ],
+    "books": 21,
+    "margin": 0.0564,
+    "average_odds": [
+     1.2,
+     8.01,
+     10.58
+    ],
+    "pinnacle": [
+     1.22,
+     8.18,
+     10.56
+    ],
+    "reader_best": [
+     {
+      "odds": 1.2,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 8.5,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 10.0,
+      "bookmaker": "Tipico"
+     }
+    ],
+    "taken_at": "2026-10-17T13:11:10Z",
+    "minutes_before": 199,
+    "reasons": [
+     "manual",
+     "close"
+    ],
+    "label": "md6 close",
+    "file": "snapshots/2026/10/17/20261017T131110Z.json.gz"
+   },
+   {
+    "consensus": [
+     0.7824,
+     0.1243,
+     0.0933
+    ],
+    "books": 20,
+    "margin": 0.0576,
+    "average_odds": [
+     1.21,
+     7.64,
+     10.29
+    ],
+    "pinnacle": [
+     1.23,
+     7.65,
+     10.65
+    ],
+    "reader_best": [
+     {
+      "odds": 1.21,
+      "bookmaker": "Winamax"
+     },
+     {
+      "odds": 8.2,
+      "bookmaker": "Tipico"
+     },
+     {
+      "odds": 10.5,
+      "bookmaker": "Tipico"
+     }
+    ],
+    "taken_at": "2026-10-17T16:03:29Z",
+    "minutes_before": 27,
+    "reasons": [
+     "manual",
+     "close"
+    ],
+    "label": "md6 bayern-leipzig close",
+    "file": "snapshots/2026/10/17/20261017T160329Z.json.gz"
+   }
+  ]
+ },
+ "paperBets": [],
+ "understat": {
+  "xg": [
+   4.9,
+   0.7
+  ],
+  "goals": [
+   6,
+   1
+  ],
+  "understat_id": "32288",
+  "xgResultSplit": [
+   0.9817,
+   0.0134,
+   0.0049
+  ]
+ }
+}
