@@ -65,7 +65,8 @@ T = {
         h2h_models="models", h2h_market="bookmakers",
         win="Bayern won", drew="Draw", lost="Leipzig won",
         fav_x="Chance the bookmakers’ favourite wins",
-        fav_rows=["Favourite at 50–60%", "Favourite at 60–70%", "Favourite at 70–80%", "Favourite at 80%+", "Bayern at home"],
+        fav_rows=["Favourite at 50–60%", "Favourite at 60–70%", "Favourite at 70–80%", "Favourite at 80%+", "Bayern at home, all",
+                  "… models 5+ points less sure"],
         n="{n} matches", n_this="{n} matches  ← this match",
         models_said="Models said", bookies_said="Bookmakers said", happened="Actually happened",
         what_moves="What moves {team}’s expected goals",
@@ -85,7 +86,8 @@ T = {
         h2h_models="Modelle", h2h_market="Buchmacher",
         win="Bayern gewann", drew="Remis", lost="Leipzig gewann",
         fav_x="Siegchance des Buchmacher-Favoriten",
-        fav_rows=["Favorit bei 50–60 %", "Favorit bei 60–70 %", "Favorit bei 70–80 %", "Favorit ab 80 %", "Bayern zu Hause"],
+        fav_rows=["Favorit bei 50–60 %", "Favorit bei 60–70 %", "Favorit bei 70–80 %", "Favorit ab 80 %", "Bayern zu Hause, alle",
+                  "… Modelle 5+ Punkte skeptischer"],
         n="{n} Spiele", n_this="{n} Spiele  ← dieses Spiel",
         models_said="Modelle sagten", bookies_said="Buchmacher sagten", happened="Tatsächlich eingetreten",
         what_moves="Was {team}s erwartete Tore bewegt",
@@ -199,6 +201,14 @@ for lo, hi in FAV_BUCKETS:
 bh = o[o.home == HOME]
 fav_rows.append(dict(n=int(len(bh)), models=float(bh.ens_H.mean()), market=float(bh.avgc_H.mean()),
                      actual=float((bh.y == 0).mean())))
+gap_bh = bh.ens_H - bh.avgc_H                       # Bayern at home: models minus bookmakers
+split = []
+for lo, hi in [(-1, -0.05), (-0.05, 0), (0, 1)]:
+    k = (gap_bh >= lo) & (gap_bh < hi)
+    split.append(dict(lo=lo, hi=hi, n=int(k.sum()), models=float(bh.ens_H[k].mean()), market=float(bh.avgc_H[k].mean()),
+                      actual=float((bh.y[k] == 0).mean())))
+N["bayern_home_split"] = split
+fav_rows.append(split[0])                               # the row for tonight: models 5+ points less sure of Bayern
 N["favourites"] = fav_rows
 k = (o.p_mkt >= 0.7) & (o.p_ens - o.p_mkt <= -0.05)
 N["fav_doubted"] = dict(n=int(k.sum()), models=float(o.p_ens[k].mean()), market=float(o.p_mkt[k].mean()),
@@ -559,19 +569,21 @@ def chart_h2h(L):
 def chart_favourites(L):
     t = T[L]
     rows = N["favourites"]
-    fig, ax = plt.subplots(figsize=(8.4, 3.9))
-    ys = [0, 1, 2, 3, 4.35]
+    fig, ax = plt.subplots(figsize=(8.4, 4.5))
+    ys = [0, 1, 2, 3, 4.35, 5.35]
     for y, r in zip(ys, rows):
         vals = [r["models"], r["market"], r["actual"]]
         ax.plot([min(vals), max(vals)], [y, y], color=GRID, linewidth=2.2, zorder=1)
         ax.scatter(r["models"], y, s=80, color=MODEL_C, edgecolor=SURF, linewidth=2, zorder=3)
         ax.scatter(r["market"], y, s=80, color=MUTED, edgecolor=SURF, linewidth=2, zorder=3)
         ax.scatter(r["actual"], y, s=95, color=INK, edgecolor=SURF, linewidth=2, zorder=4, marker="D")
+        if abs(r["market"] - r["actual"]) < 0.008:          # hidden under the diamond: draw it small on top
+            ax.scatter(r["market"], y, s=26, color=MUTED, edgecolor=SURF, linewidth=1, zorder=5)
     ax.set_yticks(ys, t["fav_rows"])
     ax.invert_yaxis()
     ax.set_xlim(0.45, 0.97)
-    for y, r, i in zip(ys, rows, range(5)):
-        lab = t["n_this"] if i in (2, 4) else t["n"]
+    for y, r, i in zip(ys, rows, range(6)):
+        lab = t["n_this"] if i in (2, 5) else t["n"]
         ax.text(0.968, y, lab.format(n=count(r["n"], L)), ha="right", va="center", fontsize=9, color=MUTED)
     ax.axhline(3.68, color=GRID, linewidth=0.8)
     ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: pct(v, L)))

@@ -38,25 +38,25 @@ z
    </g>
    <g id="patch_3">
     <path d="M 84.219062 207.305 
-L 440.200743 207.305 
-L 440.200743 184.985 
+L 447.704726 207.305 
+L 447.704726 184.985 
 L 84.219062 184.985 
 z
 " clip-path="url(#pee9b1aa258)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 440.200743 207.305 
-L 497.212719 207.305 
-L 497.212719 184.985 
-L 440.200743 184.985 
+    <path d="M 447.704726 207.305 
+L 501.376514 207.305 
+L 501.376514 184.985 
+L 447.704726 184.985 
 z
 " clip-path="url(#pee9b1aa258)" style="fill: #9a9aa4; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 497.212719 207.305 
+    <path d="M 501.376514 207.305 
 L 541.779063 207.305 
 L 541.779063 184.985 
-L 497.212719 184.985 
+L 501.376514 184.985 
 z
 " clip-path="url(#pee9b1aa258)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
@@ -870,8 +870,8 @@ z
     </g>
    </g>
    <g id="text_6">
-    <!-- 78 % -->
-    <g style="fill: #ffffff" transform="translate(251.119278 199.555) scale(0.1 -0.1)">
+    <!-- 79 % -->
+    <g style="fill: #ffffff" transform="translate(254.815801 199.555) scale(0.1 -0.1)">
      <defs>
       <path id="DMSans-9ptRegular-129" d="M 998 0 
 L 2643 4019 
@@ -883,49 +883,48 @@ L 1568 0
 L 998 0 
 z
 " transform="scale(0.015625)"/>
-      <path id="DMSans-9ptRegular-12a" d="M 1933 -77 
-Q 1510 -77 1168 86 
-Q 826 250 627 541 
-Q 429 832 429 1216 
-Q 429 1491 534 1728 
-Q 640 1965 825 2141 
-Q 1011 2317 1261 2387 
-Q 922 2515 730 2784 
-Q 538 3053 538 3366 
-Q 538 3699 707 3968 
-Q 877 4237 1190 4397 
-Q 1504 4557 1933 4557 
-Q 2368 4557 2678 4397 
-Q 2989 4237 3155 3968 
-Q 3322 3699 3322 3366 
-Q 3322 3053 3133 2784 
-Q 2944 2515 2605 2387 
-Q 2854 2317 3040 2141 
-Q 3226 1965 3331 1728 
-Q 3437 1491 3437 1216 
-Q 3437 832 3238 541 
-Q 3040 250 2697 86 
-Q 2355 -77 1933 -77 
+      <path id="DMSans-9ptRegular-12b" d="M 1907 -77 
+Q 1491 -77 1187 83 
+Q 883 243 707 512 
+Q 531 781 486 1101 
+L 986 1101 
+Q 1056 762 1299 576 
+Q 1542 390 1914 390 
+Q 2253 390 2509 592 
+Q 2765 794 2921 1200 
+Q 3078 1606 3104 2227 
+Q 3110 2266 3110 2301 
+Q 3110 2336 3110 2374 
+Q 3021 2170 2841 1997 
+Q 2662 1824 2409 1718 
+Q 2157 1613 1843 1613 
+Q 1472 1613 1145 1792 
+Q 819 1971 620 2294 
+Q 422 2618 422 3053 
+Q 422 3430 604 3776 
+Q 787 4122 1123 4339 
+Q 1459 4557 1914 4557 
+Q 2394 4557 2723 4377 
+Q 3053 4198 3248 3894 
+Q 3443 3590 3532 3206 
+Q 3622 2822 3622 2419 
+Q 3622 1683 3420 1120 
+Q 3219 557 2838 240 
+Q 2458 -77 1907 -77 
 z
-M 1933 397 
-Q 2413 397 2656 630 
-Q 2899 864 2899 1248 
-Q 2899 1683 2633 1907 
-Q 2368 2131 1933 2131 
-Q 1498 2131 1232 1907 
-Q 966 1683 966 1248 
-Q 966 864 1206 630 
-Q 1446 397 1933 397 
-z
-M 1933 2579 
-Q 2317 2579 2547 2790 
-Q 2778 3002 2778 3334 
-Q 2778 3712 2550 3904 
-Q 2323 4096 1933 4096 
-Q 1542 4096 1315 3904 
-Q 1088 3712 1088 3334 
-Q 1088 3002 1318 2790 
-Q 1549 2579 1933 2579 
+M 1952 2080 
+Q 2240 2080 2473 2211 
+Q 2707 2342 2841 2569 
+Q 2976 2797 2976 3085 
+Q 2976 3386 2841 3610 
+Q 2707 3834 2473 3958 
+Q 2240 4083 1952 4083 
+Q 1677 4083 1453 3955 
+Q 1229 3827 1097 3603 
+Q 966 3379 966 3078 
+Q 966 2778 1097 2554 
+Q 1229 2330 1453 2205 
+Q 1677 2080 1952 2080 
 z
 " transform="scale(0.015625)"/>
       <path id="DMSans-9ptRegular-141" transform="scale(0.015625)"/>
@@ -994,14 +993,14 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#DMSans-9ptRegular-129"/>
-     <use xlink:href="#DMSans-9ptRegular-12a" transform="translate(52.09375 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(112.5 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(139.40625 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-12b" transform="translate(51.203125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(113.609375 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(140.515625 0)"/>
     </g>
    </g>
    <g id="text_7">
     <!-- 12 % -->
-    <g style="fill: #16161c" transform="translate(458.585637 199.555) scale(0.1 -0.1)">
+    <g style="fill: #16161c" transform="translate(464.419527 199.555) scale(0.1 -0.1)">
      <defs>
       <path id="DMSans-9ptRegular-123" d="M 1152 0 
 L 1152 3878 
@@ -1050,43 +1049,11 @@ z
     </g>
    </g>
    <g id="text_8">
-    <!-- 10 % -->
-    <g style="fill: #ffffff" transform="translate(509.040422 199.555) scale(0.1 -0.1)">
-     <defs>
-      <path id="DMSans-9ptRegular-122" d="M 2106 -77 
-Q 1549 -77 1149 214 
-Q 749 506 531 1027 
-Q 314 1549 314 2240 
-Q 314 2931 531 3452 
-Q 749 3974 1149 4265 
-Q 1549 4557 2106 4557 
-Q 2662 4557 3059 4265 
-Q 3456 3974 3670 3452 
-Q 3885 2931 3885 2240 
-Q 3885 1549 3670 1027 
-Q 3456 506 3059 214 
-Q 2662 -77 2106 -77 
-z
-M 2106 397 
-Q 2458 397 2733 617 
-Q 3008 838 3171 1251 
-Q 3334 1664 3334 2240 
-Q 3334 2822 3171 3232 
-Q 3008 3642 2733 3859 
-Q 2458 4077 2106 4077 
-Q 1747 4077 1465 3859 
-Q 1184 3642 1024 3232 
-Q 864 2822 864 2240 
-Q 864 1664 1024 1251 
-Q 1184 838 1465 617 
-Q 1747 397 2106 397 
-z
-" transform="scale(0.015625)"/>
-     </defs>
-     <use xlink:href="#DMSans-9ptRegular-123"/>
-     <use xlink:href="#DMSans-9ptRegular-122" transform="translate(34.203125 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(99.796875 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(126.703125 0)"/>
+    <!-- 9 % -->
+    <g style="fill: #ffffff" transform="translate(512.991851 199.555) scale(0.1 -0.1)">
+     <use xlink:href="#DMSans-9ptRegular-12b"/>
+     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(62.40625 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(89.3125 0)"/>
     </g>
    </g>
    <g id="text_9">

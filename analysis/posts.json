@@ -19,9 +19,9 @@
       "published": "2026-10-17",
       "minutes": 12,
       "forecast": {
-        "model": [0.71, 0.15, 0.14],
-        "market": [0.778, 0.1246, 0.0974],
-        "marketOdds": [1.22, 8.2, 9.0],
+        "model": [0.712, 0.152, 0.136],
+        "market": [0.7944, 0.1173, 0.0883],
+        "marketOdds": [1.18, 9.0, 11.0],
         "expectedGoals": [2.97, 1.27],
         "mostLikely": {
           "score": [2, 1],
@@ -30,8 +30,8 @@
         "over25": 0.79,
         "btts": 0.68,
         "marketBookmaker": "Tipico",
-        "marketQuoted": "2026-10-16",
-        "marketSnapshot": "2026-10-16T19:15:53Z"
+        "marketQuoted": "2026-10-17",
+        "marketSnapshot": "2026-10-17T07:29:49Z"
       },
       "thumb": {
         "en": "figs/fig1_forecast.svg",

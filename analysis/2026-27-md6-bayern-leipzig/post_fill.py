@@ -74,7 +74,7 @@ def values(L):
     day = _dt.date.fromisoformat(mk["taken_at"][:10])
     V["market_day"] = (f"{day.day} October" if L == "en" else f"{day.day}. Oktober") if day.month == 10 else mk["taken_at"][:10]
     # favourites
-    for name, r in zip(["f50", "f60", "f70", "f80", "bh"], N["favourites"]):
+    for name, r in zip(["f50", "f60", "f70", "f80", "bh", "bhl"], N["favourites"]):
         V[f"{name}_n"] = f"{r['n']:,}".replace(",", ".") if L == "de" else f"{r['n']:,}"
         for k in ["models", "market", "actual"]:
             V[f"{name}_{k}"] = pct(r[k], L)
@@ -83,6 +83,12 @@ def values(L):
         V[f"{name}_n"] = str(r["n"])
         for k in ["models", "market", "actual"]:
             V[f"{name}_{k}"] = pct(r[k], L)
+    for name, r in zip(["bhl", "bhz", "bhm"], N["bayern_home_split"]):
+        V[f"{name}_n"] = str(r["n"])
+        for k in ["models", "market", "actual"]:
+            V[f"{name}_{k}"] = pct(r[k], L)
+    r = N["favourites"][4]
+    V["bh_gap"] = dec((r["market"] - r["models"]) * 100, L, 1)
     r = N["fav_doubted"]
     V["fd_n"] = str(r["n"])
     for k in ["models", "market", "actual"]:

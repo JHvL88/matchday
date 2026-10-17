@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="551.932252pt" height="263.026281pt" viewBox="0 0 551.932252 263.026281" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="552.032096pt" height="263.026281pt" viewBox="0 0 552.032096 263.026281" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -21,8 +21,8 @@
  <g id="figure_1">
   <g id="patch_1">
    <path d="M 0 263.026281 
-L 551.932252 263.026281 
-L 551.932252 0 
+L 552.032096 263.026281 
+L 552.032096 0 
 L 0 0 
 z
 " style="fill: #ffffff"/>
@@ -1793,7 +1793,7 @@ z
 " style="stroke: #5f5f69; stroke-width: 2"/>
     </defs>
     <g clip-path="url(#pb370b2b2ee)">
-     <use xlink:href="#m7309bcd65d" x="457.445011" y="75.019278" style="fill: #ffffff; stroke: #5f5f69; stroke-width: 2"/>
+     <use xlink:href="#m7309bcd65d" x="457.445011" y="69.98362" style="fill: #ffffff; stroke: #5f5f69; stroke-width: 2"/>
     </g>
    </g>
    <g id="PathCollection_12">
@@ -1810,23 +1810,23 @@ z
     </g>
    </g>
    <g id="text_30">
-    <!-- 78 % Buchmacher -->
-    <g style="fill: #5f5f69" transform="translate(465.764284 78.088278) scale(0.09 -0.09)">
+    <!-- 79 % Buchmacher -->
+    <g style="fill: #5f5f69" transform="translate(465.764284 73.05262) scale(0.09 -0.09)">
      <use xlink:href="#DMSans-9ptRegular-129"/>
-     <use xlink:href="#DMSans-9ptRegular-12a" transform="translate(52.09375 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(112.5 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(139.40625 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(221.8125 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-d" transform="translate(248.71875 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-e0" transform="translate(309.3125 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-8b" transform="translate(367.015625 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-a5" transform="translate(424.71875 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-bd" transform="translate(482.921875 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(570.828125 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-8b" transform="translate(625.921875 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-a5" transform="translate(683.625 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-94" transform="translate(741.828125 0)"/>
-     <use xlink:href="#DMSans-9ptRegular-d2" transform="translate(798.421875 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-12b" transform="translate(51.203125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(113.609375 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-1a5" transform="translate(140.515625 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-141" transform="translate(222.921875 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-d" transform="translate(249.828125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-e0" transform="translate(310.421875 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-8b" transform="translate(368.125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-a5" transform="translate(425.828125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-bd" transform="translate(484.03125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(571.9375 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-8b" transform="translate(627.03125 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-a5" transform="translate(684.734375 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-94" transform="translate(742.9375 0)"/>
+     <use xlink:href="#DMSans-9ptRegular-d2" transform="translate(799.53125 0)"/>
     </g>
    </g>
    <g id="text_31">
