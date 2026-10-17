@@ -1,0 +1,60 @@
+{
+ "match": "Bayern Munich v RB Leipzig",
+ "kickoff": "2026-10-17 16:30:00+00:00",
+ "taken_at": "2026-10-16T19:15:53Z",
+ "label": "test",
+ "x12": {
+  "consensus": [
+   0.778,
+   0.1246,
+   0.0974
+  ],
+  "average_odds": [
+   1.22,
+   7.61,
+   9.78
+  ],
+  "margin": 0.0578,
+  "books": 21,
+  "pinnacle": [
+   1.22,
+   8.17,
+   10.18
+  ],
+  "reader_best": [
+   {
+    "odds": 1.22,
+    "bookmaker": "Tipico"
+   },
+   {
+    "odds": 8.2,
+    "bookmaker": "Tipico"
+   },
+   {
+    "odds": 9.0,
+    "bookmaker": "Tipico"
+   }
+  ]
+ },
+ "totals": [
+  {
+   "point": 2.5,
+   "books": 3,
+   "over": 0.8397,
+   "best_over": 1.14,
+   "best_under": 6.06,
+   "reader_over": null,
+   "reader_under": null
+  },
+  {
+   "point": 4.5,
+   "books": 12,
+   "over": 0.5015,
+   "best_over": 1.95,
+   "best_under": 2.0,
+   "reader_over": 1.8,
+   "reader_under": 1.93
+  }
+ ],
+ "source": "The Odds API (EU feed), recorded by the Record odds workflow; derived figures only"
+}
