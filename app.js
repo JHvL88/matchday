@@ -861,8 +861,8 @@ function kickoffLabel(match) {
 }
 
 // Table positions before the selected matchday (empty before the first results).
-function positionsBefore() {
-  const before = calculateStandings(state.matches, state.matchday - 1);
+function positionsBefore(matchday = state.matchday) {
+  const before = calculateStandings(state.matches, matchday - 1);
   return before.some((entry) => entry.played)
     ? new Map(before.map((entry, index) => [Number(entry.team.teamId), { position: index + 1, entry }]))
     : new Map();
@@ -1078,21 +1078,34 @@ function forecastNote(match, forecast) {
   return note;
 }
 
-function renderFeatured(matches) {
-  const candidates = matches
-    .map((match) => ({ match, forecast: forecastFor(match) }))
-    .filter((entry) => entry.forecast?.post)
-    .sort((a, b) => kickoffOf(a.match) - kickoffOf(b.match));
+// When a deep dive last changed: an explicit "updated" time if the post has one, otherwise its
+// full-time review (written after the final whistle, so kick-off plus two hours) or the day it was published.
+function postUpdatedAt(post) {
+  const stamps = [Date.parse(post.updated), Date.parse(`${post.published}T00:00:00Z`)];
+  if (post.fullTime?.score) stamps.push(Date.parse(post.kickoff) + 2 * 60 * 60 * 1000);
+  return Math.max(...stamps.filter(Number.isFinite), 0);
+}
+
+// The newest deep dive, whichever matchday is on screen.
+function latestPost() {
+  return [...state.posts]
+    .filter((post) => post.forecast)
+    .sort((a, b) => postUpdatedAt(b) - postUpdatedAt(a) || Date.parse(b.kickoff) - Date.parse(a.kickoff))[0] ?? null;
+}
+
+function renderFeatured() {
+  const post = latestPost();
+  const match = post && state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
+  const forecast = match ? forecastFor(match) : null;
   const weekend = document.querySelector(".weekend");
-  if (!candidates.length) {
+  if (!post || !match || !forecast?.post) {
     featured.hidden = true;
     featured.replaceChildren();
     weekend.classList.remove("has-featured");
     return;
   }
-  const { match, forecast } = candidates.find((entry) => !getFinalScore(entry.match)) ?? candidates[0];
-  const { post } = forecast;
-  const ranks = positionsBefore();
+  const matchday = matchdayOf(match);
+  const ranks = positionsBefore(matchday);
   const status = getMatchStatus(match);
   const card = createElement("article", "featured-card");
 
@@ -1100,7 +1113,9 @@ function renderFeatured(matches) {
   const when = status === "finished"
     ? t("featured.played", { date: formatBerlinDate(kickoffOf(match), { weekday: "short", day: "numeric", month: "short" }) })
     : kickoffLabel(match);
-  top.append(createElement("p", "featured-tag", [t("featured.tag"), when, post.venue].filter(Boolean).join(" · ")));
+  // Name the matchday when the card is about a different one from the hub beside it.
+  const otherDay = matchday !== state.matchday ? t("hub.title", { matchday }) : null;
+  top.append(createElement("p", "featured-tag", [t("featured.tag"), otherDay, when, post.venue].filter(Boolean).join(" · ")));
   if (post.published) top.append(createElement("span", "featured-lock", t("featured.locked", { date: shortDate(post.published) })));
 
   const teams = createElement("div", "featured-teams");
@@ -2098,7 +2113,7 @@ function renderAll() {
   renderMatches(matches);
   renderStandings(state.venue === "all" ? overall : calculateStandings(state.matches, state.matchday, state.venue));
   renderInsights();
-  renderFeatured(matches);
+  renderFeatured();
   renderOddsSource(matches);
   renderAnalysis();
   renderRecordTeaser();
