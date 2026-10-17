@@ -80,19 +80,23 @@
         "marketBookmaker": "Bet365",
         "marketQuoted": "2026-10-15"
       },
+      "fullTime": {
+        "score": [1, 0],
+        "rps": { "models": 0.328, "market": 0.42 }
+      },
       "thumb": {
         "en": "figs/fig1_forecast.svg",
         "de": "figs/de/fig1_forecast.svg"
       },
       "en": {
-        "tag": "Matchday 6 · Pre-match forecast",
+        "tag": "Matchday 6 · Forecast & full-time review",
         "title": "Hamburg vs Stuttgart: my models pick a fight with the bookies",
-        "desc": "Six points each, very different underlying numbers, and a check of who has been right when the models and the market disagree."
+        "desc": "Six points each, very different underlying numbers, a check of who has been right when the models and the market disagree, and how it ended at 1–0."
       },
       "de": {
-        "tag": "Spieltag 6 · Prognose vor dem Spiel",
+        "tag": "Spieltag 6 · Prognose und Rückblick nach dem Spiel",
         "title": "Hamburg gegen Stuttgart: Meine Modelle legen sich mit den Buchmachern an",
-        "desc": "Je sechs Punkte, sehr unterschiedliche Zahlen dahinter und ein Check, wer recht hatte, wenn Modelle und Markt uneins waren."
+        "desc": "Je sechs Punkte, sehr unterschiedliche Zahlen dahinter, ein Check, wer recht hatte, wenn Modelle und Markt uneins waren, und der Rückblick nach dem 1:0."
       },
       "venue": "Volksparkstadion"
     },

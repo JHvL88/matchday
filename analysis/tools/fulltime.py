@@ -82,7 +82,13 @@ def match_xg(understat_dir, home, away, kickoff):
     if len(r) != 1:
         return None
     r = r.iloc[0]
-    return dict(xg=[round(r.hxg, 2), round(r.axg, 2)], goals=[int(r.hg_u), int(r.ag_u)], understat_id=r.understat_id)
+    out = dict(xg=[round(r.hxg, 2), round(r.axg, 2)], goals=[int(r.hg_u), int(r.ag_u)], understat_id=r.understat_id)
+    for path in glob.glob(os.path.join(understat_dir, "Bundesliga", "*.json")):   # Understat's own result split
+        for e in json.load(open(path, encoding="utf-8")).get("dates", []):
+            if str(e["id"]) == r.understat_id and e.get("forecast"):
+                fc = e["forecast"]
+                out["xgResultSplit"] = [float(fc["w"]), float(fc["d"]), float(fc["l"])]
+    return out
 
 
 def ranked_scores(grid):
@@ -147,6 +153,80 @@ def chart(ranked, score, labels, lang, path, top=12):
     plt.close(fig)
 
 
+WEEKDAY = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "de": ["Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa.", "So."]}
+BLUE, ORANGE = "#2f6fdb", "#c25a00"
+
+
+def views_chart(rows, breakeven, odds, lang, path, color):
+    """Everyone's probability for the outcome that was bet on, top to bottom, with the bet's break-even line.
+
+    rows: (label, probability, kind) with kind in {"model", "market", "after"}."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(7.2, 0.36 * len(rows) + 0.9))
+    ys, y, last = [], 0.0, None
+    for _, _, kind in rows:
+        if last is not None and kind != last:
+            y += 0.45                       # a little air between models, bookmakers and hindsight
+        ys.append(-y)
+        y, last = y + 1, kind
+    ps = [p for _, p, _ in rows] + [breakeven]
+    lo, hi = np.floor(min(ps) * 20 - 0.6) / 20, np.ceil(max(ps) * 20 + 0.6) / 20     # 5-point steps
+    pc = (lambda v: f"{v * 100:.1f}%") if lang == "en" else (lambda v: f"{v * 100:.1f}".replace(".", ",") + "\u00a0%")
+    for t in np.arange(lo, hi + 1e-9, 0.05):
+        ax.axvline(t, color="#ececf0", linewidth=1, zorder=0)
+        ax.text(t, ys[-1] - 0.95, f"{t * 100:.0f}%" if lang == "en" else f"{t * 100:.0f}\u00a0%",
+                ha="center", va="top", fontsize=9, color=MUTED)
+    ax.plot([breakeven, breakeven], [ys[-1] - 0.6, ys[0] + 0.6], color=MUTED, linewidth=1, linestyle=(0, (3, 3)), zorder=1)
+    be = f"break-even at odds {odds:.2f}: {pc(breakeven)}" if lang == "en" else \
+         f"Gewinnschwelle bei Quote {odds:.2f}".replace(".", ",") + f": {pc(breakeven)}"
+    ax.text(breakeven, ys[0] + 0.8, be, ha="center", va="bottom", fontsize=9.5, color=MUTED)
+    gap = (hi - lo) * 0.025
+    for (label, p, kind), yy in zip(rows, ys):
+        ax.scatter([p], [yy], s=70, color=color if kind != "after" else MUTED, edgecolor=SURF, linewidth=1.5, zorder=3)
+        left = p < breakeven              # keep every value label clear of the break-even line
+        ax.text(p - gap if left else p + gap, yy, pc(p), va="center", ha="right" if left else "left", fontsize=10, color=INK)
+    ax.set_yticks(ys, [r[0] for r in rows], fontsize=10)
+    ax.tick_params(axis="y", length=0, colors=INK)
+    ax.set_xticks([])
+    for sp in ax.spines.values():
+        sp.set_visible(False)
+    ax.set_xlim(lo, hi)
+    ax.set_ylim(ys[-1] - 1.3, ys[0] + 1.5)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fig.savefig(path, bbox_inches="tight", pad_inches=0.15, facecolor=SURF)
+    plt.close(fig)
+
+
+def views_rows(res, frozen, lang, pick, published_label, after_label):
+    """The rows for views_chart: published models, frozen xG models, bookmakers over time, hindsight."""
+    i = ["home", "draw", "away"].index(pick)
+    w = WEEKDAY[lang]
+    rows = [(published_label, res["paperBets"][0]["model"], "model")]
+    for fz in frozen:
+        if fz["xg"]:
+            m = fz["fixtures"][0]["models"]["ens"]
+            when = pd.Timestamp(fz["created_at"]).tz_convert("Europe/Berlin")
+            lab = f"xG models (frozen {w[when.weekday()]} {when:%H:%M})" if lang == "en" else \
+                  f"xG-Modelle (eingefroren {w[when.weekday()]} {when:%H:%M})"
+            rows.append((lab, [m["H"], m["D"], m["A"]][i], "model"))
+    pubq = "Bookmakers, Thu (Bet365, in the post)" if lang == "en" else "Buchmacher, Do. (Bet365, im Beitrag)"
+    rows.append((pubq, res["paperBets"][0]["market"], "market"))
+    snaps = res["odds"]["snapshots"]
+    for n, s in enumerate(snaps):
+        t = pd.Timestamp(s["taken_at"]).tz_convert("Europe/Berlin")
+        base = "Bookmakers" if lang == "en" else "Buchmacher"
+        lab = f"{base}, {w[t.weekday()]} {t:%H:%M}"
+        if n == len(snaps) - 1:
+            lab += " (close)" if lang == "en" else " (Schluss)"
+        rows.append((lab, s["consensus"][i], "market"))
+    split = (res.get("understat") or {}).get("xgResultSplit")
+    if split:
+        rows.append((after_label, split[i], "after"))
+    return rows
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("post", help="post folder, e.g. analysis/2026-27-md6-hamburg-stuttgart")
@@ -173,8 +253,8 @@ def main(argv=None):
     # RPS of every published forecaster
     res["rps"] = {k: round(rps(p, y), 4) for k, p in pub["models"].items()}
     res["rps"]["market"] = round(rps(pub["market"], y), 4)
-    for path in a.frozen:
-        fz = json.load(open(path, encoding="utf-8"))
+    frozen = [json.load(open(path, encoding="utf-8")) for path in a.frozen]
+    for fz in frozen:
         fx = fz["fixtures"][0]
         for k, m in fx["models"].items():
             res["rps"][f"frozen_{'xg' if fz['xg'] else 'pre_xg'}_{k}"] = round(rps([m["H"], m["D"], m["A"]], y), 4)
@@ -218,6 +298,14 @@ def main(argv=None):
     labels = a.labels or [pub["home"], pub["away"]]
     for lang, sub in (("en", ""), ("de", "de")):
         chart(ranked, (hg, ag), labels, lang, os.path.join(a.post, "figs", sub, f"fig{a.fig}_fulltime.svg"))
+    if bets:   # how everyone rated the outcome that was bet on, against the bet's break-even
+        b = bets[0]
+        colour = {"home": BLUE, "away": ORANGE}.get(b["pick"], MUTED)
+        for lang, sub in (("en", ""), ("de", "de")):
+            rows = views_rows(res, frozen, lang, b["pick"],
+                              "My models (Thu, published)" if lang == "en" else "Meine Modelle (Do., veröffentlicht)",
+                              "The chances, in hindsight (Understat xG)" if lang == "en" else "Die Chancen im Nachhinein (Understat-xG)")
+            views_chart(rows, 1 / b["odds"], b["odds"], lang, os.path.join(a.post, "figs", sub, f"fig{a.fig + 1}_views.svg"), colour)
     out = os.path.join(a.post, "fulltime.json")
     json.dump(res, open(out, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     print(json.dumps(res, indent=1, ensure_ascii=False))
