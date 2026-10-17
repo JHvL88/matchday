@@ -174,6 +174,24 @@ def values(L):
     for side in ["home", "away"]:
         for i, (feat, mult, val) in enumerate(N["xgb_drivers"][side][:3], 1):
             V[f"xgb_{side}{i}_mult"] = dec(mult, L)
+    # full time (fulltime.json, written by analysis/tools/fulltime.py after the match)
+    ft_path = os.path.join(POST, "fulltime.json")
+    if os.path.exists(ft_path):
+        FT = json.load(open(ft_path, encoding="utf-8"))
+        V["ft_score"] = score(FT["score"], L)
+        for k, v in FT["rps"].items():
+            V[f"ft_rps_{k}"] = dec(v, L, 3)
+        V["ft_rank"] = str(FT["exactScore"]["rank"])
+        V["ft_p"] = pct(FT["exactScore"]["percent"] / 100, L, 1)
+        u = FT["understat"]
+        V["ft_xg_h"], V["ft_xg_a"] = dec(u["xg"][0], L), dec(u["xg"][1], L)
+        V["ft_xgwin"] = pct(u["xgResultSplit"][0], L)
+        close = FT["odds"]["snapshots"][-1]
+        V["ft_close_H"], V["ft_close_A"] = pct(close["consensus"][0], L, 1), pct(close["consensus"][2], L, 1)
+        V["ft_close_A_dec"] = dec(close["consensus"][2], L, 4)
+        V["ft_close_min"], V["ft_close_books"] = str(close["minutes_before"]), str(close["books"])
+        clv = mk["reader_best"][2]["odds"] * close["consensus"][2] - 1      # a Leipzig ticket at the best reader price
+        V["ft_clv_A"] = ("+" if clv >= 0 else "−") + pct(abs(clv), L, 1)
     return V
 
 

@@ -33,19 +33,23 @@
         "marketQuoted": "2026-10-17",
         "marketSnapshot": "2026-10-17T07:29:49Z"
       },
+      "fullTime": {
+        "score": [6, 1],
+        "rps": { "models": 0.051, "market": 0.025 }
+      },
       "thumb": {
         "en": "figs/fig1_forecast.svg",
         "de": "figs/de/fig1_forecast.svg"
       },
       "en": {
-        "tag": "Matchday 6 · Pre-match forecast",
+        "tag": "Matchday 6 · Forecast & full-time review",
         "title": "Bayern vs Leipzig: my models are scared of heights",
-        "desc": "The bookmakers expect Bayern to win and goals to fly. My models are more cautious. Seven seasons of data say they shouldn’t be."
+        "desc": "The bookmakers expected Bayern to win and goals to fly. My models were more cautious. Seven seasons of data said they shouldn’t be, and a 6–1 agreed."
       },
       "de": {
-        "tag": "Spieltag 6 · Prognose vor dem Spiel",
+        "tag": "Spieltag 6 · Prognose und Rückblick nach dem Spiel",
         "title": "Bayern gegen Leipzig: Meine Modelle haben Höhenangst",
-        "desc": "Die Buchmacher erwarten einen Bayern-Sieg und viele Tore. Meine Modelle sind vorsichtiger. Sieben Spielzeiten Daten sagen: zu Unrecht."
+        "desc": "Die Buchmacher erwarteten einen Bayern-Sieg und viele Tore. Meine Modelle waren vorsichtiger. Sieben Spielzeiten Daten sagten: zu Unrecht. Das 6:1 auch."
       },
       "venue": "Allianz Arena"
     },

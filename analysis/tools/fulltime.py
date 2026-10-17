@@ -265,10 +265,9 @@ def main(argv=None):
     res["exactScore"] = dict(rank=pos[0], percent=ranked[pos[0] - 1][2]) if pos else dict(rank=None, percent="<0.5")
 
     # Side markets
-    sm = pub["sideMarkets"]
-    res["sideMarkets"] = dict(over25=dict(p=sm["over25"], hit=hg + ag > 2), btts=dict(p=sm["btts"], hit=hg > 0 and ag > 0),
-                              homeByTwo=dict(p=sm["homeByTwo"], hit=hg - ag >= 2), awayByTwo=dict(p=sm["awayByTwo"], hit=ag - hg >= 2),
-                              oneGoalGame=dict(p=sm["oneGoalGame"], hit=abs(hg - ag) == 1))
+    rules = dict(over25=hg + ag > 2, over45=hg + ag > 4, btts=hg > 0 and ag > 0, homeByTwo=hg - ag >= 2,
+                 homeByThree=hg - ag >= 3, awayByTwo=ag - hg >= 2, oneGoalGame=abs(hg - ag) == 1, awayNoScore=ag == 0)
+    res["sideMarkets"] = {k: dict(p=v, hit=bool(rules[k])) for k, v in pub["sideMarkets"].items()}
 
     # Odds over time, paper bet and CLV
     snaps = snapshots_for(a.odds, pub["home"], pub["away"], kickoff) if a.odds else []
