@@ -51,7 +51,15 @@
         "title": "Bayern gegen Leipzig: Meine Modelle haben Höhenangst",
         "desc": "Die Buchmacher erwarteten einen Bayern-Sieg und viele Tore. Meine Modelle waren vorsichtiger. Sieben Spielzeiten Daten sagten: zu Unrecht. Das 6:1 auch."
       },
-      "venue": "Allianz Arena"
+      "venue": "Allianz Arena",
+      "closing": {
+        "odds": [1.23, 7.25, 9.03],
+        "source": {
+          "en": "market average at kick-off (football-data.co.uk)",
+          "de": "Marktdurchschnitt zum Anpfiff (football-data.co.uk)"
+        },
+        "file": "football-data/2627/D1.csv#L53"
+      }
     },
     {
       "slug": "2026-27-md6-hamburg-stuttgart",
@@ -102,7 +110,15 @@
         "title": "Hamburg gegen Stuttgart: Meine Modelle legen sich mit den Buchmachern an",
         "desc": "Je sechs Punkte, sehr unterschiedliche Zahlen dahinter, ein Check, wer recht hatte, wenn Modelle und Markt uneins waren, und der Rückblick nach dem 1:0."
       },
-      "venue": "Volksparkstadion"
+      "venue": "Volksparkstadion",
+      "closing": {
+        "odds": [4.26, 4.28, 1.69],
+        "source": {
+          "en": "market average at kick-off (football-data.co.uk)",
+          "de": "Marktdurchschnitt zum Anpfiff (football-data.co.uk)"
+        },
+        "file": "football-data/2627/D1.csv#L49"
+      }
     },
     {
       "slug": "2026-27-md5-augsburg-bayern",
