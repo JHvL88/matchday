@@ -50,6 +50,6 @@ ok football-data/2425/D1.csv   156414 bytes  sha256 a295c58033cf
 ok football-data/2425/D2.csv   157178 bytes  sha256 781b239e2699
 ok football-data/2526/D1.csv   159944 bytes  sha256 618301a4b399
 ok football-data/2526/D2.csv   157989 bytes  sha256 8bfb275286d7
-ok football-data/2627/D1.csv    26278 bytes  sha256 79f84b0b65ac
-ok football-data/2627/D2.csv    35071 bytes  sha256 a3978ef886d8
+ok football-data/2627/D1.csv    30516 bytes  sha256 313040382632
+ok football-data/2627/D2.csv    39392 bytes  sha256 4ada10419e6d
 54 files saved, 0 failed -> /home/runner/work/_temp/out/manifest.json
