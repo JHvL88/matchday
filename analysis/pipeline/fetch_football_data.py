@@ -1,10 +1,14 @@
-"""Download Bundesliga (D1) and 2. Bundesliga (D2) season files from football-data.co.uk.
+"""Download season files from football-data.co.uk: the Bundesliga and 2. Bundesliga by default,
+and with --leagues the top two tiers of England, Spain, Italy and France as well.
 
 Files are saved byte-for-byte as served, next to a manifest with a SHA-256 checksum per file,
 so every number in a forecast can be traced back to an exact source file.
 
-    python analysis/pipeline/fetch_football_data.py --out source            # all seasons
-    python analysis/pipeline/fetch_football_data.py --out source --from 2019 # 2019/20 onwards
+    python analysis/pipeline/fetch_football_data.py --out source              # Germany, all seasons
+    python analysis/pipeline/fetch_football_data.py --out source --from 2019   # 2019/20 onwards
+    python analysis/pipeline/fetch_football_data.py --out source --leagues all # all five leagues
+
+The other leagues start in 2005/06: nothing in the pipeline reads further back (build_matches.py).
 
 Runs anywhere with internet access: Google Colab, GitHub Actions, a laptop.
 Only the standard library is used.
@@ -19,9 +23,13 @@ import time
 import urllib.error
 import urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from leagues import HOME, divisions, league_names  # noqa: E402
+
 BASE = "https://www.football-data.co.uk/mmz4281/{code}/{div}.csv"
-DIVISIONS = ("D1", "D2")
+DIVISIONS = divisions(HOME)  # ("D1", "D2")
 FIRST_SEASON = 2000          # 2000/01
+FIRST_SEASON_OTHER = 2005    # 2005/06, for the leagues other than Germany
 USER_AGENT = "Mozilla/5.0 (compatible; jans-matchday-data/1.0; +https://jhvl88.github.io/matchday/)"
 
 
@@ -65,44 +73,49 @@ def main(argv=None):
     ap.add_argument("--to", dest="last", type=int, default=None, help="last season start year (default: current)")
     ap.add_argument("--pause", type=float, default=2.0, help="seconds between requests (be polite)")
     ap.add_argument("--max-failures", type=int, default=3, help="stop after this many failures in a row (blocked network)")
+    ap.add_argument("--leagues", nargs="+", default=[HOME], help="GER ENG ESP ITA FRA, or all (default: GER)")
     args = ap.parse_args(argv)
 
     last = args.last or current_season()
     files, failed, streak = [], [], 0
-    for season in range(args.first, last + 1):
+    # Germany first and in the order it always had, then the other leagues one by one
+    todo = [(season, div) for season in range(args.first, last + 1) for div in DIVISIONS
+            if HOME in league_names(args.leagues)]
+    todo += [(season, div) for league in league_names(args.leagues) if league != HOME
+             for season in range(max(args.first, FIRST_SEASON_OTHER), last + 1) for div in divisions(league)]
+    for season, div in todo:
         code = season_code(season)
-        for div in DIVISIONS:
-            if streak >= args.max_failures:
-                break
-            url = BASE.format(code=code, div=div)
-            rel = f"football-data/{code}/{div}.csv"
-            try:
-                body, headers = download(url)
-            except Exception as e:  # noqa: BLE001 - record and carry on, fail at the end
-                print(f"FAILED {rel}: {e}", flush=True)
-                failed.append(dict(path=rel, url=url, error=str(e)))
-                streak += 1
-                continue
-            streak = 0
-            path = os.path.join(args.out, rel)
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "wb") as f:
-                f.write(body)
-            files.append(dict(
-                path=rel, url=url, season=season, division=div, bytes=len(body),
-                sha256=hashlib.sha256(body).hexdigest(),
-                last_modified=headers.get("Last-Modified"), etag=headers.get("ETag"),
-                fetched_at=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-            ))
-            print(f"ok {rel}  {len(body):>7} bytes  sha256 {files[-1]['sha256'][:12]}", flush=True)
-            time.sleep(args.pause)
+        if streak >= args.max_failures:
+            break
+        url = BASE.format(code=code, div=div)
+        rel = f"football-data/{code}/{div}.csv"
+        try:
+            body, headers = download(url)
+        except Exception as e:  # noqa: BLE001 - record and carry on, fail at the end
+            print(f"FAILED {rel}: {e}", flush=True)
+            failed.append(dict(path=rel, url=url, error=str(e)))
+            streak += 1
+            continue
+        streak = 0
+        path = os.path.join(args.out, rel)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "wb") as f:
+            f.write(body)
+        files.append(dict(
+            path=rel, url=url, season=season, division=div, bytes=len(body),
+            sha256=hashlib.sha256(body).hexdigest(),
+            last_modified=headers.get("Last-Modified"), etag=headers.get("ETag"),
+            fetched_at=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+        ))
+        print(f"ok {rel}  {len(body):>7} bytes  sha256 {files[-1]['sha256'][:12]}", flush=True)
+        time.sleep(args.pause)
 
     if streak >= args.max_failures:
         print(f"{streak} failures in a row: is football-data.co.uk reachable from here? Stopped early.", flush=True)
     manifest = dict(
         source="football-data.co.uk (results, match statistics and odds; see https://www.football-data.co.uk/notes.txt)",
         created_at=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-        seasons=[args.first, last], files=files, failed=failed,
+        seasons=[args.first, last], leagues=league_names(args.leagues), files=files, failed=failed,
     )
     os.makedirs(args.out, exist_ok=True)
     with open(os.path.join(args.out, "manifest.json"), "w") as f:

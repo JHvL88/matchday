@@ -2,6 +2,15 @@
 
 Every row keeps a pointer to its source file and row, so any number can be traced back.
 
+Other leagues (--league ENG, ESP, ITA or FRA; see leagues.py) get a table of the same shape, one
+league per table. In every table `div` is the tier: D1 for the top flight, D2 for the second tier,
+whatever the country, so the models run on any of them unchanged. `fd_div` keeps football-data's
+own code (E0, SP2, ...) and `league` the league.
+
+`season` is the pipeline's season, July to June by match date, as the models count time. It equals
+the season of the source file (`fd_season`) except for the 2019/20 matches England, Spain and Italy
+played in July and August 2020 after the lockdown, which count as 2020 here.
+
 Odds columns (decimal, home/draw/away), where football-data has them:
   avgc_*   market average, closing        <- the benchmark ("the market") from 2019/20 on
   avg_*    market average, pre-closing    (BbAv* before 2019/20)
@@ -22,6 +31,9 @@ import sys
 
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from leagues import HOME, LEAGUES, divisions  # noqa: E402
 
 PINNACLE_STALE_FROM = pd.Timestamp("2025-07-23")
 GHOST_GAMES = (pd.Timestamp("2020-05-16"), pd.Timestamp("2021-07-31"))   # behind closed doors
@@ -86,12 +98,21 @@ def standardise(f, div, rel_path):
     return out
 
 
-def build(source_dir, first_season=2005):
+def build(source_dir, first_season=2005, league=HOME):
     frames = []
-    for path in sorted(glob.glob(os.path.join(source_dir, "football-data", "*", "D[12].csv"))):
+    tiers = dict(zip(divisions(league), ("D1", "D2")))       # football-data's code -> tier
+    paths = [p for code in tiers for p in glob.glob(os.path.join(source_dir, "football-data", "*", f"{code}.csv"))]
+    if not paths:
+        raise FileNotFoundError(f"no {' / '.join(tiers)} files under {source_dir}/football-data "
+                                f"(fetch_football_data.py --leagues {league})")
+    for path in sorted(paths, key=lambda p: (os.path.basename(os.path.dirname(p)), tiers[os.path.basename(p)[:-4]])):
         rel = os.path.relpath(path, source_dir)
-        div = os.path.basename(path)[:2]
-        frames.append(standardise(read_season_file(path), div, rel))
+        code = os.path.basename(path)[:-4]
+        f = standardise(read_season_file(path), tiers[code], rel)
+        f["league"], f["fd_div"] = league, code
+        yy = int(os.path.basename(os.path.dirname(path))[:2])
+        f["fd_season"] = (1900 if yy >= 90 else 2000) + yy      # the season of the file; see `season` below
+        frames.append(f)
     df = pd.concat(frames, ignore_index=True)
     df["season"] = season_of(df.date)
     df = df[df.season >= first_season]
@@ -117,19 +138,22 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("source")
     ap.add_argument("out")
+    ap.add_argument("--league", default=HOME, choices=list(LEAGUES), help="which league's table to build (default: GER)")
     ap.add_argument("--understat", help="add match xG (hxg, axg) from this Understat folder; matches Understat "
                                         "lacks are filled from football-data's xG columns")
     ap.add_argument("--understat-only", action="store_true", help="with --understat: don't fill from football-data")
     a = ap.parse_args()
     out = a.out
-    df = build(a.source)
+    if a.understat and a.league != HOME:
+        raise SystemExit("--understat: only the Bundesliga's Understat files are fetched")
+    df = build(a.source, league=a.league)
     if a.understat:
         from understat import add_xg
         df = add_xg(df, a.understat, fallback=not a.understat_only)
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     df.to_csv(out, index=False)
     d1 = df[df["div"] == "D1"]
-    print(f"{len(df)} matches ({len(d1)} D1, {len(df) - len(d1)} D2), seasons {df.season.min()}-{df.season.max()}")
+    print(f"{a.league}: {len(df)} matches ({len(d1)} D1, {len(df) - len(d1)} D2), seasons {df.season.min()}-{df.season.max()}")
     cov = d1.groupby("season").agg(n=("hg", "size"), sot=("hst", lambda x: x.notna().mean()),
                                     avgc=("avgc_h", lambda x: x.notna().mean()), b365=("b365_h", lambda x: x.notna().mean()))
     print(cov.tail(10).round(3).to_string())
