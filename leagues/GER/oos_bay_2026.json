@@ -1,0 +1,37 @@
+{
+ "model": "bayes",
+ "xg": false,
+ "seasons": [
+  2026
+ ],
+ "matches_file": "GER.csv",
+ "bayes_fits": [
+  {
+   "month": "2026-08",
+   "matches": 9,
+   "seconds": 156,
+   "divergences": 0
+  },
+  {
+   "month": "2026-09",
+   "matches": 27,
+   "seconds": 133,
+   "divergences": 0
+  },
+  {
+   "month": "2026-10",
+   "matches": 34,
+   "seconds": 125,
+   "divergences": 0
+  },
+  {
+   "month": "2026-11",
+   "matches": 11,
+   "seconds": 149,
+   "divergences": 2
+  }
+ ],
+ "bayes_warmup": 250,
+ "bayes_samples": 250,
+ "seconds": 565
+}

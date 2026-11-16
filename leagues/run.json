@@ -1,0 +1,18 @@
+{
+ "variant": "leagues",
+ "code_commit": "4c1d3fbc439affddacb61c27d64271c43e4140f9",
+ "code_ref": "feature/top-leagues",
+ "source_data_commit": "08f400c56187a033afd7bc4d50a8e78a780bd154",
+ "run_id": "43925210075",
+ "seasons": [
+  2019,
+  2026
+ ],
+ "jobs": {
+  "prepare": "success",
+  "dc-xgb": "success",
+  "bayes": "success",
+  "pooled": "success"
+ },
+ "finished_at": "2026-11-16T19:29:58+00:00"
+}

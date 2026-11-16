@@ -1,0 +1,73 @@
+{
+ "model": "bayes",
+ "xg": false,
+ "seasons": [
+  2021
+ ],
+ "matches_file": "FRA.csv",
+ "bayes_fits": [
+  {
+   "month": "2021-08",
+   "matches": 39,
+   "seconds": 171,
+   "divergences": 2
+  },
+  {
+   "month": "2021-09",
+   "matches": 40,
+   "seconds": 216,
+   "divergences": 31
+  },
+  {
+   "month": "2021-10",
+   "matches": 41,
+   "seconds": 175,
+   "divergences": 3
+  },
+  {
+   "month": "2021-11",
+   "matches": 29,
+   "seconds": 184,
+   "divergences": 7
+  },
+  {
+   "month": "2021-12",
+   "matches": 39,
+   "seconds": 177,
+   "divergences": 0
+  },
+  {
+   "month": "2022-01",
+   "matches": 31,
+   "seconds": 181,
+   "divergences": 11
+  },
+  {
+   "month": "2022-02",
+   "matches": 41,
+   "seconds": 187,
+   "divergences": 20
+  },
+  {
+   "month": "2022-03",
+   "matches": 30,
+   "seconds": 195,
+   "divergences": 8
+  },
+  {
+   "month": "2022-04",
+   "matches": 53,
+   "seconds": 244,
+   "divergences": 0
+  },
+  {
+   "month": "2022-05",
+   "matches": 37,
+   "seconds": 199,
+   "divergences": 9
+  }
+ ],
+ "bayes_warmup": 250,
+ "bayes_samples": 250,
+ "seconds": 1930
+}

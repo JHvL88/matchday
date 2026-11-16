@@ -1,0 +1,73 @@
+{
+ "model": "bayes",
+ "xg": false,
+ "seasons": [
+  2023
+ ],
+ "matches_file": "GER.csv",
+ "bayes_fits": [
+  {
+   "month": "2023-08",
+   "matches": 18,
+   "seconds": 80,
+   "divergences": 0
+  },
+  {
+   "month": "2023-09",
+   "matches": 34,
+   "seconds": 83,
+   "divergences": 2
+  },
+  {
+   "month": "2023-10",
+   "matches": 29,
+   "seconds": 124,
+   "divergences": 12
+  },
+  {
+   "month": "2023-11",
+   "matches": 27,
+   "seconds": 88,
+   "divergences": 0
+  },
+  {
+   "month": "2023-12",
+   "matches": 35,
+   "seconds": 90,
+   "divergences": 6
+  },
+  {
+   "month": "2024-01",
+   "matches": 27,
+   "seconds": 115,
+   "divergences": 0
+  },
+  {
+   "month": "2024-02",
+   "matches": 37,
+   "seconds": 112,
+   "divergences": 24
+  },
+  {
+   "month": "2024-03",
+   "matches": 36,
+   "seconds": 98,
+   "divergences": 0
+  },
+  {
+   "month": "2024-04",
+   "matches": 36,
+   "seconds": 157,
+   "divergences": 0
+  },
+  {
+   "month": "2024-05",
+   "matches": 27,
+   "seconds": 129,
+   "divergences": 0
+  }
+ ],
+ "bayes_warmup": 250,
+ "bayes_samples": 250,
+ "seconds": 1077
+}
