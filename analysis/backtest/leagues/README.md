@@ -158,7 +158,9 @@ python analysis/pipeline/evaluate_leagues.py /tmp/tables /tmp/results/leagues an
 python analysis/pipeline/make_league_figures.py analysis/backtest/leagues/results.json analysis/backtest/leagues/figs
 ```
 
-To rerun the models themselves: Actions › **Backtest (leagues)** › Run workflow (about 50 jobs, an hour and a half).
+Or open [`leagues.ipynb`](leagues.ipynb) in Google Colab: it rebuilds the tables, refits the pooled XGBoost (on a GPU if there is one), grades everything and draws the charts in about ten minutes, with switches to refit the other models too.
+
+To rerun the models themselves on GitHub: Actions › **Backtest (leagues)** › Run workflow (about 50 jobs, an hour and a half).
 
 ## What happens next
 
