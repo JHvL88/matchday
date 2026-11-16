@@ -73,12 +73,17 @@ def test_missing_league_files_say_what_to_fetch(tmp_path):
 
 
 def season_rows(teams, season, rng, strength):
-    """A double round robin with goals driven by fixed team strengths."""
+    """A double round robin, one round every three days (no team plays twice on a day), goals from fixed strengths."""
+    order, rounds = list(teams), []
+    for _ in range(len(teams) - 1):                                   # the circle method
+        rounds.append([(order[i], order[-1 - i]) for i in range(len(teams) // 2)])
+        order = [order[0], order[-1]] + order[1:-1]
+    rounds += [[(a, h) for h, a in r] for r in rounds]
     rows, day = [], pd.Timestamp(f"{season}-08-10")
-    for i, (h, a) in enumerate(itertools.permutations(teams, 2)):
-        lam_h, lam_a = np.exp(0.25 + strength[h] - strength[a]), np.exp(strength[a] - strength[h])
-        hg, ag = rng.poisson(lam_h), rng.poisson(lam_a)
-        rows.append(f"{(day + pd.Timedelta(days=3 * (i // 4))):%d/%m/%Y},{h},{a},{hg},{ag}")
+    for i, pairs in enumerate(rounds):
+        for h, a in pairs:
+            lam_h, lam_a = np.exp(0.25 + strength[h] - strength[a]), np.exp(strength[a] - strength[h])
+            rows.append(f"{(day + pd.Timedelta(days=3 * i)):%d/%m/%Y},{h},{a},{rng.poisson(lam_h)},{rng.poisson(lam_a)}")
     return rows
 
 
@@ -104,3 +109,54 @@ def test_pooled_trainer_uses_every_league_and_keeps_own_models_separate(tmp_path
     alone, _, n_alone = pooled_xgb.walk_forward({"ENG": tables["ENG"]}, [2012], log=lambda m: None)
     eng = out[out.league == "ENG"].set_index("key").loc[alone.key]
     assert np.allclose(eng.xgbo_lh.values, alone.xgbo_lh.values) and n_pool == 2 * n_alone
+
+
+def synthetic_tables(tmp_path, seasons=range(2008, 2013)):
+    rng = np.random.default_rng(3)
+    tables = {}
+    for league, (top, second, _) in list(LEAGUES.items())[:2]:
+        teams = [f"{league}{i}" for i in range(8)]
+        strength = dict(zip(teams, np.linspace(-0.5, 0.5, 8)))
+        for season in seasons:
+            write(tmp_path, f"{season % 100:02d}{(season + 1) % 100:02d}", top, season_rows(teams, season, rng, strength))
+        path = tmp_path / f"{league}.csv"
+        build_matches.build(str(tmp_path), league=league).to_csv(path, index=False)
+        tables[league] = str(path)
+    return tables
+
+
+def test_publish_writes_one_league_in_the_backtests_format(tmp_path):
+    pytest.importorskip("xgboost")
+    import pooled_xgb
+    tables = synthetic_tables(tmp_path)
+    out, pub = tmp_path / "out" / "pooled.csv", tmp_path / "out" / "oos_xgb.csv"
+    pooled_xgb.main([str(out), "--seasons", "2012", "2012", "--table", "GER", tables["GER"], "--table", "ENG", tables["ENG"],
+                     "--publish", "GER", str(pub)])
+    full, one = pd.read_csv(out), pd.read_csv(pub)
+    assert list(one.columns) == ["key", "xgb_lh", "xgb_la"] and len(one) == 56
+    ger = full[full.league == "GER"].set_index("key").loc[one.key]
+    assert np.allclose(one.xgb_lh.values, ger.xgbp_lh.values) and np.allclose(one.xgb_la.values, ger.xgbp_la.values)
+    meta = __import__("json").load(open(tmp_path / "out" / "oos_xgb.json"))
+    assert meta["pooled_over"] == ["GER", "ENG"] and list(meta["xgb_rounds"]) == ["2012"]
+
+
+def test_forecast_pools_only_when_asked_and_matches_the_backtest(tmp_path, monkeypatch):
+    pytest.importorskip("xgboost")
+    import forecast
+    import pooled_xgb
+    tables = synthetic_tables(tmp_path)
+    monkeypatch.setattr(pooled_xgb, "LEAGUES", dict(list(LEAGUES.items())[:2]))      # two leagues in this little world
+    monkeypatch.setattr(pooled_xgb, "INDICATORS", ["lg_GER", "lg_ENG"])
+    import leagues
+    monkeypatch.setattr(leagues, "LEAGUES", dict(list(LEAGUES.items())[:2]))
+    backtest, _, _ = pooled_xgb.walk_forward(tables, [2012], log=lambda m: None)
+    ger = pd.read_csv(tables["GER"], parse_dates=["date"])
+    match = ger[ger.season == 2012].iloc[30]
+    history = ger[ger.date < match.date].reset_index(drop=True)
+    fixture = [dict(date=match.date, home=match.home, away=match.away)]
+    pooled, _, n_pooled = forecast.xgb_rates(history, fixture, 2012, False, str(tmp_path))
+    own, _, n_own = forecast.xgb_rates(history, fixture, 2012, False)
+    row = backtest[(backtest.league == "GER") & (backtest.key == f"{match.date:%Y-%m-%d}|{match.home}|{match.away}")].iloc[0]
+    assert np.allclose(pooled[0], [row.xgbp_lh, row.xgbp_la], atol=1e-5)      # a live forecast is made the way the backtest graded it
+    assert np.allclose(own[0], [row.xgbo_lh, row.xgbo_la], atol=1e-5)
+    assert n_pooled == 2 * n_own
