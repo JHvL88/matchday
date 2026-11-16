@@ -96,12 +96,12 @@ def main(argv=None):
     for league, o in per.items():
         b = block(o)
         b.update(name=LEAGUES[league][2], dc_xi=meta[league].get("dc_xi"), dc_xi_scores=meta[league].get("dc_xi_scores"),
-                 per_season=[dict(season=int(s), n=int(len(g)), **diff(g, "avgc", "ens")) for s, g in o.groupby("season")],
+                 per_season=[dict(season=int(s), **diff(g, "avgc", "ens")) for s, g in o.groupby("season")],
                  disagreement=disagreement(o, ["dc", "bay", "xgb"]),
                  goals_per_match=float((o.hg + o.ag).mean()), home_wins=float((o.hg > o.ag).mean()))
         res["leagues"][league] = b
     res["new_four"], res["all_five"] = block(new), block(everything)
-    res["all_five"]["per_season"] = [dict(season=int(s), n=int(len(g)), **diff(g, "avgc", "ens"))
+    res["all_five"]["per_season"] = [dict(season=int(s), **diff(g, "avgc", "ens"))
                                      for s, g in everything.groupby("season")]
     res["all_five"]["disagreement"] = disagreement(everything, ["dc", "bay", "xgb"])
     res["new_four"]["disagreement"] = disagreement(new, ["dc", "bay", "xgb"])
