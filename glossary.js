@@ -79,7 +79,7 @@ window.GLOSSARY = {
     xgboost: {
       term: "XGBoost",
       short: "A machine-learning method that builds many small decision trees. Here it predicts each side’s goals from 30 pre-match features such as Elo, form and rest days.",
-      read: "It finds patterns the other two models are not built to see, but it needs a lot of data and can chase noise.",
+      read: "It finds patterns the other two models are not built to see, but it needs a lot of data and can chase noise. That is why it learns from the top leagues of five countries, not the Bundesliga alone.",
     },
     ensemble: {
       term: "Ensemble",
@@ -186,7 +186,7 @@ window.GLOSSARY = {
     xgboost: {
       term: "XGBoost",
       short: "Ein Verfahren des maschinellen Lernens aus vielen kleinen Entscheidungsbäumen. Hier sagt es die Tore jeder Seite aus 30 Merkmalen vor dem Spiel voraus, etwa Elo, Form und Ruhetage.",
-      read: "Es findet Muster, für die die anderen beiden Modelle nicht gebaut sind, braucht aber viele Daten und kann Zufall hinterherlaufen.",
+      read: "Es findet Muster, für die die anderen beiden Modelle nicht gebaut sind, braucht aber viele Daten und kann Zufall hinterherlaufen. Deshalb lernt es aus den ersten Ligen von fünf Ländern, nicht nur aus der Bundesliga.",
     },
     ensemble: {
       term: "Ensemble",

@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="../analysis/analysis.css?v=3">
     <link rel="stylesheet" href="../pages.css?v=2">
     <script src="../i18n.js?v=13" defer></script>
-    <script src="../glossary.js?v=12" defer></script>
+    <script src="../glossary.js?v=13" defer></script>
     <script src="../explain.js?v=10" defer></script>
     <script src="learn.js?v=1" defer></script>
   </head>
@@ -100,7 +100,7 @@
                 <div class="model-grid">
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="dixon-coles">Dixon–Coles</button></p><p>Goals in, goals out. Every club gets an attack and a defence rating from its results, with recent matches counting more. Old, simple and annoyingly hard to beat.</p></div>
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="bayesian-model">Shots to goals</button></p><p>A Bayesian model in two steps: how many shots on target each side creates, then how many go in. Shots are less noisy than goals, so it spots teams whose results run ahead of their chances.</p></div>
-                  <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Machine learning on 30 pre-match numbers: Elo rating, recent form in goals and shots, rest days, promoted or not. It finds patterns the other two can’t see, and now and then patterns that aren’t there.</p></div>
+                  <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Machine learning on 30 pre-match numbers: Elo rating, recent form in goals and shots, rest days, promoted or not. It finds patterns the other two can’t see, and now and then patterns that aren’t there. It needs a lot of matches, so it learns from five countries’ top leagues, not the Bundesliga alone.</p></div>
                   <div class="model-card is-key"><p class="model-name"><button type="button" class="term" data-term="ensemble">The ensemble</button></p><p>The plain average of the three, and the forecast I publish. The weights were fixed before any results came in: less clever than tuning them, much harder to fool yourself with.</p></div>
                 </div>
                 <p>Every deep dive comes with its notebook. It runs in Google Colab with a GPU, so anyone with a browser and some patience can check every number. The code lives <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer">on GitHub</a>.</p>
@@ -111,7 +111,7 @@
                 <div class="model-grid">
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="dixon-coles">Dixon–Coles</button></p><p>Tore rein, Tore raus. Jeder Klub bekommt aus seinen Ergebnissen eine Angriffs- und eine Abwehrstärke, jüngere Spiele zählen mehr. Alt, einfach und ärgerlich schwer zu schlagen.</p></div>
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="bayesian-model">Schüsse zu Toren</button></p><p>Ein bayesianisches Modell in zwei Schritten: Wie viele Schüsse aufs Tor erzeugt jedes Team, und wie viele davon gehen rein? Schüsse sind weniger verrauscht als Tore, so fallen Teams auf, deren Ergebnisse ihren Chancen davonlaufen.</p></div>
-                  <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Maschinelles Lernen mit 30 Zahlen, die vor dem Spiel feststehen: Elo-Zahl, Form bei Toren und Schüssen, Ruhetage, Aufsteiger oder nicht. Es findet Muster, die die anderen beiden nicht sehen, und ab und zu Muster, die es gar nicht gibt.</p></div>
+                  <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Maschinelles Lernen mit 30 Zahlen, die vor dem Spiel feststehen: Elo-Zahl, Form bei Toren und Schüssen, Ruhetage, Aufsteiger oder nicht. Es findet Muster, die die anderen beiden nicht sehen, und ab und zu Muster, die es gar nicht gibt. Es braucht viele Spiele und lernt deshalb aus den ersten Ligen von fünf Ländern, nicht nur aus der Bundesliga.</p></div>
                   <div class="model-card is-key"><p class="model-name"><button type="button" class="term" data-term="ensemble">Das Ensemble</button></p><p>Der einfache Mittelwert der drei und die Prognose, die ich veröffentliche. Die Gewichte standen fest, bevor es Ergebnisse gab: weniger raffiniert, als sie zu optimieren, aber man kann sich damit viel schwerer selbst etwas vormachen.</p></div>
                 </div>
                 <p>Zu jeder Analyse gibt es das Notebook. Es läuft in Google Colab mit GPU, jede Zahl lässt sich also mit einem Browser und etwas Geduld nachprüfen. Der Code liegt <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer">auf GitHub</a>.</p>
