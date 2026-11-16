@@ -9,23 +9,29 @@
   {
    "month": "2026-08",
    "matches": 9,
-   "seconds": 183,
+   "seconds": 198,
    "divergences": 0
   },
   {
    "month": "2026-09",
    "matches": 27,
-   "seconds": 182,
+   "seconds": 198,
    "divergences": 0
   },
   {
    "month": "2026-10",
-   "matches": 9,
-   "seconds": 183,
+   "matches": 34,
+   "seconds": 200,
+   "divergences": 0
+  },
+  {
+   "month": "2026-11",
+   "matches": 11,
+   "seconds": 284,
    "divergences": 0
   }
  ],
  "bayes_warmup": 250,
  "bayes_samples": 250,
- "seconds": 549
+ "seconds": 882
 }

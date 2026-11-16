@@ -1,8 +1,9 @@
 {
  "variant": "xg",
- "code_commit": "ec35a2ad02350aa4df2ace8aff125e639bf789f3",
- "code_ref": "main",
- "run_id": "38965172848",
+ "xgboost": "pooled over five leagues",
+ "code_commit": "bf3ee2b03f0e240629031cf2229f8d8136424688",
+ "code_ref": "feature/pooled-xgboost",
+ "run_id": "43944503006",
  "seasons": [
   2019,
   2026
@@ -11,5 +12,5 @@
   "dc-xgb": "success",
   "bayes": "success"
  },
- "finished_at": "2026-10-16T21:28:14+00:00"
+ "finished_at": "2026-11-16T20:27:31+00:00"
 }
