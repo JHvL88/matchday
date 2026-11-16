@@ -10,6 +10,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const POSTS_URL = "analysis/posts.json";
 const ODDS_URL = "data/odds.json";
 const RECORD_URL = "data/record.json";
+const FORECASTS_URL = "data/forecasts.json";
 // A disagreement worth flagging: models at least 7 points away from the market on its favourite.
 const DISAGREEMENT = 0.07;
 
@@ -107,6 +108,7 @@ const state = {
   matches: null,
   posts: [],
   odds: null,
+  forecasts: null,
   record: null,
   loadedAt: 0,
   loadFailed: false,
@@ -230,13 +232,21 @@ function sourceLabel(source, quoted) {
   return bookmaker ? t("odds.source", { bookmaker, date: shortDate(quoted) }) : t("odds.sourceUnnamed", { date: shortDate(quoted) });
 }
 
-// What is known about a match before kick-off: the models (deep dives only) and the market.
+// The weekly forecast for a match (data/forecasts.json, one per match, published before kick-off).
+function weeklyForecast(match) {
+  return state.forecasts?.matchdays?.[String(matchdayOf(match))]?.matches?.[String(match.matchID)] ?? null;
+}
+
+// What is known about a match before kick-off: the models (a deep dive's forecast, otherwise the
+// weekly one) and the market.
 function forecastFor(match) {
   const post = postForMatch(match);
-  const published = post?.forecast;
+  const weekly = weeklyForecast(match);
+  const published = post?.forecast?.model ? post.forecast : (weekly ? { ...post?.forecast, model: weekly.model } : post?.forecast);
   if (published?.market) {
     return {
       post,
+      weekly,
       model: published.model ?? null,
       market: published.market,
       odds: published.marketOdds ?? null,
@@ -248,9 +258,14 @@ function forecastFor(match) {
   const odds = block?.matches?.[String(match.matchID)];
   const free = marginFree(odds);
   if (free) {
-    return { post, model: published?.model ?? null, market: free.probs, odds, margin: free.margin, source: sourceLabel(block.source, block.quoted) };
+    return { post, weekly, model: published?.model ?? null, market: free.probs, odds, margin: free.margin, source: sourceLabel(block.source, block.quoted) };
   }
-  return published?.model ? { post, model: published.model, market: null, odds: null, margin: null, source: "" } : null;
+  // No price in the odds file: fall back on the one recorded when the forecast was published.
+  const recorded = marginFree(weekly?.market?.odds);
+  if (recorded) {
+    return { post, weekly, model: published?.model ?? null, market: recorded.probs, odds: weekly.market.odds, margin: recorded.margin, source: sourceLabel(null, weekly.market.quoted) };
+  }
+  return published?.model ? { post, weekly, model: published.model, market: null, odds: null, margin: null, source: "" } : null;
 }
 
 function outcomeIndex(score) {
@@ -651,12 +666,13 @@ async function start() {
   const request = ++loadRequest;
   setBusy(true);
   const requestedMatchday = Number(new URLSearchParams(location.search).get("md"));
-  const [currentResult, matchesResult, postsResult, oddsResult, recordResult] = await Promise.allSettled([
+  const [currentResult, matchesResult, postsResult, oddsResult, recordResult, forecastsResult] = await Promise.allSettled([
     loadCurrentMatchday(),
     loadSeasonMatches(),
     loadSiteJson(POSTS_URL),
     loadSiteJson(ODDS_URL),
     loadSiteJson(RECORD_URL),
+    loadSiteJson(FORECASTS_URL),
   ]);
   if (request !== loadRequest) return;
   setBusy(false);
@@ -664,6 +680,7 @@ async function start() {
   else console.warn("Deep-dive list unavailable.", postsResult.reason);
   if (oddsResult.status === "fulfilled") state.odds = oddsResult.value;
   if (recordResult.status === "fulfilled") state.record = recordResult.value;
+  if (forecastsResult.status === "fulfilled" && forecastsResult.value?.season === season) state.forecasts = forecastsResult.value;
   if (matchesResult.status === "rejected") {
     console.error("Unable to load Bundesliga results.", matchesResult.reason);
     showLoadFailure();
