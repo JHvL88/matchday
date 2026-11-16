@@ -88,7 +88,7 @@ The models and their data live in `analysis/pipeline/`, one copy for every post,
 | xG | `fetch_understat.py`, `understat.py`, workflow **Fetch Understat xG** | Understat's match xG for every 1. Bundesliga match since 2014/15, fetched weekly into the private `matchday-data` repo (Understat publishes no licence, so only checksums are public). Where Understat has no xG for a played match, the match table takes football-data.co.uk's own xG (`HxG`/`AxG`, in its files from 2026/27) and puts it on Understat's scale; `xg_src` records the source of each match. See [When Understat is offline](#when-understat-is-offline). |
 | Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets; `--understat <dir>` adds xG (`--understat-only` leaves out the football-data fill). `--league ENG` (or `ESP`, `ITA`, `FRA`) builds the same table for another league, with `div` as the tier (D1 top flight, D2 second tier), so the models run on it unchanged. |
 | Posts' data check | `verify_sources.py` | Compares the 2026/27 rows embedded in each post's notebook, and the old GitHub mirror, with the source files. |
-| Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost. Since October 2026 the published versions learn from xG (`--xg`), after a [pre-registered test](analysis/backtest/xg/README.md); without the switch they are the original models. |
+| Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost. Since October 2026 the published versions learn from xG (`--xg`), after a [pre-registered test](analysis/backtest/xg/README.md); without the switch they are the original models. Since November 2026 the published XGBoost is trained on the top flights of all five leagues (`forecast.py --pool`), after the [four-league test](analysis/backtest/leagues/README.md). |
 | Backtest | `backtest.py`, workflows **Backtest (xG variants)** and **Backtest** | Walk-forward from 2019/20: Dixon–Coles refit weekly, XGBoost per season, the Bayesian model monthly (one parallel job per season). Predictions land on the `backtest-results` branch: `xg/` for the published models, `latest/` for the original ones. |
 | Grades | `evaluate.py`, `make_figures.py` | Grades against one benchmark, the market-average closing price, and writes `data/record.json` (never by hand). |
 | Other leagues | `leagues.py`, `pooled_xgb.py`, `evaluate_leagues.py`, `make_league_figures.py`, workflow **Backtest (leagues)** | The [pre-registered four-league test](analysis/backtest/leagues/README.md): the original models on England, Spain, Italy and France as well, and XGBoost trained on all five leagues at once. The site still forecasts the Bundesliga only; the other leagues are the test bed for methods. Predictions land in `leagues/` on `backtest-results`. |
@@ -106,7 +106,17 @@ python analysis/pipeline/build_matches.py /tmp/source /tmp/matches.csv --underst
 python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/xg analysis/backtest/xg/results_vs_market.json --no-bridge --record data/record.json --as-of YYYY-MM-DD
 ```
 
-A post's forecast uses the same switches: build the match table with `--understat` and fit the models with xG (`DixonColes(xi=0.0019, xg_weight=0.25)`, `build_features(..., use_xg=True)` with `FEATURES_XG`, `bayes_model.USE_XG = True`).
+A post's forecast uses the same switches: build the match table with `--understat` and fit the models with xG (`DixonColes(xi=0.0019, xg_weight=0.25)`, `build_features(..., use_xg=True)` with `FEATURES_XG`, `bayes_model.USE_XG = True`), with XGBoost trained on all five leagues. `forecast.py` does all of it:
+
+```bash
+for league in ENG ESP ITA FRA; do
+  python analysis/pipeline/build_matches.py /tmp/source /tmp/tables/$league.csv --league $league
+done
+python analysis/pipeline/forecast.py /tmp/matches.csv forecast.json --freeze 2026-11-20 \
+    --fixture 2026-11-21 "Bayern Munich" Leverkusen --xg --pool /tmp/tables
+```
+
+Without `--pool`, XGBoost learns from the Bundesliga alone, as the forecasts published before 16 November 2026 did.
 
 ### When Understat is offline
 

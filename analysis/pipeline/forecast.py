@@ -5,7 +5,9 @@
 
 Same set-up as the backtest (backtest.py), so a live forecast is made the way the backtest graded them:
   Dixon-Coles  last eight seasons, time decay 0.0019; with --xg the pre-registered quarter-xG blend
-  XGBoost      trained on earlier seasons only (2008 onwards), 30 features; with --xg plus 6 xG features
+  XGBoost      trained on earlier seasons only (2008 onwards), 30 features; with --xg plus 6 xG features.
+               With --pool it learns from all five leagues' top flights (the published version since
+               November 2026, analysis/backtest/leagues/README.md); without it, from the Bundesliga alone.
   Bayesian     six seasons plus the current one, half-season periods, NUTS on two chains
   Ensemble     equal-weight average of the three score grids
 Team names as in the match table (football-data.co.uk spelling).
@@ -43,24 +45,36 @@ def fit_dc(df, freeze, season, use_xg):
     return DixonColes(xi=DC_XI, xg_weight=DC_XG_WEIGHT if use_xg else 0.0).fit(hist, freeze)
 
 
-def xgb_rates(df, fixtures, season, use_xg):
+def xgb_rates(df, fixtures, season, use_xg, pool_dir=None):
+    """XGBoost's expected goals per fixture. pool_dir: the other leagues' match tables (ENG.csv, ESP.csv,
+    ITA.csv, FRA.csv from build_matches.py --league); given, XGBoost is trained on all five leagues."""
     import xgboost as xgb
     from features import build_features, FEATURES, FEATURES_XG
     from backtest_utils import train_xgb_pair
     future = pd.DataFrame([dict(div="D1", date=f["date"], home=f["home"], away=f["away"], season=season,
                                 hg=np.nan, ag=np.nan, hs=np.nan, as_=np.nan, hst=np.nan, ast=np.nan)
                            for f in fixtures])
-    X = build_features(pd.concat([df, future], ignore_index=True), use_xg=use_xg)
     feats = FEATURES_XG if use_xg else FEATURES
-    d1 = X[X["div"] == "D1"]
-    pool = d1[(d1.season >= 2008) & (d1.h_n_prev >= 5) & (d1.a_n_prev >= 5) & d1.hg.notna()]
+    if pool_dir:
+        from leagues import HOME, LEAGUES
+        from pooled_xgb import INDICATORS, top_flight_features, training_pool
+        d1 = top_flight_features(pd.concat([df, future], ignore_index=True), HOME, use_xg)
+        others = [top_flight_features(pd.read_csv(os.path.join(pool_dir, f"{name}.csv"), parse_dates=["date"]), name, use_xg)
+                  for name in LEAGUES if name != HOME]
+        pool = training_pool(pd.concat([d1] + others, ignore_index=True))
+        feats = feats + INDICATORS
+    else:
+        X = build_features(pd.concat([df, future], ignore_index=True), use_xg=use_xg)
+        d1 = X[X["div"] == "D1"]
+        pool = d1[(d1.season >= 2008) & (d1.h_n_prev >= 5) & (d1.a_n_prev >= 5) & d1.hg.notna()]
     models, rounds = train_xgb_pair(pool[pool.season < season], features=feats)
+    trained_on = int((pool.season < season).sum())
     out = []
     for f in fixtures:
         row = d1[(d1.date == f["date"]) & (d1.home == f["home"]) & (d1.away == f["away"]) & d1.hg.isna()]
         dm = xgb.DMatrix(row[feats])
         out.append((float(models["hg"].predict(dm)[0]), float(models["ag"].predict(dm)[0])))
-    return out, rounds
+    return out, rounds, trained_on
 
 
 def bayes_grids(df, fixtures, freeze, use_xg, warmup, samples):
@@ -109,6 +123,8 @@ def main(argv=None):
     ap.add_argument("--freeze", required=True, help="use only matches strictly before this date (YYYY-MM-DD)")
     ap.add_argument("--fixture", nargs=3, action="append", required=True, metavar=("DATE", "HOME", "AWAY"))
     ap.add_argument("--xg", action="store_true", help="the xG versions adopted in October 2026")
+    ap.add_argument("--pool", metavar="DIR", help="folder with ENG.csv, ESP.csv, ITA.csv and FRA.csv (build_matches.py --league): "
+                                                  "train XGBoost on all five leagues, the published version since November 2026")
     ap.add_argument("--warmup", type=int, default=800)
     ap.add_argument("--samples", type=int, default=800)
     a = ap.parse_args(argv)
@@ -126,7 +142,7 @@ def main(argv=None):
     season = fixtures[0]["date"].year - (fixtures[0]["date"].month < 7)
 
     dc = fit_dc(df, freeze, season, a.xg)
-    xr, rounds = xgb_rates(df, fixtures, season, a.xg)
+    xr, rounds, xgb_trained_on = xgb_rates(df, fixtures, season, a.xg, a.pool)
     bg, shots, divergences = bayes_grids(df, fixtures, freeze, a.xg, a.warmup, a.samples)
 
     out = []
@@ -151,9 +167,10 @@ def main(argv=None):
     except OSError:
         code = None
     res = dict(created_at=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), freeze=a.freeze,
-               models="xG versions" if a.xg else "pre-xG versions", xg=a.xg,
+               models=("xG versions" if a.xg else "pre-xG versions") + (", XGBoost trained on five leagues" if a.pool else ""),
+               xg=a.xg, xgb_pooled=bool(a.pool),
                config=dict(dc_xi=DC_XI, dc_xg_weight=DC_XG_WEIGHT if a.xg else 0.0, dc_rho=dc.rho,
-                           xgb_rounds=rounds, bayes_warmup=a.warmup, bayes_samples=a.samples, bayes_chains=2,
+                           xgb_rounds=rounds, xgb_trained_on=xgb_trained_on, bayes_warmup=a.warmup, bayes_samples=a.samples, bayes_chains=2,
                            bayes_divergences=divergences),
                inputs=dict(matches_sha256=sha256(a.matches), matches_used=int(len(df)),
                            last_match=df.date.max().strftime("%Y-%m-%d"), code_commit=code),

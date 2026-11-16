@@ -1,18 +1,18 @@
 {
   "about": "Figures behind the Track record page, written by analysis/pipeline/evaluate.py --record (never typed by hand). Benchmark: market-average closing odds, margin removed. RPS = ranked probability score (lower is better).",
-  "asOf": "2026-10-16",
+  "asOf": "2026-11-16",
   "source": "analysis/backtest/",
   "season": {
-    "matches": 45,
-    "models": 0.2073,
-    "market": 0.2131
+    "matches": 81,
+    "models": 0.1999,
+    "market": 0.2054
   },
   "backtest": {
     "label": {
       "en": "2019/20 to 2026/27 so far",
       "de": "2019/20 bis heute"
     },
-    "matches": 2187,
+    "matches": 2223,
     "rows": [
       {
         "key": "market",
@@ -21,41 +21,41 @@
         "topPick": 0.53
       },
       {
-        "key": "bayesian",
-        "rps": 0.2024,
-        "logLoss": 0.99,
+        "key": "ensemble",
+        "rps": 0.2017,
+        "logLoss": 0.987,
         "topPick": 0.52
       },
       {
-        "key": "ensemble",
-        "rps": 0.2024,
+        "key": "bayesian",
+        "rps": 0.2022,
         "logLoss": 0.989,
-        "topPick": 0.51
+        "topPick": 0.52
       },
       {
         "key": "dixonColes",
-        "rps": 0.2029,
-        "logLoss": 0.99,
+        "rps": 0.2027,
+        "logLoss": 0.989,
         "topPick": 0.52
       },
       {
         "key": "xgboost",
-        "rps": 0.205,
-        "logLoss": 0.997,
-        "topPick": 0.51
+        "rps": 0.2032,
+        "logLoss": 0.991,
+        "topPick": 0.52
       }
     ],
-    "gap": 0.0044,
-    "gapLow": 0.0026,
-    "gapHigh": 0.0062
+    "gap": 0.0038,
+    "gapLow": 0.0021,
+    "gapHigh": 0.0054
   },
   "disagreement": [
     {
       "key": "ensemble",
-      "matches": 377,
-      "models": 0.51,
-      "market": 0.61,
-      "actual": 0.64
+      "matches": 321,
+      "models": 0.5,
+      "market": 0.6,
+      "actual": 0.62
     }
   ],
   "paperBetting": {

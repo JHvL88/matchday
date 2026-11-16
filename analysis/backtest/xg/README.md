@@ -1,5 +1,7 @@
 # Does xG make the models better? Yes, a little.
 
+> **Update, 16 November 2026:** the published XGBoost-xG is now trained on the top flights of five leagues, after a second pre-registered test ([`../leagues/README.md`](../leagues/README.md)). This report describes the test as it was run in October; [`results_vs_market.json`](results_vs_market.json) and the Track record show the models as published today.
+
 *16 October 2026. The questions, models and decision rules were fixed in [`PREREGISTRATION.md`](PREREGISTRATION.md) before anything ran (commit `600bdaa`, 21:40). Every number below comes from [`results.json`](results.json) (xG versions against the current models) and [`results_vs_market.json`](results_vs_market.json) (xG versions against the bookmakers).*
 
 ## Verdict

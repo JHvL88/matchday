@@ -10,7 +10,7 @@
 | Q2: does XGBoost forecast the Bundesliga better when trained on all five leagues? | Switch if the xG ensemble with pooled XGBoost minus the published xG ensemble is below zero, with the whole 95% interval below zero | −0.00048 (−0.00088 to −0.00008) | **Switch to the pooled XGBoost** (in a follow-up change) |
 | Q3: does XGBoost earn its place? | Drop it if two models beat three over all five leagues with the whole interval below zero, and also in the Bundesliga's xG models | −0.00005 (−0.00030 to +0.00021); Bundesliga +0.00032 | **Keep XGBoost** |
 
-Nothing on the site changes with this report. The Q2 switch touches the published forecasts, so it comes as its own change.
+Nothing on the site changed with this report. The Q2 switch touches the published forecasts, so it came as its own change, the same day.
 
 ## Q1: the gap travels
 
@@ -147,7 +147,7 @@ Same picture, five times the matches. A model that likes a team more than the ma
 ```bash
 git fetch origin source-data backtest-results
 git worktree add /tmp/source origin/source-data
-git worktree add /tmp/results origin/backtest-results
+git worktree add /tmp/results 7124cc7        # backtest-results as this report graded it
 git clone https://github.com/JHvL88/matchday-data /tmp/matchday-data      # private: needs your GitHub login
 for league in GER ENG ESP ITA FRA; do
   python analysis/pipeline/build_matches.py /tmp/source /tmp/tables/$league.csv --league $league
@@ -164,6 +164,6 @@ To rerun the models themselves on GitHub: Actions › **Backtest (leagues)** ›
 
 ## What happens next
 
-1. **Make the Q2 switch.** `forecast.py` trains XGBoost-xG on all five leagues, the xG backtest is rerun with it, and the Track record follows.
+1. ~~Make the Q2 switch.~~ **Done on 16 November 2026:** `forecast.py --pool` trains XGBoost-xG on all five leagues, the xG backtest was rerun with it, and the Track record shows the result.
 2. **xG for the other four leagues** once Understat is back. Pooled XGBoost currently sees xG only for German matches.
 3. **Test the margin removal** (the favourites note above).

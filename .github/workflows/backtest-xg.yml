@@ -2,11 +2,18 @@
 # three xG model variants, 2019/20 to today. Understat's xG comes from the private data repository,
 # so every job builds its own match table and only predictions leave the job.
 # Results land in xg/ on the backtest-results branch.
+#
+# Since November 2026 XGBoost-xG is trained on the top flights of all five leagues
+# (analysis/backtest/leagues/README.md), so the first job also builds the other four leagues' tables.
+#
+# Runs on demand (Actions tab > Backtest (xG variants) > Run workflow) and when this file changes on
+# a branch other than main, so merging a change doesn't replace the run the Track record was graded on.
 name: Backtest (xG variants)
 
 on:
   workflow_dispatch:
   push:
+    branches-ignore: [main]
     paths:
       - .github/workflows/backtest-xg.yml
 
@@ -39,8 +46,15 @@ jobs:
           git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
           pip install -q -r analysis/pipeline/requirements.txt
           python analysis/pipeline/build_matches.py source data/matches.csv --understat data-repo/understat
+          for league in ENG ESP ITA FRA; do
+            python analysis/pipeline/build_matches.py source "data/${league}.csv" --league "$league"
+          done
       - run: python analysis/pipeline/backtest.py dc data/matches.csv out/oos_dc.csv --seasons $FIRST_SEASON $LAST_SEASON --xg
-      - run: python analysis/pipeline/backtest.py xgb data/matches.csv out/oos_xgb.csv --seasons $FIRST_SEASON $LAST_SEASON --xg
+      - name: XGBoost-xG, trained on all five leagues
+        run: |
+          python analysis/pipeline/pooled_xgb.py out/oos_xgb_pooled.csv --xg --seasons $FIRST_SEASON $LAST_SEASON \
+            --table GER data/matches.csv --table ENG data/ENG.csv --table ESP data/ESP.csv --table ITA data/ITA.csv --table FRA data/FRA.csv \
+            --publish GER out/oos_xgb.csv
       - uses: actions/upload-artifact@v4
         with:
           name: xg-dc-xgb
@@ -76,7 +90,8 @@ jobs:
 
   collect:
     needs: [dc-xgb, bayes]
-    if: always()
+    # Also after a failed job (run.json says which), but never after a cancelled run
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -90,6 +105,7 @@ jobs:
           JOBS: ${{ toJSON(needs) }}
         run: |
           set -euo pipefail
+          if [ ! -f results/oos_dc.csv ]; then echo "::error::No predictions arrived."; exit 1; fi
           git clone --quiet --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
           cd repo
           git config user.name "github-actions[bot]"
@@ -98,7 +114,7 @@ jobs:
           rm -rf xg && mkdir xg && cp -r ../results/. xg/
           python3 - <<PY
           import json, os, datetime
-          json.dump(dict(variant="xg", code_commit=os.environ["GITHUB_SHA"], code_ref=os.environ["GITHUB_REF_NAME"],
+          json.dump(dict(variant="xg", xgboost="pooled over five leagues", code_commit=os.environ["GITHUB_SHA"], code_ref=os.environ["GITHUB_REF_NAME"],
                          run_id=os.environ["GITHUB_RUN_ID"], seasons=[int(os.environ["FIRST_SEASON"]), int(os.environ["LAST_SEASON"])],
                          jobs={k: v["result"] for k, v in json.loads(os.environ["JOBS"]).items()},
                          finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
@@ -106,4 +122,5 @@ jobs:
           PY
           git add -A
           git commit --quiet -m "xG backtest ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
+          git pull --quiet --rebase origin backtest-results   # other backtests write to the same branch
           git push --quiet origin backtest-results
