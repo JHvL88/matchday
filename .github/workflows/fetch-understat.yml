@@ -1,5 +1,11 @@
 # Downloads Understat's Bundesliga match xG (2014/15 onwards) into the private data repository.
 # Runs weekly on Mondays, on demand, and when the fetcher changes. Needs the DATA_REPO_TOKEN secret.
+#
+# Understat is one small site and can be offline for weeks (it was from 2 November 2026). That is
+# not a failure of this workflow: the run then ends green with a warning, the stored copy stays as
+# it is, and the match table takes newer matches' xG from football-data.co.uk (understat.py).
+# The run fails only when something needs a look: Understat answers but can't be read, a season is
+# missing, or a season comes back with fewer played matches than the stored copy.
 name: Fetch Understat xG
 
 on:
@@ -36,28 +42,46 @@ jobs:
         if: steps.setup.outputs.ready == 'true'
         with:
           python-version: "3.13"
+      - name: Get the stored copy
+        if: steps.setup.outputs.ready == 'true'
+        run: git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
       - name: Download from Understat
         id: dl
         if: steps.setup.outputs.ready == 'true'
         run: |
           set -o pipefail   # without it, tee would hide a failed download
-          python analysis/pipeline/fetch_understat.py --out "$RUNNER_TEMP/out" 2>&1 | tee "$RUNNER_TEMP/understat_log.txt"
+          code=0
+          python analysis/pipeline/fetch_understat.py --out "$RUNNER_TEMP/out" --previous data-repo/understat 2>&1 | tee "$RUNNER_TEMP/understat_log.txt" || code=$?
+          if [ "$code" = 75 ]; then   # Understat itself is down: nothing to save, nothing to fix here
+            message="$(tail -n 1 "$RUNNER_TEMP/understat_log.txt")"
+            echo "::warning title=Understat is offline::${message}"
+            echo "### Understat is offline" >> "$GITHUB_STEP_SUMMARY"
+            echo "${message}" >> "$GITHUB_STEP_SUMMARY"
+            echo "status=unavailable" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$code" != 0 ]; then exit "$code"; fi
           python3 -c "import json,sys; m=json.load(open('$RUNNER_TEMP/out/understat/manifest.json')); sys.exit(1 if m['failed'] or not m['files'] else 0)"
+          echo "status=ok" >> "$GITHUB_OUTPUT"
       - name: Keep the log in the data repository
         if: always() && steps.setup.outputs.ready == 'true'
         run: |
-          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" log-repo
-          mkdir -p log-repo/logs && cp "$RUNNER_TEMP/understat_log.txt" log-repo/logs/understat_last_run.txt
-          cd log-repo
+          if [ ! -d data-repo ] || [ ! -f "$RUNNER_TEMP/understat_log.txt" ]; then exit 0; fi
+          cd data-repo
+          mkdir -p logs && cp "$RUNNER_TEMP/understat_log.txt" logs/understat_last_run.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add logs && (git diff --cached --quiet || (git commit --quiet -m "Understat fetch log" && git push --quiet))
+          git add logs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit --quiet -m "Understat fetch log"
+          git pull --quiet --rebase   # the odds recorder writes to the same repository
+          git push --quiet
       - name: Save in the data repository (only if something changed)
-        if: steps.setup.outputs.ready == 'true'
+        if: steps.setup.outputs.ready == 'true' && steps.dl.outputs.status == 'ok'
         run: |
           set -euo pipefail
-          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
           cd data-repo
+          git pull --quiet --rebase
           if [ -f understat/manifest.json ] && python3 - "$RUNNER_TEMP/out/understat/manifest.json" <<'PY'
           import json, sys
           files = lambda p: sorted((f["path"], f["sha256"]) for f in json.load(open(p))["files"])

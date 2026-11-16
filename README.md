@@ -85,8 +85,8 @@ The models and their data live in `analysis/pipeline/`, one copy for every post,
 | Step | Where | What it does |
 |---|---|---|
 | Source files | `fetch_football_data.py`, workflow **Fetch source data** | Downloads the 1. and 2. Bundesliga season files from [football-data.co.uk](https://www.football-data.co.uk/) exactly as served, with a SHA-256 checksum each, and stores them on the `source-data` branch. Runs twice a week, on demand, and when the fetcher changes. That branch's history records which exact files every result used. |
-| xG | `fetch_understat.py`, `understat.py`, workflow **Fetch Understat xG** | Understat's match xG for every 1. Bundesliga match since 2014/15, fetched weekly into the private `matchday-data` repo (Understat publishes no licence, so only checksums are public). |
-| Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets; `--understat <dir>` adds xG. |
+| xG | `fetch_understat.py`, `understat.py`, workflow **Fetch Understat xG** | Understat's match xG for every 1. Bundesliga match since 2014/15, fetched weekly into the private `matchday-data` repo (Understat publishes no licence, so only checksums are public). Where Understat has no xG for a played match, the match table takes football-data.co.uk's own xG (`HxG`/`AxG`, in its files from 2026/27) and puts it on Understat's scale; `xg_src` records the source of each match. See [When Understat is offline](#when-understat-is-offline). |
+| Match table | `build_matches.py` | One table from those files, every row pointing back to its file and line, with all odds sets; `--understat <dir>` adds xG (`--understat-only` leaves out the football-data fill). |
 | Posts' data check | `verify_sources.py` | Compares the 2026/27 rows embedded in each post's notebook, and the old GitHub mirror, with the source files. |
 | Models | `bl_models.py`, `bayes_model.py`, `features.py`, `backtest_utils.py` | Dixon–Coles, the Bayesian shots-to-goals model and XGBoost. Since October 2026 the published versions learn from xG (`--xg`), after a [pre-registered test](analysis/backtest/xg/README.md); without the switch they are the original models. |
 | Backtest | `backtest.py`, workflows **Backtest (xG variants)** and **Backtest** | Walk-forward from 2019/20: Dixon–Coles refit weekly, XGBoost per season, the Bayesian model monthly (one parallel job per season). Predictions land on the `backtest-results` branch: `xg/` for the published models, `latest/` for the original ones. |
@@ -106,6 +106,15 @@ python analysis/pipeline/evaluate.py /tmp/matches.csv /tmp/results/xg analysis/b
 ```
 
 A post's forecast uses the same switches: build the match table with `--understat` and fit the models with xG (`DixonColes(xi=0.0019, xg_weight=0.25)`, `build_features(..., use_xg=True)` with `FEATURES_XG`, `bayes_model.USE_XG = True`).
+
+### When Understat is offline
+
+Understat is one small site. It went offline on 2 November 2026 and was still showing "We will come back soon" two weeks later. Two things keep the pipeline going without it:
+
+- **The fetch stands down.** If Understat doesn't answer, or answers with its holding page, **Fetch Understat xG** ends green with a warning and leaves the stored copy alone. It still fails when something needs a look: Understat answers but the page can't be read, a season is missing, or a season comes back with fewer played matches than the stored copy (a restore from an old backup must not overwrite good data).
+- **football-data.co.uk fills the gap.** Its season files carry xG since 2026/27 (the provider isn't named). `understat.add_xg` uses it for every played 1. Bundesliga match Understat lacks. The two xG models differ, so the numbers are first put on Understat's scale with a straight line fitted on the matches that have both. On the 63 matches of 2026/27 both sources cover, they agree closely (correlation 0.93 per team and match) and football-data runs about 7% lower: Understat ≈ 0.07 + 1.04 × football-data. Building the match table prints how many matches were filled and the line it used.
+
+Nothing in the pre-registered xG test changes: every match in it has Understat's own xG. When Understat returns, its numbers replace the filled ones on the next build. football-data.co.uk updates on Sunday and Wednesday nights, so its xG arrives a day or two after a match; Understat's used to arrive within the hour.
 
 ### Odds
 

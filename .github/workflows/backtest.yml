@@ -98,7 +98,9 @@ jobs:
 
   collect:
     needs: [prepare, dc-xgb, bayes]
-    if: always() && needs.prepare.result == 'success'
+    # Also after a failed job (run.json says which), but never after a cancelled run: that would
+    # replace latest/ with an empty folder
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
