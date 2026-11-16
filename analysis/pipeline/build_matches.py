@@ -9,6 +9,10 @@ Odds columns (decimal, home/draw/away), where football-data has them:
   maxc_*   best price in the market, closing
   psc_*    Pinnacle, closing  -- unreliable after 23 Jul 2025 (football-data's own warning); kept, never used
 
+xG: fd_hxg / fd_axg are football-data's own xG columns (2026/27 on). With --understat the table
+also gets hxg / axg, the xG the models use: Understat's, or football-data's on Understat's scale
+where Understat has none (xg_src says which).
+
     python analysis/pipeline/build_matches.py source/ data/matches.csv
 """
 import glob
@@ -28,6 +32,7 @@ COLUMNS = {
     "hg": ["FTHG", "HG"], "ag": ["FTAG", "AG"],
     "hs": ["HS"], "as_": ["AS"], "hst": ["HST"], "ast": ["AST"], "hr": ["HR"], "ar": ["AR"],
     "time": ["Time"],
+    "fd_hxg": ["HxG"], "fd_axg": ["AxG"],     # football-data's own xG (2026/27 on, provider not named)
 }
 ODDS = {
     "avgc": ("AvgCH", "AvgCD", "AvgCA"),
@@ -66,7 +71,7 @@ def standardise(f, div, rel_path):
     for name, cands in COLUMNS.items():
         col = next((c for c in cands if c in f.columns), None)
         out[name] = f[col].str.strip() if col else ""
-    for name in ["hg", "ag", "hs", "as_", "hst", "ast", "hr", "ar"]:
+    for name in ["hg", "ag", "hs", "as_", "hst", "ast", "hr", "ar", "fd_hxg", "fd_axg"]:
         out[name] = pd.to_numeric(out[name], errors="coerce")
     for key, spec in ODDS.items():
         options = spec if isinstance(spec, list) else [spec]
@@ -112,13 +117,15 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("source")
     ap.add_argument("out")
-    ap.add_argument("--understat", help="add Understat match xG (hxg, axg) from this folder")
+    ap.add_argument("--understat", help="add match xG (hxg, axg) from this Understat folder; matches Understat "
+                                        "lacks are filled from football-data's xG columns")
+    ap.add_argument("--understat-only", action="store_true", help="with --understat: don't fill from football-data")
     a = ap.parse_args()
     out = a.out
     df = build(a.source)
     if a.understat:
         from understat import add_xg
-        df = add_xg(df, a.understat)
+        df = add_xg(df, a.understat, fallback=not a.understat_only)
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     df.to_csv(out, index=False)
     d1 = df[df["div"] == "D1"]
