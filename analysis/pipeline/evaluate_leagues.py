@@ -123,6 +123,8 @@ def main(argv=None):
                          passes_rule=rule(q2), above_noise_floor=bool(abs(q2["diff"]) >= NOISE), switch_to_pooled=bool(switch),
                          xgboost_alone=diff(x, "xgbo", "xgbp"), plain_pooled_ensemble=diff(x, "ens_xgbo", "ens_xgbq"),
                          published_ensemble_check=diff(x, "ens", "ens_xgbo"),
+                         per_season=[dict(season=int(s), **diff(g, "ens_xgbo", "ens_xgbp")) for s, g in x.groupby("season")],
+                         gap_to_market=dict(as_published=diff(x, "avgc", "ens_xgbo"), with_pooled=diff(x, "avgc", "ens_xgbp")),
                          scores={name: scores(x, m) for name, m in
                                  [("market", "avgc"), ("ensemble_xg", "ens_xgbo"), ("ensemble_xg_pooled", "ens_xgbp"),
                                   ("xgboost_xg", "xgbo"), ("xgboost_xg_pooled", "xgbp")]})

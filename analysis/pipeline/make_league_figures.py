@@ -71,18 +71,20 @@ if __name__ == "__main__":
 
     rows = league_rows(res, "pooled_minus_own") + [(f"All five  ·  {five['matches']:,}", five["pooled_minus_own"])]
     better = sum(b["pooled_minus_own"]["diff"] < 0 for b in res["leagues"].values())
-    forest(rows, f"XGBoost trained on all five leagues was better in {better} of {n}",
+    forest(rows, "XGBoost trained on all five leagues was better in " + ("every league" if better == n else f"{better} of {n}"),
            "RPS difference × 1,000: pooled XGBoost minus the league's own (left of 0 = pooled better)",
            "pooled better", "own league better", out, "pooled_by_league", strong={n}, gap_before={n}, decimals=2)
 
     rows = league_rows(res, "two_minus_three") + [(f"All five  ·  {five['matches']:,}", five["two_minus_three"])]
     worse = sum(b["two_minus_three"]["diff"] > 0 for b in res["leagues"].values())
-    forest(rows, f"Dropping XGBoost made the ensemble worse in {worse} of {n} leagues" if worse >= n / 2 else
-           f"Dropping XGBoost made the ensemble better in {n - worse} of {n} leagues",
+    t = five["two_minus_three"]
+    forest(rows, "Dropping XGBoost changed almost nothing" if t["low"] < 0 < t["high"] else
+           f"Dropping XGBoost made the ensemble {'worse' if t['diff'] > 0 else 'better'} in {worse if t['diff'] > 0 else n - worse} of {n} leagues",
            "RPS difference × 1,000: Dixon–Coles + Bayesian minus all three (left of 0 = better without XGBoost)",
            "better without XGBoost", "better with XGBoost", out, "xgboost_place", strong={n}, gap_before={n}, decimals=2)
 
-    seasons = [(f"{season_label(s['season'])}  ·  {s['n']:,}", s) for s in five["per_season"]]
+    last = five["per_season"][-1]["season"]
+    seasons = [(f"{season_label(s['season'])}{' so far' if s['season'] == last else ''}  ·  {s['n']:,}", s) for s in five["per_season"]]
     behind = sum(s[1]["diff"] > 0 for s in seasons)
     forest(seasons, f"All five leagues together: the bookmakers were better in {'every season' if behind == len(seasons) else f'{behind} of {len(seasons)} seasons'}",
            "RPS gap × 1,000: ensemble minus closing market (right of 0 = bookmakers better)",
