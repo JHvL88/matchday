@@ -129,7 +129,9 @@ def record_block(res, as_of, source):
         backtest=dict(label=dict(en=res["window"], de=res["window_de"]), matches=res["matches"],
                       rows=[dict(key=names[m], rps=round(res["rows"][m]["rps"], 4), logLoss=round(res["rows"][m]["logLoss"], 3),
                                  topPick=round(res["rows"][m]["topPick"], 2)) for m in order],
-                      gap=round(res["gap"]["gap"], 4), gapLow=round(res["gap"]["low"], 4), gapHigh=round(res["gap"]["high"], 4)),
+                      gap=round(res["gap"]["gap"], 4), gapLow=round(res["gap"]["low"], 4), gapHigh=round(res["gap"]["high"], 4),
+                      # a forecast of one third each: the "knows nothing" end of the scale on the home page
+                      uniform=round(res["uniform_rps"], 4)),
         disagreement=[dict(key="ensemble", matches=seven["n"], models=round(seven["models"], 2),
                            market=round(seven["market"], 2), actual=round(seven["actual"], 2))],
     )

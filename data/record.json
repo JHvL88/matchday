@@ -47,7 +47,8 @@
     ],
     "gap": 0.0038,
     "gapLow": 0.0021,
-    "gapHigh": 0.0054
+    "gapHigh": 0.0054,
+    "uniform": 0.2368
   },
   "disagreement": [
     {

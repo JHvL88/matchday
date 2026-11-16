@@ -6,8 +6,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0c0c10",
-  "theme_color": "#0c0c10",
+  "background_color": "#1b1e25",
+  "theme_color": "#1b1e25",
   "categories": ["sports"],
   "icons": [
     {
