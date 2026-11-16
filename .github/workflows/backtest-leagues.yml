@@ -1,0 +1,185 @@
+# The pre-registered four-league test (analysis/backtest/leagues/PREREGISTRATION.md): the original
+# models walk-forward on the top flights of Germany, England, Spain, Italy and France, 2019/20 to
+# today, plus XGBoost trained on all five leagues at once.
+# Predictions land in leagues/ on the backtest-results branch; evaluate_leagues.py grades them.
+#
+# Runs on demand (Actions tab > Backtest (leagues) > Run workflow) and when this file changes on a
+# branch other than main, so merging a change doesn't replace the stored run with a new one.
+# About 50 jobs; GitHub runs 20 at a time, so allow two to three hours.
+name: Backtest (leagues)
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths:
+      - .github/workflows/backtest-leagues.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backtest-leagues
+  cancel-in-progress: true
+
+env:
+  FIRST_SEASON: "2019"
+  LAST_SEASON: "2026"
+  DATA_REPO: ${{ vars.DATA_REPO || format('{0}-data', github.repository) }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.src.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: source-data
+          path: source
+      - id: src
+        run: echo "sha=$(git -C source rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q numpy==2.5.3 pandas==3.0.5
+      - name: Build one match table per league
+        run: |
+          for league in GER ENG ESP ITA FRA; do
+            python analysis/pipeline/build_matches.py source "data/${league}.csv" --league "$league"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: league-tables
+          path: data/
+          retention-days: 3
+
+  dc-xgb:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        league: [GER, ENG, ESP, ITA, FRA]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q -r analysis/pipeline/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: league-tables
+          path: data
+      - run: python analysis/pipeline/backtest.py dc data/${{ matrix.league }}.csv out/${{ matrix.league }}/oos_dc.csv --seasons $FIRST_SEASON $LAST_SEASON
+      - run: python analysis/pipeline/backtest.py xgb data/${{ matrix.league }}.csv out/${{ matrix.league }}/oos_xgb.csv --seasons $FIRST_SEASON $LAST_SEASON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lg-${{ matrix.league }}-dc-xgb
+          path: out/
+          retention-days: 3
+
+  bayes:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        league: [GER, ENG, ESP, ITA, FRA]
+        season: [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q -r analysis/pipeline/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: league-tables
+          path: data
+      - run: python analysis/pipeline/backtest.py bayes data/${{ matrix.league }}.csv out/${{ matrix.league }}/oos_bay_${{ matrix.season }}.csv --seasons ${{ matrix.season }} ${{ matrix.season }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lg-${{ matrix.league }}-bay-${{ matrix.season }}
+          path: out/
+          retention-days: 3
+
+  pooled:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: source-data
+          path: source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -q -r analysis/pipeline/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: league-tables
+          path: data
+      - name: Pooled XGBoost, all five leagues
+        run: |
+          python analysis/pipeline/pooled_xgb.py out/pooled/oos_xgb_pooled.csv --seasons $FIRST_SEASON $LAST_SEASON \
+            --table GER data/GER.csv --table ENG data/ENG.csv --table ESP data/ESP.csv --table ITA data/ITA.csv --table FRA data/FRA.csv
+      - name: Pooled XGBoost-xG (the Bundesliga's xG stays inside this job)
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+        run: |
+          if [ -z "$DATA_REPO_TOKEN" ]; then echo "::warning::DATA_REPO_TOKEN missing: no xG variant."; exit 0; fi
+          git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+          python analysis/pipeline/build_matches.py source "$RUNNER_TEMP/GER_xg.csv" --understat data-repo/understat > "$RUNNER_TEMP/build.log"
+          grep -E "fills|joined" "$RUNNER_TEMP/build.log"
+          python analysis/pipeline/pooled_xgb.py out/pooled/oos_xgb_pooled_xg.csv --xg --seasons $FIRST_SEASON $LAST_SEASON \
+            --table GER "$RUNNER_TEMP/GER_xg.csv" --table ENG data/ENG.csv --table ESP data/ESP.csv --table ITA data/ITA.csv --table FRA data/FRA.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lg-pooled
+          path: out/
+          retention-days: 3
+
+  collect:
+    needs: [prepare, dc-xgb, bayes, pooled]
+    # Also after a failed job (run.json says which), but never after a cancelled run
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: lg-*
+          merge-multiple: true
+      - name: Commit to the backtest-results branch (leagues/)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_SHA: ${{ needs.prepare.outputs.source_sha }}
+          JOBS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(find results -name 'oos_*.csv' | head -n 1)" ]; then echo "::error::No predictions arrived."; exit 1; fi
+          git clone --quiet --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          cd repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --quiet backtest-results
+          rm -rf leagues && mkdir leagues && cp -r ../results/. leagues/
+          python3 - <<PY
+          import json, os, datetime
+          json.dump(dict(variant="leagues", code_commit=os.environ["GITHUB_SHA"], code_ref=os.environ["GITHUB_REF_NAME"],
+                         source_data_commit=os.environ["SOURCE_SHA"], run_id=os.environ["GITHUB_RUN_ID"],
+                         seasons=[int(os.environ["FIRST_SEASON"]), int(os.environ["LAST_SEASON"])],
+                         jobs={k: v["result"] for k, v in json.loads(os.environ["JOBS"]).items()},
+                         finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
+                    open("leagues/run.json", "w"), indent=1)
+          PY
+          git add -A
+          git commit --quiet -m "Leagues backtest ${GITHUB_SHA::7} on source-data ${SOURCE_SHA::7} (run ${GITHUB_RUN_ID})"
+          git pull --quiet --rebase origin backtest-results
+          git push --quiet origin backtest-results
