@@ -20,7 +20,8 @@
       weeklySub: { one: "{graded} graded forecast · models closer in {won} of {graded}", other: "{graded} graded forecasts · models closer in {won} of {graded}" },
       weekPublished: { one: "Published {date} · {count} match", other: "Published {date} · {count} matches" },
       weekOpen: "Not played yet",
-      weekUnderway: "Under way, no final score yet",
+      weekUnderway: "Under way",
+      weekNoMarket: "Played, but no bookmakers’ odds to grade against",
       weekPartly: "{graded} of {count} graded",
       weekCloser: "Models closer in {won} of {graded}",
       weekRps: "RPS {models} v {market}",
@@ -96,7 +97,8 @@
       weeklySub: { one: "{graded} bewertete Prognose · Modelle {won}-mal von {graded} näher dran", other: "{graded} bewertete Prognosen · Modelle {won}-mal von {graded} näher dran" },
       weekPublished: { one: "Veröffentlicht am {date} · {count} Spiel", other: "Veröffentlicht am {date} · {count} Spiele" },
       weekOpen: "Noch nicht gespielt",
-      weekUnderway: "Läuft, noch kein Endergebnis",
+      weekUnderway: "Läuft",
+      weekNoMarket: "Gespielt, aber ohne Buchmacherquoten zum Vergleich",
       weekPartly: "{graded} von {count} bewertet",
       weekCloser: "Modelle {won}-mal von {graded} näher dran",
       weekRps: "RPS {models} gegen {market}",
@@ -329,9 +331,10 @@
       cards.push(card(say("weeklyTitle"), versus(mean(weekly, "models"), mean(weekly, "marketScore"), 3),
         say("weeklySub", { graded: weekly.length, won: weekly.filter((entry) => entry.models < entry.marketScore).length }), "is-live"));
     } else if (weekEntries.length) {
-      const first = [...weekEntries].sort((a, b) => a.kickoff - b.kickoff)[0];
+      // The first match that can still be graded; none if every match so far lacks a bookmakers' price.
+      const first = weekEntries.filter((entry) => entry.status !== "scored").sort((a, b) => a.kickoff - b.kickoff)[0];
       cards.push(card(say("weeklyTitle"), element("p", "score-card-value is-empty", say("divesNone")),
-        say("weeklyNoneSub", { date: when(first.kickoff, { weekday: "long", day: "numeric", month: "long" }) }), "is-live"));
+        first ? say("weeklyNoneSub", { date: when(first.kickoff, { weekday: "long", day: "numeric", month: "long" }) }) : say("weekNoMarket"), "is-live"));
     }
     const graded = entries.filter((entry) => entry.status === "graded");
     if (graded.length) {
@@ -468,7 +471,9 @@
           element("span", "week-rps", `${graded.length < entries.length ? `${say("weekPartly", { graded: graded.length, count: entries.length })} · ` : ""}${say("weekRps", { models: num(mean(graded, "models"), 3), market: num(mean(graded, "marketScore"), 3) })}`),
         );
       } else {
-        tally.append(element("span", "week-rps", say(entries.some((entry) => entry.status !== "pending") ? "weekUnderway" : "weekOpen")));
+        const key = entries.every((entry) => entry.status === "scored") ? "weekNoMarket"
+          : entries.some((entry) => entry.status !== "pending") ? "weekUnderway" : "weekOpen";
+        tally.append(element("span", "week-rps", say(key)));
       }
       head.append(name, tally);
       const rows = element("div", "ledger");
