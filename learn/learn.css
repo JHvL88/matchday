@@ -23,8 +23,13 @@
 
 .progress-meter {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(11, minmax(0, 1fr));
   gap: 3px;
+}
+
+/* A wider gap between part one (seven drills) and part two (four). */
+.progress-meter .is-half {
+  margin-left: 6px;
 }
 
 .progress-meter span {
@@ -44,6 +49,16 @@
 .page-jump a.is-done::before {
   margin-right: 6px;
   content: "✓";
+}
+
+.page-jump a.is-next,
+.page-jump a.is-back {
+  border-style: dashed;
+}
+
+.post-hero .hero-colab {
+  position: relative;
+  margin: 14px 0 0;
 }
 
 .post-body .drill-kicker {
@@ -89,6 +104,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  margin-top: 12px;
+}
+
+.toy-actions + .slider-row {
   margin-top: 12px;
 }
 
@@ -709,7 +728,7 @@
 
 .post-body .finish-ladder {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 3px;
   margin: 0;
   padding: 0;
@@ -737,6 +756,483 @@
   font-weight: 700;
 }
 
+/* ---------- Part two: charts shared by the drills ---------- */
+
+.post-body .chart-title {
+  margin: 18px 0 2px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.has-tip {
+  position: relative;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 2;
+  max-width: 260px;
+  padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.line-chart {
+  min-height: 200px;
+  margin-top: 4px;
+}
+
+.line-svg,
+.cal-svg {
+  max-width: 100%;
+  display: block;
+}
+
+.line-real,
+.line-clones {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.line-real { stroke: var(--ink); }
+.line-clones { stroke: var(--muted); stroke-dasharray: 6 4; }
+
+.line-marker {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.line-dot {
+  stroke: var(--surface-2);
+  stroke-width: 2;
+}
+
+.line-dot.is-real { fill: var(--ink); }
+.line-dot.is-clones { fill: var(--muted); }
+
+.line-hit {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+/* Legend swatches: a short line, a dot or a ring in front of the name. */
+.line-key span::before {
+  width: 18px;
+  height: 0;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-top: 2px solid var(--ink);
+  content: "";
+}
+
+.line-key .key-clones::before { border-top: 2px dashed var(--muted); }
+
+.line-key .key-dot::before,
+.line-key .key-ring::before {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.line-key .key-ring::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--muted);
+}
+
+.axis-title {
+  fill: var(--ink-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.long-mean.is-path,
+.long-mean-halo.is-path {
+  fill: none;
+}
+
+/* ---------- League of clones ---------- */
+
+.clone-table {
+  display: grid;
+  gap: 2px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-body .clone-table li {
+  margin: 0;
+}
+
+.clone-row {
+  min-height: 24px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) minmax(60px, 1.2fr) 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  font-size: 13px;
+}
+
+.clone-pos {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.clone-name {
+  overflow: hidden;
+  color: var(--ink-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clone-bar {
+  height: 8px;
+  width: var(--w);
+  border-radius: 0 4px 4px 0;
+  background: var(--line-strong);
+  transition: width .12s linear;
+}
+
+.clone-pts {
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.clone-row.is-top .clone-name {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.clone-row.is-top .clone-bar {
+  background: var(--ink);
+}
+
+.clone-row.is-bottom {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* ---------- Elo calculator ---------- */
+
+.elo-picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+}
+
+.elo-bar {
+  height: 28px;
+  margin: 6px 0 0;
+}
+
+.elo-ladder {
+  display: grid;
+  gap: 1px;
+  margin: 4px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.post-body .elo-ladder li {
+  margin: 0;
+}
+
+.elo-row {
+  min-height: 26px;
+  display: grid;
+  grid-template-columns: 24px 110px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.elo-name {
+  overflow: hidden;
+  color: var(--ink-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.elo-value {
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.elo-row.is-picked .elo-name,
+.elo-row.is-picked .elo-value {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.elo-track {
+  position: relative;
+  height: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.elo-span {
+  position: absolute;
+  top: 6px;
+  height: 2px;
+  background: var(--line-strong);
+}
+
+.elo-dot {
+  position: absolute;
+  top: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink-2);
+  transform: translateX(-50%);
+  transition: left .25s;
+}
+
+.elo-dot.is-then {
+  background: var(--surface-3);
+}
+
+.elo-row.is-picked .elo-dot:not(.is-then) {
+  background: var(--ink);
+  box-shadow: 0 0 0 3px var(--surface-2), 0 0 0 4.5px var(--ink);
+}
+
+.elo-row.is-scale .elo-track {
+  height: 18px;
+  border: 0;
+}
+
+.elo-tick {
+  position: absolute;
+  top: 2px;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+
+/* ---------- Boldness dial ---------- */
+
+.cal-chart {
+  max-width: 400px;
+  margin: 8px 0 0;
+}
+
+.cal-diagonal {
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+/* Filled for my models, a ring for the bookmakers: the site's rule. */
+.cal-dot {
+  fill: var(--ink);
+  fill-opacity: .9;
+  stroke: var(--surface-2);
+  stroke-width: 2;
+  transition: cx .2s, cy .2s, r .2s;
+}
+
+.cal-dot.is-market {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+.range-ends {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 3;
+  justify-content: space-between;
+  margin-top: -6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.slider-row.has-ends .tri-value.is-wide {
+  grid-row: 4;
+  margin-top: 4px;
+}
+
+/* ---------- Stake simulator ---------- */
+
+.toy-seg.is-four button {
+  padding: 0 10px;
+  font-size: 13.5px;
+}
+
+/* ---------- Penalty shoot-out ---------- */
+
+.pen-board {
+  display: grid;
+  gap: 4px;
+  margin: 2px 0 14px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.pen-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.pen-who {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.pen-balls {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 14px));
+  gap: 4px;
+}
+
+.pen-ball {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+
+.pen-ball.is-goal {
+  background: var(--ink);
+  box-shadow: none;
+}
+
+.pen-ball.is-miss {
+  box-shadow: inset 0 0 0 1.5px var(--muted);
+  background: linear-gradient(45deg, transparent 44%, var(--muted) 44% 56%, transparent 56%);
+}
+
+.pen-total {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.post-body .pen-date {
+  margin: -6px 0 12px;
+}
+
+.post-body .pen-result {
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.bar-key .is-result {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Scorecard after full time ---------- */
+
+.post-body .card-list {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.post-body .card-row {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.post-body .card-match {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-score {
+  flex: 0 0 auto;
+  font-family: var(--display);
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.post-body .card-status,
+.post-body .card-grades {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-grades .is-best {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ---------- Show the code ---------- */
+
+.code-peek {
+  margin: 4px 0 4px;
+}
+
+.code-peek summary {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.code-peek summary::-webkit-details-marker {
+  display: none;
+}
+
+.code-peek summary::before {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  content: "</>";
+}
+
+.post-body .code-peek pre {
+  margin-top: 6px;
+}
+
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 620px) {
@@ -752,9 +1248,29 @@
     font-size: 24px;
   }
 
-  .post-body .finish-ladder {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px 3px;
+  /* Five steps do not fit side by side with their names: keep the steps, name only where you are. */
+  .post-body .finish-ladder li {
+    min-height: 0;
+    padding-top: 0;
+    font-size: 0;
+  }
+
+  .post-body .finish-ladder .is-here {
+    padding-top: 7px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .clone-row {
+    grid-template-columns: 22px minmax(0, 1fr) 54px 30px;
+  }
+
+  .elo-picks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .elo-row {
+    grid-template-columns: 22px 84px minmax(0, 1fr) 40px;
   }
 
   .check,

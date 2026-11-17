@@ -9,6 +9,8 @@
 
   const I18N = window.I18N;
   const GLOSSARY = window.GLOSSARY;
+  // This script's folder, so the data is found from part two (learn/part-two/) as well.
+  const HERE = new URL(".", document.currentScript.src);
 
   const WORDS = {
     en: {
@@ -433,7 +435,7 @@
 
   async function loadFixture() {
     try {
-      const response = await fetch("../analysis/posts.json", { cache: "no-cache" });
+      const response = await fetch(new URL("../analysis/posts.json", HERE), { cache: "no-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const post = data.posts?.find((item) => item.forecast?.model && item.forecast?.market && item.forecast?.marketOdds);
@@ -462,7 +464,7 @@
   window.LEARN = { element, triSlider, rps };
 
   renderAll();
-  loadFixture();
+  if (oddsBox || gradeBox) loadFixture();
   I18N.onChange(renderAll);
 
   // The glossary is drawn by this script, so an address like #rps is followed once it exists.

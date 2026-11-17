@@ -102,6 +102,19 @@ jobs:
             --season "${{ steps.due.outputs.season }}" --out data/forecasts.json --work "$RUNNER_TEMP/forecast.json" \
             ${{ steps.due.outputs.args }}
 
+      - uses: actions/checkout@v4
+        if: steps.run.outputs.published == 'true'
+        with:
+          ref: backtest-results
+          path: results
+
+      # The Learn page's real numbers (Elo ladder, calibration, penalties); never holds up the forecast.
+      - name: Refresh the Learn page's data
+        if: steps.run.outputs.published == 'true'
+        run: |
+          python analysis/pipeline/learn_data.py "$RUNNER_TEMP/matches.csv" results/xg data/learn.json --as-of "$(date -u +%F)" \
+            || echo "::warning::data/learn.json was not refreshed; the Learn page keeps the previous numbers."
+
       - name: Keep the full model output
         if: steps.run.outputs.published == 'true'
         uses: actions/upload-artifact@v4
@@ -119,7 +132,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/forecasts.json
+          git add data/forecasts.json data/learn.json
           git commit --quiet -m "Forecast matchday ${{ steps.run.outputs.matchday }}"
           git pull --quiet --rebase origin main
           git push --quiet origin HEAD:main

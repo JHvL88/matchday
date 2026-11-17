@@ -31,7 +31,7 @@ One dark page, kept light: charcoal surfaces lifted in two small steps, thin lin
 
 Match information is displayed in the Europe/Berlin time zone.
 
-Two more pages: **Learn** (`learn/`) is a short course in seven drills, from what a probability means to why the bookmakers usually win, each with something to play with and one question at the end, followed by a game and the glossary (see *The Learn page*); **Track record** (`record/`) grades every published forecast against the bookmakers: the weekly forecasts matchday by matchday (`data/forecasts.json` against the latest price in `data/odds.json`, the same two numbers the home page grades with), then the deep dives, the season and backtest figures, the disagreement check and a paper-betting ledger for the deep dives.
+Two more pages: **Learn** (`learn/` and `learn/part-two/`) is a short course in eleven drills, from what a probability means to how much to bet, each with something to play with and one question at the end, plus two games and the glossary (see *The Learn page*); **Track record** (`record/`) grades every published forecast against the bookmakers: the weekly forecasts matchday by matchday (`data/forecasts.json` against the latest price in `data/odds.json`, the same two numbers the home page grades with), then the deep dives, the season and backtest figures, the disagreement check and a paper-betting ledger for the deep dives.
 
 ### The explanatory layer
 
@@ -51,21 +51,27 @@ Blocks can be nested, and a link to a hidden block switches to a depth that show
 
 ### The Learn page
 
-Seven drills on one page, in the order a forecast is made and judged. The prose is in `learn/index.html` (one copy per language); the playthings are drawn by `learn/learn.js` (odds calculator, "grade it yourself", glossary) and `learn/play.js` (everything else), styled by `learn/learn.css`.
+A short course in two halves, eleven drills in the order a forecast is made, judged and (maybe) bet on. Part one is `learn/`, part two `learn/part-two/`. The prose is in the two HTML pages (one copy per language); the playthings are drawn by `learn/learn.js` (odds calculator, "grade it yourself", glossary), `learn/play.js` (part one's playthings, the matchday game, the quick checks and progress, shared by both pages) and `learn/advanced.js` (part two), styled by `learn/learn.css`.
 
 | Drill | Plaything | Where its numbers come from |
 |---|---|---|
-| What 32% means | Replay machine: one forecast played once or 100 times | The Hamburg–Stuttgart forecast of matchday 6, fixed in `play.js` |
-| From goals to a forecast | Goal machine: two expected-goals sliders, a score grid and the forecast it gives | Plain Poisson, worked out in the browser; can load a match from `data/forecasts.json` |
-| What a chance is worth | Shot map: tap a pitch to shoot | A toy xG model (distance and angle only, tuned by hand, labelled as a toy) |
-| How a forecast is made | The three models and their average for any match of the matchday | `data/forecasts.json`, latest matchday |
-| From odds to chances | Odds calculator | Latest deep dive in `analysis/posts.json` |
-| How a forecast gets graded | Grade it yourself, now with the reader's own forecast | Latest deep dive |
-| Why the bookmakers usually win | The long run: 40 bettors at odds of 1.90 | Simulated; the "in profit" share is the exact binomial figure |
+| 1 What 32% means | Replay machine: one forecast played once or 100 times | The Hamburg–Stuttgart forecast of matchday 6, fixed in `play.js` |
+| 2 From goals to a forecast | Goal machine: two expected-goals sliders, a score grid and the forecast it gives | Plain Poisson, worked out in the browser; can load a match from `data/forecasts.json` |
+| 3 What a chance is worth | Shot map: tap a pitch to shoot | A toy xG model (distance and angle only, tuned by hand, labelled as a toy) |
+| 4 How a forecast is made | The three models and their average for any match of the matchday | `data/forecasts.json`, latest matchday |
+| 5 From odds to chances | Odds calculator | Latest deep dive in `analysis/posts.json` |
+| 6 How a forecast gets graded | Grade it yourself, with the reader's own forecast | Latest deep dive |
+| 7 Why the bookmakers usually win | The long run: 40 bettors at odds of 1.90 | Simulated; the "in profit" share is the exact binomial figure |
+| 8 Is the table lying? | League of clones: 18 identical clubs play a season; the real table's spread against theirs | `data/learn.json` (`table`) |
+| 9 Ratings that learn | Elo calculator on the real current ratings, with the ladder | `data/learn.json` (`elo`), from `features.elo_ratings` |
+| 10 Too sure, too shy | Boldness dial on every published out-of-sample forecast since 2019/20, with a calibration chart | `data/learn.json` (`matches`), graded as `evaluate.py` grades them |
+| 11 How much to bet | Stake simulator: flat stakes, Kelly and its fractions when the belief about the edge is off | Simulated in the browser |
 
-- **Quick checks.** Each drill ends with `<div class="check" data-check="<drill id>">`; the question, its three options, the right answer and the explanation are in `WORDS.…q` in `play.js`, in both languages. A right answer ticks the drill off. Which drills are done is kept in `localStorage` (`jans-matchday:learn`) and nowhere else; the league in the header (Kreisliga to Bundesliga) is just that count.
-- **Guess the forecast.** After the drills: the reader sets home/draw/away for each match of the latest matchday in `data/forecasts.json` and is shown the models and the bookmakers. It grades against the forecast, not the result, so it works before kick-off. Without `data/forecasts.json` the game is hidden and the models drill shows a built-in example.
-- **To add a drill:** a `<section class="page-section" id="…">` with a `drill-kicker`, the two language blocks, a `<div class="calc toy" id="…">` and a check; then its id in `DRILLS` in `play.js`, a link in the header's `page-jump`, and the count in the kickers and in `.progress-meter` (`learn.css`).
+- **Quick checks.** Each drill ends with `<div class="check" data-check="<drill id>">`; the question, its three options, the right answer and the explanation are in `WORDS.…q` in `play.js`, in both languages. A right answer ticks the drill off. Which drills are done is kept in `localStorage` (`jans-matchday:learn`) and nowhere else, so both pages share it. The league in the header (Kreisliga to Champions) is just that count; part one ends with a half-time box, part two with full time.
+- **Guess the forecast** (part one). The reader sets home/draw/away for each match of the latest matchday in `data/forecasts.json` and sees the models and the bookmakers. Guesses close at kick-off and are saved on the device (`jans-matchday:guesses`, the current and previous matchday only). Once a guessed match has kicked off, one OpenLigaDB request for the matchday fills the **scorecard**: the reader, the models and the bookmakers (their price when the forecast was published) graded on the result by RPS.
+- **Penalty shoot-out** (part two). Ten random matches from `data/learn.json`; the reader forecasts blind, then sees the models (out of sample) and the bookmakers (closing average) and the result. The closest forecast scores the penalty; the shoot-out is decided on the average score, as the track record is.
+- **Show the code.** Part two's drills each have a short Python snippet (`<details class="code-peek">`). [`learn/training_ground.ipynb`](learn/training_ground.ipynb) runs every drill in Google Colab from public data: it fetches the `source-data` and `backtest-results` branches, rebuilds `data/learn.json` with `learn_data.py` and reproduces the numbers on both pages (about 20 seconds, no GPU needed). Keep it without outputs.
+- **To add a drill:** a `<section class="page-section" id="…">` with a `drill-kicker`, the two language blocks, a `<div class="calc toy" id="…">` and a check; then its id in `DRILLS` in `play.js`, a link in the page's `page-jump`, the count in every kicker ("Drill 8 of 11"), the columns of `.progress-meter` and the rank thresholds in `rank()` (`play.js`).
 
 ### Site data
 
@@ -74,9 +80,10 @@ Seven drills on one page, in the order a forecast is made and judged. The prose 
 | `analysis/posts.json` | Every deep dive: match id, published probabilities (models and market), card text in both languages; after the match `fullTime` with the score and the grades quoted in the post | With each post, and after full time |
 | `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Automatically, once a day, by the odds recorder (see *Odds*) |
 | `data/forecasts.json` | The models' forecast for every match of a matchday: the ensemble, the three models behind it, expected goals and a 6 × 6 grid of score probabilities | Automatically, once per matchday, by the **Forecast the matchday** workflow (see *Weekly forecasts*); never edited afterwards |
+| `data/learn.json` | The real numbers behind part two of the Learn course: the table's spread by matchday, the current Elo ratings, and every graded backtest forecast (models and closing market) with its result. Written by `analysis/pipeline/learn_data.py` from the match table and the `xg/` backtest predictions | Automatically, with each published forecast (**Forecast the matchday**); by hand: `python analysis/pipeline/learn_data.py /tmp/matches.csv /tmp/results/xg data/learn.json --as-of YYYY-MM-DD` |
 | `data/record.json` | Season and backtest figures for the track record and the line on the home page (`uniform` is the score of a forecast of one third each), written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
 
-When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together. The same goes for `learn/learn.js`, `learn/play.js` and `learn/learn.css`, which are linked from `learn/index.html` only.
+When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together. The same goes for `learn/learn.js`, `learn/play.js`, `learn/advanced.js` and `learn/learn.css`, which are linked from the two Learn pages only.
 
 Fonts (DM Sans and Barlow Condensed, SIL Open Font License) are served from `assets/fonts`, not Google Fonts: no third-party request, nothing render-blocking, and they work offline. Club crests still come from the links OpenLigaDB provides, but `app.js` asks for 120 px Wikimedia thumbnails of the same crests (about 110 KB for all 18 clubs instead of about 1.2 MB of full-size originals) and falls back to OpenLigaDB's own link, then to the club's initials.
 
@@ -156,7 +163,7 @@ Nothing in the pre-registered xG test changes: every match in it has Understat's
 
 ### Weekly forecasts
 
-The **Forecast the matchday** workflow forecasts every match of the coming matchday, not only the one with a deep dive, and writes `data/forecasts.json`. The home page shows the forecast on each fixture, next to the bookmakers, and grades it after full time.
+The **Forecast the matchday** workflow forecasts every match of the coming matchday, not only the one with a deep dive, and writes `data/forecasts.json`. The home page shows the forecast on each fixture, next to the bookmakers, and grades it after full time. In the same run it refreshes `data/learn.json` for the Learn course (with a warning, never a failure, if that step goes wrong).
 
 - **Same models, same data.** `site_forecasts.py` reads the fixtures from OpenLigaDB, translates the club names (`teams.py`) and calls `forecast.py --xg --pool`: the three published models and their plain average, fitted on the match table built from the `source-data` branch and the private xG files. A forecast here is made exactly the way the backtest grades them.
 - **Published once.** A matchday is due from 72 hours before its first kick-off: on a normal weekend that is Thursday morning, after **Fetch source data** has brought in the last results. It is forecast once and never refitted; a matchday that has kicked off is refused. The file records when it was published, the freeze date, the last match the models saw, the code commit and the checksum of the match table. `--force` (a tick box when the workflow is started by hand) replaces a forecast before kick-off and says so in the file.

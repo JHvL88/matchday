@@ -18,7 +18,11 @@
   const I18N = window.I18N;
   const { element, triSlider } = window.LEARN;
   const STORE_KEY = "jans-matchday:learn";
-  const DRILLS = ["probabilities", "goals", "xg", "models", "odds", "grading", "market"];
+  const GUESS_KEY = "jans-matchday:guesses";
+  const HERE = new URL(".", document.currentScript.src);
+  const API = "https://api.openligadb.de";
+  // Part one (learn/) has the first seven, part two (learn/part-two/) the other four.
+  const DRILLS = ["probabilities", "goals", "xg", "models", "odds", "grading", "market", "luck", "elo", "calibration", "staking"];
   const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const WORDS = {
@@ -133,7 +137,18 @@
       gameFar: "The models politely disagree. So did the bookmakers.",
       gameAgain: "Play again",
       gameBoard: "See the matchday board",
-      gameFine: "Graded against the forecast, not the result: the matches may not have been played yet. Nothing leaves your device.",
+      gameFine: "The game compares you with the forecast; the scorecard grades you against the result after full time. Guesses close at kick-off and stay on this device.",
+      gameClosed: "Matchday {md} has kicked off, so guesses are closed. The next matchday opens when its forecasts are published, usually on Thursday.",
+      gameSaved: "Your guesses are saved on this device. Come back after the final whistle: the scorecard grades you against the results.",
+      cardTitle: "Your scorecard",
+      cardYours: "You: {h} · {d} · {a}",
+      cardKickoff: "kick-off {when}",
+      cardWaiting: "waiting for the result",
+      cardTotal: "After {n} graded: you {you}, my models {models}{books}.",
+      cardBooks: ", the bookmakers {books}",
+      cardWin: "You’re ahead. Enjoy it; it is a small sample.",
+      cardLose: "Not ahead yet. Small samples are cruel in both directions.",
+      cardFine: "Ranked probability score per match, lower is better. The lowest in each row is in bold. Bookmakers: their average price when the forecast was published.",
       // Quick checks and progress
       check: "Quick check",
       checkDone: "Quick check · done",
@@ -141,14 +156,18 @@
       wrong: "Not quite. Have another go.",
       progress: "{done} of {total} drills done",
       rankLabel: "Your league:",
-      ranks: ["Kreisliga", "Regionalliga", "2. Bundesliga", "Bundesliga"],
+      ranks: ["Kreisliga", "Regionalliga", "2. Bundesliga", "Bundesliga", "Champions"],
       rankLines: [
         "Sunday league. Everybody starts here.",
         "Semi-pro. You know a margin when you see one.",
-        "One promotion to go.",
-        "Promoted. You can now read every number on this site, and argue with it.",
+        "Second tier. Part two is where promotion is won.",
+        "Top flight. You can read every number on this site, and argue with it.",
+        "Champions. You know what a table, a rating and a stake are really telling you, which puts you ahead of most of the people betting this weekend.",
       ],
       fullTime: "Full time",
+      halfTime: "Half time",
+      toPartTwo: "On to part two",
+      toPartOne: "Back to part one",
       reset: "Start again",
       toBoard: "To this week’s forecasts",
       q: {
@@ -193,6 +212,30 @@
           options: ["He can beat the bookmakers", "Not much: plenty of coin-flippers are up by then", "The bookmaker got its prices wrong"],
           answer: 1,
           why: "About one pure guesser in ten is at least €8 up after 100 such bets, and three in ten are in profit. Ask again after 2,000.",
+        },
+        luck: {
+          q: "Eighteen identical clubs play a full season, every match settled by dice. Roughly how many points does the champion finish with?",
+          options: ["About 47, the same as everyone", "About 61", "About 80, like a real champion"],
+          answer: 1,
+          why: "About 61, with the bottom club on about 33. Luck alone spreads identical teams by nearly 30 points. Real Bundesliga champions average 80 and the bottom club 24: the rest of that gap is quality.",
+        },
+        elo: {
+          q: "A club rated 1700 draws at home with one rated 1350. What happens to its rating?",
+          options: ["It goes up: a point is a point", "It goes down", "Nothing: draws don’t count"],
+          answer: 1,
+          why: "With home advantage it was expected to take about 0.91 of a win. A draw is worth 0.5, so it drops about 8 points and the visitors gain the same 8.",
+        },
+        calibration: {
+          q: "Of 200 matches a forecaster called 70% home wins, 110 ended in a home win (55%). The forecaster is…",
+          options: ["Too bold", "Too shy", "Well calibrated: 55% is close enough"],
+          answer: 0,
+          why: "It said 70% and the world said 55%: more sure than it had reason to be. On a calibration chart that dot sits below the diagonal. Over 200 matches, a 15-point gap is not bad luck.",
+        },
+        staking: {
+          q: "Odds of 2.10, and you are sure your chance is 50%. What share of your pot does Kelly say to bet?",
+          options: ["About 5%", "About 25%", "Half: it’s 50–50"],
+          answer: 0,
+          why: "Your edge is 0.50 × 2.10 − 1 = 0.05. Divide by the odds minus one (1.10) and you get 4.5%. Kelly bets are small, and that is with an edge you are sure of.",
         },
       },
     },
@@ -301,21 +344,36 @@
       gameFar: "Die Modelle widersprechen höflich. Die Buchmacher übrigens auch.",
       gameAgain: "Noch mal spielen",
       gameBoard: "Zum Spieltag",
-      gameFine: "Bewertet wird gegen die Prognose, nicht gegen das Ergebnis: Die Spiele sind vielleicht noch gar nicht gespielt. Nichts verlässt dein Gerät.",
+      gameFine: "Das Spiel vergleicht dich mit der Prognose; die Auswertung bewertet dich nach Abpfiff gegen das Ergebnis. Tipps schließen mit dem Anpfiff und bleiben auf diesem Gerät.",
+      gameClosed: "Der {md}. Spieltag hat begonnen, Tipps sind geschlossen. Der nächste Spieltag öffnet, sobald seine Prognosen erscheinen, meist am Donnerstag.",
+      gameSaved: "Deine Tipps sind auf diesem Gerät gespeichert. Nach dem Abpfiff wiederkommen: Die Auswertung bewertet dich gegen die Ergebnisse.",
+      cardTitle: "Deine Auswertung",
+      cardYours: "Du: {h} · {d} · {a}",
+      cardKickoff: "Anpfiff {when}",
+      cardWaiting: "Ergebnis steht noch aus",
+      cardTotal: "Nach {n} bewerteten Spielen: du {you}, meine Modelle {models}{books}.",
+      cardBooks: ", die Buchmacher {books}",
+      cardWin: "Du liegst vorn. Genießen, die Stichprobe ist klein.",
+      cardLose: "Noch nicht vorn. Kleine Stichproben sind in beide Richtungen gnadenlos.",
+      cardFine: "Ranked Probability Score pro Spiel, niedriger ist besser. Der beste Wert jeder Zeile ist fett. Buchmacher: ihr Durchschnittspreis bei Veröffentlichung der Prognose.",
       check: "Kurzer Check",
       checkDone: "Kurzer Check · erledigt",
       right: "Richtig.",
       wrong: "Nicht ganz. Noch ein Versuch.",
       progress: "{done} von {total} Übungen geschafft",
       rankLabel: "Deine Liga:",
-      ranks: ["Kreisliga", "Regionalliga", "2. Bundesliga", "Bundesliga"],
+      ranks: ["Kreisliga", "Regionalliga", "2. Bundesliga", "Bundesliga", "Meister"],
       rankLines: [
         "Kreisliga. Hier fängt jeder an.",
         "Halbprofi. Eine Marge erkennst du, wenn du sie siehst.",
-        "Noch ein Aufstieg.",
-        "Aufgestiegen. Du kannst jetzt jede Zahl auf dieser Seite lesen, und ihr widersprechen.",
+        "Zweite Liga. Der Aufstieg wird in Teil zwei entschieden.",
+        "Erste Liga. Du kannst jede Zahl auf dieser Seite lesen, und ihr widersprechen.",
+        "Meister. Du weißt, was eine Tabelle, ein Rating und ein Einsatz wirklich sagen, und damit mehr als die meisten, die an diesem Wochenende wetten.",
       ],
       fullTime: "Abpfiff",
+      halfTime: "Halbzeit",
+      toPartTwo: "Weiter zu Teil zwei",
+      toPartOne: "Zurück zu Teil eins",
       reset: "Von vorn anfangen",
       toBoard: "Zu den Prognosen der Woche",
       q: {
@@ -360,6 +418,30 @@
           options: ["Er kann die Buchmacher schlagen", "Wenig: Viele Münzwerfer liegen dann auch im Plus", "Der Buchmacher hat sich verrechnet"],
           answer: 1,
           why: "Etwa jeder Zehnte, der nur rät, liegt nach 100 solchen Wetten mindestens 8\u00a0€ vorn, drei von zehn sind im Plus. Nach 2.000 noch mal fragen.",
+        },
+        luck: {
+          q: "Achtzehn gleich starke Klubs spielen eine ganze Saison, jedes Spiel entscheidet der Würfel. Wie viele Punkte hat der Meister am Ende ungefähr?",
+          options: ["Etwa 47, wie alle anderen", "Etwa 61", "Etwa 80, wie ein echter Meister"],
+          answer: 1,
+          why: "Etwa 61, der Letzte etwa 33. Allein das Glück zieht gleich starke Teams fast 30 Punkte auseinander. Echte Bundesliga-Meister holen im Schnitt 80 Punkte, der Letzte 24: Der Rest des Abstands ist Qualität.",
+        },
+        elo: {
+          q: "Ein Klub mit 1700 Punkten spielt zu Hause 1:1 gegen einen mit 1350. Was passiert mit seinem Rating?",
+          options: ["Es steigt: Punkt ist Punkt", "Es sinkt", "Nichts: Remis zählen nicht"],
+          answer: 1,
+          why: "Mit Heimvorteil wurden von ihm etwa 0,91 eines Siegs erwartet. Ein Remis zählt 0,5, also verliert er etwa 8 Punkte, und die Gäste bekommen dieselben 8.",
+        },
+        calibration: {
+          q: "Von 200 Spielen, denen eine Prognose 70\u00a0% Heimsieg gab, endeten 110 mit einem Heimsieg (55\u00a0%). Die Prognose ist …",
+          options: ["zu forsch", "zu zaghaft", "gut kalibriert: 55\u00a0% ist nah genug"],
+          answer: 0,
+          why: "Sie sagte 70\u00a0%, die Wirklichkeit 55\u00a0%: sicherer, als sie Grund hatte. In einer Kalibrierungsgrafik liegt dieser Punkt unter der Diagonale. Bei 200 Spielen sind 15 Punkte Abstand kein Pech mehr.",
+        },
+        staking: {
+          q: "Quote 2,10, und du bist dir sicher, dass deine Chance 50\u00a0% ist. Welchen Anteil deines Topfs setzt Kelly?",
+          options: ["Etwa 5\u00a0%", "Etwa 25\u00a0%", "Die Hälfte: Es steht 50:50"],
+          answer: 0,
+          why: "Dein Vorteil ist 0,50 × 2,10 − 1 = 0,05. Geteilt durch Quote minus eins (1,10) ergibt das 4,5\u00a0%. Kelly-Einsätze sind klein, und das bei einem Vorteil, bei dem du dir sicher bist.",
         },
       },
     },
@@ -445,15 +527,17 @@
 
   async function loadWeek() {
     try {
-      const response = await fetch("../data/forecasts.json", { cache: "no-cache" });
+      const response = await fetch(new URL("../data/forecasts.json", HERE), { cache: "no-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const matchday = Object.keys(data.matchdays ?? {}).map(Number).sort((a, b) => b - a)[0];
       const block = data.matchdays?.[matchday];
-      const matches = Object.values(block?.matches ?? {})
-        .filter((match) => Array.isArray(match.model) && match.models && match.home && match.away)
-        .sort((a, b) => String(a.kickoff).localeCompare(String(b.kickoff)))
-        .map((match) => ({
+      const matches = Object.entries(block?.matches ?? {})
+        .filter(([, match]) => Array.isArray(match.model) && match.models && match.home && match.away)
+        .sort(([, a], [, b]) => String(a.kickoff).localeCompare(String(b.kickoff)))
+        .map(([matchId, match]) => ({
+          matchId,
+          kickoff: match.kickoff ? new Date(match.kickoff) : null,
           home: match.home,
           away: match.away,
           model: match.model,
@@ -462,10 +546,11 @@
           market: marketProbs(match.market?.odds),
         }));
       if (!matches.length) return;
-      week = { matchday, matches };
+      week = { season: data.season, matchday, matches };
       buildGoals();
       buildModels();
       buildGame();
+      loadResults();
     } catch {
       // The built-in example stays; the game stays hidden.
     }
@@ -1061,21 +1146,140 @@
 
   const gameSection = document.getElementById("game");
   const gameBox = document.getElementById("game-toy");
+  const cardBox = document.getElementById("scorecard");
   let game = { index: 0, guesses: [], locked: false, guess: [0.33, 0.34, 0.33] };
+  const results = new Map(); // matchId -> [home goals, away goals], once OpenLigaDB has the final score
+  let resultsAsked = false;
 
   // How far apart two forecasts are: the share of probability one would have to move to match the other.
   const distance = (a, b) => a.reduce((sum, p, index) => sum + Math.abs(p - b[index]), 0) / 2;
+  const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
+
+  // Saved guesses, per season and matchday: { "2026-10": { "83237": [0.6, 0.25, 0.15] } }.
+  function readGuesses() {
+    try {
+      return JSON.parse(localStorage.getItem(GUESS_KEY) ?? "{}") ?? {};
+    } catch {
+      return {};
+    }
+  }
+  let saved = readGuesses();
+  const roundKey = () => `${week.season}-${week.matchday}`;
+
+  function saveGuess(matchId, guess) {
+    const key = roundKey();
+    // Only the current matchday and the one before are kept.
+    const keep = Object.keys(saved).sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1])).slice(0, 1);
+    saved = Object.fromEntries(Object.entries(saved).filter(([name]) => name === key || keep.includes(name)));
+    saved[key] = { ...(saved[key] ?? {}), [matchId]: guess.map((p) => Math.round(p * 1000) / 1000) };
+    try {
+      localStorage.setItem(GUESS_KEY, JSON.stringify(saved));
+    } catch {
+      // Private mode: the scorecard only lasts for this visit.
+    }
+  }
+
+  // Guesses close at kick-off.
+  const isOpen = (match) => !match.kickoff || Date.now() < match.kickoff.getTime();
+
+  function finalScore(match) {
+    if (!match?.matchIsFinished) return null;
+    const list = Array.isArray(match.matchResults) ? match.matchResults : [];
+    const final = list.find((item) => Number(item.resultTypeID) === 2) ?? [...list].sort((a, b) => b.resultOrderID - a.resultOrderID)[0];
+    return final ? [Number(final.pointsTeam1), Number(final.pointsTeam2)] : null;
+  }
+
+  // One request for the matchday, and only once something with a saved guess has kicked off.
+  async function loadResults() {
+    if (!week || resultsAsked) return;
+    const mine = saved[roundKey()] ?? {};
+    if (!week.matches.some((match) => mine[match.matchId] && !isOpen(match))) return;
+    resultsAsked = true;
+    try {
+      const response = await fetch(`${API}/getmatchdata/bl1/${encodeURIComponent(week.season)}/${encodeURIComponent(week.matchday)}`, { cache: "no-cache" });
+      if (!response.ok) return;
+      const list = await response.json();
+      for (const match of Array.isArray(list) ? list : []) {
+        const score = finalScore(match);
+        if (score) results.set(String(match.matchID), score);
+      }
+      buildScorecard();
+    } catch {
+      // The scorecard keeps saying "waiting for the result".
+    }
+  }
+
+  const outcomeOf = ([home, away]) => (home > away ? 0 : home === away ? 1 : 2);
+
+  function buildScorecard() {
+    if (!cardBox) return;
+    const mine = week ? saved[roundKey()] ?? {} : {};
+    const rows = week ? week.matches.filter((match) => mine[match.matchId]) : [];
+    cardBox.hidden = rows.length === 0;
+    if (!rows.length) return;
+    const top = head(say("cardTitle"), say("gameSource", { md: week.matchday }));
+    const list = element("ol", "card-list");
+    const graded = [];
+    for (const match of rows) {
+      const guess = mine[match.matchId];
+      const item = element("li", "card-row");
+      const name = element("p", "card-match");
+      name.append(element("span", "", `${match.home} – ${match.away}`));
+      const score = results.get(String(match.matchId));
+      item.append(name);
+      if (!score) {
+        const when = isOpen(match) && match.kickoff
+          ? say("cardKickoff", { when: I18N.dateFormat(match.kickoff, { weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" }) })
+          : say("cardWaiting");
+        item.append(element("p", "card-status", `${say("cardYours", { h: pct(guess[0]), d: pct(guess[1]), a: pct(guess[2]) })} · ${when}`));
+      } else {
+        const outcome = outcomeOf(score);
+        const rpsYou = window.LEARN.rps(guess, outcome);
+        const rpsModels = window.LEARN.rps(match.model, outcome);
+        const rpsBooks = match.market ? window.LEARN.rps(match.market, outcome) : null;
+        graded.push({ rpsYou, rpsModels, rpsBooks });
+        const best = Math.min(rpsYou, rpsModels, rpsBooks ?? Infinity);
+        name.append(element("span", "card-score", I18N.score(score[0], score[1])));
+        const grades = element("p", "card-grades");
+        const part = (label, value) => {
+          const node = element("span", value <= best + 0.0005 ? "is-best" : "", `${label} ${num(value, 3)}`);
+          return node;
+        };
+        grades.append(part(say("you"), rpsYou), " · ", part(say("models"), rpsModels));
+        if (rpsBooks !== null) grades.append(" · ", part(say("bookmakers"), rpsBooks));
+        item.append(grades);
+      }
+      list.append(item);
+    }
+    const children = [top, list];
+    if (graded.length) {
+      const total = element("p", "grade-verdict");
+      const you = mean(graded.map((g) => g.rpsYou));
+      const models = mean(graded.map((g) => g.rpsModels));
+      const books = graded.every((g) => g.rpsBooks !== null) ? mean(graded.map((g) => g.rpsBooks)) : null;
+      total.textContent = say("cardTotal", { n: graded.length, you: num(you, 3), models: num(models, 3), books: books === null ? "" : say("cardBooks", { books: num(books, 3) }) })
+        + ` ${say(you < Math.min(models, books ?? Infinity) - 0.0005 ? "cardWin" : "cardLose")}`;
+      children.push(total);
+    }
+    children.push(element("p", "calc-fine", say("cardFine")));
+    cardBox.replaceChildren(...children);
+  }
 
   function buildGame() {
     if (!gameBox || !gameSection) return;
     gameSection.hidden = !week;
     for (const link of document.querySelectorAll('.page-jump a[href="#game"]')) link.hidden = !week;
     if (!week) return;
-    const matches = week.matches;
+    buildScorecard();
+    const matches = week.matches.filter(isOpen);
     const top = head(say("gameTitle"), say("gameSource", { md: week.matchday }));
 
+    if (!matches.length) {
+      gameBox.replaceChildren(top, element("p", "calc-note", say("gameClosed", { md: week.matchday })), element("p", "calc-fine", say("gameFine")));
+      return;
+    }
+
     if (game.index >= matches.length) {
-      const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
       const own = mean(game.guesses.map((guess, index) => distance(guess, matches[index].model)));
       const priced = matches.filter((match) => match.market);
       const lines = [element("p", "game-result", say("gameDone"))];
@@ -1087,9 +1291,10 @@
         models: pct(mean(matches.map((match) => match.model[1]))),
       })));
       lines.push(element("p", "grade-verdict", say(own < 0.055 ? "gameSharp" : own < 0.105 ? "gameDecent" : "gameFar")));
+      lines.push(element("p", "calc-note", say("gameSaved")));
       const actions = element("div", "toy-actions");
       const board = element("a", "toy-button", say("gameBoard"));
-      board.href = "../#matchday";
+      board.href = new URL("../#matchday", HERE).href;
       actions.append(button("toy-button is-primary", say("gameAgain"), () => {
         game = { index: 0, guesses: [], locked: false, guess: [0.33, 0.34, 0.33] };
         buildGame();
@@ -1112,6 +1317,7 @@
       actions.append(button("toy-button is-primary", say("lock"), () => {
         game.guesses[game.index] = game.guess;
         game.locked = true;
+        saveGuess(match.matchId, game.guess);
         buildGame();
         gameBox.querySelector(".toy-button")?.focus();
       }));
@@ -1209,9 +1415,10 @@
   const progressBox = document.getElementById("drill-progress");
   const finishBox = document.getElementById("full-time");
 
+  // 0-2 drills Kreisliga, 3-5 Regionalliga, 6-8 2. Bundesliga, 9-10 Bundesliga, all 11 champions.
   function rank() {
     const count = done.size;
-    return count >= DRILLS.length ? 3 : count >= 4 ? 2 : count >= 2 ? 1 : 0;
+    return count >= DRILLS.length ? 4 : count >= 9 ? 3 : count >= 6 ? 2 : count >= 3 ? 1 : 0;
   }
 
   function buildProgress() {
@@ -1223,7 +1430,7 @@
       text.append(say("progress", { done: count, total: DRILLS.length }), " · ", element("strong", "", names[level]));
       const meter = element("div", "progress-meter");
       meter.setAttribute("aria-hidden", "true");
-      DRILLS.forEach((id) => meter.append(element("span", done.has(id) ? "is-done" : "")));
+      DRILLS.forEach((id, index) => meter.append(element("span", `${done.has(id) ? "is-done" : ""}${index === 7 ? " is-half" : ""}`)));
       progressBox.replaceChildren(text, meter);
     }
     for (const link of document.querySelectorAll(".page-jump a")) {
@@ -1234,12 +1441,19 @@
       kicker.classList.toggle("is-done", done.has(kicker.dataset.drill));
     }
     if (finishBox) {
+      // Half time at the end of part one, full time at the end of part two.
+      const half = finishBox.dataset.stage === "half";
       const title = element("p", "finish-title");
       title.append(element("span", "finish-label", `${say("rankLabel")} `), names[level]);
       const actions = element("div", "toy-actions");
-      const board = element("a", "toy-button is-primary", say("toBoard"));
-      board.href = "../#matchday";
-      actions.append(board);
+      const next = element("a", "toy-button is-primary", say(half ? "toPartTwo" : "toBoard"));
+      next.href = half ? new URL("part-two/", HERE).href : new URL("../#matchday", HERE).href;
+      actions.append(next);
+      if (!half) {
+        const back = element("a", "toy-button", say("toPartOne"));
+        back.href = HERE.href;
+        actions.append(back);
+      }
       if (count > 0) {
         actions.append(button("toy-button is-quiet", say("reset"), () => {
           done.clear();
@@ -1253,10 +1467,10 @@
       ladder.setAttribute("aria-hidden", "true");
       names.forEach((label, index) => ladder.append(element("li", index === level ? "is-here" : index < level ? "is-past" : "", label)));
       finishBox.replaceChildren(
-        element("p", "check-kicker", `${say("fullTime")} · ${say("progress", { done: count, total: DRILLS.length })}`),
+        element("p", "check-kicker", `${say(half ? "halfTime" : "fullTime")} · ${say("progress", { done: count, total: DRILLS.length })}`),
         title, element("p", "finish-line", words().rankLines[level]), ladder, actions,
       );
-      finishBox.classList.toggle("is-complete", level === 3);
+      finishBox.classList.toggle("is-complete", level === 4);
     }
   }
 
@@ -1277,6 +1491,9 @@
     buildProgress();
   }
 
+  // Shared with advanced.js (part two).
+  Object.assign(window.LEARN, { head, stat, button, barRow, svg, random, niceStep });
+
   // The playthings and the game change the page's height after it has loaded, so an address such
   // as #rps or #game is followed again once they are in place, unless the reader has already moved on.
   let moved = false;
@@ -1291,6 +1508,6 @@
 
   renderAll();
   followHash();
-  loadWeek().then(followHash);
+  if (goalBox || modelsBox || gameBox) loadWeek().then(followHash);
   I18N.onChange(renderAll);
 })();

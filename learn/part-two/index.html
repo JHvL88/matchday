@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1b1e25">
+    <meta name="description" content="Part two of the Learn course: how much of the table is luck, how Elo ratings work, calibration on 2,200 real forecasts, how much to bet (Kelly) and a penalty shoot-out against the models and the bookmakers." data-i18n-attrs="content:learn2.meta">
+    <title data-i18n="learn2.pageTitle">Learn, part two: luck, ratings and how much to bet — Jan’s Matchday</title>
+    <link rel="canonical" href="https://jhvl88.github.io/matchday/learn/part-two/">
+    <link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/learn/part-two/?lang=en">
+    <link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/learn/part-two/?lang=de">
+    <link rel="alternate" hreflang="x-default" href="https://jhvl88.github.io/matchday/learn/part-two/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jan’s Matchday">
+    <meta property="og:title" content="Luck, ratings and how much to bet">
+    <meta property="og:description" content="How much of the Bundesliga table is luck, what Elo ratings do, how bold a forecast should be, how much to bet, and a penalty shoot-out against the models.">
+    <meta property="og:url" content="https://jhvl88.github.io/matchday/learn/part-two/">
+    <meta property="og:image" content="https://jhvl88.github.io/matchday/assets/share/home.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Jan’s Matchday: Bundesliga forecasts, results and the table">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Luck, ratings and how much to bet">
+    <meta name="twitter:description" content="How much of the Bundesliga table is luck, what Elo ratings do, how bold a forecast should be, how much to bet, and a penalty shoot-out against the models.">
+    <meta name="twitter:image" content="https://jhvl88.github.io/matchday/assets/share/home.jpg">
+    <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+    <link rel="manifest" href="../../manifest.webmanifest">
+    <link rel="preload" href="../../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../../styles.css?v=11">
+    <link rel="stylesheet" href="../../analysis/analysis.css?v=5">
+    <link rel="stylesheet" href="../../pages.css?v=4">
+    <link rel="stylesheet" href="../learn.css?v=2">
+    <script src="../../i18n.js?v=16" defer></script>
+    <script src="../../glossary.js?v=16" defer></script>
+    <script src="../../explain.js?v=10" defer></script>
+    <script src="../learn.js?v=3" defer></script>
+    <script src="../play.js?v=2" defer></script>
+    <script src="../advanced.js?v=1" defer></script>
+  </head>
+  <body class="article page-learn">
+    <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
+    <header class="topbar">
+      <div class="app-shell topbar-inner">
+        <a class="brand" href="../../" aria-label="Jan’s Matchday home" data-i18n-attrs="aria-label:brand.home">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span class="brand-name">Jan’s Matchday</span>
+        </a>
+        <nav class="top-nav" aria-label="Sections" data-i18n-attrs="aria-label:nav.label">
+          <a href="../../#matchday" data-i18n="nav.matchday">Matchday</a>
+          <a href="../../#table" data-i18n="nav.table">Table</a>
+          <a href="../../#analysis" data-i18n="nav.dives">Deep dives</a>
+          <a href="../../record/" data-i18n="nav.record">Track record</a>
+          <a href="../" aria-current="page" data-i18n="nav.learn">Learn</a>
+        </nav>
+        <div class="segmented lang-switch" role="group" aria-label="Language" data-i18n-attrs="aria-label:lang.label">
+          <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="de" lang="de" title="Deutsch" aria-pressed="false">DE</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <main id="content">
+        <div class="page-card">
+          <header class="post-hero">
+            <p class="eyebrow" data-lang-only="en">Learn · part two</p>
+            <p class="eyebrow" data-lang-only="de" hidden>Grundlagen · Teil zwei</p>
+            <h1 data-lang-only="en">Luck, ratings and how much to bet<span>.</span></h1>
+            <h1 data-lang-only="de" hidden>Glück, Ratings und wie viel man setzt<span>.</span></h1>
+            <p class="post-dek" data-lang-only="en">Part one taught the language. Part two is about the traps: a table that flatters, ratings that lag, forecasts that are too sure of themselves, and the question most bettors get wrong. Four drills on real Bundesliga data, then a penalty shoot-out against my models and the bookmakers.</p>
+            <p class="post-dek" data-lang-only="de" hidden>Teil eins hat die Sprache erklärt. In Teil zwei geht es um die Fallen: eine Tabelle, die schmeichelt, Ratings, die hinterherhinken, Prognosen, die sich zu sicher sind, und die Frage, an der die meisten Wettenden scheitern. Vier Übungen mit echten Bundesliga-Daten, danach ein Elfmeterschießen gegen meine Modelle und die Buchmacher.</p>
+            <div class="drill-progress" id="drill-progress" aria-live="polite"></div>
+            <nav class="page-jump" aria-label="On this page" data-i18n-attrs="aria-label:toc.title">
+              <a href="#luck"><span data-lang-only="en">Luck in the table</span><span data-lang-only="de" hidden>Glück in der Tabelle</span></a>
+              <a href="#elo"><span data-lang-only="en">Elo ratings</span><span data-lang-only="de" hidden>Elo-Ratings</span></a>
+              <a href="#calibration"><span data-lang-only="en">Too sure, too shy</span><span data-lang-only="de" hidden>Zu sicher, zu zaghaft</span></a>
+              <a href="#staking"><span data-lang-only="en">How much to bet</span><span data-lang-only="de" hidden>Wie viel setzen</span></a>
+              <a href="#penalties"><span data-lang-only="en">Extra time: penalties</span><span data-lang-only="de" hidden>Verlängerung: Elfmeter</span></a>
+              <a href="../" class="is-back"><span data-lang-only="en">← Part one</span><span data-lang-only="de" hidden>← Teil eins</span></a>
+            </nav>
+            <a class="colab-link hero-colab" href="https://colab.research.google.com/github/JHvL88/matchday/blob/main/learn/training_ground.ipynb" target="_blank" rel="noreferrer"><span data-lang-only="en">Every drill as code: open the notebook in Google Colab ↗</span><span data-lang-only="de" hidden>Jede Übung als Code: Notebook in Google Colab öffnen ↗</span></a>
+          </header>
+
+          <div class="post-body page-body">
+            <section class="page-section" id="luck">
+              <p class="drill-kicker" data-drill="luck"><span data-lang-only="en">Drill 8 of 11</span><span data-lang-only="de" hidden>Übung 8 von 11</span></p>
+              <div data-lang-only="en">
+                <h2>Is the table lying?</h2>
+                <p>After five matchdays someone is top with 13 points and the papers have a story. How much of that is football and how much is dice?</p>
+                <p>One way to find out: build a league where it can only be dice. Eighteen identical clubs, every match a home win 45% of the time, a draw 25% and an away win 30%, which is how Bundesliga matches have split since 2005. Nobody is better than anybody. Play a season and watch the table.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Lügt die Tabelle?</h2>
+                <p>Nach fünf Spieltagen steht jemand mit 13 Punkten oben, und die Zeitungen haben ihre Geschichte. Wie viel davon ist Fußball und wie viel Würfel?</p>
+                <p>Das lässt sich herausfinden: mit einer Liga, in der es nur Würfel geben kann. Achtzehn gleich starke Klubs, jedes Spiel endet in 45&nbsp;% der Fälle mit Heimsieg, in 25&nbsp;% remis und in 30&nbsp;% mit Auswärtssieg, so wie sich Bundesligaspiele seit 2005 verteilen. Keiner ist besser als der andere. Eine Saison spielen und die Tabelle beobachten.</p>
+              </div>
+              <div class="calc toy" id="clone-toy"></div>
+              <div data-lang-only="en">
+                <p>The clones’ leader after five matchdays has 12 points on average; the real Bundesliga leader has had 13. Early in a season, the table mostly measures luck. By May it measures quality: the real league ends twice as spread out as the clones, with champions on 80 points instead of 61. That is why the models judge teams on goals and chances over many months, not on the table.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Der Tabellenführer der Klone hat nach fünf Spieltagen im Schnitt 12 Punkte, der echte Bundesliga-Spitzenreiter hatte 13. Früh in der Saison misst die Tabelle vor allem Glück. Im Mai misst sie Qualität: Die echte Liga liegt am Ende doppelt so weit auseinander wie die Klone, mit Meistern bei 80 statt 61 Punkten. Deshalb beurteilen die Modelle Teams nach Toren und Chancen über viele Monate und nicht nach der Tabelle.</p>
+              </div>
+              <details class="code-peek">
+                <summary><span data-lang-only="en">Show the code</span><span data-lang-only="de" hidden>Code zeigen</span></summary>
+<pre><code><span class="c"># A season of 18 identical clubs (Python, numpy)</span>
+import numpy as np
+rng = np.random.default_rng()
+H, D = 0.447, 0.250                       <span class="c"># Bundesliga since 2005/06: home win, draw</span>
+points = np.zeros(18)
+for home in range(18):                    <span class="c"># everyone plays everyone, home and away</span>
+    for away in range(18):
+        if home == away:
+            continue
+        u = rng.random()
+        if u &lt; H:       points[home] += 3
+        elif u &lt; H + D: points[home] += 1; points[away] += 1
+        else:           points[away] += 3
+print(sorted(points, reverse=True))       <span class="c"># champion usually about 61, bottom about 33</span></code></pre>
+              </details>
+              <div class="check" data-check="luck"></div>
+            </section>
+
+            <section class="page-section" id="elo">
+              <p class="drill-kicker" data-drill="elo"><span data-lang-only="en">Drill 9 of 11</span><span data-lang-only="de" hidden>Übung 9 von 11</span></p>
+              <div data-lang-only="en">
+                <h2>Ratings that learn</h2>
+                <p>The most useful single number in my XGBoost model isn’t xG or form. It’s a rating invented for chess by Arpad Elo in the 1960s. Every club carries one number. Before a match, the gap between the two, plus 60 points for playing at home, says what share of the points the home side should take: a win counts 1, a draw a half.</p>
+                <p>After the match, both ratings move by the difference between what happened and what was expected, times 20, a bit more for big wins. Beat a team you were expected to beat and you gain little. Draw with one you should have beaten and you pay. The <button type="button" class="term" data-term="elo">Elo ratings</button> below are the real ones, from the same code that feeds the models.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Ratings, die dazulernen</h2>
+                <p>Die nützlichste einzelne Zahl in meinem XGBoost-Modell sind weder xG noch Form. Es ist ein Rating, das Arpad Elo in den 1960er-Jahren für Schach erfunden hat. Jeder Klub trägt eine Zahl. Vor dem Spiel sagt der Abstand der beiden, plus 60 Punkte für das Heimspiel, welchen Anteil der Punkte das Heimteam holen sollte: Ein Sieg zählt 1, ein Remis die Hälfte.</p>
+                <p>Nach dem Spiel bewegen sich beide Ratings um den Unterschied zwischen dem, was passiert ist, und dem, was erwartet wurde, mal 20, bei hohen Siegen etwas mehr. Wer einen Gegner schlägt, den er schlagen sollte, gewinnt wenig. Wer gegen ihn nur remis spielt, zahlt drauf. Die <button type="button" class="term" data-term="elo">Elo-Zahlen</button> unten sind die echten, aus demselben Code, der die Modelle füttert.</p>
+              </div>
+              <div class="calc toy" id="elo-toy"></div>
+              <div data-lang-only="en">
+                <p>Elo is slow on purpose. A normal result moves a club a few points, a shock 15 to 30, never 100. Every summer each rating is also pulled a fifth of the way back to the average, because squads change. So Elo is slow to notice a team that has really changed, and hard to beat on everyone else.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Elo ist absichtlich träge. Ein normales Ergebnis bewegt einen Klub um ein paar Punkte, eine Sensation um 15 bis 30, nie um 100. Außerdem rückt jedes Rating im Sommer ein Fünftel zurück zum Durchschnitt, weil sich Kader ändern. Ein Team, das sich wirklich verändert hat, bemerkt Elo deshalb spät; bei allen anderen ist es schwer zu schlagen.</p>
+              </div>
+              <details class="code-peek">
+                <summary><span data-lang-only="en">Show the code</span><span data-lang-only="de" hidden>Code zeigen</span></summary>
+<pre><code><span class="c"># One Elo update, as in analysis/pipeline/features.py</span>
+def elo_update(home, away, home_goals, away_goals, k=20, home_adv=60):
+    expected = 1 / (1 + 10 ** (-(home + home_adv - away) / 400))
+    gd = home_goals - away_goals
+    result = 1.0 if gd &gt; 0 else 0.5 if gd == 0 else 0.0
+    mult = 1.0 if abs(gd) &lt;= 1 else 1.5 if abs(gd) == 2 else (11 + abs(gd)) / 8
+    delta = k * mult * (result - expected)
+    return home + delta, away - delta
+
+elo_update(1700, 1350, 1, 1)              <span class="c"># (1691.7, 1358.3): the favourite pays for the draw</span></code></pre>
+              </details>
+              <div class="check" data-check="elo"></div>
+            </section>
+
+            <section class="page-section" id="calibration">
+              <p class="drill-kicker" data-drill="calibration"><span data-lang-only="en">Drill 10 of 11</span><span data-lang-only="de" hidden>Übung 10 von 11</span></p>
+              <div data-lang-only="en">
+                <h2>Too sure, too shy</h2>
+                <p>A forecast can be bad in two ways. It can be timid, giving everything thirty-something percent and never committing. Or it can be cocky, calling 80% when the honest number is 65%. Good forecasts sit in between: as bold as the evidence allows, and no bolder.</p>
+                <p>The test is <button type="button" class="term" data-term="calibration">calibration</button>: of everything forecast at 70%, about 70% should happen. Below is every forecast my published models have made since 2019/20 without seeing the result, more than 2,200 matches, with a dial. Turn it right and every forecast gets bolder (favourites up, long shots down). Turn it left and everything drifts towards a shrug.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Zu sicher, zu zaghaft</h2>
+                <p>Eine Prognose kann auf zwei Arten schlecht sein. Sie kann zaghaft sein, allem etwas über 30&nbsp;% geben und sich nie festlegen. Oder sie kann großspurig sein und 80&nbsp;% sagen, wo 65&nbsp;% ehrlich wären. Gute Prognosen liegen dazwischen: so forsch, wie es die Daten erlauben, und nicht forscher.</p>
+                <p>Der Test ist die <button type="button" class="term" data-term="calibration">Kalibrierung</button>: Von allem, was mit 70&nbsp;% vorhergesagt wird, sollten etwa 70&nbsp;% eintreten. Unten steht jede Prognose, die meine veröffentlichten Modelle seit 2019/20 abgegeben haben, ohne das Ergebnis zu kennen, mehr als 2.200 Spiele, mit einem Regler. Nach rechts wird jede Prognose forscher (Favoriten rauf, Außenseiter runter), nach links rutscht alles Richtung Schulterzucken.</p>
+              </div>
+              <div class="calc toy" id="cal-toy"></div>
+              <div data-lang-only="en">
+                <p>The dial barely helps. The best setting is a whisker from the published one, so the models are about as bold as they should be: a little shy between 60% and 80%, a little brash above. The bookmakers’ dots hug the line just as closely, and they still score better. Their edge is knowledge, not nerve.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Der Regler hilft kaum. Die beste Einstellung liegt haarscharf neben der veröffentlichten, die Modelle sind also etwa so forsch, wie sie sein sollten: zwischen 60 und 80&nbsp;% etwas zaghaft, darüber etwas großspurig. Die Punkte der Buchmacher liegen genauso nah an der Linie, und trotzdem schneiden sie besser ab. Ihr Vorsprung ist Wissen, nicht Mut.</p>
+              </div>
+              <details class="code-peek">
+                <summary><span data-lang-only="en">Show the code</span><span data-lang-only="de" hidden>Code zeigen</span></summary>
+<pre><code><span class="c"># p: (n, 3) home/draw/away forecasts, y: (n,) outcome 0/1/2</span>
+def bolder(p, b):
+    """b &gt; 1 sharpens every forecast, b &lt; 1 flattens it towards a third each."""
+    q = p ** b
+    return q / q.sum(axis=1, keepdims=True)
+
+def calibration(p, y, bins=10):
+    """Forecast against reality in bins of ten points, all three outcomes pooled."""
+    hit, prob = np.eye(3)[y].ravel(), p.ravel()
+    k = np.minimum((prob * bins).astype(int), bins - 1)
+    return [(prob[k == i].mean(), hit[k == i].mean(), (k == i).sum())
+            for i in range(bins) if (k == i).any()]</code></pre>
+              </details>
+              <div class="check" data-check="calibration"></div>
+            </section>
+
+            <section class="page-section" id="staking">
+              <p class="drill-kicker" data-drill="staking"><span data-lang-only="en">Drill 11 of 11</span><span data-lang-only="de" hidden>Übung 11 von 11</span></p>
+              <div data-lang-only="en">
+                <h2>How much to bet</h2>
+                <p>Suppose you really do have an edge. The next question decides whether you live to enjoy it: how much of your pot goes on each bet? Bet too little and the edge never adds up to much. Bet too much and a bad run cleans you out before the edge has had time to show.</p>
+                <p>In 1956 John Kelly, a physicist at Bell Labs, worked out the stake that grows a pot fastest: your edge divided by the odds minus one. At odds of 2.10 with a true 50% chance, that is 4.5% of the pot per bet. The catch is the word “your”. The <button type="button" class="term" data-term="kelly">Kelly stake</button> assumes you know your chance exactly. Below, the true chance is 50%. Slide your belief and see what being a little too sure of yourself costs.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Wie viel man setzt</h2>
+                <p>Angenommen, du hast wirklich einen Vorteil. Die nächste Frage entscheidet, ob du lange genug dabei bist, um ihn zu genießen: Wie viel deines Topfs kommt auf jede Wette? Zu wenig, und der Vorteil bringt nie viel. Zu viel, und eine Pechsträhne räumt dich ab, bevor sich der Vorteil zeigen kann.</p>
+                <p>1956 hat John Kelly, ein Physiker bei den Bell Labs, den Einsatz ausgerechnet, mit dem ein Topf am schnellsten wächst: dein Vorteil geteilt durch Quote minus eins. Bei Quote 2,10 und einer wahren Chance von 50&nbsp;% sind das 4,5&nbsp;% des Topfs pro Wette. Der Haken steckt im Wort „dein“. Der <button type="button" class="term" data-term="kelly">Kelly-Einsatz</button> setzt voraus, dass du deine Chance genau kennst. Unten ist die wahre Chance 50&nbsp;%. Den Regler verschieben und sehen, was es kostet, sich ein bisschen zu sicher zu sein.</p>
+              </div>
+              <div class="calc toy" id="stake-toy"></div>
+              <div data-lang-only="en">
+                <p>Believe 55% when the truth is 50%, and full Kelly turns €100 into small change: the typical bettor is down to €10 to €15 after 500 bets. Half Kelly, making the same mistake, still ends near €150. That is why professionals bet a fraction of Kelly. The maths is fine; their edge is an estimate.</p>
+                <p>And the honest footnote for this site: the <a href="https://github.com/JHvL88/matchday/blob/main/analysis/backtest/clv/README.md" target="_blank" rel="noreferrer">closing-line test</a> found no sign that prices move towards my models before kick-off, and the paper-betting rule would have lost money. For my forecasts, the Kelly stake is zero.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Wer 55&nbsp;% glaubt, wenn es in Wahrheit 50&nbsp;% sind, macht mit vollem Kelly aus 100&nbsp;€ Kleingeld: Nach 500 Wetten bleiben typischerweise 10 bis 15&nbsp;€. Mit halbem Kelly und demselben Irrtum landet man noch bei etwa 150&nbsp;€. Deshalb setzen Profis nur einen Bruchteil von Kelly. Die Mathematik stimmt; ihr Vorteil ist eine Schätzung.</p>
+                <p>Und die ehrliche Fußnote für diese Seite: Der <a href="https://github.com/JHvL88/matchday/blob/main/analysis/backtest/clv/README.md" target="_blank" rel="noreferrer">Closing-Line-Test</a> fand kein Anzeichen dafür, dass sich die Quoten vor dem Anpfiff in Richtung meiner Modelle bewegen, und die Papierwetten-Regel hätte Geld verloren. Für meine Prognosen ist der Kelly-Einsatz null.</p>
+              </div>
+              <details class="code-peek">
+                <summary><span data-lang-only="en">Show the code</span><span data-lang-only="de" hidden>Code zeigen</span></summary>
+<pre><code>def kelly(p, odds):
+    """Share of the pot to stake: edge / (odds - 1); zero without an edge."""
+    return max(0.0, (p * odds - 1) / (odds - 1))
+
+def simulate(belief, true_p=0.50, odds=2.10, bets=500, fraction=1.0, rng=np.random.default_rng()):
+    pot, share = 100.0, fraction * kelly(belief, odds)
+    for _ in range(bets):
+        stake = share * pot
+        pot += stake * (odds - 1) if rng.random() &lt; true_p else -stake
+    return pot
+
+kelly(0.50, 2.10)                         <span class="c"># 0.045: 4.5% of the pot</span></code></pre>
+              </details>
+              <div class="check" data-check="staking"></div>
+              <div class="finish" id="full-time" data-stage="full"></div>
+            </section>
+
+            <section class="page-section" id="penalties">
+              <div data-lang-only="en">
+                <h2>Extra time: penalties</h2>
+                <p>Ten real Bundesliga matches from 2019/20 to today, drawn at random. For each, set your forecast, then see what my models and the bookmakers said before kick-off, and how it ended. The closest forecast scores; the average score decides. Fair warning: the bookmakers had seen the team sheets.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Verlängerung: Elfmeterschießen</h2>
+                <p>Zehn echte Bundesligaspiele seit 2019/20, zufällig gezogen. Für jedes stellst du deine Prognose ein und siehst dann, was meine Modelle und die Buchmacher vor dem Anpfiff gesagt haben und wie es ausging. Wer am nächsten dran war, trifft; entschieden wird nach dem Score im Schnitt. Zur Warnung: Die Buchmacher kannten die Aufstellungen.</p>
+              </div>
+              <div class="calc toy" id="penalty-toy"></div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <span class="footer-tagline" data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
+        <nav class="footer-links" aria-label="More" data-i18n-attrs="aria-label:footer.more">
+          <a href="../" data-i18n="footer.howItWorks">How it works</a>
+          <a href="../#glossary" data-i18n="footer.glossary">Glossary</a>
+          <a href="../../record/" data-i18n="nav.record">Track record</a>
+          <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer" data-i18n="footer.github">Notebooks on GitHub</a>
+        </nav>
+        <p class="responsible-note" data-i18n-html="footer.responsible">18+. Forecasts are analysis, not betting advice. If betting stops being fun: <a href="https://www.check-dein-spiel.de/" target="_blank" rel="noreferrer">check-dein-spiel.de</a> (Germany) · <a href="https://www.sos-spielsucht.ch/" target="_blank" rel="noreferrer">sos-spielsucht.ch</a> (Switzerland).</p>
+      </footer>
+    </div>
+
+    <nav class="tabbar" aria-label="Main" data-i18n-attrs="aria-label:nav.main">
+      <a href="../../#matchday">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span data-i18n="tab.matchday">Matchday</span>
+      </a>
+      <a href="../../#table">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span data-i18n="tab.table">Table</span>
+      </a>
+      <a href="../../#analysis">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        <span data-i18n="tab.dives">Deep dives</span>
+      </a>
+      <a href="../../record/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        <span data-i18n="tab.record">Record</span>
+      </a>
+      <a href="../" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>
+        <span data-i18n="tab.learn">Learn</span>
+      </a>
+    </nav>
+  </body>
+</html>
