@@ -32,10 +32,12 @@
     <link rel="stylesheet" href="../styles.css?v=11">
     <link rel="stylesheet" href="../analysis/analysis.css?v=5">
     <link rel="stylesheet" href="../pages.css?v=4">
+    <link rel="stylesheet" href="learn.css?v=1">
     <script src="../i18n.js?v=15" defer></script>
-    <script src="../glossary.js?v=14" defer></script>
+    <script src="../glossary.js?v=15" defer></script>
     <script src="../explain.js?v=10" defer></script>
-    <script src="learn.js?v=1" defer></script>
+    <script src="learn.js?v=2" defer></script>
+    <script src="play.js?v=1" defer></script>
   </head>
   <body class="article page-learn">
     <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
@@ -63,37 +65,93 @@
       <main id="content">
         <div class="page-card">
           <header class="post-hero">
-            <p class="eyebrow" data-lang-only="en">Learn · start here</p>
-            <p class="eyebrow" data-lang-only="de" hidden>Grundlagen · hier anfangen</p>
+            <p class="eyebrow" data-lang-only="en">Learn · the training ground</p>
+            <p class="eyebrow" data-lang-only="de" hidden>Grundlagen · der Trainingsplatz</p>
             <h1 data-lang-only="en">Probabilities, odds and why the bookies usually win<span>.</span></h1>
             <h1 data-lang-only="de" hidden>Wahrscheinlichkeiten, Quoten und warum die Buchmacher meistens gewinnen<span>.</span></h1>
-            <p class="post-dek" data-lang-only="en">Everything on this site is a probability: a home win at 32%, a 1–1 at 10%. Here is where those numbers come from, how to turn betting odds into the same language, and how I check whether any of it is any good.</p>
-            <p class="post-dek" data-lang-only="de" hidden>Alles auf dieser Seite ist eine Wahrscheinlichkeit: ein Heimsieg zu 32&nbsp;%, ein 1:1 zu 10&nbsp;%. Hier steht, woher diese Zahlen kommen, wie man Wettquoten in dieselbe Sprache übersetzt und wie ich prüfe, ob das alles etwas taugt.</p>
+            <p class="post-dek" data-lang-only="en">Everything on this site is a probability: a home win at 32%, a 1–1 at 10%. Seven short drills show where those numbers come from, how betting odds say the same thing, and how I check whether any of it is any good. Each has something to play with and one question at the end.</p>
+            <p class="post-dek" data-lang-only="de" hidden>Alles auf dieser Seite ist eine Wahrscheinlichkeit: ein Heimsieg zu 32&nbsp;%, ein 1:1 zu 10&nbsp;%. Sieben kurze Übungen zeigen, woher diese Zahlen kommen, wie Wettquoten dasselbe sagen und wie ich prüfe, ob das alles etwas taugt. Zu jeder gibt es etwas zum Ausprobieren und am Ende eine Frage.</p>
+            <div class="drill-progress" id="drill-progress" aria-live="polite"></div>
             <nav class="page-jump" aria-label="On this page" data-i18n-attrs="aria-label:toc.title">
               <a href="#probabilities"><span data-lang-only="en">What 32% means</span><span data-lang-only="de" hidden>Was 32&nbsp;% bedeutet</span></a>
+              <a href="#goals"><span data-lang-only="en">Goals</span><span data-lang-only="de" hidden>Tore</span></a>
+              <a href="#xg"><span data-lang-only="en">Chances (xG)</span><span data-lang-only="de" hidden>Chancen (xG)</span></a>
               <a href="#models"><span data-lang-only="en">The models</span><span data-lang-only="de" hidden>Die Modelle</span></a>
               <a href="#odds"><span data-lang-only="en">Odds into chances</span><span data-lang-only="de" hidden>Quoten in Chancen</span></a>
               <a href="#grading"><span data-lang-only="en">Grading</span><span data-lang-only="de" hidden>Bewertung</span></a>
               <a href="#market"><span data-lang-only="en">Why the bookies win</span><span data-lang-only="de" hidden>Warum der Markt gewinnt</span></a>
+              <a href="#game" hidden><span data-lang-only="en">Extra time: a game</span><span data-lang-only="de" hidden>Verlängerung: ein Spiel</span></a>
               <a href="#glossary"><span data-lang-only="en">Glossary</span><span data-lang-only="de" hidden>Glossar</span></a>
             </nav>
           </header>
 
           <div class="post-body page-body">
             <section class="page-section" id="probabilities">
+              <p class="drill-kicker" data-drill="probabilities"><span data-lang-only="en">Drill 1 of 7</span><span data-lang-only="de" hidden>Übung 1 von 7</span></p>
               <div data-lang-only="en">
                 <h2>What 32% means</h2>
                 <p>A forecast of 32% for a Hamburg win is not a prediction that Hamburg will win, or that they won’t. It says: play this match a hundred times and Hamburg win about 32 of them. The match only gets played once, so a single result can’t prove a forecast right or wrong. A hundred forecasts can.</p>
                 <p>That is why every deep dive gives three numbers (home win, draw, away win) that add up to 100%, and why the track record grades whole forecasts instead of counting correct tips. Picking the favourite is easy. Knowing whether they are a 55% or a 75% favourite is the actual job.</p>
+                <p>You don’t have to take my word for it. Below is my forecast for Hamburg against Stuttgart in October. Play the match once, then a hundred times.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Was 32&nbsp;% bedeutet</h2>
                 <p>Eine Prognose von 32&nbsp;% für einen Hamburger Sieg sagt nicht, dass Hamburg gewinnt, und auch nicht, dass es verliert. Sie sagt: Spielt man dieses Spiel hundertmal, gewinnt Hamburg etwa 32-mal. Gespielt wird aber nur einmal, deshalb kann ein einzelnes Ergebnis eine Prognose weder bestätigen noch widerlegen. Hundert Prognosen können das.</p>
                 <p>Deshalb stehen in jeder Analyse drei Zahlen (Heimsieg, Remis, Auswärtssieg), die zusammen 100&nbsp;% ergeben, und deshalb bewertet die Bilanz ganze Prognosen, statt richtige Tipps zu zählen. Den Favoriten zu tippen ist leicht. Zu wissen, ob er ein 55-%- oder ein 75-%-Favorit ist, ist die eigentliche Arbeit.</p>
+                <p>Das muss man mir nicht glauben. Unten steht meine Prognose für Hamburg gegen Stuttgart im Oktober. Erst einmal spielen, dann hundertmal.</p>
               </div>
+              <div class="calc toy" id="replay-toy"></div>
+              <div class="check" data-check="probabilities"></div>
+            </section>
+
+            <section class="page-section" id="goals">
+              <p class="drill-kicker" data-drill="goals"><span data-lang-only="en">Drill 2 of 7</span><span data-lang-only="de" hidden>Übung 2 von 7</span></p>
+              <div data-lang-only="en">
+                <h2>From goals to a forecast</h2>
+                <p>Under every forecast sits a simpler question: how many goals will each side score? The models answer with an average, the <button type="button" class="term" data-term="expected-goals">expected goals</button>: say 1.5 for the home side and 1.2 for the visitors.</p>
+                <p>Nobody scores 1.5 goals. So the average gets spread over whole numbers with the <button type="button" class="term" data-term="poisson">Poisson distribution</button>, a formula from 1837 that turns “1.5 on average” into a 22% chance of no goals, 33% of one, 25% of two, and so on. Do that for both sides and every scoreline has a chance. Add up the cells where the home side has more goals and you have the home win. That is the whole trick; the rest is arguing about the two averages.</p>
+                <p>Move the sliders and watch the forecast follow.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Von Toren zur Prognose</h2>
+                <p>Unter jeder Prognose steckt eine einfachere Frage: Wie viele Tore schießt jedes Team? Die Modelle antworten mit einem Durchschnitt, den <button type="button" class="term" data-term="expected-goals">erwarteten Toren</button>: zum Beispiel 1,5 für das Heimteam und 1,2 für die Gäste.</p>
+                <p>Niemand schießt 1,5 Tore. Also wird der Durchschnitt mit der <button type="button" class="term" data-term="poisson">Poisson-Verteilung</button> auf ganze Zahlen verteilt, einer Formel von 1837, die aus „im Schnitt 1,5“ eine Chance von 22&nbsp;% auf kein Tor macht, 33&nbsp;% auf eins, 25&nbsp;% auf zwei und so weiter. Macht man das für beide Teams, hat jedes Ergebnis eine Chance. Zählt man die Felder zusammen, in denen das Heimteam mehr Tore hat, steht der Heimsieg da. Das ist der ganze Trick; der Rest ist Streit über die beiden Durchschnitte.</p>
+                <p>Einfach die Regler bewegen und zusehen, wie die Prognose mitgeht.</p>
+              </div>
+              <div class="calc toy" id="goal-toy"></div>
+              <div data-lang-only="en">
+                <p>Two things worth noticing. In a typical Bundesliga match the likeliest score sits at about 10%, which is why I never tip exact scores with a straight face. And a side expected to score a full goal more than its opponent still fails to win about four times in ten.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Zwei Dinge fallen auf. Das wahrscheinlichste Ergebnis liegt in einem typischen Bundesligaspiel bei etwa 10&nbsp;%, weshalb ich genaue Ergebnisse nie mit ernster Miene tippe. Und ein Team, das im Schnitt ein ganzes Tor mehr schießt als der Gegner, gewinnt trotzdem etwa vier von zehn Spielen nicht.</p>
+              </div>
+              <div class="check" data-check="goals"></div>
+            </section>
+
+            <section class="page-section" id="xg">
+              <p class="drill-kicker" data-drill="xg"><span data-lang-only="en">Drill 3 of 7</span><span data-lang-only="de" hidden>Übung 3 von 7</span></p>
+              <div data-lang-only="en">
+                <h2>What a chance is worth</h2>
+                <p>Goals are rare and partly luck: a deflection here, a goalkeeper having the game of his life there. Shots are more honest. <button type="button" class="term" data-term="xg">xG</button> gives every shot the share of similar shots that go in. In the toy below, a tap-in from the edge of the six-yard box is worth about 0.35 and a hopeful hit from 25 metres less than 0.03. Add up a team’s shots and you know how many goals its chances deserved.</p>
+                <p>Since October 2026 my models learn from xG as well as from goals, after a test showed that it helps. Tap the pitch to shoot.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Was eine Chance wert ist</h2>
+                <p>Tore sind selten und zum Teil Glück: hier ein abgefälschter Ball, dort ein Torwart, der das Spiel seines Lebens macht. Schüsse sind ehrlicher. <button type="button" class="term" data-term="xg">xG</button> gibt jedem Schuss den Anteil ähnlicher Schüsse, die reingehen. Im Spielzeug unten ist ein Abstauber von der Kante des Fünfmeterraums etwa 0,35 wert, ein Verzweiflungsschuss aus 25 Metern weniger als 0,03. Zählt man die Schüsse eines Teams zusammen, weiß man, wie viele Tore seine Chancen verdient hätten.</p>
+                <p>Seit Oktober 2026 lernen meine Modelle aus xG und nicht nur aus Toren, nachdem ein Test gezeigt hat, dass es hilft. Aufs Feld tippen, um zu schießen.</p>
+              </div>
+              <div class="calc toy" id="shot-toy"></div>
+              <div data-lang-only="en">
+                <p>Now press “Same shots again” a few times. The xG stays where it is; the goals jump around. That gap is luck. It is why a striker on a hot streak usually cools down, and why three lucky wins don’t impress the models much.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <p>Jetzt ein paarmal „Dieselben Schüsse noch mal“ drücken. Die xG bleiben, wo sie sind; die Tore springen herum. Dieser Abstand ist Glück. Deshalb kühlt ein Stürmer mit Lauf meistens wieder ab, und deshalb beeindrucken drei glückliche Siege die Modelle nur mäßig.</p>
+              </div>
+              <div class="check" data-check="xg"></div>
             </section>
 
             <section class="page-section" id="models">
+              <p class="drill-kicker" data-drill="models"><span data-lang-only="en">Drill 4 of 7</span><span data-lang-only="de" hidden>Übung 4 von 7</span></p>
               <div data-lang-only="en">
                 <h2>How a forecast is made</h2>
                 <p>Three models, each built differently, all working from the same results and shot counts. Then an average.</p>
@@ -103,7 +161,7 @@
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Machine learning on 30 pre-match numbers: Elo rating, recent form in goals and shots, rest days, promoted or not. It finds patterns the other two can’t see, and now and then patterns that aren’t there. It needs a lot of matches, so it learns from five countries’ top leagues, not the Bundesliga alone.</p></div>
                   <div class="model-card is-key"><p class="model-name"><button type="button" class="term" data-term="ensemble">The ensemble</button></p><p>The plain average of the three, and the forecast I publish. The weights were fixed before any results came in: less clever than tuning them, much harder to fool yourself with.</p></div>
                 </div>
-                <p>Every deep dive comes with its notebook. It runs in Google Colab with a GPU, so anyone with a browser and some patience can check every number. The code lives <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer">on GitHub</a>.</p>
+                <p>Here is how far apart the three sat on this matchday’s fixtures. Filled bars are models; the outlined one is the bookmakers.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>So entsteht eine Prognose</h2>
@@ -114,11 +172,20 @@
                   <div class="model-card"><p class="model-name"><button type="button" class="term" data-term="xgboost">XGBoost</button></p><p>Maschinelles Lernen mit 30 Zahlen, die vor dem Spiel feststehen: Elo-Zahl, Form bei Toren und Schüssen, Ruhetage, Aufsteiger oder nicht. Es findet Muster, die die anderen beiden nicht sehen, und ab und zu Muster, die es gar nicht gibt. Es braucht viele Spiele und lernt deshalb aus den ersten Ligen von fünf Ländern, nicht nur aus der Bundesliga.</p></div>
                   <div class="model-card is-key"><p class="model-name"><button type="button" class="term" data-term="ensemble">Das Ensemble</button></p><p>Der einfache Mittelwert der drei und die Prognose, die ich veröffentliche. Die Gewichte standen fest, bevor es Ergebnisse gab: weniger raffiniert, als sie zu optimieren, aber man kann sich damit viel schwerer selbst etwas vormachen.</p></div>
                 </div>
+                <p>So weit lagen die drei bei den Spielen dieses Spieltags auseinander. Gefüllte Balken sind Modelle, der umrandete zeigt die Buchmacher.</p>
+              </div>
+              <div class="calc toy" id="models-toy"></div>
+              <div data-lang-only="en">
+                <p>Every deep dive comes with its notebook. It runs in Google Colab with a GPU, so anyone with a browser and some patience can check every number. The code lives <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer">on GitHub</a>.</p>
+              </div>
+              <div data-lang-only="de" hidden>
                 <p>Zu jeder Analyse gibt es das Notebook. Es läuft in Google Colab mit GPU, jede Zahl lässt sich also mit einem Browser und etwas Geduld nachprüfen. Der Code liegt <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer">auf GitHub</a>.</p>
               </div>
+              <div class="check" data-check="models"></div>
             </section>
 
             <section class="page-section" id="odds">
+              <p class="drill-kicker" data-drill="odds"><span data-lang-only="en">Drill 5 of 7</span><span data-lang-only="de" hidden>Übung 5 von 7</span></p>
               <div data-lang-only="en">
                 <h2>From odds to chances</h2>
                 <p>Bookmakers quote odds, not probabilities, but the translation is one division away. Odds of 4.00 mean a €1 bet returns €4, which is fair if the outcome happens one time in four: 1 ÷ 4.00 = 25%.</p>
@@ -138,20 +205,22 @@
               <div data-lang-only="de" hidden>
                 <p>Ein Wort zur letzten Zeile. Ist deine Chance mal die Quote größer als 1, sieht die Wette nach Value aus. Das ist sie aber nur, wenn deine Chance stimmt, und die <a href="../record/">Bilanz</a> zeigt: Wenn meine Modelle deutlich vom Markt abweichen, liegt meistens der Markt näher dran. Das hier ist ein Werkzeug, um Quoten zu verstehen, keine Gelddruckmaschine.</p>
               </div>
+              <div class="check" data-check="odds"></div>
             </section>
 
             <section class="page-section" id="grading">
+              <p class="drill-kicker" data-drill="grading"><span data-lang-only="en">Drill 6 of 7</span><span data-lang-only="de" hidden>Übung 6 von 7</span></p>
               <div data-lang-only="en">
                 <h2>How a forecast gets graded</h2>
                 <p>Counting correct tips throws away most of what a forecast says. So everything here is graded with the <button type="button" class="term" data-term="rps">ranked probability score</button> (RPS). It looks at all three numbers and gives partial credit for being close: if you leaned towards a home win and it ended in a draw, you were less wrong than if you had leaned the other way.</p>
                 <p>0 is a perfect forecast. A shrug of one-third for everything scores 0.238. Good Bundesliga forecasts average about 0.19 to 0.20, and the bookmakers are usually a whisker ahead. Single matches swing wildly; the average over hundreds is what counts.</p>
-                <p>Pick a result and see how my published forecast and the bookmakers’ would score:</p>
+                <p>Pick a result and see how my published forecast and the bookmakers’ would score. Then set your own with the sliders.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>So wird eine Prognose bewertet</h2>
                 <p>Wer nur richtige Tipps zählt, wirft das meiste weg, was eine Prognose sagt. Deshalb wird hier alles mit dem <button type="button" class="term" data-term="rps">Ranked Probability Score</button> (RPS) bewertet. Er schaut auf alle drei Zahlen und gibt Teilpunkte für knapp daneben: Wer zu einem Heimsieg tendierte und ein Remis bekam, lag weniger falsch als jemand, der in die andere Richtung tendierte.</p>
                 <p>0 ist eine perfekte Prognose. Ein Schulterzucken mit einem Drittel für alles kommt auf 0,238. Gute Bundesliga-Prognosen liegen im Schnitt bei etwa 0,19 bis 0,20, die Buchmacher meist um eine Haaresbreite davor. Einzelne Spiele schwanken stark; was zählt, ist der Schnitt über Hunderte.</p>
-                <p>Einfach ein Ergebnis wählen und sehen, wie meine veröffentlichte Prognose und die der Buchmacher abschneiden würden:</p>
+                <p>Einfach ein Ergebnis wählen und sehen, wie meine veröffentlichte Prognose und die der Buchmacher abschneiden würden. Danach mit den Reglern die eigene einstellen.</p>
               </div>
               <div class="calc grade" id="grade-calc" aria-live="polite"></div>
               <div data-lang-only="en">
@@ -160,9 +229,11 @@
               <div data-lang-only="de" hidden>
                 <p>Der zweite Check ist die <button type="button" class="term" data-term="calibration">Kalibrierung</button>: Wenn ein Modell 60&nbsp;% sagt, tritt das Ereignis dann auch in etwa 60&nbsp;% der Fälle ein? Ein Modell kann einen ordentlichen Score haben und trotzdem systematisch zu zaghaft oder zu forsch sein. Jede Analyse zeigt ihre Kalibrierungskurve. Die aktuelle Angewohnheit: etwas zu viel Vorsicht bei Favoriten.</p>
               </div>
+              <div class="check" data-check="grading"></div>
             </section>
 
             <section class="page-section" id="market">
+              <p class="drill-kicker" data-drill="market"><span data-lang-only="en">Drill 7 of 7</span><span data-lang-only="de" hidden>Übung 7 von 7</span></p>
               <div data-lang-only="en">
                 <h2>Why the bookmakers usually win</h2>
                 <p>Three reasons, in rising order of annoyance.</p>
@@ -171,8 +242,7 @@
                   <li><strong>They learn from the crowd.</strong> Prices move when people with real money and real information bet. By kick-off the odds have soaked up most of what is knowable.</li>
                   <li><strong>They charge for it.</strong> Thanks to the margin, a bettor has to be better than the market just to break even.</li>
                 </ol>
-                <p>So the honest question is not “can a model beat the bookies?” but “where, and how often, does it disagree with them for good reasons?” The best single sign of real skill is <button type="button" class="term" data-term="clv">closing-line value</button>: getting better odds than the final price before kick-off. Winning money without it is usually luck.</p>
-                <p><a class="outline-link on-light" href="../record/">See the track record</a></p>
+                <p>What the margin does over time is easier to watch than to explain. Every line below is one bettor placing €1 bets at odds of 1.90 on what is really a coin flip. Then give them some skill and see how long it takes to show.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Warum die Buchmacher meistens gewinnen</h2>
@@ -182,9 +252,31 @@
                   <li><strong>Sie lernen von der Masse.</strong> Quoten bewegen sich, wenn Leute mit echtem Geld und echten Informationen wetten. Bis zum Anpfiff haben die Quoten das meiste aufgesogen, was man wissen kann.</li>
                   <li><strong>Sie lassen sich das bezahlen.</strong> Wegen der Marge muss man besser sein als der Markt, nur um nicht zu verlieren.</li>
                 </ol>
+                <p>Was die Marge auf Dauer anrichtet, sieht man besser, als man es erklärt. Jede Linie unten ist eine Person, die 1-€-Wetten zur Quote 1,90 auf einen Münzwurf platziert. Danach etwas Können dazugeben und zusehen, wie lange es dauert, bis man es merkt.</p>
+              </div>
+              <div class="calc toy" id="long-toy"></div>
+              <div data-lang-only="en">
+                <p>So the honest question is not “can a model beat the bookies?” but “where, and how often, does it disagree with them for good reasons?” The best single sign of real skill is <button type="button" class="term" data-term="clv">closing-line value</button>: getting better odds than the final price before kick-off. Winning money without it is usually luck.</p>
+                <p><a class="outline-link on-light" href="../record/">See the track record</a></p>
+              </div>
+              <div data-lang-only="de" hidden>
                 <p>Die ehrliche Frage lautet also nicht „Kann ein Modell die Buchmacher schlagen?“, sondern „Wo und wie oft weicht es aus guten Gründen von ihnen ab?“ Das beste einzelne Zeichen für echtes Können ist der <button type="button" class="term" data-term="clv">Closing Line Value</button>: bessere Quoten zu bekommen als den letzten Preis vor dem Anpfiff. Wer ohne ihn Geld gewinnt, hat meistens Glück.</p>
                 <p><a class="outline-link on-light" href="../record/">Zur Bilanz</a></p>
               </div>
+              <div class="check" data-check="market"></div>
+              <div class="finish" id="full-time"></div>
+            </section>
+
+            <section class="page-section" id="game" hidden>
+              <div data-lang-only="en">
+                <h2>Extra time: guess the forecast</h2>
+                <p>Not a drill, just a game. For each of this matchday’s fixtures, set what you think the chances are, then see what my models and the bookmakers said. Keep an eye on the draw: it is easy to forget, and about one Bundesliga match in four ends that way.</p>
+              </div>
+              <div data-lang-only="de" hidden>
+                <h2>Verlängerung: Rate die Prognose</h2>
+                <p>Keine Übung, nur ein Spiel. Für jedes Spiel dieses Spieltags stellst du ein, wie du die Chancen siehst, und siehst dann, was meine Modelle und die Buchmacher gesagt haben. Auf das Remis achten: Man vergisst es leicht, dabei endet etwa jedes vierte Bundesligaspiel so.</p>
+              </div>
+              <div class="calc toy" id="game-toy"></div>
             </section>
 
             <section class="page-section glossary" id="glossary" aria-labelledby="glossary-title">

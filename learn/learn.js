@@ -1,7 +1,8 @@
 /*
  * The Learn page: an odds calculator, a "grade it yourself" box and the glossary.
  * Loaded after i18n.js, glossary.js and explain.js. The prose is in the HTML (one copy per language);
- * the few words these widgets need live here.
+ * the few words these widgets need live here. The other playthings and the quick checks are in
+ * play.js, which uses the helpers this file leaves on window.LEARN.
  */
 (() => {
   "use strict";
@@ -41,6 +42,14 @@
       how: "How it’s calculated",
       howText: "Add the forecast up as you go (home win, then home win plus draw) and do the same for what happened, which is 0 or 1 at each step. Square the two gaps and average them. A draw sits between the two wins, so leaning the right way earns partial credit.",
       yourNote: "Your chance is a guess you type in. The expected return is your chance × the odds − €1, and it is only as good as the guess.",
+      you: "You",
+      yourForecast: "Your forecast",
+      restDraw: "The draw gets the rest: {rest}",
+      beatBoth: "You’d have beaten us both.",
+      beatMarket: "You’d have beaten the bookmakers, but not my models.",
+      beatModels: "You’d have beaten my models, but not the bookmakers.",
+      beatNone: "We’d both have beaten you.",
+      cheat: "Setting the sliders after you pick the result is cheating. It is also how most betting tips get sold.",
     },
     de: {
       oddsTitle: "Quotenrechner",
@@ -73,6 +82,14 @@
       how: "So wird gerechnet",
       howText: "Man summiert die Prognose schrittweise auf (Heimsieg, dann Heimsieg plus Remis) und macht dasselbe mit dem, was passiert ist, also 0 oder 1 bei jedem Schritt. Die beiden Abstände quadriert man und bildet den Mittelwert. Ein Remis liegt zwischen den beiden Siegen, deshalb gibt es Teilpunkte für die richtige Tendenz.",
       yourNote: "Deine Chance ist eine Schätzung, die du eintippst. Der erwartete Ertrag ist deine Chance × Quote − 1 €, und er ist nur so gut wie die Schätzung.",
+      you: "Du",
+      yourForecast: "Deine Prognose",
+      restDraw: "Der Rest bleibt fürs Remis: {rest}",
+      beatBoth: "Du hättest uns beide geschlagen.",
+      beatMarket: "Du hättest die Buchmacher geschlagen, meine Modelle aber nicht.",
+      beatModels: "Du hättest meine Modelle geschlagen, die Buchmacher aber nicht.",
+      beatNone: "Wir hätten dich beide geschlagen.",
+      cheat: "Die Regler erst nach dem Ergebnis einzustellen ist geschummelt. So werden übrigens auch die meisten Wetttipps verkauft.",
     },
   };
 
@@ -89,7 +106,10 @@
 
   const calc = { odds: fixture.odds.map(String), yours: fixture.model.map((p) => String(Math.round(p * 100))) };
   let picked = null;
+  let pickedByHand = false;
   let edited = false;
+  // The reader's own forecast in "Grade it yourself": starts as a shrug.
+  let yours = [0.33, 0.34, 0.33];
 
   const say = (key, params = {}) => (WORDS[I18N.lang]?.[key] ?? WORDS.en[key]).replace(/\{(\w+)\}/g, (_, name) => params[name] ?? "");
 
@@ -124,6 +144,61 @@
       total += (forecast - actual) ** 2;
     }
     return total / 2;
+  }
+
+  /*
+   * A home/draw/away forecast set with two sliders: home win and away win, the draw gets the rest.
+   * Pushing one slider past what is left pulls the other back. Used here and by play.js.
+   */
+  function triSlider({ labels, value, onInput }) {
+    const node = element("div", "tri");
+    const bar = element("div", "calc-bar tri-bar");
+    bar.setAttribute("aria-hidden", "true");
+    const parts = [0, 1, 2].map((index) => {
+      const part = element("span", `calc-bar-part part-${index}`);
+      bar.append(part);
+      return part;
+    });
+    let current = value.map((p) => Math.round(p * 100));
+    current[1] = 100 - current[0] - current[2];
+    const rows = [0, 2].map((index) => {
+      const row = element("label", `tri-row tri-${index === 0 ? "home" : "away"}`);
+      const field = element("input", "tri-range");
+      field.type = "range";
+      field.min = "0";
+      field.max = "100";
+      field.step = "1";
+      field.value = String(current[index]);
+      const out = element("output", "tri-value");
+      field.addEventListener("input", () => {
+        const other = index === 0 ? 2 : 0;
+        current[index] = Number(field.value);
+        current[other] = Math.min(current[other], 100 - current[index]);
+        current[1] = 100 - current[0] - current[2];
+        paint();
+        onInput?.(current.map((p) => p / 100));
+      });
+      row.append(element("span", "tri-label", labels[index]), field, out);
+      return { index, field, out };
+    });
+    const rest = element("p", "tri-rest");
+    function paint() {
+      for (const row of rows) {
+        row.field.value = String(current[row.index]);
+        row.out.textContent = I18N.percent(current[row.index] / 100);
+      }
+      parts.forEach((part, index) => {
+        part.style.flexGrow = String(Math.max(current[index], 0.001));
+        part.textContent = current[index] >= 12 ? I18N.percent(current[index] / 100) : "";
+      });
+      rest.textContent = say("restDraw", { rest: I18N.percent(current[1] / 100) });
+    }
+    node.append(bar, rows[0].field.parentNode, rows[1].field.parentNode, rest);
+    paint();
+    return {
+      node,
+      get value() { return current.map((p) => p / 100); },
+    };
   }
 
   /* ---------- Odds calculator ---------- */
@@ -264,42 +339,70 @@
     choices.setAttribute("role", "group");
     choices.setAttribute("aria-label", say("result"));
     // Starts on the bookmakers' favourite winning, the most common way a match ends.
-    if (picked === null) picked = fixture.market.indexOf(Math.max(...fixture.market));
+    if (!pickedByHand) picked = fixture.market.indexOf(Math.max(...fixture.market));
     const labels = [say("teamWin", { team: fixture.home }), say("draw"), say("teamWin", { team: fixture.away })];
-    labels.forEach((label, index) => {
+    const buttons = labels.map((label, index) => {
       const button = element("button", `grade-choice part-${index}`, label);
       button.type = "button";
-      button.setAttribute("aria-pressed", String(index === picked));
       button.addEventListener("click", () => {
         picked = index;
-        buildGrade();
-        gradeBox.querySelector(`.grade-choice.part-${index}`)?.focus();
+        pickedByHand = true;
+        update();
       });
       choices.append(button);
+      return button;
     });
 
-    const scores = [
-      [say("models"), rps(fixture.model, picked), "is-models"],
-      [say("bookies"), rps(fixture.market, picked), "is-market"],
-      [say("shrug"), rps([1 / 3, 1 / 3, 1 / 3], picked), "is-shrug"],
-    ];
-    const list = element("dl", "grade-scores");
-    for (const [label, value, className] of scores) {
+    const rows = [
+      [say("models"), "is-models"],
+      [say("bookies"), "is-market"],
+      [say("you"), "is-you"],
+      [say("shrug"), "is-shrug"],
+    ].map(([label, className]) => {
       const row = element("div", `grade-score ${className}`);
       const bar = element("span", "grade-bar");
-      bar.style.setProperty("--w", `${Math.min(100, (value / 0.5) * 100)}%`);
+      const value = element("span", "grade-value");
       const dd = element("dd");
-      dd.append(bar, element("span", "grade-value", I18N.number(value, 3)));
+      dd.append(bar, value);
       row.append(element("dt", "", label), dd);
-      list.append(row);
+      return { row, bar, value };
+    });
+    const list = element("dl", "grade-scores");
+    list.append(...rows.map((item) => item.row));
+    const verdict = element("p", "grade-verdict");
+    const yourVerdict = element("p", "grade-verdict is-you");
+
+    const own = element("div", "grade-own");
+    const sliders = triSlider({
+      labels: [say("teamWin", { team: fixture.home }), say("draw"), say("teamWin", { team: fixture.away })],
+      value: yours,
+      onInput: (value) => {
+        yours = value;
+        update();
+      },
+    });
+    yours = sliders.value;
+    own.append(element("p", "grade-own-title", say("yourForecast")), sliders.node, element("p", "calc-fine", say("cheat")));
+
+    function update() {
+      buttons.forEach((button, index) => button.setAttribute("aria-pressed", String(index === picked)));
+      const scores = [rps(fixture.model, picked), rps(fixture.market, picked), rps(yours, picked), rps([1 / 3, 1 / 3, 1 / 3], picked)];
+      rows.forEach((item, index) => {
+        item.bar.style.setProperty("--w", `${Math.min(100, (scores[index] / 0.5) * 100)}%`);
+        item.value.textContent = I18N.number(scores[index], 3);
+      });
+      const gap = scores[0] - scores[1];
+      verdict.textContent = Math.abs(gap) < 0.0005 ? say("level") : say(gap < 0 ? "closerModels" : "closerMarket", { gap: I18N.number(Math.abs(gap), 3) });
+      const beatsModels = scores[2] < scores[0] - 0.0005;
+      const beatsMarket = scores[2] < scores[1] - 0.0005;
+      yourVerdict.textContent = say(beatsModels && beatsMarket ? "beatBoth" : beatsMarket ? "beatMarket" : beatsModels ? "beatModels" : "beatNone");
     }
-    const gap = scores[0][1] - scores[1][1];
-    const verdict = element("p", "grade-verdict",
-      Math.abs(gap) < 0.0005 ? say("level") : say(gap < 0 ? "closerModels" : "closerMarket", { gap: I18N.number(Math.abs(gap), 3) }));
+
     const axis = element("p", "calc-fine", say("lower"));
     const how = element("details", "howto");
     how.append(element("summary", "", say("how")), element("p", "", say("howText")));
-    gradeBox.replaceChildren(head, choices, list, verdict, axis, how);
+    gradeBox.replaceChildren(head, choices, list, verdict, own, yourVerdict, axis, how);
+    update();
   }
 
   /* ---------- Glossary ---------- */
@@ -354,6 +457,9 @@
       // The built-in example stays.
     }
   }
+
+  // Shared with play.js.
+  window.LEARN = { element, triSlider, rps };
 
   renderAll();
   loadFixture();

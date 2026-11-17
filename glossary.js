@@ -7,7 +7,7 @@
 window.GLOSSARY = {
   order: [
     "forecast-bar", "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
-    "expected-goals", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
+    "expected-goals", "poisson", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
     "shap", "credible-interval", "over-25", "btts", "clv",
   ],
   en: {
@@ -60,6 +60,11 @@ window.GLOSSARY = {
       term: "Expected goals",
       short: "In these forecasts, the average number of goals a model expects each side to score, for example 1.47 for Hamburg and 1.77 for Stuttgart.",
       read: "It is an average over many imagined replays, so 1.47 means one goal most often and two goals quite often. Not to be confused with shot-based xG from tracking data.",
+    },
+    poisson: {
+      term: "Poisson distribution",
+      short: "A formula from 1837 for how often something rare happens when all you know is the average. It turns “1.5 goals on average” into chances for 0, 1, 2, 3 and more goals.",
+      read: "With an average of 1.5, no goals has a 22% chance, one goal 33% and two goals 25%. Football scores fit it well, which is why most forecast models start here.",
     },
     xg: {
       term: "xG (shot-based expected goals)",
@@ -172,6 +177,11 @@ window.GLOSSARY = {
       term: "Erwartete Tore",
       short: "In diesen Prognosen die durchschnittliche Zahl an Toren, die ein Modell jeder Mannschaft zutraut, zum Beispiel 1,47 für Hamburg und 1,77 für Stuttgart.",
       read: "Ein Mittelwert über viele gedachte Wiederholungen: 1,47 heißt meist ein Tor, recht oft zwei. Nicht zu verwechseln mit schussbasiertem xG aus Trackingdaten.",
+    },
+    poisson: {
+      term: "Poisson-Verteilung",
+      short: "Eine Formel von 1837 dafür, wie oft etwas Seltenes passiert, wenn man nur den Durchschnitt kennt. Sie macht aus „im Schnitt 1,5 Tore“ Chancen für 0, 1, 2, 3 und mehr Tore.",
+      read: "Bei einem Schnitt von 1,5 hat kein Tor eine Chance von 22 %, ein Tor 33 % und zwei Tore 25 %. Fußballergebnisse passen gut dazu, deshalb fangen die meisten Prognosemodelle hier an.",
     },
     xg: {
       term: "xG (Expected Goals aus Schüssen)",
