@@ -1,22 +1,18 @@
-/* Analysis posts — builds on ../styles.css (design tokens, Bundesliga red/black theme, top bar, footer). */
+/* Analysis posts — builds on ../styles.css (design tokens, top bar, footer). One dark page: the
+   article sits on the page itself, charts keep a white plate until they are redrawn for it. */
 
 .post {
   overflow: hidden;
   overflow: clip; /* clip, unlike hidden, keeps the contents column sticky */
-  border-radius: 4px 16px 4px 16px;
-  background: #fff;
-  box-shadow: 0 18px 46px rgb(0 0 0 / 38%);
+  background: var(--bg);
 }
 
 .post-hero {
   position: relative;
   overflow: hidden;
   padding: 34px 44px 30px;
-  border-bottom: 3px solid var(--bl-red);
-  background:
-    linear-gradient(100deg, transparent 80%, rgb(210 5 21 / 90%) 80.2%, rgb(210 5 21 / 90%) 84%, transparent 84.2%),
-    var(--bl-black);
-  color: #fff;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
 }
 
 .post-hero h1 {
@@ -31,7 +27,7 @@
   position: relative;
   max-width: 640px;
   margin: 0 0 18px;
-  color: #e2e2e6;
+  color: var(--ink-2);
   font-size: 16px;
   line-height: 1.55;
 }
@@ -42,7 +38,7 @@
   flex-wrap: wrap;
   gap: 6px 18px;
   margin: 0;
-  color: #b5b5bd;
+  color: var(--muted);
   font-size: 12px;
 }
 
@@ -50,14 +46,14 @@
   max-width: 780px;
   margin: 0 auto;
   padding: 34px 44px 40px;
-  color: #26262c;
+  color: var(--ink-2);
   font-size: 16px;
   line-height: 1.68;
 }
 
 .post-body h2 {
   margin: 44px 0 12px;
-  color: var(--bl-black);
+  color: var(--ink);
   line-height: 1.1;
 }
 
@@ -79,7 +75,7 @@
 
 .post-body h3 {
   margin: 26px 0 6px;
-  color: var(--bl-black);
+  color: var(--ink);
   font-family: var(--display);
   font-size: 20px;
   font-weight: 700;
@@ -97,7 +93,7 @@
 }
 
 .post-body strong {
-  color: var(--bl-black);
+  color: var(--ink);
 }
 
 .post-body ul {
@@ -132,12 +128,12 @@
   padding: 14px 16px 12px;
   border-top: 4px solid var(--tile, #9a9aa4);
   border-radius: 3px 3px 10px 10px;
-  background: #f6f6f8;
+  background: var(--surface);
 }
 
 .verdict-tile .label {
   display: block;
-  color: #55555f;
+  color: var(--muted);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .1em;
@@ -147,7 +143,7 @@
 .verdict-tile .value {
   display: block;
   margin-top: 2px;
-  color: var(--bl-black);
+  color: var(--ink);
   font-family: var(--display);
   font-size: 48px;
   font-weight: 700;
@@ -155,7 +151,7 @@
 }
 
 .verdict-tile .sub {
-  color: #6b6b75;
+  color: var(--muted);
   font-size: 12px;
 }
 
@@ -170,8 +166,8 @@
   margin: 0 0 30px;
   padding: 10px 14px;
   border-radius: 4px;
-  background: var(--bl-black);
-  color: #d4d4da;
+  background: var(--surface);
+  color: var(--ink-2);
   font-size: 13px;
 }
 
@@ -198,9 +194,16 @@
   height: auto;
 }
 
+/* Charts were drawn dark on white: they keep a white plate on the dark page. */
+.post-figure img {
+  padding: 10px;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
 .post-figure figcaption {
   margin-top: 8px;
-  color: #6b6b75;
+  color: var(--muted);
   font-size: 12.5px;
   line-height: 1.5;
 }
@@ -230,13 +233,13 @@
 .post-table th,
 .post-table td {
   padding: 8px 10px;
-  border-bottom: 1px solid #ececf0;
+  border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
 
 .post-table th {
-  background: var(--bl-black);
-  color: #fff;
+  background: var(--surface-2);
+  color: var(--ink);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .06em;
@@ -249,11 +252,11 @@
 }
 
 .post-table tbody tr:nth-child(even) {
-  background: #f7f7f9;
+  background: var(--surface);
 }
 
 .post-table tr.is-key td {
-  color: var(--bl-black);
+  color: var(--ink);
   font-weight: 700;
   box-shadow: inset 0 0 0 9999px rgb(210 5 21 / 6%);
 }
@@ -285,7 +288,7 @@
 .post-body li code {
   padding: 1px 5px;
   border-radius: 3px;
-  background: #f1f1f4;
+  background: var(--surface-2);
   color: var(--bl-red-dark);
 }
 
@@ -316,8 +319,8 @@
 .post-sources {
   margin-top: 36px;
   padding-top: 18px;
-  border-top: 3px solid var(--bl-black);
-  color: #5f5f69;
+  border-top: 1px solid var(--line-strong);
+  color: var(--muted);
   font-size: 12.5px;
   line-height: 1.6;
 }
@@ -346,15 +349,12 @@
 
 @media (max-width: 620px) {
   .post {
-    border-radius: 4px 12px 4px 12px;
+    border-radius: var(--radius);
   }
 
   /* On phones the red stripe moves to the edge so it no longer runs through the text. */
   .post-hero {
-    padding: 24px 48px 22px 20px;
-    background:
-      linear-gradient(95deg, transparent 92%, rgb(210 5 21 / 90%) 92.2%, rgb(210 5 21 / 90%) 96%, transparent 96.2%),
-      var(--bl-black);
+    padding: 24px 20px 22px;
   }
 
   .post-body {
@@ -401,7 +401,7 @@
   padding: 14px 16px;
   border-left: 4px solid var(--bl-red);
   border-radius: 3px 10px 10px 3px;
-  background: #f6f6f8;
+  background: var(--surface);
   font-size: 15px;
 }
 
@@ -462,7 +462,7 @@
 }
 
 .depth-button:hover {
-  background: #fff;
+  background: var(--surface-3);
   color: var(--ink);
 }
 
@@ -480,22 +480,21 @@
 }
 
 .depth-button[aria-pressed="true"] {
-  background: var(--bl-black);
-  color: #fff;
-  box-shadow: inset 0 -3px var(--bl-red);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .depth-button[aria-pressed="true"] .depth-time {
-  color: var(--on-dark-2);
+  color: var(--surface-3);
 }
 
 /* The quick take: what the full analysis says, in three points. */
 .quick-take {
   margin: 4px 0 34px;
   padding: 18px 20px 20px;
-  border-radius: 4px 14px 4px 14px;
-  background: var(--bl-black);
-  color: #e2e2e6;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-2);
 }
 
 .quick-take-title {
@@ -743,6 +742,15 @@
   border: 0;
   background: #fff;
   color: var(--ink);
+  /* The charts are drawn for a white page, so the viewer is a light sheet with light-theme text. */
+  --ink: #1b1e25;
+  --ink-2: #3d4350;
+  --muted: #5a6170;
+  --line: #dfe2e8;
+  --line-strong: #c3c8d2;
+  --surface-2: #eef0f4;
+  --surface-3: #e2e5ea;
+  color: var(--ink);
 }
 
 .figure-viewer[open] {
@@ -818,7 +826,7 @@
     padding: 6px 12px;
     border: 1px solid var(--line-strong);
     border-radius: 4px;
-    background: #fff;
+    background: var(--surface-2);
     color: var(--ink);
     font: inherit;
     font-size: 13px;
