@@ -8,7 +8,7 @@ window.GLOSSARY = {
   order: [
     "forecast-bar", "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
     "expected-goals", "poisson", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
-    "shap", "credible-interval", "over-25", "btts", "clv",
+    "shap", "credible-interval", "over-25", "btts", "clv", "kelly",
   ],
   en: {
     "forecast-bar": {
@@ -126,6 +126,11 @@ window.GLOSSARY = {
       short: "Whether a bet got better odds than the final price just before kick-off.",
       read: "Closing odds carry all the late news, so beating them over many bets is the best single sign of real skill. Winning money without beating them is usually luck. Here it is the odds taken times the closing probability (margin removed), minus one: +5% means the bet was worth 5% more than its stake at kick-off.",
     },
+    kelly: {
+      term: "Kelly stake",
+      short: "The share of your pot that grows it fastest if your chance is right: edge ÷ (odds − 1). At odds of 2.10 with a true 50% chance, that is 0.05 ÷ 1.10 = 4.5%.",
+      read: "It is only as good as your chance. Overestimate it and Kelly tells you to bet too much, which is why careful bettors stake a half or a quarter of it. No edge means a stake of zero.",
+    },
   },
   de: {
     "forecast-bar": {
@@ -242,6 +247,11 @@ window.GLOSSARY = {
       term: "Closing Line Value",
       short: "Ob eine Wette eine bessere Quote bekommen hat als den letzten Preis kurz vor dem Anpfiff.",
       read: "Die Schlussquote enthält alle späten Nachrichten. Sie über viele Wetten zu schlagen, ist das beste einzelne Zeichen für echtes Können. Wer gewinnt, ohne sie zu schlagen, hatte meist Glück. Hier: die genommene Quote mal die Schlusswahrscheinlichkeit (ohne Marge), minus eins. +5 % heißt, die Wette war zum Anpfiff 5 % mehr wert als ihr Einsatz.",
+    },
+    kelly: {
+      term: "Kelly-Einsatz",
+      short: "Der Anteil des Topfs, mit dem er am schnellsten wächst, wenn deine Chance stimmt: Vorteil ÷ (Quote − 1). Bei Quote 2,10 und einer wahren Chance von 50 % sind das 0,05 ÷ 1,10 = 4,5 %.",
+      read: "Er ist nur so gut wie deine Chance. Schätzt du sie zu hoch, rät Kelly zu viel Einsatz; deshalb setzen Vorsichtige nur die Hälfte oder ein Viertel davon. Kein Vorteil heißt: Einsatz null.",
     },
   },
 };

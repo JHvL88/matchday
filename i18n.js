@@ -242,6 +242,8 @@
       "nav.skipPage": "Skip to the content",
       "learn.pageTitle": "How it works: probabilities, odds and grading — Jan’s Matchday",
       "learn.meta": "How the forecasts on Jan’s Matchday work: what a probability means, how to turn betting odds into chances, how forecasts are graded, and a glossary.",
+      "learn2.pageTitle": "Learn, part two: luck, ratings and how much to bet — Jan’s Matchday",
+      "learn2.meta": "Part two of the Learn course: how much of the table is luck, how Elo ratings work, calibration on 2,200 real forecasts, how much to bet (Kelly) and a penalty shoot-out against the models and the bookmakers.",
       "record.pageTitle": "Track record: models v bookmakers — Jan’s Matchday",
       "record.meta": "The track record of Jan’s Matchday: every published Bundesliga forecast graded against the bookmakers after full time, plus the backtest and a paper-betting ledger.",
 
@@ -665,6 +667,8 @@
       "nav.skipPage": "Zum Inhalt springen",
       "learn.pageTitle": "So funktioniert’s: Wahrscheinlichkeiten, Quoten und Bewertung — Jan’s Matchday",
       "learn.meta": "So funktionieren die Prognosen auf Jan’s Matchday: was eine Wahrscheinlichkeit bedeutet, wie man Wettquoten in Chancen übersetzt, wie Prognosen bewertet werden, dazu ein Glossar.",
+      "learn2.pageTitle": "Grundlagen, Teil zwei: Glück, Ratings und wie viel man setzt — Jan’s Matchday",
+      "learn2.meta": "Teil zwei des Grundlagenkurses: wie viel an der Tabelle Glück ist, wie Elo-Ratings funktionieren, Kalibrierung an 2.200 echten Prognosen, wie viel man setzt (Kelly) und ein Elfmeterschießen gegen die Modelle und die Buchmacher.",
       "record.pageTitle": "Bilanz: Modelle gegen Buchmacher — Jan’s Matchday",
       "record.meta": "Die Bilanz von Jan’s Matchday: jede veröffentlichte Bundesliga-Prognose nach dem Abpfiff gegen die Buchmacher bewertet, dazu der Backtest und ein Wett-Kassenbuch auf dem Papier.",
 
