@@ -6,11 +6,16 @@
  */
 window.GLOSSARY = {
   order: [
-    "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
+    "forecast-bar", "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
     "expected-goals", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
     "shap", "credible-interval", "over-25", "btts", "clv",
   ],
   en: {
+    "forecast-bar": {
+      term: "Forecast bar",
+      short: "One bar per match, cut into three: the chance of a home win (blue), a draw (grey) and an away win (orange). A filled bar is my models’ forecast. An outlined bar shows the bookmakers’ odds, for matches my models have not forecast.",
+      read: "The two white pins mark where the bookmakers would cut the same bar. A pin to the right of a join means the bookmakers give more to what lies left of it than my models do. The further the pins sit from the joins, the bigger the disagreement.",
+    },
     "market-probability": {
       term: "Market probability",
       short: "The bookmakers’ view of a match, turned into chances that add up to 100%. Take 1 ÷ odds for each outcome, then scale the three numbers down until they sum to 100%.",
@@ -118,6 +123,11 @@ window.GLOSSARY = {
     },
   },
   de: {
+    "forecast-bar": {
+      term: "Prognosebalken",
+      short: "Ein Balken pro Spiel, in drei Teile geteilt: die Wahrscheinlichkeit für Heimsieg (blau), Remis (grau) und Auswärtssieg (orange). Ein gefüllter Balken ist die Prognose meiner Modelle. Ein umrandeter Balken zeigt die Quoten der Buchmacher, wenn es für das Spiel keine Modellprognose gibt.",
+      read: "Die beiden weißen Nadeln markieren, wo die Buchmacher denselben Balken teilen würden. Sitzt eine Nadel rechts von einer Nahtstelle, geben die Buchmacher dem, was links davon liegt, mehr als meine Modelle. Je weiter die Nadeln von den Nahtstellen entfernt sind, desto größer die Uneinigkeit.",
+    },
     "market-probability": {
       term: "Marktwahrscheinlichkeit",
       short: "Die Sicht der Buchmacher auf ein Spiel, umgerechnet in Chancen, die zusammen 100 % ergeben: für jeden Ausgang 1 ÷ Quote, dann die drei Werte auf 100 % herunterskalieren.",

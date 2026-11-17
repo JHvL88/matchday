@@ -14,14 +14,20 @@ Then visit `http://localhost:8000`.
 
 What’s on the home page:
 
-- **This weekend.** The matchday, a countdown to the next kick-off (or what is live), and the latest deep dive with its forecast next to the bookmakers’ (always the newest post, whichever matchday is on screen: its full-time review counts from two hours after kick-off, or set `updated` in `posts.json` to an exact time). Step through matchdays with the arrows or the 1–34 strip (arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked. Before a matchday starts, the tiles show the top and bottom clash, the biggest favourite and the closest call; once games are played they show goals, the biggest upset or the results, the biggest win and the leader.
-- **Matches.** Filters with counts (all, live, finished, upcoming). Every match with bookmaker odds gets a thin home/draw/away bar (blue, grey, orange). Each match expands to show the forecast against the market with fair odds, then the venue, attendance, half-time score and a goal timeline; after full time the forecast is graded. While a match is live the page refreshes itself every minute, and again when you come back to it.
-- **Table.** Overall, home and away tables after the selected matchday, with the last five results, the movement since the previous matchday and European/relegation zones. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
+- **The matchday.** Its number, dates and one status line: the next kick-off and how long until then, what is live, or how the matchday ended. Step through matchdays with the arrows or the strip of 34 ticks (played, on screen, still to come; arrow keys work too). The choice is kept in the URL (`?md=5`), so a matchday can be linked.
+- **The board.** One row per match. The bar is the models’ forecast (home win blue, draw grey, away win orange) and two white pins mark where the bookmakers would cut the same bar, so a pin off a join is a disagreement. Every number carries its name (“Bayern 87%”), the bookmakers’ split sits underneath, and from five points apart the row says so in words. A match without a model forecast gets an outlined bar: bookmakers only. One rule holds across the site: **filled is the models, outline is the bookmakers** (bars, grade bars, verdict labels, the marks on the track-record line). Above the rows, one sentence says how to read a bar and a box names the biggest argument of the matchday (afterwards: the biggest upset, or the matchday in numbers). The filters (all, live, finished, upcoming) only appear when there is something to filter.
+- **An opened match.** “Play this match 100 times” as a sentence and 100 dots; the models against the bookmakers with fair odds; the three models behind the average; expected goals, the likeliest score and a small grid of score probabilities. After full time: the goals, then how far off the models and the bookmakers were, as two bars on one scale. While a match is live the page refreshes itself every minute, and again when you come back to it.
+- **Table.** Overall, home and away tables after the selected matchday, with the last five results and the movement since the previous matchday. Caption rows say where each group of places leads (Champions League, Europa League, …) instead of a colour code, and the form letters are filled for a win, grey for a draw and outlined for a defeat, so nothing depends on red and green. This is not an official historical table: it is calculated from completed OpenLigaDB results and orders tied teams by points, goal difference, goals scored, then club name.
 - **Follow a club.** The button in the top bar, a tap on a club in the table or the picker under Insights highlights it in the fixtures, the table and the charts. The choice is remembered on that device.
+- **Deep dives.** Every post (from `analysis/posts.json`), newest first, with the result and whether the models or the bookmakers were closer.
 - **Insights.** A points race for the season so far and when the goals go in, each with hover/keyboard tooltips and a table view.
-- **Deep dives and the track record.** Cards for every post (from `analysis/posts.json`) and a teaser of the scoreboard.
+- **Are the models any good?** One line with three marks: the bookmakers, the models and pure guessing (a third for each outcome), from `data/record.json`.
 - **Phones.** The sections move to a tab bar at the bottom of the screen.
 - **English and German.** The **EN / DE** switch in the top bar changes the whole app: labels, dates, number formats, plurals and score notation (2–1 or 2:1). The first visit follows the browser language, the choice is remembered on that device, and a link such as `?lang=de` opens the page in German. The analysis posts switch too, charts included.
+
+### Look
+
+One dark page, kept light: charcoal surfaces lifted in two small steps, thin lines, no shadows, no photos. The tokens are at the top of `styles.css`; `pages.css` and `analysis/analysis.css` use the same names. Red is the brand and “live”, nothing else. Blue, grey and orange are home win, draw and away win everywhere. Type runs on one scale (12, 14, 16, 20, 28 px, and the matchday headline), Barlow Condensed for headlines and DM Sans for everything else. The charts in the posts were drawn for a white page and keep a white plate for now.
 
 Match information is displayed in the Europe/Berlin time zone.
 
@@ -49,7 +55,8 @@ Blocks can be nested, and a link to a hidden block switches to a depth that show
 |---|---|---|
 | `analysis/posts.json` | Every deep dive: match id, published probabilities (models and market), card text in both languages; after the match `fullTime` with the score and the grades quoted in the post | With each post, and after full time |
 | `data/odds.json` | Bookmaker home/draw/away odds per match, one block per matchday, for the bars on the home page | Automatically, once a day, by the odds recorder (see *Odds*) |
-| `data/record.json` | Season and backtest figures for the track record, written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
+| `data/forecasts.json` | The models' forecast for every match of a matchday: the ensemble, the three models behind it, expected goals and a 6 × 6 grid of score probabilities | Automatically, once per matchday, by the **Forecast the matchday** workflow (see *Weekly forecasts*); never edited afterwards |
+| `data/record.json` | Season and backtest figures for the track record and the line on the home page (`uniform` is the score of a forecast of one third each), written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
 
 When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
 
@@ -73,7 +80,7 @@ Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analys
 4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the models' probabilities (home, draw, away), the market, and the card text in both languages. For the market, take a snapshot when the post is ready (Actions › Record odds › Run workflow, label `md<N> post`), then run `python analysis/pipeline/odds_at.py --data-dir <matchday-data>/odds --home <club> --away <club>`. It prints the `forecast` fields to paste:
    - `market`: the consensus probabilities across the sportsbooks;
    - `marketOdds`: the best price at Tipico or Winamax, a price a reader could actually take, which the paper bets use;
-   - `marketQuoted` and `marketSnapshot`: when the price was recorded. The home page card, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
+   - `marketQuoted` and `marketSnapshot`: when the price was recorded. The home page, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
 5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
 6. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
 7. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then.
@@ -127,6 +134,23 @@ Understat is one small site. It went offline on 2 November 2026 and was still sh
 
 Nothing in the pre-registered xG test changes: every match in it has Understat's own xG. When Understat returns, its numbers replace the filled ones on the next build. football-data.co.uk updates on Sunday and Wednesday nights, so its xG arrives a day or two after a match; Understat's used to arrive within the hour.
 
+### Weekly forecasts
+
+The **Forecast the matchday** workflow forecasts every match of the coming matchday, not only the one with a deep dive, and writes `data/forecasts.json`. The home page shows the forecast on each fixture, next to the bookmakers, and grades it after full time.
+
+- **Same models, same data.** `site_forecasts.py` reads the fixtures from OpenLigaDB, translates the club names (`teams.py`) and calls `forecast.py --xg --pool`: the three published models and their plain average, fitted on the match table built from the `source-data` branch and the private xG files. A forecast here is made exactly the way the backtest grades them.
+- **Published once.** A matchday is due from 72 hours before its first kick-off: on a normal weekend that is Thursday morning, after **Fetch source data** has brought in the last results. It is forecast once and never refitted; a matchday that has kicked off is refused. The file records when it was published, the freeze date, the last match the models saw, the code commit and the checksum of the match table. `--force` (a tick box when the workflow is started by hand) replaces a forecast before kick-off and says so in the file.
+- **Waiting for results.** If the source files still miss a match OpenLigaDB has as played, the run waits for the next morning. Less than 30 hours before kick-off it goes ahead and notes which matches were missing.
+- **The market, for the record.** The bookmakers' average odds on the day of publication are stored with each forecast. The home page compares with the latest price in `data/odds.json`.
+- **By hand.** Actions › Forecast the matchday › Run workflow (optionally with a matchday number), or locally:
+
+```bash
+python analysis/pipeline/site_forecasts.py /tmp/matches.csv --pool /tmp/tables --season 2026 --matchday 11
+```
+
+- **Setup.** It needs the `DATA_REPO_TOKEN` secret the odds recorder already uses (for the xG files). A run takes about 15 minutes; most mornings it only checks the fixture list and stops. `SITE_BOT=off` stops the automatic commit here too.
+- **Not yet.** The Track record page still grades the deep dives and the backtest; the weekly forecasts are graded on the home page only.
+
 ### Odds
 
 The **Record odds** workflow snapshots Bundesliga odds from [The Odds API](https://the-odds-api.com/): every bookmaker in its EU feed (Pinnacle, Betfair Exchange, Tipico, Winamax DE and about 20 more), match odds and total goals.
@@ -163,8 +187,3 @@ Posts so far:
 ## Install on iPhone or iPad
 
 Open [Jan’s Matchday](https://jhvl88.github.io/matchday/) in Safari, tap **Share**, then tap **Add to Home Screen**. The app opens in its own window and caches the app shell and latest successfully loaded match data so it can reopen when offline. Live results still need an internet connection.
-
-## Background photo credits
-
-- “Hongkou Football Stadium at night” by Windmemories, used under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). [Source](https://commons.wikimedia.org/wiki/File:20240107_Night_view_of_Hongkou_Football_Stadium.jpg).
-- “Adidas soccer ball on a grass pitch” by Peter Glaser, dedicated to the public domain under [CC0](https://creativecommons.org/publicdomain/zero/1.0/). [Source](https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg).

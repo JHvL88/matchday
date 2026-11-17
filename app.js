@@ -10,8 +10,11 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const POSTS_URL = "analysis/posts.json";
 const ODDS_URL = "data/odds.json";
 const RECORD_URL = "data/record.json";
+const FORECASTS_URL = "data/forecasts.json";
 // A disagreement worth flagging: models at least 7 points away from the market on its favourite.
 const DISAGREEMENT = 0.07;
+// From this many percentage points apart, a fixture says how far my models and the bookmakers differ.
+const GAP_POINTS = 5;
 
 // Club crests. OpenLigaDB links several full-size originals (1000 px PNGs of 60–190 KB each, for an
 // icon drawn at 22–30 px). Known clubs use a 120 px Wikimedia thumbnail of the same crest; any other
@@ -28,7 +31,7 @@ const CREST_THUMBS = {
   80: "commons/thumb/4/44/1._FC_Union_Berlin_Logo.svg/120px-1._FC_Union_Berlin_Logo.svg.png",
   81: "commons/thumb/9/9e/Logo_Mainz_05.svg/120px-Logo_Mainz_05.svg.png",
   87: "commons/thumb/8/81/Borussia_M%C3%B6nchengladbach_logo.svg/120px-Borussia_M%C3%B6nchengladbach_logo.svg.png",
-  91: "de/thumb/3/32/Logo_Eintracht_Frankfurt_1998.svg/120px-Logo_Eintracht_Frankfurt_1998.svg.png",
+  91: "en/thumb/7/7e/Eintracht_Frankfurt_crest.svg/120px-Eintracht_Frankfurt_crest.svg.png",
   95: "de/thumb/b/b5/Logo_FC_Augsburg.svg/120px-Logo_FC_Augsburg.svg.png",
   100: "commons/thumb/f/f7/Hamburger_SV_logo.svg/120px-Hamburger_SV_logo.svg.png",
   112: "de/thumb/b/bf/SC_Freiburg_Logo.svg/120px-SC_Freiburg_Logo.svg.png",
@@ -63,14 +66,12 @@ const nextButton = document.querySelector("#next-matchday");
 const currentButton = document.querySelector("#current-matchday");
 const refreshButton = document.querySelector("#refresh-results");
 const updatedAt = document.querySelector("#updated-at");
-const hubSeason = document.querySelector("#hub-season");
-const glance = document.querySelector("#glance");
-const dashboard = document.querySelector(".dashboard");
+const dashboard = document.querySelector(".board-layout");
 const standingsSection = document.querySelector(".standings-panel");
 const standingsCaption = document.querySelector("#standings-caption");
 const standingsRows = document.querySelector("#standings-rows");
-const standingsLegend = document.querySelector("#standings-legend");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
+const filterRow = document.querySelector(".filter-row");
 const venueButtons = [...document.querySelectorAll("[data-venue]")];
 const teamSelect = document.querySelector("#team-select");
 const insightsCaption = document.querySelector("#insights-caption");
@@ -81,10 +82,15 @@ const minutesChart = document.querySelector("#minutes-chart");
 const minutesSummary = document.querySelector("#minutes-chart-summary");
 const minutesTable = document.querySelector("#minutes-table");
 const countdown = document.querySelector("#countdown");
-const featured = document.querySelector("#featured");
 const analysisGrid = document.querySelector("#analysis-grid");
 const recordTeaser = document.querySelector("#record-teaser");
-const recordStats = document.querySelector("#record-teaser-stats");
+const recordGauge = document.querySelector("#record-gauge");
+const recordSeason = document.querySelector("#record-season");
+const boardTitle = document.querySelector("#matches-heading");
+const boardIntro = document.querySelector("#board-intro");
+const legendPin = document.querySelector("#legend-pin");
+const lead = document.querySelector("#lead");
+const stripCaption = document.querySelector("#strip-caption");
 const probLegend = document.querySelector("#prob-legend");
 const oddsSource = document.querySelector("#odds-source");
 const followButton = document.querySelector("#follow-button");
@@ -107,6 +113,7 @@ const state = {
   matches: null,
   posts: [],
   odds: null,
+  forecasts: null,
   record: null,
   loadedAt: 0,
   loadFailed: false,
@@ -230,13 +237,21 @@ function sourceLabel(source, quoted) {
   return bookmaker ? t("odds.source", { bookmaker, date: shortDate(quoted) }) : t("odds.sourceUnnamed", { date: shortDate(quoted) });
 }
 
-// What is known about a match before kick-off: the models (deep dives only) and the market.
+// The weekly forecast for a match (data/forecasts.json, one per match, published before kick-off).
+function weeklyForecast(match) {
+  return state.forecasts?.matchdays?.[String(matchdayOf(match))]?.matches?.[String(match.matchID)] ?? null;
+}
+
+// What is known about a match before kick-off: the models (a deep dive's forecast, otherwise the
+// weekly one) and the market.
 function forecastFor(match) {
   const post = postForMatch(match);
-  const published = post?.forecast;
+  const weekly = weeklyForecast(match);
+  const published = post?.forecast?.model ? post.forecast : (weekly ? { ...post?.forecast, model: weekly.model } : post?.forecast);
   if (published?.market) {
     return {
       post,
+      weekly,
       model: published.model ?? null,
       market: published.market,
       odds: published.marketOdds ?? null,
@@ -248,9 +263,14 @@ function forecastFor(match) {
   const odds = block?.matches?.[String(match.matchID)];
   const free = marginFree(odds);
   if (free) {
-    return { post, model: published?.model ?? null, market: free.probs, odds, margin: free.margin, source: sourceLabel(block.source, block.quoted) };
+    return { post, weekly, model: published?.model ?? null, market: free.probs, odds, margin: free.margin, source: sourceLabel(block.source, block.quoted) };
   }
-  return published?.model ? { post, model: published.model, market: null, odds: null, margin: null, source: "" } : null;
+  // No price in the odds file: fall back on the one recorded when the forecast was published.
+  const recorded = marginFree(weekly?.market?.odds);
+  if (recorded) {
+    return { post, weekly, model: published?.model ?? null, market: recorded.probs, odds: weekly.market.odds, margin: recorded.margin, source: sourceLabel(null, weekly.market.quoted) };
+  }
+  return published?.model ? { post, weekly, model: published.model, market: null, odds: null, margin: null, source: "" } : null;
 }
 
 function outcomeIndex(score) {
@@ -293,25 +313,68 @@ function probabilityLabel(probs, match) {
   });
 }
 
-// A three-part bar: home win (blue), draw (grey), away win (orange).
-function probBar(probs, match, { thin = false } = {}) {
-  const bar = createElement("span", `prob-bar${thin ? " is-thin" : ""}`);
+// The pinned bar. Filled segments: my models. The two pins: where the bookmakers would cut the
+// same bar. Outlined segments: bookmakers only, because there is no model forecast for the match.
+function pinBar(forecast, match, { slim = false } = {}) {
+  const shown = forecast.model ?? forecast.market;
+  const bar = createElement("span", `pbar${forecast.model ? "" : " is-outline"}${slim ? " is-slim" : ""}`);
   bar.setAttribute("role", "img");
-  bar.setAttribute("aria-label", probabilityLabel(probs, match));
+  bar.setAttribute("aria-label", forecastLabel(forecast, match));
+  const track = createElement("span", "pbar-track");
   ["home", "draw", "away"].forEach((key, index) => {
-    const segment = createElement("span", `prob-seg is-${key}`);
-    segment.style.width = `${Math.max(0, probs[index] * 100).toFixed(1)}%`;
-    bar.append(segment);
+    const segment = createElement("span", `pbar-seg is-${key}`);
+    if (index < 2) segment.style.width = `${Math.max(0, shown[index] * 100).toFixed(1)}%`;
+    track.append(segment);
   });
+  bar.append(track);
+  if (forecast.model && forecast.market && !slim) {
+    [forecast.market[0], forecast.market[0] + forecast.market[1]].forEach((cut) => {
+      const pin = createElement("span", "pbar-pin");
+      pin.style.left = `${(cut * 100).toFixed(1)}%`;
+      bar.append(pin);
+    });
+  }
   return bar;
 }
 
-// "Models" and "Market" bars, one above the other, with labels.
-function probRows(forecast, match) {
-  const rows = createElement("div", "prob-rows");
-  if (forecast.model) rows.append(createElement("span", "prob-row-label", t("prob.models")), probBar(forecast.model, match));
-  if (forecast.market) rows.append(createElement("span", "prob-row-label is-market", t("prob.market")), probBar(forecast.market, match, { thin: Boolean(forecast.model) }));
-  return rows;
+function forecastLabel(forecast, match) {
+  const parts = [];
+  if (forecast.model) parts.push(`${t("prob.models")}: ${probabilityLabel(forecast.model, match)}`);
+  if (forecast.market) parts.push(`${t("prob.market")}: ${probabilityLabel(forecast.market, match)}`);
+  return parts.join(". ");
+}
+
+const points = (value) => Math.round(value * 100);
+
+// The outcome on which my models and the bookmakers differ most, in whole percentage points
+// (from the rounded numbers on screen, so the gap always matches what a reader can subtract).
+function biggestGap(forecast) {
+  if (!forecast?.model || !forecast?.market) return null;
+  const diffs = forecast.model.map((value, index) => points(value) - points(forecast.market[index]));
+  const index = diffs.reduce((best, value, i) => (Math.abs(value) > Math.abs(diffs[best]) ? i : best), 0);
+  return { index, points: Math.abs(diffs[index]), diff: diffs[index] };
+}
+
+function outcomeName(index, match) {
+  return index === 1 ? t("row.theDraw") : teamName(index === 0 ? match.team1 : match.team2);
+}
+
+// How a graded forecast did: the ranked probability score of my models and of the bookmakers.
+function gradeOf(match, forecast) {
+  const score = getFinalScore(match);
+  if (!score || !forecast?.model || !forecast?.market) return null;
+  const outcome = outcomeIndex(score);
+  // A deep dive's own grades (from unrounded probabilities) when it has them, so every page agrees.
+  const published = forecast.post?.forecast?.model ? forecast.post?.fullTime?.rps : null;
+  const models = published?.models ?? rps(forecast.model, outcome);
+  const market = published?.market ?? rps(forecast.market, outcome);
+  return { models, market, verdict: models < market ? "models" : models > market ? "market" : "tie" };
+}
+
+// Solid for my models, outline for the bookmakers: the same rule as the bars.
+function verdictPill(grade) {
+  const key = { models: "forecast.modelsCloser", market: "forecast.marketCloser", tie: "forecast.tie" }[grade.verdict];
+  return createElement("span", `pill${grade.verdict === "models" ? " is-solid" : ""}`, t(key));
 }
 
 function termButton(term, text) {
@@ -651,12 +714,13 @@ async function start() {
   const request = ++loadRequest;
   setBusy(true);
   const requestedMatchday = Number(new URLSearchParams(location.search).get("md"));
-  const [currentResult, matchesResult, postsResult, oddsResult, recordResult] = await Promise.allSettled([
+  const [currentResult, matchesResult, postsResult, oddsResult, recordResult, forecastsResult] = await Promise.allSettled([
     loadCurrentMatchday(),
     loadSeasonMatches(),
     loadSiteJson(POSTS_URL),
     loadSiteJson(ODDS_URL),
     loadSiteJson(RECORD_URL),
+    loadSiteJson(FORECASTS_URL),
   ]);
   if (request !== loadRequest) return;
   setBusy(false);
@@ -664,6 +728,7 @@ async function start() {
   else console.warn("Deep-dive list unavailable.", postsResult.reason);
   if (oddsResult.status === "fulfilled") state.odds = oddsResult.value;
   if (recordResult.status === "fulfilled") state.record = recordResult.value;
+  if (forecastsResult.status === "fulfilled" && forecastsResult.value?.season === season) state.forecasts = forecastsResult.value;
   if (matchesResult.status === "rejected") {
     console.error("Unable to load Bundesliga results.", matchesResult.reason);
     showLoadFailure();
@@ -761,8 +826,6 @@ function formatMatchdayDates(matches) {
 }
 
 function renderHub(matches) {
-  const status = state.matchday === state.currentMatchday ? "current" : state.matchday < (state.currentMatchday ?? 0) ? "past" : "future";
-  hubSeason.textContent = `Bundesliga ${seasonLabel(season)} · ${t(`hub.when.${status}`)}`;
   matchdayTitle.textContent = t("hub.title", { matchday: state.matchday });
   matchdayDates.textContent = matches.length
     ? `${formatMatchdayDates(matches)} · ${t("count.matches", { count: matches.length })}`
@@ -774,58 +837,61 @@ function renderHub(matches) {
   updatedAt.textContent = state.loadedAt
     ? t("hub.updated", { time: formatBerlinDate(state.loadedAt, { hour: "2-digit", minute: "2-digit" }) })
     : "";
+  let played = 0;
+  for (let day = 1; day <= MAX_MATCHDAYS; day += 1) {
+    if (getMatchdayStatus(matchesForMatchday(state.matches, day)) === "played") played += 1;
+  }
+  stripCaption.textContent = t("strip.caption", { played, total: MAX_MATCHDAYS });
   renderMatchdayStrip();
   renderCountdown(matches);
 }
 
-function setText(selector, text) {
-  document.querySelector(selector).textContent = text;
-}
-
-// Next kick-off with a countdown, live matches, or a full-time summary.
+// One line under the dates: the next kick-off and how long until then, what is live, or how the
+// matchday ended.
 function renderCountdown(matches) {
   const now = Date.now();
   const live = matches.filter((match) => getMatchStatus(match, now) === "live");
   const upcoming = matches
     .filter((match) => getMatchStatus(match, now) === "upcoming" && Number.isFinite(kickoffOf(match)))
     .sort((a, b) => kickoffOf(a) - kickoffOf(b));
-  const clock = document.querySelector(".countdown-clock");
-  const value = document.querySelector("#countdown-value");
   countdown.hidden = !matches.length;
   countdown.classList.toggle("is-live", live.length > 0);
-  clock.hidden = false;
+  const dot = createElement("span", "status-dot");
+  dot.setAttribute("aria-hidden", "true");
+  const parts = [dot];
   if (live.length) {
     const [first] = live;
     const score = getDisplayScore(first, "live") ?? [0, 0];
-    setText("#countdown-label", t("countdown.live"));
-    setText("#countdown-match", live.length === 1
-      ? `${teamName(first.team1)} ${I18N.score(score[0], score[1])} ${teamName(first.team2)}`
-      : t("countdown.liveCount", { count: live.length }));
-    setText("#countdown-when", t("countdown.refreshing"));
-    setText("#countdown-clock-label", t("countdown.status"));
-    value.textContent = t("countdown.liveBadge");
+    parts.push(
+      createElement("span", "status-label", `${t("countdown.live")}:`),
+      createElement("strong", "status-match", live.length === 1
+        ? `${teamName(first.team1)} ${I18N.score(score[0], score[1])} ${teamName(first.team2)}`
+        : t("countdown.liveCount", { count: live.length })),
+    );
   } else if (upcoming.length) {
     const [next] = upcoming;
-    const minutes = Math.max(0, Math.round((kickoffOf(next) - now) / 60_000));
-    setText("#countdown-label", t("countdown.next"));
-    setText("#countdown-match", fixtureLabel(next));
-    setText("#countdown-when", formatBerlinDate(kickoffOf(next), { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }));
-    setText("#countdown-clock-label", t("countdown.startsIn"));
-    value.replaceChildren(minutes < 24 * 60
-      ? `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`
-      : t("countdown.days", { count: Math.round(minutes / (24 * 60)) }));
-    if (minutes < 24 * 60) value.append(createElement("small", "", t("countdown.hours")));
+    parts.push(
+      createElement("span", "status-label", `${t("countdown.next")}:`),
+      createElement("strong", "status-match", `${fixtureLabel(next)},`),
+      createElement("span", "status-when", `${formatBerlinDate(kickoffOf(next), { weekday: "long", hour: "2-digit", minute: "2-digit" })},`),
+      createElement("span", "status-clock", timeUntil(kickoffOf(next), now)),
+    );
   } else if (matches.length) {
     const finished = matches.filter((match) => getFinalScore(match));
     const goals = finished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
     const nextMatchday = matchesForMatchday(state.matches, state.matchday + 1);
-    setText("#countdown-label", t("countdown.complete"));
-    setText("#countdown-match", t("countdown.completeGoals", { goals: t("count.goals", { count: goals }), matches: t("count.matchesIn", { count: finished.length }) }));
-    setText("#countdown-when", nextMatchday.length
-      ? t("countdown.nextMatchday", { matchday: state.matchday + 1, date: formatBerlinDate(Math.min(...nextMatchday.map(kickoffOf)), { weekday: "short", day: "numeric", month: "short" }) })
-      : "");
-    clock.hidden = true;
+    parts.push(
+      createElement("span", "status-label", `${t("countdown.complete")}:`),
+      createElement("strong", "status-match", `${t("countdown.completeGoals", { goals: t("count.goals", { count: goals }), matches: t("count.matchesIn", { count: finished.length }) })}.`),
+    );
+    if (nextMatchday.length) {
+      parts.push(createElement("span", "status-when", `${t("countdown.nextMatchday", {
+        matchday: state.matchday + 1,
+        date: formatBerlinDate(Math.min(...nextMatchday.map(kickoffOf)), { weekday: "short", day: "numeric", month: "short" }),
+      })}.`));
+    }
   }
+  countdown.replaceChildren(...parts);
 }
 
 function startClock() {
@@ -833,15 +899,6 @@ function startClock() {
   clockTimer = setInterval(() => {
     if (state.matches && document.visibilityState === "visible") renderCountdown(matchesForMatchday(state.matches, state.matchday));
   }, 30_000);
-}
-
-function setGlanceTile(tile, value, sub, { compact = false, label } = {}) {
-  const valueElement = tile.querySelector(".glance-value");
-  valueElement.replaceChildren(value);
-  valueElement.classList.toggle("is-compact", compact && value !== "–");
-  tile.querySelector(".glance-sub").textContent = sub;
-  const term = tile.querySelector("dt");
-  term.textContent = t(label ?? term.dataset.i18n);
 }
 
 // "in 9 h 15 min" / "in 3 days" until a kick-off.
@@ -856,208 +913,119 @@ function fixtureLabel(match) {
   return t("glance.fixture", { home: teamName(match.team1), away: teamName(match.team2) });
 }
 
-function kickoffLabel(match) {
-  return formatBerlinDate(kickoffOf(match), { weekday: "short", hour: "2-digit", minute: "2-digit" });
-}
-
-// Table positions before the selected matchday (empty before the first results).
-function positionsBefore(matchday = state.matchday) {
-  const before = calculateStandings(state.matches, matchday - 1);
-  return before.some((entry) => entry.played)
-    ? new Map(before.map((entry, index) => [Number(entry.team.teamId), { position: index + 1, entry }]))
-    : new Map();
-}
-
-// Before a matchday starts: the top clash and the bottom clash by current position.
-function previewTiles(matches) {
+// One line above the fixtures. Before kick-off: where my models and the bookmakers argue most
+// (or, without a forecast, the closest call and the biggest favourite). Afterwards: the biggest
+// upset, or the matchday in numbers.
+function renderLead(matches) {
   const now = Date.now();
-  const rank = positionsBefore();
-  const ranked = matches
-    .filter((match) => getMatchStatus(match, now) === "upcoming")
-    .map((match) => ({ match, home: rank.get(Number(match.team1?.teamId))?.position, away: rank.get(Number(match.team2?.teamId))?.position }))
-    .filter((entry) => entry.home && entry.away);
-  const byTop = [...ranked].sort((a, b) => (a.home + a.away) - (b.home + b.away) || Math.max(a.home, a.away) - Math.max(b.home, b.away));
-  return { top: byTop[0] ?? null, bottom: byTop.length > 1 ? byTop.at(-1) : null };
-}
+  const entries = matches.map((match) => ({ match, forecast: forecastFor(match), score: getFinalScore(match) }));
+  const finished = entries.filter((entry) => entry.match.matchIsFinished && entry.score);
+  const open = entries.filter((entry) => getMatchStatus(entry.match, now) === "upcoming" && entry.forecast);
+  let label = "";
+  const text = createElement("p", "lead-text");
+  const strong = (value) => createElement("strong", "", value);
 
-function clashSub(entry) {
-  return `${t("glance.positions", { home: I18N.ordinal(entry.home), away: I18N.ordinal(entry.away) })} · ${kickoffLabel(entry.match)}`;
-}
-
-function leaderTile(standings) {
-  const [leader, second] = standings;
-  if (!leader?.played) return { label: "glance.leader", value: "–", sub: t("glance.leaderNone") };
-  const name = createElement("span", "glance-team");
-  name.append(createLogo(leader.team, "glance-logo"), createElement("span", "", teamName(leader.team)));
-  const gap = leader.points - (second?.points ?? 0);
-  return {
-    label: "glance.leader",
-    value: name,
-    sub: gap ? t("glance.leaderClear", { points: leader.points, gap, count: gap }) : t("glance.leaderGd", { points: leader.points }),
-    compact: true,
-  };
-}
-
-function seasonGoalsTile() {
-  const finished = state.matches.filter((match) => match.matchIsFinished && matchdayOf(match) < state.matchday && getFinalScore(match));
-  if (!finished.length) return null;
-  const goals = finished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
-  return { label: "glance.seasonGoals", value: I18N.number(goals / finished.length, 1), sub: t("glance.seasonGoalsSub", { count: finished.length }) };
-}
-
-// Before kick-off: what is at stake (clashes, favourite, closest call). Afterwards: what happened.
-function renderGlance(matches, standings) {
-  const tiles = [...glance.querySelectorAll(".glance-tile")];
-  const now = Date.now();
-  const started = matches.filter((match) => ["finished", "live"].includes(getMatchStatus(match, now)));
-  const finished = matches.filter((match) => match.matchIsFinished && getFinalScore(match));
-  const liveCount = started.length - finished.length;
-  const slots = [];
-
-  if (!finished.length) {
-    const { top, bottom } = previewTiles(matches);
-    if (top) slots.push({ label: "glance.topClash", value: fixtureLabel(top.match), sub: clashSub(top), compact: true });
-    if (bottom) slots.push({ label: "glance.bottomClash", value: fixtureLabel(bottom.match), sub: clashSub(bottom), compact: true });
-    const priced = matches
-      .filter((match) => getMatchStatus(match, now) === "upcoming")
-      .map((match) => ({ match, market: forecastFor(match)?.market }))
-      .filter((entry) => entry.market);
-    if (priced.length) {
-      const strongest = (entry) => Math.max(entry.market[0], entry.market[2]);
-      const favourite = [...priced].sort((a, b) => strongest(b) - strongest(a))[0];
-      const homeFavourite = favourite.market[0] >= favourite.market[2];
-      slots.push({
-        label: "glance.favourite",
-        value: `${teamName(homeFavourite ? favourite.match.team1 : favourite.match.team2)} ${percent(strongest(favourite))}`,
-        sub: `${t(homeFavourite ? "glance.vs" : "glance.at", { team: teamName(homeFavourite ? favourite.match.team2 : favourite.match.team1) })} · ${kickoffLabel(favourite.match)}`,
-        compact: true,
-      });
-      const closest = [...priced].sort((a, b) => strongest(a) - strongest(b))[0];
-      slots.push({
-        label: "glance.closest",
-        value: fixtureLabel(closest.match),
-        sub: `${closest.market.map((value) => Math.round(value * 100)).join(" · ")} · ${kickoffLabel(closest.match)}`,
-        compact: true,
-      });
-    }
-    slots.push(leaderTile(standings));
-    const goalsTile = seasonGoalsTile();
-    if (goalsTile) slots.push(goalsTile);
-  } else {
-    const goals = started.reduce((sum, match) => {
-      const score = getDisplayScore(match, getMatchStatus(match, now)) ?? [0, 0];
-      return sum + score[0] + score[1];
-    }, 0);
-    const seasonFinished = state.matches.filter((match) => (
-      match.matchIsFinished && matchdayOf(match) <= state.matchday && getFinalScore(match)
-    ));
-    const seasonGoals = seasonFinished.reduce((sum, match) => sum + getFinalScore(match)[0] + getFinalScore(match)[1], 0);
-    const parts = [t("glance.perMatch", { avg: I18N.number(goals / started.length, 1) })];
-    if (seasonFinished.length) parts.push(t("glance.season", { avg: I18N.number(seasonGoals / seasonFinished.length, 1) }));
-    if (liveCount) parts.push(t("glance.live", { count: liveCount }));
-    slots.push({ label: "glance.goals", value: String(goals), sub: parts.join(" · ") });
-
-    // The biggest upset: the result the market thought least likely (only where odds are known).
-    const surprises = finished
-      .map((match) => ({ match, market: forecastFor(match)?.market, score: getFinalScore(match) }))
-      .filter((entry) => entry.market)
-      .map((entry) => ({ ...entry, chance: entry.market[outcomeIndex(entry.score)] }))
+  if (finished.length) {
+    const upsets = finished
+      .filter((entry) => entry.forecast?.model || entry.forecast?.market)
+      .map((entry) => {
+        const probs = entry.forecast.model ?? entry.forecast.market;
+        return { ...entry, chance: probs[outcomeIndex(entry.score)], byModels: Boolean(entry.forecast.model) };
+      })
       .sort((a, b) => a.chance - b.chance);
-    if (surprises.length && surprises[0].chance < 0.3) {
-      const [upset] = surprises;
-      slots.push({
-        label: "glance.upset",
-        value: `${teamName(upset.match.team1)} ${I18N.score(upset.score[0], upset.score[1])} ${teamName(upset.match.team2)}`,
-        sub: t("glance.upsetSub", { chance: percent(upset.chance), count: Math.round(1 / upset.chance) }),
-        compact: true,
-      });
+    if (upsets.length && upsets[0].chance < 0.2) {
+      const [upset] = upsets;
+      label = t("lead.upset.label");
+      text.append(
+        strong(`${teamName(upset.match.team1)} ${I18N.score(upset.score[0], upset.score[1])} ${teamName(upset.match.team2)}.`),
+        " ",
+        t(upset.byModels ? "lead.upset.models" : "lead.upset.market", { chance: percent(upset.chance), count: Math.max(2, Math.round(1 / upset.chance)) }),
+      );
     } else {
-      let homeWins = 0;
-      let draws = 0;
-      let awayWins = 0;
-      for (const match of finished) {
-        const [home, away] = getFinalScore(match);
-        if (home > away) homeWins += 1;
-        else if (home < away) awayWins += 1;
-        else draws += 1;
-      }
-      slots.push({ label: "glance.results", value: `${homeWins} · ${draws} · ${awayWins}`, sub: t("glance.resultsSub") });
+      const goals = finished.reduce((sum, entry) => sum + entry.score[0] + entry.score[1], 0);
+      const split = [0, 0, 0];
+      finished.forEach((entry) => { split[outcomeIndex(entry.score)] += 1; });
+      label = t("lead.results.label");
+      text.append(
+        strong(`${t("countdown.completeGoals", { goals: t("count.goals", { count: goals }), matches: t("count.matchesIn", { count: finished.length }) })}.`),
+        " ",
+        t("lead.results.split", { h: split[0], d: split[1], a: split[2] }),
+      );
     }
-
-    const ranked = [...finished].sort((a, b) => {
-      const [ah, aa] = getFinalScore(a);
-      const [bh, ba] = getFinalScore(b);
-      return Math.abs(bh - ba) - Math.abs(ah - aa) || (bh + ba) - (ah + aa);
-    });
-    const [biggestHome, biggestAway] = getFinalScore(ranked[0]);
-    const margin = Math.abs(biggestHome - biggestAway);
-    if (margin === 0) {
-      slots.push({ label: "glance.biggestWin", value: "–", sub: t("glance.allDraws") });
+  } else if (open.some((entry) => entry.forecast.model && entry.forecast.market)) {
+    const gaps = open
+      .map((entry) => ({ ...entry, gap: biggestGap(entry.forecast) }))
+      .filter((entry) => entry.gap)
+      .sort((a, b) => b.gap.points - a.gap.points);
+    const [top] = gaps;
+    if (top.gap.points >= GAP_POINTS) {
+      label = t("lead.argument.label");
+      text.append(
+        strong(`${fixtureLabel(top.match)}.`),
+        " ",
+        t(top.gap.index === 1 ? "lead.argument.draw" : "lead.argument.team", {
+          team: outcomeName(top.gap.index, top.match),
+          models: percent(top.forecast.model[top.gap.index]),
+          market: percent(top.forecast.market[top.gap.index]),
+        }),
+      );
     } else {
-      const sameMargin = ranked.filter((match) => {
-        const [home, away] = getFinalScore(match);
-        return Math.abs(home - away) === margin;
-      }).length - 1;
-      slots.push({
-        label: "glance.biggestWin",
-        value: `${teamName(ranked[0].team1)} ${I18N.score(biggestHome, biggestAway)} ${teamName(ranked[0].team2)}`,
-        sub: t("glance.margin", { count: margin }) + (sameMargin ? t("glance.sameMargin", { count: sameMargin }) : ""),
-        compact: true,
-      });
+      label = t("lead.agree.label");
+      text.append(t("lead.agree.text", { count: Math.max(1, top.gap.points) }));
     }
-    slots.push(leaderTile(standings));
+  } else if (open.some((entry) => entry.forecast.market)) {
+    const priced = open.filter((entry) => entry.forecast.market);
+    const strongest = (entry) => Math.max(entry.forecast.market[0], entry.forecast.market[2]);
+    const favourite = [...priced].sort((a, b) => strongest(b) - strongest(a))[0];
+    const closest = [...priced].sort((a, b) => strongest(a) - strongest(b))[0];
+    const homeFavourite = favourite.forecast.market[0] >= favourite.forecast.market[2];
+    label = t("lead.market.label");
+    text.append(
+      t("lead.market.closest"),
+      " ",
+      strong(fixtureLabel(closest.match)),
+      ` (${closest.forecast.market.map(points).join(" / ")}). `,
+      t("lead.market.favourite"),
+      " ",
+      strong(teamName(homeFavourite ? favourite.match.team1 : favourite.match.team2)),
+      ` ${t("lead.market.at", { chance: percent(strongest(favourite)) })}`,
+    );
   }
 
-  tiles.forEach((tile, index) => {
-    const slot = slots[index] ?? { label: tile.querySelector("dt").dataset.i18n, value: "–", sub: t("glance.noResults") };
-    setGlanceTile(tile, slot.value, slot.sub, { compact: slot.compact, label: slot.label });
-  });
+  lead.hidden = !label;
+  lead.replaceChildren(...(label ? [createElement("p", "lead-label", label), text] : []));
 }
 
-/* ---------- The deep dive of the matchday ---------- */
+// The heading, the sentence under it and the legend say what the bars on this matchday are.
+function renderBoardHead(matches) {
+  const forecasts = matches.map((match) => forecastFor(match)).filter(Boolean);
+  const withModel = forecasts.some((forecast) => forecast.model);
+  const withMarket = forecasts.some((forecast) => forecast.market);
+  const mixed = withModel && forecasts.some((forecast) => !forecast.model);
+  const allPlayed = matches.length > 0 && matches.every((match) => match.matchIsFinished);
+  boardTitle.textContent = !withModel
+    ? t("fixtures.title")
+    : allPlayed ? t("board.title.done") : t("board.title.both", { count: matches.length });
+  const intro = withModel && withMarket ? "board.intro.both"
+    : withModel ? "board.intro.models"
+      : withMarket ? (allPlayed || state.matchday < (state.currentMatchday ?? 0) ? "board.intro.marketPast" : "board.intro.market")
+        : null;
+  boardIntro.hidden = !intro;
+  boardIntro.replaceChildren(...(intro ? [`${t(intro)}${mixed ? ` ${t("board.intro.mixed")}` : ""}`, " ", termButton("forecast-bar", t("legend.explain"))] : []));
+  probLegend.hidden = !forecasts.length;
+  legendPin.hidden = !(withModel && withMarket);
+  const sources = [...new Set(forecasts.filter((forecast) => forecast.market).map((forecast) => forecast.source).filter(Boolean))];
+  oddsSource.textContent = sources.length ? ` · ${t("fixtures.oddsFoot", { sources: sources.join("; ") })}` : "";
+}
 
 function fairOdds(probability) {
   return probability > 0 ? I18N.number(1 / probability, 2) : "–";
 }
 
-function teamMeta(team, ranks) {
-  const info = ranks.get(Number(team?.teamId));
-  if (!info) return "";
-  return t("featured.teamMeta", { position: I18N.ordinal(info.position), points: t("count.points", { count: info.entry.points }) });
-}
-
-function featuredTeam(team, meta, isHome) {
-  const wrap = createElement("div", `featured-team${isHome ? " is-home" : ""}`);
-  const text = createElement("div", "featured-team-text");
-  text.append(createElement("p", "featured-team-name", team?.teamName || teamName(team)), createElement("p", "featured-team-meta", meta));
-  const logo = createLogo(team, "featured-logo");
-  wrap.append(...(isHome ? [text, logo] : [logo, text]));
-  return wrap;
-}
-
 function forecastNote(match, forecast) {
   const score = getFinalScore(match);
   const note = createElement("div", "forecast-note");
-  if (score && forecast.model && forecast.market) {
-    const outcome = outcomeIndex(score);
-    // The post's own grades (from unrounded probabilities) when it has them, so every page agrees.
-    const published = forecast.post?.fullTime?.rps;
-    const models = published?.models ?? rps(forecast.model, outcome);
-    const market = published?.market ?? rps(forecast.market, outcome);
-    note.classList.add(models < market ? "is-good" : "is-neutral");
-    const text = createElement("p");
-    text.append(
-      createElement("strong", "", t("forecast.fullTime", { home: teamName(match.team1), away: teamName(match.team2), score: I18N.score(score[0], score[1]) })),
-      " ",
-      t("forecast.gradeLead"),
-      " ",
-      termButton("rps", t("forecast.rps")),
-      `: ${t("forecast.grade", { models: I18N.number(models, 3), market: I18N.number(market, 3) })} `,
-      createElement("strong", "", t(models < market ? "forecast.modelsCloser" : models > market ? "forecast.marketCloser" : "forecast.tie")),
-    );
-    note.append(text);
-    return note;
-  }
+  if (score) return null;
   const gap = disagreement(forecast.model, forecast.market);
   if (!gap) return null;
   const team = teamName(gap.favourite === 0 ? match.team1 : match.team2);
@@ -1076,95 +1044,6 @@ function forecastNote(match, forecast) {
   }
   note.append(text);
   return note;
-}
-
-// When a deep dive last changed: an explicit "updated" time if the post has one, otherwise its
-// full-time review (written after the final whistle, so kick-off plus two hours) or the day it was published.
-function postUpdatedAt(post) {
-  const stamps = [Date.parse(post.updated), Date.parse(`${post.published}T00:00:00Z`)];
-  if (post.fullTime?.score) stamps.push(Date.parse(post.kickoff) + 2 * 60 * 60 * 1000);
-  return Math.max(...stamps.filter(Number.isFinite), 0);
-}
-
-// The newest deep dive, whichever matchday is on screen.
-function latestPost() {
-  return [...state.posts]
-    .filter((post) => post.forecast)
-    .sort((a, b) => postUpdatedAt(b) - postUpdatedAt(a) || Date.parse(b.kickoff) - Date.parse(a.kickoff))[0] ?? null;
-}
-
-function renderFeatured() {
-  const post = latestPost();
-  const match = post && state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
-  const forecast = match ? forecastFor(match) : null;
-  const weekend = document.querySelector(".weekend");
-  if (!post || !match || !forecast?.post) {
-    featured.hidden = true;
-    featured.replaceChildren();
-    weekend.classList.remove("has-featured");
-    return;
-  }
-  const matchday = matchdayOf(match);
-  const ranks = positionsBefore(matchday);
-  const status = getMatchStatus(match);
-  const card = createElement("article", "featured-card");
-
-  const top = createElement("div", "featured-top");
-  const when = status === "finished"
-    ? t("featured.played", { date: formatBerlinDate(kickoffOf(match), { weekday: "short", day: "numeric", month: "short" }) })
-    : kickoffLabel(match);
-  // Name the matchday when the card is about a different one from the hub beside it.
-  const otherDay = matchday !== state.matchday ? t("hub.title", { matchday }) : null;
-  top.append(createElement("p", "featured-tag", [t("featured.tag"), otherDay, when, post.venue].filter(Boolean).join(" · ")));
-  if (post.published) top.append(createElement("span", "featured-lock", t("featured.locked", { date: shortDate(post.published) })));
-
-  const teams = createElement("div", "featured-teams");
-  const score = getFinalScore(match);
-  const middle = score
-    ? createElement("span", "featured-score", I18N.score(score[0], score[1]))
-    : createElement("span", "featured-v", t("featured.v"));
-  teams.append(featuredTeam(match.team1, teamMeta(match.team1, ranks), true), middle, featuredTeam(match.team2, teamMeta(match.team2, ranks), false));
-
-  const title = createElement("h2", "featured-title");
-  const titleLink = createElement("a", "", postText(post, "title"));
-  titleLink.href = post.path;
-  title.append(titleLink);
-
-  const tiles = createElement("div", "prob-tiles");
-  const main = forecast.model ?? forecast.market;
-  ["home", "draw", "away"].forEach((key, index) => {
-    const tile = createElement("div", `prob-tile is-${key}`);
-    const label = index === 1 ? t("prob.draw") : t("prob.win", { team: teamName(index === 0 ? match.team1 : match.team2) });
-    const parts = [];
-    if (forecast.model && forecast.market) parts.push(t("prob.marketShort", { value: percent(forecast.market[index]) }));
-    if (forecast.model) parts.push(t("prob.fairOdds", { value: fairOdds(forecast.model[index]) }));
-    // Each part is its own line on phones, so "fair odds 3.13" never breaks in the middle.
-    const sub = createElement("p", "prob-tile-sub");
-    parts.forEach((part, partIndex) => {
-      if (partIndex) sub.append(createElement("span", "prob-tile-sep", " · "));
-      sub.append(createElement("span", "prob-tile-part", part));
-    });
-    tile.append(createElement("p", "prob-tile-label", label), createElement("p", "prob-tile-value", percent(main[index])), sub);
-    tiles.append(tile);
-  });
-
-  const foot = createElement("div", "featured-foot");
-  const extras = createElement("p", "featured-extras");
-  const f = post.forecast ?? {};
-  if (f.mostLikely?.score) extras.append(createElement("span", "", t("featured.mostLikely", { score: I18N.score(f.mostLikely.score[0], f.mostLikely.score[1]), p: I18N.number(f.mostLikely.p * 100, 1) })));
-  if (Number.isFinite(f.over25)) extras.append(createElement("span", "", t("featured.over25", { p: percent(f.over25) })));
-  if (Number.isFinite(f.btts)) extras.append(createElement("span", "", t("featured.btts", { p: percent(f.btts) })));
-  const cta = createElement("a", "cta-link", t("featured.read"));
-  cta.href = post.path;
-  foot.append(extras, cta);
-
-  card.append(top, teams, title, probRows(forecast, match), tiles);
-  const note = forecastNote(match, forecast);
-  if (note) card.append(note);
-  card.append(foot);
-  featured.replaceChildren(card);
-  featured.hidden = false;
-  weekend.classList.add("has-featured");
 }
 
 /* ---------- Fixtures ---------- */
@@ -1191,11 +1070,9 @@ function createLogo(team, className) {
   return logo;
 }
 
-function createTeam(team, isHome, outcome) {
-  const container = createElement("span", `team ${isHome ? "team-home" : "team-away"}${outcome ? ` is-${outcome}` : ""}`);
-  const name = createElement("span", "team-name", teamName(team));
-  const logo = createLogo(team, "team-logo");
-  container.append(isHome ? name : logo, isHome ? logo : name);
+function createTeam(team, outcome) {
+  const container = createElement("span", `team${outcome ? ` is-${outcome}` : ""}`);
+  container.append(createLogo(team, "team-logo"), createElement("span", "team-name", teamName(team)));
   return container;
 }
 
@@ -1204,17 +1081,58 @@ function isFollowed(match) {
     && [Number(match.team1?.teamId), Number(match.team2?.teamId)].includes(state.teamId);
 }
 
+// "Bayern 87%   Draw 9%   Köln 4%": every number carries its name. After full time the outcome
+// that happened stands out.
+function createNumbers(probs, match, outcome) {
+  const line = createElement("span", "match-nums");
+  [teamName(match.team1), t("prob.draw"), teamName(match.team2)].forEach((label, index) => {
+    const item = createElement("span", outcome === null ? "" : index === outcome ? "is-hit" : "is-miss");
+    item.append(`${label} `, createElement("strong", "", percent(probs[index])));
+    line.append(item);
+  });
+  return line;
+}
+
+// Under the numbers: the bookmakers' split and, on the right, the gap in words before kick-off
+// or the verdict after full time.
+function createSub(match, status, forecast) {
+  const sub = createElement("span", "match-sub");
+  const left = createElement("span");
+  const right = createElement("span");
+  const score = getFinalScore(match);
+  if (forecast.model && forecast.market) {
+    left.textContent = t("row.bookmakers", { h: points(forecast.market[0]), d: points(forecast.market[1]), a: points(forecast.market[2]) });
+    const grade = gradeOf(match, forecast);
+    const gap = biggestGap(forecast);
+    if (grade) {
+      right.append(verdictPill(grade));
+    } else if (status === "live" || status === "pending") {
+      right.textContent = t("row.locked");
+    } else if (gap && gap.points >= GAP_POINTS) {
+      right.className = "match-gap";
+      right.textContent = t("row.gap", { count: gap.points, team: outcomeName(gap.index, match) });
+    }
+  } else if (forecast.model) {
+    left.textContent = t("row.modelsOnly");
+  } else if (score) {
+    left.textContent = t("row.marketResult", { chance: percent(forecast.market[outcomeIndex(score)]) });
+  } else {
+    left.textContent = t("row.marketOnly");
+  }
+  sub.append(left, right);
+  return sub;
+}
+
 function createMatchCard(match) {
   const status = getMatchStatus(match);
   const score = getDisplayScore(match, status);
-  const [homeScore, awayScore] = score ?? [];
-  const decided = status === "finished" && score;
-  const homeOutcome = decided ? (homeScore > awayScore ? "winner" : homeScore < awayScore ? "loser" : "") : "";
-  const awayOutcome = decided ? (awayScore > homeScore ? "winner" : awayScore < homeScore ? "loser" : "") : "";
+  const outcome = status === "finished" && score ? outcomeIndex(score) : null;
   const kickoff = kickoffOf(match);
   const time = formatBerlinDate(kickoff, { hour: "2-digit", minute: "2-digit" });
+  const forecast = forecastFor(match);
+  const shown = forecast?.model ?? forecast?.market;
 
-  const card = createElement("details", `match-card is-${status}${isFollowed(match) ? " is-followed" : ""}`);
+  const card = createElement("details", `match is-${status}${isFollowed(match) ? " is-followed" : ""}`);
   card.dataset.matchId = String(match.matchID);
   card.open = state.openMatches.has(String(match.matchID));
   card.addEventListener("toggle", () => {
@@ -1223,82 +1141,142 @@ function createMatchCard(match) {
   });
 
   const summary = createElement("summary", "match-summary");
-  const scoreBlock = createElement("span", "score-block");
-  if (score) {
-    const scoreLine = createElement("span", "score");
-    // Winner in ink, loser in grey; red is kept for live matches.
-    const scoreClass = (outcome) => (outcome === "winner" ? "score-winner" : outcome === "loser" ? "score-loser" : "");
-    scoreLine.append(
-      createElement("span", scoreClass(homeOutcome), String(homeScore)),
-      createElement("span", "score-separator", I18N.scoreSeparator),
-      createElement("span", scoreClass(awayOutcome), String(awayScore)),
-    );
-    scoreBlock.append(scoreLine);
-  } else {
-    scoreBlock.append(createElement("span", "match-time", time));
-  }
-
-  const halfTime = getHalfTimeScore(match);
-  const statusText = {
-    finished: t("match.fullTime"),
-    live: halfTime ? t("match.liveSecondHalf") : t("match.live"),
-    pending: t("match.pending"),
-    upcoming: Number.isFinite(kickoff) ? t("match.kickoff") : t("match.dateTbc"),
+  const head = createElement("span", "match-head");
+  const when = {
+    finished: t("row.fullTime"),
+    live: t("match.live"),
+    pending: Number.isFinite(kickoff) ? time : "–",
+    upcoming: Number.isFinite(kickoff) ? time : "–",
   }[status];
-  // The time box says it all for a normal upcoming match; every other state gets a status line.
-  if (!(status === "upcoming" && Number.isFinite(kickoff))) {
-    const statusElement = createElement("span", "match-status", statusText);
-    // "Full time · HT 1–1" on one line; on phones the half-time score drops to a second line.
-    if (status === "finished" && halfTime) {
-      statusElement.append(
-        createElement("span", "match-status-sep", " · "),
-        createElement("span", "match-status-ht", t("match.halfTime", { score: I18N.score(halfTime[0], halfTime[1]) })),
-      );
-    }
-    scoreBlock.append(statusElement);
-  }
-
-  summary.append(
-    createTeam(match.team1, true, homeOutcome),
-    scoreBlock,
-    createTeam(match.team2, false, awayOutcome),
-    createElement("span", "visually-hidden", t("match.showDetails")),
-  );
-  const forecast = forecastFor(match);
-  const shown = forecast?.model ?? forecast?.market;
-  if (shown) {
-    const odds = createElement("span", `match-odds${status === "finished" ? " is-past" : ""}`);
-    const numbers = createElement("span", "match-odds-numbers");
-    shown.forEach((value) => numbers.append(createElement("span", "", String(Math.round(value * 100)))));
-    odds.append(
-      createElement("span", "match-odds-label", t(forecast.model ? "prob.models" : "prob.market")),
-      probBar(shown, match, { thin: true }),
-      numbers,
-    );
-    summary.append(odds);
-    card.classList.add("has-odds");
-  }
+  const teams = createElement("span", "match-teams");
+  const middle = score
+    ? createElement("span", "match-score", I18N.score(score[0], score[1]))
+    : createElement("span", "match-v", t("featured.v"));
+  // Winner in ink, loser in grey, a draw in ink on both sides. Red is kept for live matches.
+  teams.append(createTeam(match.team1, outcome === 2 ? "loser" : ""), middle, createTeam(match.team2, outcome === 0 ? "loser" : ""));
+  const chevron = createSvg("svg", { class: "match-chevron", viewBox: "0 0 16 16", "aria-hidden": "true" });
+  chevron.append(createSvg("path", { d: "m3 6 5 5 5-5" }));
+  head.append(createElement("span", "match-when", when), teams, chevron, createElement("span", "visually-hidden", t("match.showDetails")));
+  summary.append(head);
+  if (shown) summary.append(pinBar(forecast, match), createNumbers(shown, match, outcome), createSub(match, status, forecast));
   card.append(summary, createMatchDetails(match, status, time, forecast));
   return card;
 }
 
 // The forecast inside an opened match: models and market, fair odds, and afterwards how it went.
-function createForecastBlock(match, status, forecast) {
-  const block = createElement("div", "match-forecast");
-  const score = getFinalScore(match);
-  if (score && forecast.market) {
-    const chance = forecast.market[outcomeIndex(score)];
-    const surprise = createElement("p", "match-surprise");
-    surprise.append(t("forecast.surprise", { chance: percent(chance), count: Math.max(1, Math.round(1 / chance)) }));
-    block.append(surprise);
-    if (forecast.model) {
-      const note = forecastNote(match, forecast);
-      if (note) block.append(note);
-    }
-    return block;
+// Whole numbers out of 100 that add up to exactly 100 (largest remainders), for the dots.
+function hundred(probs) {
+  const raw = probs.map((value) => value * 100);
+  const counts = raw.map(Math.floor);
+  const order = raw.map((value, index) => [value - Math.floor(value), index]).sort((a, b) => b[0] - a[0]);
+  for (let left = 100 - counts.reduce((sum, value) => sum + value, 0), i = 0; left > 0; left -= 1, i += 1) counts[order[i % 3][1]] += 1;
+  return counts;
+}
+
+// "Play this match 100 times": one dot per match, and the sentence that goes with it.
+function createHundred(forecast, match) {
+  const probs = forecast.model ?? forecast.market;
+  const wrap = createElement("div", "hundred");
+  const dots = createElement("div", "hundred-dots");
+  dots.setAttribute("aria-hidden", "true");
+  hundred(probs).forEach((count, index) => {
+    for (let i = 0; i < count; i += 1) dots.append(createElement("span", `dot is-${["home", "draw", "away"][index]}`));
+  });
+  const text = createElement("p", "hundred-text", t(forecast.model ? "hundred.models" : "hundred.market", {
+    home: teamName(match.team1),
+    away: teamName(match.team2),
+    h: points(probs[0]),
+    d: points(probs[1]),
+    a: points(probs[2]),
+  }));
+  wrap.append(dots, text);
+  return wrap;
+}
+
+function glossaryName(id) {
+  return window.GLOSSARY?.[I18N.lang]?.[id]?.term ?? window.GLOSSARY?.en?.[id]?.term ?? id;
+}
+
+// The three models behind the average, one slim bar each.
+function createSplit(weekly, match) {
+  const block = createElement("div", "detail-block");
+  block.append(createElement("h3", "detail-heading", t("split.heading")));
+  [["dixonColes", "dixon-coles"], ["bayesian", "bayesian-model"], ["xgboost", "xgboost"]].forEach(([key, term]) => {
+    const probs = weekly.models?.[key];
+    if (!probs) return;
+    const row = createElement("div", "split-row");
+    const name = createElement("span", "split-name");
+    name.append(termButton(term, glossaryName(term)));
+    row.append(name, pinBar({ model: probs }, match, { slim: true }), createElement("span", "split-value", probs.map(points).join(" / ")));
+    block.append(row);
+  });
+  block.append(createElement("p", "split-note", t("split.note")));
+  return block;
+}
+
+// Expected goals, the likeliest score and the two goal markets, with the grid of scores they come from.
+function createGoalFacts(extras, match, grid) {
+  const block = createElement("div", "detail-block");
+  block.append(createElement("h3", "detail-heading", t("facts.heading")));
+  const wrap = createElement("div", "goal-facts");
+  const list = createElement("dl", "fact-list");
+  const fact = (label, value) => {
+    const row = createElement("div");
+    const term = createElement("dt");
+    term.append(label);
+    row.append(term, createElement("dd", "", value));
+    list.append(row);
+  };
+  if (Array.isArray(extras.expectedGoals)) {
+    fact(termButton("expected-goals", t("facts.xg")), `${I18N.number(extras.expectedGoals[0], 2)} – ${I18N.number(extras.expectedGoals[1], 2)}`);
   }
-  if (status === "pending") return null;
-  block.append(createElement("h3", "match-events-heading", t("forecast.heading")), probRows(forecast, match));
+  if (extras.mostLikely?.score) {
+    fact(t("facts.likely"), `${I18N.score(extras.mostLikely.score[0], extras.mostLikely.score[1])} (${percent(extras.mostLikely.p)})`);
+  }
+  if (Number.isFinite(extras.over25)) fact(termButton("over-25", t("facts.over25")), percent(extras.over25));
+  if (Number.isFinite(extras.btts)) fact(termButton("btts", t("facts.btts")), percent(extras.btts));
+  wrap.append(list);
+  if (Array.isArray(grid) && grid.length) wrap.append(createScoreGrid(grid, match));
+  block.append(wrap);
+  return block;
+}
+
+// A small heat map of exact scores: blue cells are home wins, grey draws, orange away wins, and
+// the stronger the colour the likelier the score.
+function createScoreGrid(grid, match) {
+  const figure = createElement("figure", "score-grid");
+  const cells = createElement("div", "score-grid-cells");
+  const size = grid.length;
+  cells.style.gridTemplateColumns = `18px repeat(${size}, 30px)`;
+  const max = Math.max(...grid.flat());
+  const final = getFinalScore(match);
+  let top = [0, 0];
+  grid.forEach((line, i) => line.forEach((value, j) => { if (value > grid[top[0]][top[1]]) top = [i, j]; }));
+  cells.append(createElement("span", "is-axis", ""));
+  for (let j = 0; j < size; j += 1) cells.append(createElement("span", "is-axis", String(j)));
+  grid.forEach((line, i) => {
+    cells.append(createElement("span", "is-axis", String(i)));
+    line.forEach((value, j) => {
+      const cell = createElement("span", "", value >= 0.005 ? String(Math.round(value * 100)) : "");
+      const colour = i > j ? "79 143 238" : i === j ? "122 129 145" : "245 161 85";
+      cell.style.background = `rgb(${colour} / ${(8 + 72 * (value / max)).toFixed(0)}%)`;
+      if (final && final[0] === i && final[1] === j) cell.classList.add("is-final");
+      else if (i === top[0] && j === top[1]) cell.classList.add("is-top");
+      cells.append(cell);
+    });
+  });
+  cells.setAttribute("role", "img");
+  cells.setAttribute("aria-label", t("grid.aria", { home: teamName(match.team1), away: teamName(match.team2), score: I18N.score(top[0], top[1]), p: percent(grid[top[0]][top[1]]) }));
+  figure.append(cells, createElement("figcaption", "", t(final ? "grid.captionFinal" : "grid.caption", { home: teamName(match.team1), away: teamName(match.team2) })));
+  return figure;
+}
+
+// The forecast inside an opened match: what the numbers mean, my models against the bookmakers
+// with fair odds, the models behind the average and the goals.
+function createForecastBlock(match, status, forecast) {
+  const block = createElement("div", "detail-block");
+  block.append(createElement("h3", "detail-heading", t(getFinalScore(match) ? "forecast.headingPast" : "forecast.heading")));
+  block.append(createHundred(forecast, match));
   const table = createElement("table", "forecast-table");
   const head = createElement("tr");
   const columns = [t("forecast.col.outcome")];
@@ -1355,51 +1333,71 @@ function createForecastBlock(match, status, forecast) {
   return block;
 }
 
+// After full time: how far off my models and the bookmakers were, as two bars on one scale.
+function createGradeBlock(match, forecast) {
+  const score = getFinalScore(match);
+  const block = createElement("div", "detail-block");
+  block.append(createElement("h3", "detail-heading", t("grade.heading")));
+  const chance = (forecast.model ?? forecast.market)[outcomeIndex(score)];
+  block.append(createElement("p", "match-surprise", t(forecast.model ? "grade.surpriseModels" : "forecast.surprise", {
+    chance: percent(chance),
+    count: Math.max(1, Math.round(1 / chance)),
+  })));
+  const grade = gradeOf(match, forecast);
+  if (!grade) return block;
+  const scale = Math.max(0.5, grade.models, grade.market);
+  const rows = createElement("div", "rps-rows");
+  [["models", "prob.models", ""], ["market", "prob.market", " is-market"]].forEach(([key, label, modifier]) => {
+    const bar = createElement("span", `rps-bar${modifier}`);
+    const fill = createElement("span");
+    fill.style.width = `${(grade[key] / scale * 100).toFixed(1)}%`;
+    bar.append(fill);
+    rows.append(createElement("span", "", t(label)), bar, createElement("span", "rps-value", I18N.number(grade[key], 3)));
+  });
+  const note = createElement("p", "split-note");
+  note.append(termButton("rps", t("grade.term")), ` ${t("grade.note")} `, verdictPill(grade));
+  block.append(rows, note);
+  return block;
+}
+
 // A link under a fixture that has a deep dive, with the published forecast.
 function createDiveLink(match) {
   const post = postForMatch(match);
   if (!post?.path) return null;
   const link = createElement("a", `match-dive${isFollowed(match) ? " is-followed" : ""}`);
   link.href = post.path;
-  const model = post.forecast?.model;
-  const text = Array.isArray(model) && model.length === 3
-    ? t("match.dive.forecast", {
-      home: teamName(match.team1),
-      away: teamName(match.team2),
-      h: I18N.percent(model[0]),
-      d: I18N.percent(model[1]),
-      a: I18N.percent(model[2]),
-    })
-    : postText(post, "tag");
+  const text = postText(post, "title");
   link.append(
     createElement("span", "match-dive-badge", t("match.dive.badge")),
     createElement("span", "match-dive-text", text),
     createElement("span", "match-dive-more", t("match.dive.read")),
   );
-  link.setAttribute("aria-label", `${t("match.dive.badge")}: ${postText(post, "title")}. ${text}`);
+  link.setAttribute("aria-label", `${t("match.dive.badge")}: ${text}`);
   return link;
 }
 
 function createMatchDetails(match, status, kickoffTime, forecast = null) {
   const details = createElement("div", "match-details");
   const kickoff = kickoffOf(match);
-  const meta = createElement("p", "match-detail-meta");
+  const meta = createElement("p", "detail-meta");
   const metaParts = [];
   if (Number.isFinite(kickoff)) {
     metaParts.push(`${formatBerlinDate(kickoff, { weekday: "long", day: "numeric", month: "long", year: "numeric" })} · ${kickoffTime}`);
   }
+  const halfTime = getHalfTimeScore(match);
+  if (halfTime && status !== "upcoming") metaParts.push(t("match.halfTime", { score: I18N.score(halfTime[0], halfTime[1]) }));
   const venue = [match.location?.locationStadium, match.location?.locationCity].filter(Boolean).join(", ");
   if (venue) metaParts.push(venue);
   const viewers = Number(match.numberOfViewers);
   if (viewers > 0) metaParts.push(t("match.spectators", { viewers: I18N.number(viewers) }));
   meta.textContent = metaParts.join(" · ");
   details.append(meta);
-  const forecastBlock = forecast && (forecast.model || forecast.market) ? createForecastBlock(match, status, forecast) : null;
-  if (forecastBlock && !getFinalScore(match)) details.append(forecastBlock);
+  const hasForecast = forecast && (forecast.model || forecast.market);
 
   const goals = getGoals(match);
   if (goals.length) {
-    details.append(createElement("h3", "match-events-heading", t("match.goals")));
+    const block = createElement("div", "detail-block");
+    block.append(createElement("h3", "detail-heading", t("match.goals")));
     const timeline = createElement("ol", "goal-timeline");
     for (const { goal, side, score, minute } of goals) {
       const event = createElement("li", `goal-event${side === 2 ? " is-away" : side === 1 ? " is-home" : ""}`);
@@ -1422,8 +1420,9 @@ function createMatchDetails(match, status, kickoffTime, forecast = null) {
       event.append(homeSlot, centre, awaySlot);
       timeline.append(event);
     }
-    details.append(timeline);
-  } else {
+    block.append(timeline);
+    details.append(block);
+  } else if (status !== "upcoming" || !hasForecast) {
     const message = {
       finished: getFinalScore(match)?.every((count) => count === 0) ? t("match.noGoals.goalless") : t("match.noGoals.unavailable"),
       live: t("match.noGoals.live"),
@@ -1432,8 +1431,16 @@ function createMatchDetails(match, status, kickoffTime, forecast = null) {
     }[status];
     details.append(createElement("p", "no-goals-message", message));
   }
-  if (forecastBlock && getFinalScore(match)) details.append(forecastBlock);
 
+  if (!hasForecast) return details;
+  if (getFinalScore(match)) details.append(createGradeBlock(match, forecast));
+  details.append(createForecastBlock(match, status, forecast));
+  // The three models and the score grid belong to the weekly forecast; a deep dive has its own
+  // numbers (and a link to the full analysis under the fixture).
+  const ownModel = Boolean(forecast.post?.forecast?.model);
+  const extras = ownModel ? forecast.post.forecast : forecast.weekly;
+  if (!ownModel && forecast.weekly?.models) details.append(createSplit(forecast.weekly, match));
+  if (extras?.expectedGoals) details.append(createGoalFacts(extras, match, ownModel ? null : forecast.weekly?.grid));
   return details;
 }
 
@@ -1450,6 +1457,9 @@ function renderFilterCounts(matches) {
     button.querySelector(".chip-count").textContent = String(count);
     button.classList.toggle("is-empty", count === 0);
   }
+  // Nothing to filter while every match is in the same state (all upcoming, or all finished).
+  const states = new Set(matches.map((match) => (matchesFilter(match, "upcoming") ? "upcoming" : getMatchStatus(match))));
+  filterRow.hidden = states.size < 2 && state.filter === "all";
 }
 
 function showMessage(title, message, action) {
@@ -1517,13 +1527,18 @@ function setFilter(filter) {
 
 /* ---------- Standings ---------- */
 
-function getZone(index, size) {
-  if (size !== 18) return "";
-  if (index < 4) return "zone-champions";
-  if (index === 4) return "zone-europa";
-  if (index === 5) return "zone-conference";
-  if (index === 15) return "zone-playoff";
-  return index >= 16 ? "zone-relegation" : "";
+// Where each group of places leads, as a caption row above the group (18 clubs, overall table only).
+const ZONE_STARTS = new Map([[0, "ucl"], [4, "uel"], [5, "uecl"], [6, "mid"], [15, "playoff"], [16, "down"]]);
+
+function zoneRow(index) {
+  const key = ZONE_STARTS.get(index);
+  if (!key) return null;
+  const row = createElement("tr", "zone-row");
+  const cell = createElement("th", "", t(key === "mid" ? "table.zone.mid" : `table.legend.${key}`));
+  cell.colSpan = 10;
+  cell.scope = "colgroup";
+  row.append(cell);
+  return row;
 }
 
 function createForm(results) {
@@ -1565,7 +1580,6 @@ function renderStandings(table) {
   else if (toFinish) progress = t("table.progressPending", { count: toFinish });
   standingsCaption.textContent = t("table.caption", { venue: venueLabel, matchday: state.matchday, progress });
   document.querySelector("#standings-table-caption").textContent = t(`table.ariaCaption.${state.venue}`, { matchday: state.matchday });
-  standingsLegend.hidden = state.venue !== "all";
 
   if (!table.length) {
     showStandingsMessage(standingsCaption.textContent, t("table.empty"));
@@ -1579,10 +1593,9 @@ function renderStandings(table) {
   const fragment = document.createDocumentFragment();
   table.forEach((standing, index) => {
     const followed = Number(standing.team.teamId) === state.teamId;
-    const row = createElement("tr", [
-      state.venue === "all" ? getZone(index, table.length) : "",
-      followed ? "is-followed" : "",
-    ].filter(Boolean).join(" "));
+    const zone = state.venue === "all" && table.length === 18 ? zoneRow(index) : null;
+    if (zone) fragment.append(zone);
+    const row = createElement("tr", followed ? "is-followed" : "");
 
     const position = createElement("td", "position-column");
     position.append(createElement("span", "position-number", String(index + 1)));
@@ -1705,105 +1718,102 @@ function crestFor(teamId) {
   return seasonClubs().find((club) => Number(club.teamId) === Number(teamId)) ?? { teamId, teamName: "" };
 }
 
-function analysisCard(post) {
-  const card = createElement("a", "analysis-card");
-  card.href = post.path;
-  const match = state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
+function diveItem(post, index) {
+  const item = createElement("a", "dive");
+  item.href = post.path;
+  const match = state.matches?.find((entry) => Number(entry.matchID) === Number(post.matchId));
   const home = match?.team1 ?? crestFor(post.home?.teamId);
   const away = match?.team2 ?? crestFor(post.away?.teamId);
-  const thumb = createElement("span", "analysis-thumb");
-  const line = createElement("span", "analysis-thumb-teams");
   const score = match && getFinalScore(match);
-  const middle = score
-    ? createElement("span", "analysis-thumb-score", I18N.score(score[0], score[1]))
-    : createElement("span", "analysis-thumb-when", formatBerlinDate(Date.parse(post.kickoff), { weekday: "short", hour: "2-digit", minute: "2-digit" }));
-  line.append(createLogo(home, "analysis-logo"), middle, createLogo(away, "analysis-logo"));
-  thumb.append(line);
-  const model = post.forecast?.model;
-  if (score && model && post.forecast.market) {
-    const outcome = outcomeIndex(score);
-    const closer = rps(model, outcome) < rps(post.forecast.market, outcome);
-    thumb.append(createElement("span", "analysis-thumb-note", t("analysis.thumbResult", { p: percent(model[outcome]) })));
-    thumb.append(createElement("span", `analysis-thumb-badge${closer ? " is-good" : ""}`, t(closer ? "forecast.modelsCloser" : "forecast.marketCloser")));
-  } else if (model) {
-    thumb.append(probBar(model, match ?? { team1: home, team2: away }));
-    const numbers = createElement("span", "analysis-thumb-numbers");
-    numbers.append(
-      createElement("span", "", `${teamName(home) || post.home?.name} ${percent(model[0])}`),
-      createElement("span", "", `${t("prob.draw")} ${percent(model[1])}`),
-      createElement("span", "", `${teamName(away) || post.away?.name} ${percent(model[2])}`),
-    );
-    thumb.append(numbers);
-  }
-  const body = createElement("span", "analysis-body");
-  body.append(
-    createElement("span", "analysis-tag", [postText(post, "tag"), post.minutes ? t("analysis.minutes", { count: post.minutes }) : ""].filter(Boolean).join(" · ")),
-    createElement("span", "analysis-title", postText(post, "title")),
-    createElement("span", "analysis-desc", postText(post, "desc")),
+  const meta = [index === 0 ? t("dive.latest") : "", postText(post, "tag"), post.minutes ? t("analysis.minutes", { count: post.minutes }) : ""].filter(Boolean).join(" · ");
+  const line = createElement("span", "dive-score");
+  line.append(
+    createLogo(home, "dive-logo"),
+    score
+      ? createElement("span", "", I18N.score(score[0], score[1]))
+      : createElement("span", "dive-when", formatBerlinDate(Date.parse(post.kickoff), { weekday: "short", hour: "2-digit", minute: "2-digit" })),
+    createLogo(away, "dive-logo"),
   );
-  card.append(thumb, body);
-  return card;
+  item.append(
+    createElement("span", "dive-meta", meta),
+    line,
+    createElement("span", "dive-title", postText(post, "title")),
+    createElement("span", "dive-desc", postText(post, "desc")),
+  );
+  const model = post.forecast?.model;
+  const market = post.forecast?.market;
+  const foot = createElement("span", "dive-foot");
+  if (score && model && market) {
+    const outcome = outcomeIndex(score);
+    const published = post.fullTime?.rps;
+    const models = published?.models ?? rps(model, outcome);
+    const bookmakers = published?.market ?? rps(market, outcome);
+    foot.append(
+      verdictPill({ verdict: models < bookmakers ? "models" : models > bookmakers ? "market" : "tie" }),
+      createElement("span", "", t("analysis.thumbResult", { p: percent(model[outcome]) })),
+    );
+    item.append(foot);
+  } else if (model) {
+    const fixture = match ?? { team1: home, team2: away };
+    item.append(pinBar({ model, market }, fixture));
+    foot.append(createElement("span", "", `${teamName(home) || post.home?.name} ${percent(model[0])} · ${t("prob.draw")} ${percent(model[1])} · ${teamName(away) || post.away?.name} ${percent(model[2])}`));
+    item.append(foot);
+  }
+  return item;
 }
 
 function renderAnalysis() {
-  const cards = state.posts.map(analysisCard);
-  const learn = createElement("a", "analysis-card is-learn");
-  learn.href = "learn/";
-  const thumb = createElement("span", "analysis-thumb");
-  thumb.append(createElement("span", "analysis-learn-title", t("analysis.learnThumb")));
-  const body = createElement("span", "analysis-body");
-  body.append(
-    createElement("span", "analysis-tag", t("analysis.learnTag")),
-    createElement("span", "analysis-title", t("analysis.learnTitle")),
-    createElement("span", "analysis-desc", t("analysis.learnDesc")),
-  );
-  learn.append(thumb, body);
-  analysisGrid.replaceChildren(...cards, learn);
+  analysisGrid.replaceChildren(...state.posts.map(diveItem));
 }
 
-// Forecasts from the deep dives that have a final score, graded against the market.
-function gradedPosts() {
-  return state.posts.map((post) => {
-    const match = state.matches?.find((item) => Number(item.matchID) === Number(post.matchId));
-    const score = post.fullTime?.score ?? (match && getFinalScore(match));
-    const f = post.forecast;
-    if (!score || !f?.model || !f?.market) return null;
-    const outcome = outcomeIndex(score);
-    // The grades quoted in the post itself (from unrounded probabilities) win over a recalculation.
-    const published = post.fullTime?.rps;
-    return { post, models: published?.models ?? rps(f.model, outcome), market: published?.market ?? rps(f.market, outcome) };
-  }).filter(Boolean);
-}
-
+// Bookmakers, my models and pure guessing on one line. The scale is cut close to the three marks
+// (a perfect 0 would sit far off to the left), which the labels at its ends make plain.
 function renderRecordTeaser() {
   const record = state.record;
-  if (!record?.season) {
+  const backtest = record?.backtest;
+  const market = backtest?.rows?.find((row) => row.key === "market")?.rps;
+  const models = backtest?.rows?.find((row) => row.key === "ensemble")?.rps;
+  if (!record?.season || !Number.isFinite(market) || !Number.isFinite(models)) {
     recordTeaser.hidden = true;
     return;
   }
-  const graded = gradedPosts();
-  const stat = (label, value, sub) => {
-    const item = createElement("div", "record-stat");
-    item.append(createElement("dt", "", label), createElement("dd", "record-stat-value", value), createElement("dd", "record-stat-sub", sub));
+  const guess = Number.isFinite(backtest.uniform) ? backtest.uniform : null;
+  const low = Math.min(market, models) - 0.008;
+  const high = (guess ?? Math.max(market, models) + 0.02) + 0.003;
+  const at = (value) => `${((value - low) / (high - low) * 100).toFixed(1)}%`;
+  const mark = (kind, value, label, digits, side) => {
+    const item = createElement("span", `gauge-mark is-${kind} is-${side}`);
+    item.style.left = at(value);
+    const text = createElement("span", "gauge-label", label);
+    text.append(createElement("strong", "", I18N.number(value, digits)));
+    item.append(createElement("span", "gauge-dot"), text);
     return item;
   };
-  const backtest = record.backtest;
-  const market = backtest?.rows?.find((row) => row.key === "market");
-  const ensemble = backtest?.rows?.find((row) => row.key === "ensemble");
-  recordStats.replaceChildren(
-    stat(t("teaser.seasonModels"), I18N.number(record.season.models, 4), t("count.matches", { count: record.season.matches })),
-    stat(t("teaser.seasonMarket"), I18N.number(record.season.market, 4), t(record.season.models < record.season.market ? "teaser.modelsAhead" : "teaser.marketAhead")),
-    ...(market && ensemble ? [stat(t("teaser.longRun"), t(market.rps < ensemble.rps ? "teaser.market" : "teaser.models"),
-      t("teaser.longRunSub", { market: I18N.number(market.rps, 4), models: I18N.number(ensemble.rps, 4), count: backtest.matches }))] : []),
-    stat(t("teaser.dives"), String(graded.length), t("teaser.divesSub", { count: graded.filter((entry) => entry.models < entry.market).length })),
+  const gauge = createElement("div", "gauge");
+  gauge.setAttribute("role", "img");
+  gauge.setAttribute("aria-label", t("gauge.aria", {
+    market: I18N.number(market, 4),
+    models: I18N.number(models, 4),
+    guess: guess === null ? "–" : I18N.number(guess, 3),
+    count: I18N.number(backtest.matches),
+  }));
+  // The better of the two sits further left; its label goes above the line, the other below.
+  gauge.append(
+    createElement("span", "gauge-line"),
+    mark("market", market, t("prob.market"), 4, market <= models ? "above" : "below"),
+    mark("models", models, t("prob.models"), 4, market <= models ? "below" : "above"),
+    ...(guess === null ? [] : [mark("guess", guess, t("gauge.guess"), 3, "above")]),
   );
+  const ends = createElement("div", "gauge-ends");
+  ends.append(createElement("span", "", t("gauge.better")), createElement("span", "", t("gauge.worse")));
+  const caption = createElement("p", "split-note", t(market < models ? "gauge.longMarket" : "gauge.longModels", { count: I18N.number(backtest.matches) }));
+  recordGauge.replaceChildren(gauge, ends, caption);
+  recordSeason.textContent = t(record.season.models < record.season.market ? "gauge.seasonAhead" : "gauge.seasonBehind", {
+    count: record.season.matches,
+    models: I18N.number(record.season.models, 4),
+    market: I18N.number(record.season.market, 4),
+  });
   recordTeaser.hidden = false;
-}
-
-function renderOddsSource(matches) {
-  const sources = [...new Set(matches.map((match) => forecastFor(match)).filter((forecast) => forecast?.market).map((forecast) => forecast.source).filter(Boolean))];
-  probLegend.hidden = !matches.some((match) => forecastFor(match));
-  oddsSource.textContent = sources.length ? ` · ${t("fixtures.oddsFoot", { sources: sources.join("; ") })}` : "";
 }
 
 /* ---------- Charts ---------- */
@@ -2109,12 +2119,11 @@ function renderAll() {
   const matches = matchesForMatchday(state.matches, state.matchday);
   const overall = calculateStandings(state.matches, state.matchday);
   renderHub(matches);
-  renderGlance(matches, overall);
+  renderBoardHead(matches);
+  renderLead(matches);
   renderMatches(matches);
   renderStandings(state.venue === "all" ? overall : calculateStandings(state.matches, state.matchday, state.venue));
   renderInsights();
-  renderFeatured();
-  renderOddsSource(matches);
   renderAnalysis();
   renderRecordTeaser();
   renderFollow();
@@ -2122,7 +2131,6 @@ function renderAll() {
 
 /* ---------- Events ---------- */
 
-hubSeason.textContent = `Bundesliga ${seasonLabel(season)}`;
 followButton.addEventListener("click", openFollowDialog);
 document.querySelector("#follow-close").addEventListener("click", closeFollowDialog);
 document.querySelector("#follow-clear").addEventListener("click", () => {
