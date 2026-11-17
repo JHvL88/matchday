@@ -23,6 +23,11 @@
   line-height: .98;
 }
 
+/* The full stop after the headline belonged to the old red-dot branding. */
+.post-hero h1 span {
+  display: none;
+}
+
 .post-dek {
   position: relative;
   max-width: 640px;
@@ -57,15 +62,7 @@
   line-height: 1.1;
 }
 
-.post-body h2::before {
-  display: inline-block;
-  width: 12px;
-  height: 18px;
-  margin-right: 10px;
-  background: var(--bl-red);
-  content: "";
-  transform: skewX(-22deg);
-}
+
 
 .post-body h2:first-child,
 .depth-switch + h2,
@@ -79,8 +76,6 @@
   font-family: var(--display);
   font-size: 20px;
   font-weight: 700;
-  letter-spacing: .02em;
-  text-transform: uppercase;
 }
 
 .post-body p {
@@ -88,7 +83,7 @@
 }
 
 .post-body a {
-  color: var(--bl-red-dark);
+  color: var(--ink);
   text-underline-offset: 2px;
 }
 
@@ -106,7 +101,7 @@
 }
 
 .post-body li::marker {
-  color: var(--bl-red);
+  color: var(--muted);
 }
 
 /* Verdict tiles */
@@ -134,10 +129,8 @@
 .verdict-tile .label {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
 }
 
 .verdict-tile .value {
@@ -180,7 +173,7 @@
 }
 
 .verdict-strip .term:hover {
-  color: var(--red-on-dark);
+  color: var(--ink);
 }
 
 /* Figures */
@@ -192,13 +185,6 @@
   display: block;
   width: 100%;
   height: auto;
-}
-
-/* Charts were drawn dark on white: they keep a white plate on the dark page. */
-.post-figure img {
-  padding: 10px;
-  border-radius: var(--radius);
-  background: #fff;
 }
 
 .post-figure figcaption {
@@ -240,10 +226,8 @@
 .post-table th {
   background: var(--surface-2);
   color: var(--ink);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
 }
 
 .post-table th:first-child,
@@ -262,7 +246,7 @@
 }
 
 .post-table tr.is-key td:first-child {
-  box-shadow: inset 4px 0 var(--bl-red), inset 0 0 0 9999px rgb(210 5 21 / 6%);
+  box-shadow: inset 3px 0 var(--ink);
 }
 
 /* Code */
@@ -270,10 +254,10 @@
   overflow-x: auto;
   margin: 10px 0 20px;
   padding: 16px 18px;
-  border-left: 4px solid var(--bl-red);
-  border-radius: 3px 10px 10px 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--bl-black);
-  color: #ececf0;
+  color: var(--ink-2);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12.5px;
   line-height: 1.6;
@@ -289,7 +273,7 @@
   padding: 1px 5px;
   border-radius: 3px;
   background: var(--surface-2);
-  color: var(--bl-red-dark);
+  color: var(--ink);
 }
 
 .post-body pre .c {
@@ -302,14 +286,12 @@
   gap: 8px;
   margin: 4px 0 18px;
   padding: 10px 16px;
-  border-radius: 4px;
-  background: var(--bl-red);
-  color: #fff !important;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .06em;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong); background: transparent;
+  color: var(--ink) !important;
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
-  text-transform: uppercase;
 }
 
 .colab-link:hover {
@@ -375,8 +357,7 @@
   }
 
   .verdict-tile .label {
-    font-size: 10.5px;
-    letter-spacing: .05em;
+    font-size: 12px;
   }
 
   .post-table:not(.wide) th,
@@ -399,9 +380,9 @@
 .update-box {
   margin: 0 0 30px;
   padding: 14px 16px;
-  border-left: 4px solid var(--bl-red);
-  border-radius: 3px 10px 10px 3px;
-  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
   font-size: 15px;
 }
 
@@ -411,11 +392,9 @@
 
 .update-box .update-label {
   margin-bottom: 4px;
-  color: var(--bl-red-dark);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .post-body h2[id] {
@@ -470,8 +449,6 @@
   font-family: var(--display);
   font-size: 17px;
   font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
 }
 
 .depth-time {
@@ -499,11 +476,9 @@
 
 .quick-take-title {
   margin: 0 0 12px !important;
-  color: var(--red-on-dark);
+  color: var(--muted);
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .quick-take-list {
@@ -533,8 +508,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--bl-red);
-  color: #fff;
+  background: var(--surface-3);
+  color: var(--ink);
   content: counter(take);
   font-family: var(--display);
   font-size: 16px;
@@ -560,8 +535,8 @@
 
 .quick-take-more:hover,
 .quick-take-more:focus-visible {
-  border-color: var(--bl-red);
-  background: var(--bl-red);
+  border-color: var(--ink);
+  background: transparent;
 }
 
 /* "Show the code": the way into nerd mode from the full analysis. */
@@ -587,7 +562,7 @@
 }
 
 .depth-peek button::before {
-  color: var(--bl-red-dark);
+  color: var(--muted);
   content: "</>";
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px;
@@ -610,8 +585,8 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: var(--bl-red-dark);
-  font-weight: 700;
+  color: var(--ink);
+  font-weight: 600;
   list-style: none;
   cursor: pointer;
 }
@@ -629,7 +604,7 @@
   border: 1.5px solid currentColor;
   border-radius: 50%;
   content: "?";
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .howto[open] summary::before {
@@ -640,8 +615,8 @@
   max-width: 62ch;
   margin: 4px 0 0;
   padding: 10px 12px;
-  border-left: 3px solid var(--bl-red);
-  border-radius: 0 6px 6px 0;
+  
+  border-radius: var(--radius);
   background: var(--surface-2);
   color: var(--ink-2);
   line-height: 1.55;
@@ -655,10 +630,8 @@
 .post-toc-title {
   margin: 0 0 10px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
 }
 
 .post-toc-list {
@@ -684,7 +657,7 @@
 }
 
 .post-toc-list a[aria-current] {
-  border-left-color: var(--bl-red);
+  border-left-color: var(--ink);
   color: var(--ink);
   font-weight: 600;
 }
@@ -720,8 +693,8 @@
   bottom: -1px;
   left: 0;
   z-index: 1;
-  height: 3px;
-  background: var(--bl-red);
+  height: 2px;
+  background: var(--ink-2);
   pointer-events: none;
   transform: scaleX(0);
   transform-origin: 0 50%;
@@ -740,16 +713,8 @@
   margin: 0;
   padding: calc(10px + env(safe-area-inset-top)) 0 calc(16px + env(safe-area-inset-bottom));
   border: 0;
-  background: #fff;
-  color: var(--ink);
-  /* The charts are drawn for a white page, so the viewer is a light sheet with light-theme text. */
-  --ink: #1b1e25;
-  --ink-2: #3d4350;
-  --muted: #5a6170;
-  --line: #dfe2e8;
-  --line-strong: #c3c8d2;
-  --surface-2: #eef0f4;
-  --surface-3: #e2e5ea;
+  /* The charts are drawn on the page colour (analysis/tools/dark_figures.py). */
+  background: var(--bg);
   color: var(--ink);
 }
 
@@ -808,7 +773,7 @@
 }
 
 .figure-viewer-hint {
-  color: var(--bl-red-dark);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -859,6 +824,5 @@
 @media (max-width: 380px) {
   .depth-name {
     font-size: 14px;
-    letter-spacing: .02em;
   }
 }

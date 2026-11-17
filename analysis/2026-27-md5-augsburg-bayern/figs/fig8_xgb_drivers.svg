@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="531.806016pt" height="445.32pt" viewBox="0 0 531.806016 445.32" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg data-theme="dark" xmlns:xlink="http://www.w3.org/1999/xlink" width="531.806016pt" height="445.32pt" viewBox="0 0 531.806016 445.32" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -26,7 +26,7 @@ L 531.806016 445.32
 L 531.806016 0 
 L 0 0 
 z
-" style="fill: #ffffff"/>
+" style="fill: #1b1e25"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
@@ -35,7 +35,7 @@ L 521.006016 196.319
 L 521.006016 27.712 
 L 165.733516 27.712 
 z
-" style="fill: #ffffff"/>
+" style="fill: #1b1e25"/>
    </g>
    <g id="patch_3">
     <path d="M 425.609719 188.655045 
@@ -43,7 +43,7 @@ L 471.703363 188.655045
 L 471.703363 172.232286 
 L 425.609719 172.232286 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #4f8fee; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 425.609719 161.283779 
@@ -51,7 +51,7 @@ L 504.857266 161.283779
 L 504.857266 144.861019 
 L 425.609719 144.861019 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #2f6fdb; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #4f8fee; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 425.609719 133.912513 
@@ -59,7 +59,7 @@ L 336.742522 133.912513
 L 336.742522 117.489753 
 L 425.609719 117.489753 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #9ec5f4; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #31568f; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 425.609719 106.541247 
@@ -67,7 +67,7 @@ L 296.772872 106.541247
 L 296.772872 90.118487 
 L 425.609719 90.118487 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #9ec5f4; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #31568f; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 425.609719 79.169981 
@@ -75,7 +75,7 @@ L 240.385487 79.169981
 L 240.385487 62.747221 
 L 425.609719 62.747221 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #9ec5f4; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #31568f; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 425.609719 51.798714 
@@ -83,7 +83,7 @@ L 181.882266 51.798714
 L 181.882266 35.375955 
 L 425.609719 35.375955 
 z
-" clip-path="url(#p2573ad4f7b)" style="fill: #9ec5f4; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: #31568f; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -91,15 +91,15 @@ z
       <defs>
        <path id="m2b2275dd3c" d="M 0 0 
 L 0 3.5 
-" style="stroke: #5f5f69; stroke-width: 0.8"/>
+" style="stroke: #a3a9b6; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m2b2275dd3c" x="183.714304" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="183.714304" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- ×0.82 -->
-      <g style="fill: #5f5f69" transform="translate(170.326804 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(170.326804 213.735) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-18f" d="M 896 678 
 L 576 998 
@@ -242,12 +242,12 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="244.188158" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="244.188158" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- ×0.86 -->
-      <g style="fill: #5f5f69" transform="translate(230.527494 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(230.527494 213.735) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-128" d="M 2080 -77 
 Q 1600 -77 1270 102 
@@ -305,12 +305,12 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="304.662012" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="304.662012" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- ×0.90 -->
-      <g style="fill: #5f5f69" transform="translate(290.886504 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(290.886504 213.735) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-12b" d="M 1907 -77 
 Q 1491 -77 1187 83 
@@ -368,12 +368,12 @@ z
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="365.135865" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="365.135865" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
       <!-- ×0.95 -->
-      <g style="fill: #5f5f69" transform="translate(351.622858 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(351.622858 213.735) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-127" d="M 1971 -77 
 Q 1523 -77 1193 83 
@@ -420,12 +420,12 @@ z
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="425.609719" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="425.609719" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
       <!-- ×1.00 -->
-      <g style="fill: #5f5f69" transform="translate(413.157375 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(413.157375 213.735) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-123" d="M 1152 0 
 L 1152 3878 
@@ -449,12 +449,12 @@ z
     <g id="xtick_6">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="486.083573" y="196.319" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="486.083573" y="196.319" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
       <!-- ×1.05 -->
-      <g style="fill: #5f5f69" transform="translate(473.893729 213.735) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(473.893729 213.735) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -468,7 +468,7 @@ z
     <g id="ytick_1">
      <g id="text_7">
       <!-- Bayern goals conceded (form) -->
-      <g style="fill: #5f5f69" transform="translate(10.8 185.651666) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(10.8 185.651666) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-d" d="M 493 0 
 L 493 4480 
@@ -971,7 +971,7 @@ z
     <g id="ytick_2">
      <g id="text_8">
       <!-- Augsburg goals scored (form) -->
-      <g style="fill: #5f5f69" transform="translate(12.694922 158.280399) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(12.694922 158.280399) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-1" d="M 198 0 
 L 1850 4480 
@@ -1081,7 +1081,7 @@ z
     <g id="ytick_3">
      <g id="text_9">
       <!-- Augsburg Elo -->
-      <g style="fill: #5f5f69" transform="translate(94.386562 130.909133) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(94.386562 130.909133) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-17" d="M 493 0 
 L 493 4480 
@@ -1117,7 +1117,7 @@ z
     <g id="ytick_4">
      <g id="text_10">
       <!-- Bayern Elo -->
-      <g style="fill: #5f5f69" transform="translate(107.841328 103.537867) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(107.841328 103.537867) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-d"/>
        <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(60.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-f2" transform="translate(114.1875 0)"/>
@@ -1134,7 +1134,7 @@ z
     <g id="ytick_5">
      <g id="text_11">
       <!-- Bayern shots faced -->
-      <g style="fill: #5f5f69" transform="translate(64.623984 76.166601) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(64.623984 76.166601) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-a5" d="M 454 0 
 L 454 4608 
@@ -1205,7 +1205,7 @@ z
     <g id="ytick_6">
      <g id="text_12">
       <!-- Elo gap -->
-      <g style="fill: #5f5f69" transform="translate(122.938359 48.795334) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(122.938359 48.795334) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-cf" d="M 454 -1408 
 L 454 3366 
@@ -1256,16 +1256,16 @@ z
    <g id="line2d_7">
     <path d="M 425.609719 196.319 
 L 425.609719 27.712 
-" clip-path="url(#p2573ad4f7b)" style="fill: none; stroke: #5f5f69; stroke-width: 0.8; stroke-linecap: square"/>
+" clip-path="url(#p2573ad4f7b)" style="fill: none; stroke: #a3a9b6; stroke-width: 0.8; stroke-linecap: square"/>
    </g>
    <g id="patch_9">
     <path d="M 165.733516 196.319 
 L 521.006016 196.319 
-" style="fill: none; stroke: #e6e6ea; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #313642; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_13">
     <!-- What moves Augsburg's expected goals -->
-    <g style="fill: #16161c" transform="translate(165.733516 21.712) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(165.733516 21.712) scale(0.11 -0.11)">
      <defs>
       <path id="DMSans-9ptRegular-6d" d="M 1408 0 
 L 179 4480 
@@ -1368,7 +1368,7 @@ L 521.006016 413.849
 L 521.006016 245.242 
 L 165.733516 245.242 
 z
-" style="fill: #ffffff"/>
+" style="fill: #1b1e25"/>
    </g>
    <g id="patch_11">
     <path d="M 165.733516 406.185045 
@@ -1376,7 +1376,7 @@ L 219.093756 406.185045
 L 219.093756 389.762286 
 L 165.733516 389.762286 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
     <path d="M 165.733516 378.813779 
@@ -1384,7 +1384,7 @@ L 227.253984 378.813779
 L 227.253984 362.391019 
 L 165.733516 362.391019 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
     <path d="M 165.733516 351.442513 
@@ -1392,7 +1392,7 @@ L 250.250015 351.442513
 L 250.250015 335.019753 
 L 165.733516 335.019753 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_14">
     <path d="M 165.733516 324.071247 
@@ -1400,7 +1400,7 @@ L 252.044049 324.071247
 L 252.044049 307.648487 
 L 165.733516 307.648487 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
     <path d="M 165.733516 296.699981 
@@ -1408,7 +1408,7 @@ L 319.800655 296.699981
 L 319.800655 280.277221 
 L 165.733516 280.277221 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
     <path d="M 165.733516 269.328714 
@@ -1416,18 +1416,18 @@ L 504.088278 269.328714
 L 504.088278 252.905955 
 L 165.733516 252.905955 
 z
-" clip-path="url(#p683b069a34)" style="fill: #c25a00; stroke: #ffffff; stroke-width: 2; stroke-linejoin: miter"/>
+" clip-path="url(#p683b069a34)" style="fill: #f5a155; stroke: #1b1e25; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_3">
     <g id="xtick_7">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="165.733516" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="165.733516" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_14">
       <!-- ×1.00 -->
-      <g style="fill: #5f5f69" transform="translate(153.281172 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(153.281172 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1439,12 +1439,12 @@ z
     <g id="xtick_8">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="205.395265" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="205.395265" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_15">
       <!-- ×1.03 -->
-      <g style="fill: #5f5f69" transform="translate(193.247257 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(193.247257 431.265) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-125" d="M 1901 -77 
 Q 1472 -77 1123 80 
@@ -1499,12 +1499,12 @@ z
     <g id="xtick_9">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="245.057014" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="245.057014" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_16">
       <!-- ×1.05 -->
-      <g style="fill: #5f5f69" transform="translate(232.86717 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(232.86717 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1516,12 +1516,12 @@ z
     <g id="xtick_10">
      <g id="line2d_11">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="284.718763" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="284.718763" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_17">
       <!-- ×1.08 -->
-      <g style="fill: #5f5f69" transform="translate(272.538763 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(272.538763 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1533,12 +1533,12 @@ z
     <g id="xtick_11">
      <g id="line2d_12">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="324.380513" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="324.380513" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_18">
       <!-- ×1.11 -->
-      <g style="fill: #5f5f69" transform="translate(315.13477 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(315.13477 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1550,12 +1550,12 @@ z
     <g id="xtick_12">
      <g id="line2d_13">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="364.042262" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="364.042262" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_19">
       <!-- ×1.13 -->
-      <g style="fill: #5f5f69" transform="translate(353.452848 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(353.452848 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1567,12 +1567,12 @@ z
     <g id="xtick_13">
      <g id="line2d_14">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="403.704011" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="403.704011" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_20">
       <!-- ×1.16 -->
-      <g style="fill: #5f5f69" transform="translate(392.977605 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(392.977605 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1584,12 +1584,12 @@ z
     <g id="xtick_14">
      <g id="line2d_15">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="443.36576" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="443.36576" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_21">
       <!-- ×1.19 -->
-      <g style="fill: #5f5f69" transform="translate(432.639354 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(432.639354 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1601,12 +1601,12 @@ z
     <g id="xtick_15">
      <g id="line2d_16">
       <g>
-       <use xlink:href="#m2b2275dd3c" x="483.02751" y="413.849" style="fill: #5f5f69; stroke: #5f5f69; stroke-width: 0.8"/>
+       <use xlink:href="#m2b2275dd3c" x="483.02751" y="413.849" style="fill: #a3a9b6; stroke: #a3a9b6; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_22">
       <!-- ×1.22 -->
-      <g style="fill: #5f5f69" transform="translate(471.067353 431.265) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(471.067353 431.265) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-18f"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(55 0)"/>
        <use xlink:href="#DMSans-9ptRegular-144" transform="translate(89.203125 0)"/>
@@ -1620,7 +1620,7 @@ z
     <g id="ytick_7">
      <g id="text_23">
       <!-- Bayern goals scored (form) -->
-      <g style="fill: #5f5f69" transform="translate(26.149687 403.181666) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(26.149687 403.181666) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-d"/>
        <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(60.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-f2" transform="translate(114.1875 0)"/>
@@ -1653,7 +1653,7 @@ z
     <g id="ytick_8">
      <g id="text_24">
       <!-- Bayern shots faced -->
-      <g style="fill: #5f5f69" transform="translate(64.623984 375.810399) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(64.623984 375.810399) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-d"/>
        <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(60.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-f2" transform="translate(114.1875 0)"/>
@@ -1678,7 +1678,7 @@ z
     <g id="ytick_9">
      <g id="text_25">
       <!-- Bayern shots on target (form) -->
-      <g style="fill: #5f5f69" transform="translate(13.623516 348.439133) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(13.623516 348.439133) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-d"/>
        <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(60.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-f2" transform="translate(114.1875 0)"/>
@@ -1714,7 +1714,7 @@ z
     <g id="ytick_10">
      <g id="text_26">
       <!-- Bayern shots (form) -->
-      <g style="fill: #5f5f69" transform="translate(61.480547 321.067867) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(61.480547 321.067867) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-d"/>
        <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(60.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-f2" transform="translate(114.1875 0)"/>
@@ -1740,7 +1740,7 @@ z
     <g id="ytick_11">
      <g id="text_27">
       <!-- Shots-on-target gap -->
-      <g style="fill: #5f5f69" transform="translate(56.120625 293.696601) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(56.120625 293.696601) scale(0.105 -0.105)">
        <defs>
         <path id="DMSans-9ptRegular-57" d="M 1926 -77 
 Q 1434 -77 1069 102 
@@ -1817,7 +1817,7 @@ z
     <g id="ytick_12">
      <g id="text_28">
       <!-- Elo gap -->
-      <g style="fill: #5f5f69" transform="translate(122.938359 266.325334) scale(0.105 -0.105)">
+      <g style="fill: #a3a9b6" transform="translate(122.938359 266.325334) scale(0.105 -0.105)">
        <use xlink:href="#DMSans-9ptRegular-17"/>
        <use xlink:href="#DMSans-9ptRegular-b7" transform="translate(56.90625 0)"/>
        <use xlink:href="#DMSans-9ptRegular-c4" transform="translate(79.5 0)"/>
@@ -1832,16 +1832,16 @@ z
    <g id="line2d_17">
     <path d="M 165.733516 413.849 
 L 165.733516 245.242 
-" clip-path="url(#p683b069a34)" style="fill: none; stroke: #5f5f69; stroke-width: 0.8; stroke-linecap: square"/>
+" clip-path="url(#p683b069a34)" style="fill: none; stroke: #a3a9b6; stroke-width: 0.8; stroke-linecap: square"/>
    </g>
    <g id="patch_17">
     <path d="M 165.733516 413.849 
 L 521.006016 413.849 
-" style="fill: none; stroke: #e6e6ea; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #313642; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_29">
     <!-- What moves Bayern's expected goals -->
-    <g style="fill: #16161c" transform="translate(165.733516 239.242) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(165.733516 239.242) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-6d"/>
      <use xlink:href="#DMSans-9ptRegular-a5" transform="translate(97 0)"/>
      <use xlink:href="#DMSans-9ptRegular-7e" transform="translate(155.203125 0)"/>

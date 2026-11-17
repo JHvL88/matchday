@@ -30,8 +30,8 @@
     <link rel="preload" href="../../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../../styles.css?v=11">
-    <link rel="stylesheet" href="../analysis.css?v=4">
-    <script src="../../i18n.js?v=14" defer></script>
+    <link rel="stylesheet" href="../analysis.css?v=5">
+    <script src="../../i18n.js?v=15" defer></script>
     <script src="../../glossary.js?v=14" defer></script>
     <script src="../../explain.js?v=10" defer></script>
   </head>
@@ -64,7 +64,7 @@
         <div id="article">
         <article class="post" lang="en" data-lang-only="en">
           <header class="post-hero">
-            <p class="eyebrow">MATCHDAY 6 · FORECAST &amp; FULL-TIME REVIEW</p>
+            <p class="eyebrow">Matchday 6 · Forecast and full-time review</p>
             <h1>Bayern vs Leipzig: my models are scared of heights<span>.</span></h1>
             <p class="post-dek">The bookmakers make Bayern [[mkt_H]] favourites and put the goals line at 4.5. My models say [[ens_H]], and fewer goals. Seven seasons of backtesting say the models are the ones with vertigo.</p>
             <p class="post-meta">
@@ -162,7 +162,7 @@ grids["ens"] = (grids["dc"] + grids["bay"] + grids["xgb"]) / 3   <span class="c"
             <figure class="post-figure">
               <img src="figs/fig2_scorelines.svg" alt="Heatmap of scoreline probabilities. [[mode]] is the most likely at [[p_mode]], then [[top2]] and [[top3]]." loading="lazy">
               <figcaption><button type="button" class="term" data-term="ensemble">Ensemble</button> probability of each exact score (Bayern goals on the vertical axis; scores not shown are each below 0.5%). The outlined cell is the most likely score.</figcaption>
-            <details class="howto"><summary>How to read this chart</summary><p>Bayern’s goals run up the side, Leipzig’s along the bottom, and darker cells are likelier. The diagonal (0–0, 1–1, 2–2 …) holds the draws; above it Bayern win, below it Leipzig win.</p></details></figure>
+            <details class="howto"><summary>How to read this chart</summary><p>Bayern’s goals run up the side, Leipzig’s along the bottom, and lighter cells are likelier. The diagonal (0–0, 1–1, 2–2 …) holds the draws; above it Bayern win, below it Leipzig win.</p></details></figure>
             <p>[[mode]] is the single most likely score at [[p_mode]], just ahead of [[top2]] ([[p_top2]]), then [[top3]] ([[p_top3]]) and [[top4]] ([[p_top4]]). That no score reaches even 9% tells you how spread out a Bayern game is. Bayern by two or more: [[h_by2]]. By three or more: [[h_by3]]. Leipzig fail to score: [[bayern_clean]]. Both teams score: [[btts]].</p>
             <p>Then there are the goals. The models expect [[ens_total]] in total, a lot for any Bundesliga match, but the bookmakers expect more. At their 4.5 line, over and under are roughly a coin toss: [[mkt_over45]] for five or more once the margins are out. The models say [[over45]].</p>
             <figure class="post-figure">
@@ -239,7 +239,7 @@ for lo, hi in [(0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 1.01)]:
 
             <h2 id="full-time">Full time: how did the forecast do?</h2>
             <p>Bayern [[ft_score]] Leipzig. It was 3–0 by half-time: Luis Díaz scored after 12 minutes, Aleksandar Pavlović after 26 and Michael Olise about ten minutes later. Díaz added two more after the break, in the 47th and 69th minutes, Harry Kane got one too, and Andrija Maksimović scored for Leipzig in stoppage time. Leipzig at home this season: 14&#8288;–&#8288;0. Leipzig away: now 2&#8288;–&#8288;11. Tonight was away.</p>
-            <figure class="post-figure"><img src="figs/fig10_fulltime.svg" alt="The twelve most likely scores in the pre-match forecast, coloured by result, and the final score 6-1 below them at [[ft_p]], the [[ft_rank]]th most likely." loading="lazy"><figcaption>The pre-match ensemble’s twelve most likely scores (blue: Bayern win, grey: draw, orange: Leipzig win) and, below them, the final score in black. [[ft_score]] was number [[ft_rank]].</figcaption></figure>
+            <figure class="post-figure"><img src="figs/fig10_fulltime.svg" alt="The twelve most likely scores in the pre-match forecast, coloured by result, and the final score 6-1 below them at [[ft_p]], the [[ft_rank]]th most likely." loading="lazy"><figcaption>The pre-match ensemble’s twelve most likely scores (blue: Bayern win, grey: draw, orange: Leipzig win) and, below them, the final score in white. [[ft_score]] was number [[ft_rank]].</figcaption></figure>
             <div class="table-scroll"><table class="post-table"><thead><tr><th></th><th>My models</th><th>Bookmakers</th><th>Full time</th></tr></thead><tbody><tr><td>Bayern win</td><td>[[ens_H]]</td><td>[[mkt_H]]</td><td>Yes</td></tr><tr><td>Goals</td><td>[[ens_lh]] – [[ens_la]] expected</td><td>–</td><td>[[ft_score]]</td></tr><tr><td>Chances, in <button type="button" class="term" data-term="xg">xG</button> (Understat)</td><td>–</td><td>–</td><td>[[ft_xg_h]] – [[ft_xg_a]]</td></tr><tr><td>Five or more goals</td><td>[[over45]]</td><td>[[mkt_over45]]</td><td>Yes, seven</td></tr><tr><td>Bayern by three or more</td><td>[[h_by3]]</td><td>–</td><td>Yes</td></tr><tr><td>Both teams score</td><td>[[btts]]</td><td>–</td><td>Yes</td></tr><tr><td>Exact score [[ft_score]]</td><td>[[ft_p]], number [[ft_rank]]</td><td>–</td><td>Yes</td></tr></tbody></table></div>
             <p>Scored on probabilities, the bookmakers win this one: a <button type="button" class="term" data-term="rps">ranked probability score</button> of [[ft_rps_market]] against [[ft_rps_ensemble]] for the ensemble (lower is better). Every model lost to the market, because every model was less sure of Bayern. The Bayesian model, the keenest at [[bay_H]], came closest ([[ft_rps_bayesian]]). XGBoost, the most cautious at [[xgb_H]], did worst ([[ft_rps_xgboost]]). The running score on this blog: three graded posts, and the models were closer in two of them.</p>
 
@@ -268,7 +268,7 @@ for lo, hi in [(0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 1.01)]:
 
         <article class="post" lang="de" data-lang-only="de" hidden>
           <header class="post-hero">
-            <p class="eyebrow">SPIELTAG 6 · PROGNOSE UND RÜCKBLICK</p>
+            <p class="eyebrow">Spieltag 6 · Prognose und Rückblick</p>
             <h1>Bayern gegen Leipzig: Meine Modelle haben Höhenangst<span>.</span></h1>
             <p class="post-dek">Die Buchmacher sehen Bayern zu [[mkt_H]] vorn und legen die Torlinie bei 4,5 fest. Meine Modelle sagen [[ens_H]] und weniger Tore. Sieben Spielzeiten Backtest sagen: Schwindlig sind die Modelle.</p>
             <p class="post-meta">
@@ -366,7 +366,7 @@ grids["ens"] = (grids["dc"] + grids["bay"] + grids["xgb"]) / 3   <span class="c"
             <figure class="post-figure">
               <img src="figs/de/fig2_scorelines.svg" alt="Heatmap der Ergebniswahrscheinlichkeiten. [[mode]] ist mit [[p_mode]] am wahrscheinlichsten, dann [[top2]] und [[top3]]." loading="lazy">
               <figcaption>Wahrscheinlichkeit jedes genauen Ergebnisses laut <button type="button" class="term" data-term="ensemble">Ensemble</button> (Bayern-Tore auf der senkrechten Achse; nicht gezeigte Ergebnisse liegen jeweils unter 0,5 %). Das umrandete Feld ist das wahrscheinlichste Ergebnis.</figcaption>
-            <details class="howto"><summary>So liest du die Grafik</summary><p>Bayerns Tore laufen an der Seite nach oben, Leipzigs unten entlang, dunklere Felder sind wahrscheinlicher. Auf der Diagonale (0:0, 1:1, 2:2 …) liegen die Unentschieden, darüber gewinnt Bayern, darunter Leipzig.</p></details></figure>
+            <details class="howto"><summary>So liest du die Grafik</summary><p>Bayerns Tore laufen an der Seite nach oben, Leipzigs unten entlang, hellere Felder sind wahrscheinlicher. Auf der Diagonale (0:0, 1:1, 2:2 …) liegen die Unentschieden, darüber gewinnt Bayern, darunter Leipzig.</p></details></figure>
             <p>[[mode]] ist mit [[p_mode]] das wahrscheinlichste einzelne Ergebnis, knapp vor [[top2]] ([[p_top2]]), dann [[top3]] ([[p_top3]]) und [[top4]] ([[p_top4]]). Dass kein Ergebnis auch nur 9 % erreicht, zeigt, wie breit gestreut ein Bayern-Spiel ist. Bayern mit zwei oder mehr Toren Vorsprung: [[h_by2]]. Mit drei oder mehr: [[h_by3]]. Leipzig bleibt ohne Tor: [[bayern_clean]]. Beide treffen: [[btts]].</p>
             <p>Dann die Tore. Die Modelle erwarten insgesamt [[ens_total]], viel für jedes Bundesligaspiel, aber die Buchmacher erwarten mehr. An ihrer Linie von 4,5 sind Über und Unter ungefähr ein Münzwurf: [[mkt_over45]] für fünf oder mehr Tore, wenn man die Margen herausrechnet. Die Modelle sagen [[over45]].</p>
             <figure class="post-figure">
@@ -443,7 +443,7 @@ for lo, hi in [(0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 1.01)]:
 
             <h2 id="full-time-de">Abpfiff: Wie hat sich die Prognose geschlagen?</h2>
             <p>Bayern [[ft_score]] Leipzig. Zur Pause stand es 3:0: Luis Díaz traf nach 12 Minuten, Aleksandar Pavlović nach 26 und Michael Olise etwa zehn Minuten später. Díaz legte nach der Pause zwei weitere nach, in der 47. und 69. Minute, auch Harry Kane traf, und Andrija Maksimović erzielte in der Nachspielzeit das Tor für Leipzig. Leipzig zu Hause in dieser Saison: 14:0. Leipzig auswärts: jetzt 2:11. Heute war auswärts.</p>
-            <figure class="post-figure"><img src="figs/de/fig10_fulltime.svg" alt="Die zwölf wahrscheinlichsten Ergebnisse der Prognose vor dem Spiel, nach Ausgang eingefärbt, darunter das Endergebnis 6:1 mit [[ft_p]] auf Platz [[ft_rank]]." loading="lazy"><figcaption>Die zwölf wahrscheinlichsten Ergebnisse des Ensembles vor dem Spiel (blau: Bayern-Sieg, grau: Remis, orange: Leipziger Sieg), darunter das Endergebnis in Schwarz. Das [[ft_score]] lag auf Platz [[ft_rank]].</figcaption></figure>
+            <figure class="post-figure"><img src="figs/de/fig10_fulltime.svg" alt="Die zwölf wahrscheinlichsten Ergebnisse der Prognose vor dem Spiel, nach Ausgang eingefärbt, darunter das Endergebnis 6:1 mit [[ft_p]] auf Platz [[ft_rank]]." loading="lazy"><figcaption>Die zwölf wahrscheinlichsten Ergebnisse des Ensembles vor dem Spiel (blau: Bayern-Sieg, grau: Remis, orange: Leipziger Sieg), darunter das Endergebnis in Weiß. Das [[ft_score]] lag auf Platz [[ft_rank]].</figcaption></figure>
             <div class="table-scroll"><table class="post-table"><thead><tr><th></th><th>Meine Modelle</th><th>Buchmacher</th><th>Endstand</th></tr></thead><tbody><tr><td>Bayern-Sieg</td><td>[[ens_H]]</td><td>[[mkt_H]]</td><td>Ja</td></tr><tr><td>Tore</td><td>[[ens_lh]] – [[ens_la]] erwartet</td><td>–</td><td>[[ft_score]]</td></tr><tr><td>Chancen in <button type="button" class="term" data-term="xg">xG</button> (Understat)</td><td>–</td><td>–</td><td>[[ft_xg_h]] – [[ft_xg_a]]</td></tr><tr><td>Fünf oder mehr Tore</td><td>[[over45]]</td><td>[[mkt_over45]]</td><td>Ja, sieben</td></tr><tr><td>Bayern mit drei oder mehr Toren Vorsprung</td><td>[[h_by3]]</td><td>–</td><td>Ja</td></tr><tr><td>Beide Teams treffen</td><td>[[btts]]</td><td>–</td><td>Ja</td></tr><tr><td>Genau [[ft_score]]</td><td>[[ft_p]], Platz [[ft_rank]]</td><td>–</td><td>Ja</td></tr></tbody></table></div>
             <p>Bewertet man die Wahrscheinlichkeiten, gewinnen diesmal die Buchmacher: <button type="button" class="term" data-term="rps">Ranked Probability Score</button> [[ft_rps_market]] gegen [[ft_rps_ensemble]] für das Ensemble (niedriger ist besser). Jedes Modell verlor gegen den Markt, weil jedes Bayern weniger zutraute. Das Bayes-Modell, mit [[bay_H]] am optimistischsten für Bayern, kam am nächsten heran ([[ft_rps_bayesian]]). XGBoost, mit [[xgb_H]] das vorsichtigste, war am schwächsten ([[ft_rps_xgboost]]). Der Zwischenstand auf diesem Blog: drei bewertete Beiträge, und in zweien lagen die Modelle näher dran.</p>
 
