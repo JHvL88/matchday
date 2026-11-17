@@ -31,7 +31,7 @@ One dark page, kept light: charcoal surfaces lifted in two small steps, thin lin
 
 Match information is displayed in the Europe/Berlin time zone.
 
-Two more pages: **Learn** (`learn/`) explains probabilities, odds and grading, with an odds calculator, a "grade it yourself" box and the glossary; **Track record** (`record/`) grades every published forecast against the bookmakers: the weekly forecasts matchday by matchday (`data/forecasts.json` against the latest price in `data/odds.json`, the same two numbers the home page grades with), then the deep dives, the season and backtest figures, the disagreement check and a paper-betting ledger for the deep dives.
+Two more pages: **Learn** (`learn/`) is a short course in seven drills, from what a probability means to why the bookmakers usually win, each with something to play with and one question at the end, followed by a game and the glossary (see *The Learn page*); **Track record** (`record/`) grades every published forecast against the bookmakers: the weekly forecasts matchday by matchday (`data/forecasts.json` against the latest price in `data/odds.json`, the same two numbers the home page grades with), then the deep dives, the season and backtest figures, the disagreement check and a paper-betting ledger for the deep dives.
 
 ### The explanatory layer
 
@@ -49,6 +49,24 @@ On deep dives `explain.js` also runs the reading depth (Quick take, Full analysi
 
 Blocks can be nested, and a link to a hidden block switches to a depth that shows it. Chart notes use `<details class="howto"><summary>How to read this chart</summary><p>…</p></details>` inside the `<figure>`.
 
+### The Learn page
+
+Seven drills on one page, in the order a forecast is made and judged. The prose is in `learn/index.html` (one copy per language); the playthings are drawn by `learn/learn.js` (odds calculator, "grade it yourself", glossary) and `learn/play.js` (everything else), styled by `learn/learn.css`.
+
+| Drill | Plaything | Where its numbers come from |
+|---|---|---|
+| What 32% means | Replay machine: one forecast played once or 100 times | The Hamburg–Stuttgart forecast of matchday 6, fixed in `play.js` |
+| From goals to a forecast | Goal machine: two expected-goals sliders, a score grid and the forecast it gives | Plain Poisson, worked out in the browser; can load a match from `data/forecasts.json` |
+| What a chance is worth | Shot map: tap a pitch to shoot | A toy xG model (distance and angle only, tuned by hand, labelled as a toy) |
+| How a forecast is made | The three models and their average for any match of the matchday | `data/forecasts.json`, latest matchday |
+| From odds to chances | Odds calculator | Latest deep dive in `analysis/posts.json` |
+| How a forecast gets graded | Grade it yourself, now with the reader's own forecast | Latest deep dive |
+| Why the bookmakers usually win | The long run: 40 bettors at odds of 1.90 | Simulated; the "in profit" share is the exact binomial figure |
+
+- **Quick checks.** Each drill ends with `<div class="check" data-check="<drill id>">`; the question, its three options, the right answer and the explanation are in `WORDS.…q` in `play.js`, in both languages. A right answer ticks the drill off. Which drills are done is kept in `localStorage` (`jans-matchday:learn`) and nowhere else; the league in the header (Kreisliga to Bundesliga) is just that count.
+- **Guess the forecast.** After the drills: the reader sets home/draw/away for each match of the latest matchday in `data/forecasts.json` and is shown the models and the bookmakers. It grades against the forecast, not the result, so it works before kick-off. Without `data/forecasts.json` the game is hidden and the models drill shows a built-in example.
+- **To add a drill:** a `<section class="page-section" id="…">` with a `drill-kicker`, the two language blocks, a `<div class="calc toy" id="…">` and a check; then its id in `DRILLS` in `play.js`, a link in the header's `page-jump`, and the count in the kickers and in `.progress-meter` (`learn.css`).
+
 ### Site data
 
 | File | What | When to update |
@@ -58,7 +76,7 @@ Blocks can be nested, and a link to a hidden block switches to a depth that show
 | `data/forecasts.json` | The models' forecast for every match of a matchday: the ensemble, the three models behind it, expected goals and a 6 × 6 grid of score probabilities | Automatically, once per matchday, by the **Forecast the matchday** workflow (see *Weekly forecasts*); never edited afterwards |
 | `data/record.json` | Season and backtest figures for the track record and the line on the home page (`uniform` is the score of a forecast of one third each), written by `analysis/pipeline/evaluate.py` (see *Data and the backtest*) | After each matchday |
 
-When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together.
+When you change `styles.css`, `app.js`, `i18n.js`, `glossary.js`, `explain.js`, `pages.css` or `analysis/analysis.css`, bump the `?v=` number where they are linked (`index.html`, `404.html`, `learn/`, `record/` and the analysis pages) and `SHELL_CACHE` in `sw.js`, so installed copies pick up the new files together. The same goes for `learn/learn.js`, `learn/play.js` and `learn/learn.css`, which are linked from `learn/index.html` only.
 
 Fonts (DM Sans and Barlow Condensed, SIL Open Font License) are served from `assets/fonts`, not Google Fonts: no third-party request, nothing render-blocking, and they work offline. Club crests still come from the links OpenLigaDB provides, but `app.js` asks for 120 px Wikimedia thumbnails of the same crests (about 110 KB for all 18 clubs instead of about 1.2 MB of full-size originals) and falls back to OpenLigaDB's own link, then to the club's initials.
 
