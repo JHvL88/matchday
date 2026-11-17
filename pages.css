@@ -34,7 +34,7 @@
 }
 
 .post-hero .term:hover {
-  color: var(--red-on-dark);
+  color: var(--ink);
 }
 
 /* Jump links in the Learn header */
@@ -61,8 +61,8 @@
 
 .page-jump a:hover,
 .page-jump a:focus-visible {
-  border-color: var(--bl-red);
-  background: var(--bl-red);
+  border-color: var(--ink);
+  background: transparent;
   outline: none;
 }
 
@@ -82,8 +82,8 @@
 }
 
 .model-card.is-key {
-  border-top-color: var(--bl-red);
-  background: var(--bl-red-soft);
+  border-top-color: var(--ink);
+  background: var(--surface-2);
 }
 
 .post-body .model-card p {
@@ -97,9 +97,7 @@
   font-family: var(--display);
   font-size: 21px;
   font-weight: 700;
-  letter-spacing: .02em;
   line-height: 1.1;
-  text-transform: uppercase;
 }
 
 .model-name .term {
@@ -114,7 +112,7 @@
 }
 
 .reason-list li::marker {
-  color: var(--bl-red);
+  color: var(--muted);
   font-family: var(--display);
   font-weight: 700;
 }
@@ -125,7 +123,7 @@
 }
 
 .outline-link.on-light:hover {
-  border-color: var(--bl-red);
+  border-color: var(--ink);
   background: var(--ink);
   color: var(--bg) !important;
 }
@@ -155,9 +153,7 @@
   font-family: var(--display);
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: .02em;
   line-height: 1;
-  text-transform: uppercase;
 }
 
 .post-body .calc-source {
@@ -175,8 +171,7 @@
   border-radius: 4px;
 }
 
-.calc-bar-part,
-.ledger-part {
+.calc-bar-part {
   min-width: 0;
   display: grid;
   flex: 1 1 0;
@@ -216,10 +211,8 @@
 
 .calc-table thead th {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
 }
 
 .calc-table thead th.calc-home { box-shadow: inset 0 -3px var(--home); }
@@ -396,7 +389,8 @@
   transition: width .25s;
 }
 
-.grade-score.is-market .grade-bar { background: var(--draw-bar); }
+/* Filled for my models, outline for the bookmakers: the same rule as the forecast bars. */
+.grade-score.is-market .grade-bar { background: transparent; box-shadow: inset 0 0 0 2px var(--ink); }
 .grade-score.is-shrug .grade-bar { background: var(--line-strong); }
 
 .grade-value {
@@ -429,13 +423,13 @@
 }
 
 .glossary-entry:target {
-  border-left-color: var(--bl-red);
-  background: var(--bl-red-soft);
+  border-left-color: var(--ink);
+  background: var(--surface-2);
   animation: glossary-flash 1.6s ease-out;
 }
 
 @keyframes glossary-flash {
-  from { box-shadow: 0 0 0 3px var(--bl-red); }
+  from { box-shadow: 0 0 0 2px var(--ink); }
   to { box-shadow: 0 0 0 0 transparent; }
 }
 
@@ -459,7 +453,7 @@
 
 .score-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   min-height: 150px;
   margin: 6px 0 12px;
@@ -474,17 +468,16 @@
   color: var(--ink-2);
 }
 
-.score-card.is-dives {
-  box-shadow: inset 0 3px var(--bl-red);
+/* Forecasts published on this site before kick-off, as opposed to figures replayed afterwards. */
+.score-card.is-live {
+  box-shadow: inset 0 2px var(--ink);
 }
 
 .post-body .score-card-title {
   margin: 0 0 10px;
-  color: var(--red-on-dark);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .post-body .score-card-value {
@@ -499,7 +492,6 @@
   font-family: var(--display);
   font-size: 26px;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 .score-side {
@@ -510,7 +502,7 @@
 }
 
 .score-who {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -528,7 +520,7 @@
 
 .score-side.is-ahead .score-who::after {
   content: " ✓";
-  color: var(--red-on-dark);
+  color: var(--ink);
 }
 
 .score-vs {
@@ -544,126 +536,214 @@
   line-height: 1.45;
 }
 
-/* Ledger */
-.ledger {
+/* The two lists of graded forecasts share one row: fixture, forecast bar, result. */
+.weeks {
   display: grid;
-  gap: 8px;
-  min-height: 270px; /* about two rows, so the sections below do not jump when it fills in */
+  gap: 10px;
+  min-height: 120px;
   margin: 6px 0 14px;
+}
+
+.week {
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.week-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-height: 56px;
+  padding: 10px 44px 10px 16px;
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+}
+
+.week-head::-webkit-details-marker {
+  display: none;
+}
+
+.week-head::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  margin-top: -6px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+}
+
+.week[open] > .week-head::after {
+  margin-top: -2px;
+  transform: rotate(-135deg);
+}
+
+.week-head:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+}
+
+.week-name,
+.week-tally {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.week-tally {
+  text-align: right;
+}
+
+.week-title {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.week-sub,
+.week-rps {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.week-closer {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ledger {
+  --halo: var(--surface);
+  min-height: 180px; /* about two rows, so the sections below do not jump when it fills in */
+  margin: 6px 0 14px;
+  padding: 0 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.week > .ledger {
+  min-height: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--radius) var(--radius);
 }
 
 .ledger-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, .8fr);
   align-items: center;
-  gap: 14px 18px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-2);
+  gap: 10px 20px;
+  padding: 12px 0;
 }
 
-.ledger-row.is-graded {
-  background: var(--surface-2);
+.ledger-row + .ledger-row {
+  border-top: 1px solid var(--line);
 }
 
 .post-body .ledger-day {
   margin: 0 0 2px;
   color: var(--muted);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  font-size: 12px;
 }
 
 .post-body .ledger-match {
   margin: 0;
   font-family: var(--sans);
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 1.3;
-  text-transform: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
-.post-body .ledger-match a {
+.post-body .ledger-match a,
+.post-body a.ledger-dive {
   color: var(--ink);
-  text-decoration: none;
-}
-
-.post-body .ledger-match a:hover {
-  color: var(--bl-red-dark);
   text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
 }
 
-.ledger-bars {
-  display: grid;
-  gap: 6px;
+.post-body .ledger-match a:hover,
+.post-body a.ledger-dive:hover {
+  text-decoration-color: var(--ink);
 }
 
-.ledger-bar {
-  display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-}
-
-.ledger-bar-label {
+.post-body a.ledger-dive {
+  display: inline-block;
+  padding: 4px 0;
   color: var(--ink-2);
   font-size: 12px;
+}
+
+.ledger-forecast p,
+.ledger-result p {
+  margin: 0;
+}
+
+.post-body .ledger-nums {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ledger-nums strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-nums .is-miss,
+.ledger-nums .is-miss strong {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.ledger-nums .is-hit {
+  color: var(--ink);
   font-weight: 600;
 }
 
-.ledger-bar-track {
-  height: 20px;
-  display: flex;
-  gap: 2px;
-  overflow: hidden;
-  border-radius: 3px;
+.post-body .ledger-market {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
-.ledger-part {
-  font-size: 11px;
-}
-
-.ledger-result p {
-  margin: 0;
+.ledger-result {
+  text-align: right;
 }
 
 .post-body .ledger-score {
   color: var(--ink);
   font-family: var(--display);
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 600;
   line-height: 1;
 }
 
 .post-body .ledger-verdict {
-  margin: 4px 0 2px;
-  font-size: 13px;
-  font-weight: 700;
+  margin: 6px 0 4px;
 }
 
-.ledger-verdict.is-closerModels { color: var(--win); }
-.ledger-verdict.is-closerMarket { color: var(--ink-2); }
-
-.post-body .ledger-grades {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px 12px;
-  color: var(--muted);
-  font-size: 12.5px;
-  font-variant-numeric: tabular-nums;
-}
-
-.ledger-grades .is-best {
-  color: var(--ink);
-  font-weight: 700;
-}
-
+.post-body .ledger-grades,
 .post-body .ledger-waiting {
-  color: var(--ink-2);
-  font-size: 13.5px;
-  font-weight: 600;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
 .page-error {
@@ -791,7 +871,7 @@
   position: absolute;
   top: 4px;
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: 12px;
   transform: translateX(-50%);
 }
 
@@ -843,7 +923,7 @@
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--done);
-  background: var(--bl-red);
+  background: var(--ink);
   content: "";
 }
 
@@ -869,8 +949,6 @@
   color: var(--muted);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
 }
 
 .paper-bet.is-none {
@@ -919,15 +997,11 @@
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 860px) {
-  .score-cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .ledger-row {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .ledger-bars {
+  .ledger-forecast {
     grid-column: 1 / -1;
     grid-row: 2;
   }
@@ -935,11 +1009,6 @@
   .ledger-result {
     grid-column: 2;
     grid-row: 1;
-    text-align: right;
-  }
-
-  .post-body .ledger-grades {
-    justify-content: flex-end;
   }
 }
 
@@ -968,8 +1037,7 @@
   }
 
   .calc-table thead th {
-    font-size: 10.5px;
-    letter-spacing: .04em;
+    font-size: 12px;
   }
 
   .calc-input {
@@ -1007,32 +1075,36 @@
     margin-left: 0;
   }
 
-  .ledger-bar {
-    grid-template-columns: 84px minmax(0, 1fr);
+  .score-cards {
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  .week-tally {
+    text-align: left;
+  }
+
+  /* On a phone the result drops under the bar and reads as one line: score, verdict, grades. */
   .ledger-row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 10px;
+    gap: 6px;
   }
 
-  .ledger-bars,
+  .ledger-forecast,
   .ledger-result {
     grid-column: 1;
     grid-row: auto;
-    text-align: left;
   }
 
   .ledger-result {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 2px 12px;
+    align-items: center;
+    gap: 4px 10px;
+    text-align: left;
   }
 
-  .post-body .ledger-grades {
-    flex-basis: 100%;
-    justify-content: flex-start;
+  .post-body .ledger-verdict {
+    margin: 0;
   }
 }
 

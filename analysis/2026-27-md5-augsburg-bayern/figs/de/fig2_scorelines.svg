@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="440.586313pt" height="278.853pt" viewBox="0 0 440.586313 278.853" version="1.1">
+<svg data-theme="dark" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="440.586313pt" height="278.853pt" viewBox="0 0 440.586313 278.853" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -20,24 +20,24 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 278.853  L 440.586313 278.853  L 440.586313 0  L 0 0  z " style="fill: #ffffff"/>
+   <path d="M 0 278.853  L 440.586313 278.853  L 440.586313 0  L 0 0  z " style="fill: #1b1e25"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 39.186313 232.56  L 429.786313 232.56  L 429.786313 10.8  L 39.186313 10.8  z " style="fill: #ffffff"/>
+    <path d="M 39.186313 232.56  L 429.786313 232.56  L 429.786313 10.8  L 39.186313 10.8  z " style="fill: #1b1e25"/>
    </g>
    <g clip-path="url(#pe6758f0105)">
-    <image xlink:href="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAh8AAAE0CAYAAACM3lG5AAAGDElEQVR4nO3YzWlUUQCGYSdOJBPBf3ClZGEF6kbswAosywJSg6QIV2IKcGcWKriJOKhEJo41TBbv4eDzVPBxuPfynrs4frfeXmNnb04+jp4wnc8fTkZPmNKNWw9HT5jOo2evRk+Y0usXD0ZPmM7LJ6vRE6a0N3oAAPB/ER8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApJZ3VtdHb5jS+tvZ6AnT2fw6Hz1hSnv7B6MnTGdz8Xv0hCldbLajJ0zn8q8zuwp/PgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AILV4/+nPdvSIGb09XY+eMJ3Ts4vRE6Z096Y7wq6eHx2MnjClp4+d266O7i9HT5iSrxoAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKTEBwCQEh8AQEp8AAAp8QEApMQHAJASHwBASnwAACnxAQCkxAcAkBIfAEBKfAAAKfEBAKQWX79vtqNHzOjLD8e2q/Ofl6MnTGl/uRg9YTr3Dt2rruL2yrO2q8N9Z3YV3lAAICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEiJDwAgJT4AgJT4AABS4gMASIkPACAlPgCAlPgAAFLiAwBIiQ8AICU+AICU+AAAUuIDAEj9AyftLkaL87ZLAAAAAElFTkSuQmCC" id="imagebd9bd53198" transform="scale(1 -1) translate(0 -221.76)" x="38.88" y="-11.013" width="390.96" height="221.76"/>
+    <image xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAh8AAAE0CAYAAACM3lG5AAAFAElEQVR42u3YMUoDURSG0XmamAhBEOsUBgTBxspCwVLIDtyBuA7rbMQ9iAuwFdJoLYRgIcQYJ8y4A+FepjxnCT8z8L1bTq7v2oqw6f3MCEE3Z3tGSFiu/KJRT68/Rkh4eXwwQtDvcm6EhB0TAADiAwAQHwAA4gMAEB8AAOIDABAfAID4AAAQHwCA+AAAEB8AgPgAABAfAID4AADEBwCA+AAAxAcAgPgAAMQHAID4AADEBwAgPgAAxAcAID4AAMQHACA+AADxAQAgPgAA8QEAID4AAPEBACA+AADxAQCIDwAA8QEAiA8AAPEBAIgPAADxAQCIDwBAfAAAiA8AQHwAAIgPAEB8AACIDwBAfAAA4gMAQHwAAOIDAEB8AADiAwAQHwAA4gMAEB8AAOIDABAfAADiAwAQHwCA+AAAEB8AgPgAABAfAID4AAAQHwCA+AAAxAcAgPgAAMQHAID4AADEBwAgPgAAxAcAID4AAMQHACA+AAD+0WvrbyskjI92jRB0MCxGSNhsbRC1P/Cuyj1H+zYIKsW35vIBAIgPAADxAQCIDwBAfAAAiA8AQHwAAIgPAEB8AACIDwBAfAAA4gMAQHwAAOIDAEB8AADiAwAQHwAA4gMAEB8AAOIDABAfAADiAwAQHwCA+AAAEB8AgPgAABAfAID4AAAQHwCA+AAAxAcAgPgAAMQHAID4AADEBwAgPgAAxAcAID4AAMQHACA+AADEBwAgPgAA8QEAID4AAPEBACA+AADxAQAgPgAA8QEAiA8AAPEBAIgPAADxAQCIDwAA8QEAiA8AQHwAAIgPAEB8AACIDwBAfAAA4gMAQHwAAOIDAEB8AADiAwBAfAAA4gMAEB8AAOIDABAfAADiAwAQHwAA4gMAEB8AgPgAAOhamZxPWzPEDceXRgiaXN0aIeHr480IQYv5sxES6s93IwQ164URKpcPAEB8AACIDwBAfAAA4gMAQHwAAOIDAEB8AADiAwAQHyYAAMQHACA+AADEBwAgPgAAxAcAID4AAPEBACA+AADxAQAgPgAA8QEAID4AAPEBAIgPAADxAQCIDwAA8QEAiA8AAPEBAIgPAEB8AACIDwBAfAAAiA8AQHwAAOIDAEB8AADiAwBAfAAA4gMAQHwAAOIDABAfAADiAwAQHwAA4gMAEB8AAOIDABAfAID4AAAQHwCA+AAAEB8AgPgAABAfAID4AADEBwCA+AAAxAcAgPgAAMQHACA+AADEBwAgPgAAxAcAID4AAMQHACA+AADxAQAgPgAA8QEAID4AAPEBACA+AADxAQCIDwCAbpXj04vWDInhBodGiG7WHxkho6ltENTWKyNkdtuujRDdrNkYoXL5AADEBwCA+AAAxAcAID4AAMQHACA+AADEBwAgPgAA8WECAEB8AADiAwBAfAAA4gMAQHwAAOIDABAfAADiAwAQHwAA4gMAEB8AAOIDABAfAID4AAAQHwCA+AAAEB8AgPgAABAfAID4AADEBwCA+AAAxAcAgPgAAMQHACA+AADEBwAgPgAAxAcAID4AAMQHACA+AADxAQAgPgAA8QEAID4AAPEBACA+AADxAQCIDwAA8QEAiA8AAPEBAIgPAADxAQCIDwBAfAAAiA8AQHwAAIgPAEB8AADiAwBAfAAA4gMAQHwAAOIDAEB8AADiAwAQHwAA4gMAEB8AAOIDABAfAADiAwAQHwCA+AAA6NYfX5QvUmpm0mwAAAAASUVORK5CYII=" id="imagebd9bd53198" transform="scale(1 -1) translate(0 -221.76)" x="38.88" y="-11.013" width="390.96" height="221.76"/>
    </g>
    <g id="patch_3">
-    <path d="M 150.786313 177.12  L 206.586313 177.12  L 206.586313 121.68  L 150.786313 121.68  L 150.786313 177.12  z " clip-path="url(#pe6758f0105)" style="fill: none; stroke: #16161c; stroke-width: 1.8; stroke-linejoin: miter"/>
+    <path d="M 150.786313 177.12  L 206.586313 177.12  L 206.586313 121.68  L 150.786313 121.68  L 150.786313 177.12  z " clip-path="url(#pe6758f0105)" style="fill: none; stroke: #f2f3f6; stroke-width: 1.8; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
      <g id="line2d_1"/>
      <g id="text_1">
       <!-- 0 -->
-      <g style="fill: #5f5f69" transform="translate(63.478656 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(63.478656 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-122" d="M 2106 -77  Q 1549 -77 1149 214  Q 749 506 531 1027  Q 314 1549 314 2240  Q 314 2931 531 3452  Q 749 3974 1149 4265  Q 1549 4557 2106 4557  Q 2662 4557 3059 4265  Q 3456 3974 3670 3452  Q 3885 2931 3885 2240  Q 3885 1549 3670 1027  Q 3456 506 3059 214  Q 2662 -77 2106 -77  z M 2106 397  Q 2458 397 2733 617  Q 3008 838 3171 1251  Q 3334 1664 3334 2240  Q 3334 2822 3171 3232  Q 3008 3642 2733 3859  Q 2458 4077 2106 4077  Q 1747 4077 1465 3859  Q 1184 3642 1024 3232  Q 864 2822 864 2240  Q 864 1664 1024 1251  Q 1184 838 1465 617  Q 1747 397 2106 397  z " transform="scale(0.015625)"/>
        </defs>
@@ -49,7 +49,7 @@
      <g id="line2d_2"/>
      <g id="text_2">
       <!-- 1 -->
-      <g style="fill: #5f5f69" transform="translate(121.005141 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(121.005141 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-123" d="M 1152 0  L 1152 3878  L 230 3584  L 230 4006  L 1331 4480  L 1696 4480  L 1696 0  L 1152 0  z " transform="scale(0.015625)"/>
        </defs>
@@ -61,7 +61,7 @@
      <g id="line2d_3"/>
      <g id="text_3">
       <!-- 2 -->
-      <g style="fill: #5f5f69" transform="translate(175.446469 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(175.446469 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-124" d="M 416 0  L 416 378  Q 890 736 1312 1101  Q 1734 1466 2060 1827  Q 2387 2189 2572 2534  Q 2758 2880 2758 3200  Q 2758 3437 2672 3638  Q 2586 3840 2397 3968  Q 2208 4096 1888 4096  Q 1581 4096 1376 3965  Q 1171 3834 1068 3619  Q 966 3405 966 3149  L 448 3149  Q 454 3590 640 3907  Q 826 4224 1152 4390  Q 1478 4557 1894 4557  Q 2304 4557 2617 4406  Q 2931 4256 3113 3958  Q 3296 3661 3296 3219  Q 3296 2906 3165 2592  Q 3034 2278 2810 1980  Q 2586 1683 2314 1408  Q 2042 1133 1754 889  Q 1466 646 1210 448  L 3450 448  L 3450 0  L 416 0  z " transform="scale(0.015625)"/>
        </defs>
@@ -73,7 +73,7 @@
      <g id="line2d_4"/>
      <g id="text_4">
       <!-- 3 -->
-      <g style="fill: #5f5f69" transform="translate(231.197484 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(231.197484 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-125" d="M 1901 -77  Q 1472 -77 1123 80  Q 774 237 569 550  Q 365 864 352 1331  L 896 1331  Q 902 1075 1020 860  Q 1139 646 1363 518  Q 1587 390 1901 390  Q 2214 390 2425 512  Q 2637 634 2745 835  Q 2854 1037 2854 1286  Q 2854 1587 2704 1776  Q 2554 1965 2301 2057  Q 2048 2150 1747 2150  L 1414 2150  L 1414 2605  L 1747 2605  Q 2202 2605 2461 2813  Q 2720 3021 2720 3392  Q 2720 3693 2515 3891  Q 2310 4090 1901 4090  Q 1498 4090 1267 3872  Q 1037 3654 1005 3315  L 461 3315  Q 480 3680 662 3961  Q 845 4243 1161 4400  Q 1478 4557 1901 4557  Q 2349 4557 2653 4403  Q 2957 4250 3110 3994  Q 3264 3738 3264 3424  Q 3264 3194 3177 2982  Q 3091 2771 2918 2617  Q 2746 2464 2477 2400  Q 2739 2349 2947 2201  Q 3155 2054 3276 1824  Q 3398 1594 3398 1286  Q 3398 922 3228 611  Q 3059 301 2726 112  Q 2394 -77 1901 -77  z " transform="scale(0.015625)"/>
        </defs>
@@ -85,7 +85,7 @@
      <g id="line2d_5"/>
      <g id="text_5">
       <!-- 4 -->
-      <g style="fill: #5f5f69" transform="translate(286.908969 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(286.908969 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-126" d="M 2534 0  L 2534 960  L 262 960  L 262 1376  L 2438 4480  L 3066 4480  L 3066 1434  L 3731 1434  L 3731 960  L 3066 960  L 3066 0  L 2534 0  z M 858 1434  L 2560 1434  L 2560 3885  L 2560 3885  L 858 1434  z " transform="scale(0.015625)"/>
        </defs>
@@ -97,7 +97,7 @@
      <g id="line2d_6"/>
      <g id="text_6">
       <!-- 5 -->
-      <g style="fill: #5f5f69" transform="translate(342.753656 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(342.753656 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-127" d="M 1971 -77  Q 1523 -77 1193 83  Q 864 243 675 515  Q 486 787 442 1139  L 966 1139  Q 1037 806 1296 595  Q 1555 384 1978 384  Q 2291 384 2512 528  Q 2733 672 2854 925  Q 2976 1178 2976 1491  Q 2976 1805 2857 2045  Q 2739 2285 2521 2422  Q 2304 2560 2010 2560  Q 1658 2560 1411 2419  Q 1165 2278 1030 2074  L 499 2074  L 838 4480  L 3245 4480  L 3245 4013  L 1254 4013  L 1024 2611  Q 1184 2790 1449 2902  Q 1715 3014 2067 3014  Q 2394 3014 2656 2899  Q 2918 2784 3107 2576  Q 3296 2368 3395 2093  Q 3494 1818 3494 1498  Q 3494 1178 3388 893  Q 3283 608 3088 390  Q 2893 173 2611 48  Q 2330 -77 1971 -77  z " transform="scale(0.015625)"/>
        </defs>
@@ -109,7 +109,7 @@
      <g id="line2d_7"/>
      <g id="text_7">
       <!-- 6 -->
-      <g style="fill: #5f5f69" transform="translate(398.453969 246.972) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(398.453969 246.972) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-128" d="M 2080 -77  Q 1600 -77 1270 102  Q 941 282 745 586  Q 550 890 460 1274  Q 371 1658 371 2061  Q 371 2803 572 3363  Q 774 3923 1158 4240  Q 1542 4557 2086 4557  Q 2509 4557 2813 4397  Q 3117 4237 3296 3971  Q 3475 3706 3514 3379  L 3014 3379  Q 2950 3718 2704 3904  Q 2458 4090 2080 4090  Q 1741 4090 1475 3878  Q 1210 3667 1056 3241  Q 902 2816 883 2157  Q 883 2144 883 2131  Q 883 2118 883 2106  Q 973 2310 1152 2483  Q 1331 2656 1587 2761  Q 1843 2867 2150 2867  Q 2528 2867 2851 2688  Q 3174 2509 3372 2185  Q 3571 1862 3571 1427  Q 3571 1050 3388 704  Q 3206 358 2873 140  Q 2541 -77 2080 -77  z M 2042 397  Q 2323 397 2544 525  Q 2765 653 2896 880  Q 3027 1107 3027 1402  Q 3027 1702 2896 1926  Q 2765 2150 2544 2275  Q 2323 2400 2042 2400  Q 1754 2400 1523 2269  Q 1293 2138 1158 1910  Q 1024 1683 1024 1395  Q 1024 1101 1158 873  Q 1293 646 1523 521  Q 1754 397 2042 397  z " transform="scale(0.015625)"/>
        </defs>
@@ -119,7 +119,7 @@
     </g>
     <g id="text_8">
      <!-- Tore Bayern -->
-     <g style="fill: #5f5f69" transform="translate(205.806547 264.798) scale(0.105 -0.105)">
+     <g style="fill: #a3a9b6" transform="translate(205.806547 264.798) scale(0.105 -0.105)">
       <defs>
        <path id="DMSans-9ptRegular-d" d="M 493 0  L 493 4480  L 2067 4480  Q 2541 4480 2851 4329  Q 3162 4179 3315 3920  Q 3469 3661 3469 3341  Q 3469 2995 3318 2764  Q 3168 2534 2928 2412  Q 2688 2291 2419 2266  L 2509 2330  Q 2797 2323 3040 2176  Q 3283 2029 3427 1779  Q 3571 1530 3571 1222  Q 3571 883 3404 604  Q 3238 326 2915 163  Q 2592 0 2118 0  L 493 0  z M 1030 448  L 2061 448  Q 2515 448 2768 662  Q 3021 877 3021 1261  Q 3021 1638 2761 1865  Q 2502 2093 2048 2093  L 1030 2093  L 1030 448  z M 1030 2522  L 2029 2522  Q 2464 2522 2691 2726  Q 2918 2931 2918 3283  Q 2918 3622 2691 3827  Q 2464 4032 2010 4032  L 1030 4032  L 1030 2522  z " transform="scale(0.015625)"/>
        <path id="DMSans-9ptRegular-7e" d="M 1504 -77  Q 1120 -77 864 67  Q 608 211 480 451  Q 352 691 352 966  Q 352 1299 521 1532  Q 691 1766 998 1888  Q 1306 2010 1715 2010  L 2554 2010  Q 2554 2336 2477 2553  Q 2400 2771 2227 2880  Q 2054 2989 1766 2989  Q 1478 2989 1273 2845  Q 1069 2701 1018 2419  L 467 2419  Q 506 2752 691 2979  Q 877 3206 1161 3324  Q 1446 3443 1766 3443  Q 2221 3443 2515 3280  Q 2810 3117 2950 2825  Q 3091 2534 3091 2138  L 3091 0  L 2611 0  L 2579 576  L 2579 576  Q 2515 442 2416 323  Q 2317 205 2182 115  Q 2048 26 1878 -25  Q 1709 -77 1504 -77  z M 1581 378  Q 1792 378 1971 474  Q 2150 570 2281 733  Q 2413 896 2483 1101  Q 2554 1306 2554 1530  L 2554 1594  L 1760 1594  Q 1459 1594 1270 1517  Q 1082 1440 998 1302  Q 915 1165 915 992  Q 915 806 992 668  Q 1069 531 1219 454  Q 1370 378 1581 378  z " transform="scale(0.015625)"/>
@@ -153,7 +153,7 @@
      <g id="line2d_8"/>
      <g id="text_9">
       <!-- 0 -->
-      <g style="fill: #5f5f69" transform="translate(28.471 210.296) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(28.471 210.296) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-122"/>
       </g>
      </g>
@@ -162,7 +162,7 @@
      <g id="line2d_9"/>
      <g id="text_10">
       <!-- 1 -->
-      <g style="fill: #5f5f69" transform="translate(31.923969 154.856) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(31.923969 154.856) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-123"/>
       </g>
      </g>
@@ -171,7 +171,7 @@
      <g id="line2d_10"/>
      <g id="text_11">
       <!-- 2 -->
-      <g style="fill: #5f5f69" transform="translate(29.206625 99.416) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(29.206625 99.416) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-124"/>
       </g>
      </g>
@@ -180,14 +180,14 @@
      <g id="line2d_11"/>
      <g id="text_12">
       <!-- 3 -->
-      <g style="fill: #5f5f69" transform="translate(29.108656 43.976) scale(0.11 -0.11)">
+      <g style="fill: #a3a9b6" transform="translate(29.108656 43.976) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-125"/>
       </g>
      </g>
     </g>
     <g id="text_13">
      <!-- Tore Augsburg -->
-     <g style="fill: #5f5f69" transform="translate(21.216 157.087148) rotate(-90) scale(0.105 -0.105)">
+     <g style="fill: #a3a9b6" transform="translate(21.216 157.087148) rotate(-90) scale(0.105 -0.105)">
       <defs>
        <path id="DMSans-9ptRegular-1" d="M 198 0  L 1850 4480  L 2419 4480  L 4064 0  L 3488 0  L 2131 3808  L 2131 3808  L 762 0  L 198 0  z M 954 1152  L 1107 1587  L 3136 1587  L 3290 1152  L 954 1152  z " transform="scale(0.015625)"/>
        <path id="DMSans-9ptRegular-e0" d="M 1664 -77  Q 1293 -77 1017 64  Q 742 205 588 496  Q 435 787 435 1222  L 435 3366  L 973 3366  L 973 1280  Q 973 832 1193 608  Q 1414 384 1786 384  Q 2042 384 2246 502  Q 2451 621 2576 851  Q 2701 1082 2701 1414  L 2701 3366  L 3238 3366  L 3238 0  L 2752 0  L 2720 538  L 2720 538  Q 2586 243 2307 83  Q 2029 -77 1664 -77  z " transform="scale(0.015625)"/>
@@ -211,7 +211,7 @@
    </g>
    <g id="text_14">
     <!-- 2,5 % -->
-    <g style="fill: #16161c" transform="translate(53.434282 208.591) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(53.434282 208.591) scale(0.11 -0.11)">
      <defs>
       <path id="DMSans-9ptRegular-144" d="M 666 -32  Q 512 -32 406 73  Q 301 179 301 333  Q 301 486 406 592  Q 512 698 666 698  Q 832 698 931 592  Q 1030 486 1030 333  Q 1030 179 931 73  Q 832 -32 666 -32  z " transform="scale(0.015625)"/>
       <path id="DMSans-9ptRegular-1a5" d="M 1050 0  L 3654 4480  L 4192 4480  L 1587 0  L 1050 0  z M 3974 -77  Q 3686 -77 3456 54  Q 3226 186 3088 429  Q 2950 672 2950 998  Q 2950 1331 3088 1571  Q 3226 1811 3456 1942  Q 3686 2074 3974 2074  Q 4269 2074 4496 1942  Q 4723 1811 4857 1571  Q 4992 1331 4992 998  Q 4992 672 4857 429  Q 4723 186 4492 54  Q 4262 -77 3974 -77  z M 3968 339  Q 4122 339 4250 412  Q 4378 486 4458 633  Q 4538 781 4538 998  Q 4538 1222 4461 1369  Q 4384 1517 4256 1590  Q 4128 1664 3974 1664  Q 3827 1664 3696 1590  Q 3565 1517 3485 1369  Q 3405 1222 3405 998  Q 3405 781 3485 633  Q 3565 486 3693 412  Q 3821 339 3968 339  z M 1312 2400  Q 1024 2400 793 2531  Q 563 2662 425 2905  Q 288 3149 288 3475  Q 288 3808 425 4048  Q 563 4288 796 4419  Q 1030 4550 1318 4550  Q 1606 4550 1836 4419  Q 2067 4288 2201 4048  Q 2336 3808 2336 3475  Q 2336 3149 2201 2905  Q 2067 2662 1833 2531  Q 1600 2400 1312 2400  z M 1312 2816  Q 1466 2816 1594 2889  Q 1722 2963 1798 3110  Q 1875 3258 1875 3475  Q 1875 3699 1798 3849  Q 1722 4000 1594 4073  Q 1466 4147 1318 4147  Q 1171 4147 1036 4073  Q 902 4000 822 3849  Q 742 3699 742 3475  Q 742 3258 822 3110  Q 902 2963 1033 2889  Q 1165 2816 1312 2816  z " transform="scale(0.015625)"/>
@@ -227,7 +227,7 @@
    </g>
    <g id="text_15">
     <!-- 5,8 % -->
-    <g style="fill: #ffffff" transform="translate(109.151782 208.591) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(109.151782 208.591) scale(0.11 -0.11)">
      <defs>
       <path id="DMSans-9ptRegular-12a" d="M 1933 -77  Q 1510 -77 1168 86  Q 826 250 627 541  Q 429 832 429 1216  Q 429 1491 534 1728  Q 640 1965 825 2141  Q 1011 2317 1261 2387  Q 922 2515 730 2784  Q 538 3053 538 3366  Q 538 3699 707 3968  Q 877 4237 1190 4397  Q 1504 4557 1933 4557  Q 2368 4557 2678 4397  Q 2989 4237 3155 3968  Q 3322 3699 3322 3366  Q 3322 3053 3133 2784  Q 2944 2515 2605 2387  Q 2854 2317 3040 2141  Q 3226 1965 3331 1728  Q 3437 1491 3437 1216  Q 3437 832 3238 541  Q 3040 250 2697 86  Q 2355 -77 1933 -77  z M 1933 397  Q 2413 397 2656 630  Q 2899 864 2899 1248  Q 2899 1683 2633 1907  Q 2368 2131 1933 2131  Q 1498 2131 1232 1907  Q 966 1683 966 1248  Q 966 864 1206 630  Q 1446 397 1933 397  z M 1933 2579  Q 2317 2579 2547 2790  Q 2778 3002 2778 3334  Q 2778 3712 2550 3904  Q 2323 4096 1933 4096  Q 1542 4096 1315 3904  Q 1088 3712 1088 3334  Q 1088 3002 1318 2790  Q 1549 2579 1933 2579  z " transform="scale(0.015625)"/>
      </defs>
@@ -240,7 +240,7 @@
    </g>
    <g id="text_16">
     <!-- 8,2 % -->
-    <g style="fill: #ffffff" transform="translate(165.044594 208.591) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(165.044594 208.591) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-12a"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(60.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-124" transform="translate(79.8125 0)"/>
@@ -250,7 +250,7 @@
    </g>
    <g id="text_17">
     <!-- 7,5 % -->
-    <g style="fill: #ffffff" transform="translate(221.390297 208.591) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(221.390297 208.591) scale(0.11 -0.11)">
      <defs>
       <path id="DMSans-9ptRegular-129" d="M 998 0  L 2643 4019  L 186 4019  L 186 4480  L 3194 4480  L 3194 4077  L 1568 0  L 998 0  z " transform="scale(0.015625)"/>
      </defs>
@@ -263,7 +263,7 @@
    </g>
    <g id="text_18">
     <!-- 5,2 % -->
-    <g style="fill: #ffffff" transform="translate(276.634282 208.591) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(276.634282 208.591) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-127"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(60.59375 0)"/>
      <use xlink:href="#DMSans-9ptRegular-124" transform="translate(80 0)"/>
@@ -273,7 +273,7 @@
    </g>
    <g id="text_19">
     <!-- 2,9 % -->
-    <g style="fill: #16161c" transform="translate(332.334594 208.591) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(332.334594 208.591) scale(0.11 -0.11)">
      <defs>
       <path id="DMSans-9ptRegular-12b" d="M 1907 -77  Q 1491 -77 1187 83  Q 883 243 707 512  Q 531 781 486 1101  L 986 1101  Q 1056 762 1299 576  Q 1542 390 1914 390  Q 2253 390 2509 592  Q 2765 794 2921 1200  Q 3078 1606 3104 2227  Q 3110 2266 3110 2301  Q 3110 2336 3110 2374  Q 3021 2170 2841 1997  Q 2662 1824 2409 1718  Q 2157 1613 1843 1613  Q 1472 1613 1145 1792  Q 819 1971 620 2294  Q 422 2618 422 3053  Q 422 3430 604 3776  Q 787 4122 1123 4339  Q 1459 4557 1914 4557  Q 2394 4557 2723 4377  Q 3053 4198 3248 3894  Q 3443 3590 3532 3206  Q 3622 2822 3622 2419  Q 3622 1683 3420 1120  Q 3219 557 2838 240  Q 2458 -77 1907 -77  z M 1952 2080  Q 2240 2080 2473 2211  Q 2707 2342 2841 2569  Q 2976 2797 2976 3085  Q 2976 3386 2841 3610  Q 2707 3834 2473 3958  Q 2240 4083 1952 4083  Q 1677 4083 1453 3955  Q 1229 3827 1097 3603  Q 966 3379 966 3078  Q 966 2778 1097 2554  Q 1229 2330 1453 2205  Q 1677 2080 1952 2080  z " transform="scale(0.015625)"/>
      </defs>
@@ -286,7 +286,7 @@
    </g>
    <g id="text_20">
     <!-- 1,4 % -->
-    <g style="fill: #16161c" transform="translate(389.548266 208.591) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(389.548266 208.591) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-126" transform="translate(53.609375 0)"/>
@@ -296,7 +296,7 @@
    </g>
    <g id="text_21">
     <!-- 2,1 % -->
-    <g style="fill: #16161c" transform="translate(54.885765 153.151) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(54.885765 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-124"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(58.90625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-123" transform="translate(78.3125 0)"/>
@@ -306,7 +306,7 @@
    </g>
    <g id="text_22">
     <!-- 6,7 % -->
-    <g style="fill: #ffffff" transform="translate(109.41561 153.151) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(109.41561 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-128"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(62.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-129" transform="translate(81.8125 0)"/>
@@ -316,7 +316,7 @@
    </g>
    <g id="text_23">
     <!-- 8,7 % -->
-    <g style="fill: #ffffff" transform="translate(165.32561 153.151) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(165.32561 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-12a"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(60.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-129" transform="translate(79.8125 0)"/>
@@ -326,7 +326,7 @@
    </g>
    <g id="text_24">
     <!-- 7,9 % -->
-    <g style="fill: #ffffff" transform="translate(221.29061 153.151) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(221.29061 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-129"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(48.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-12b" transform="translate(68.203125 0)"/>
@@ -336,7 +336,7 @@
    </g>
    <g id="text_25">
     <!-- 5,5 % -->
-    <g style="fill: #ffffff" transform="translate(276.541469 153.151) scale(0.11 -0.11)">
+    <g style="fill: #1b1e25" transform="translate(276.541469 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-127"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(60.59375 0)"/>
      <use xlink:href="#DMSans-9ptRegular-127" transform="translate(80 0)"/>
@@ -346,7 +346,7 @@
    </g>
    <g id="text_26">
     <!-- 3,1 % -->
-    <g style="fill: #16161c" transform="translate(333.836781 153.151) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(333.836781 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-123" transform="translate(79.203125 0)"/>
@@ -356,7 +356,7 @@
    </g>
    <g id="text_27">
     <!-- 1,5 % -->
-    <g style="fill: #16161c" transform="translate(389.592953 153.151) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(389.592953 153.151) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-127" transform="translate(53.609375 0)"/>
@@ -366,7 +366,7 @@
    </g>
    <g id="text_28">
     <!-- 1,3 % -->
-    <g style="fill: #16161c" transform="translate(54.836782 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(54.836782 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-125" transform="translate(53.609375 0)"/>
@@ -376,7 +376,7 @@
    </g>
    <g id="text_29">
     <!-- 3,5 % -->
-    <g style="fill: #16161c" transform="translate(109.185297 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(109.185297 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-127" transform="translate(79.203125 0)"/>
@@ -386,7 +386,7 @@
    </g>
    <g id="text_30">
     <!-- 4,7 % -->
-    <g style="fill: #16161c" transform="translate(165.27061 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(165.27061 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-126"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(61.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-129" transform="translate(80.8125 0)"/>
@@ -396,7 +396,7 @@
    </g>
    <g id="text_31">
     <!-- 4,3 % -->
-    <g style="fill: #16161c" transform="translate(220.74061 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(220.74061 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-126"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(61.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-125" transform="translate(80.8125 0)"/>
@@ -406,7 +406,7 @@
    </g>
    <g id="text_32">
     <!-- 3,0 % -->
-    <g style="fill: #16161c" transform="translate(276.310297 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(276.310297 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-122" transform="translate(79.203125 0)"/>
@@ -416,7 +416,7 @@
    </g>
    <g id="text_33">
     <!-- 1,7 % -->
-    <g style="fill: #16161c" transform="translate(334.166782 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(334.166782 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-129" transform="translate(53.609375 0)"/>
@@ -426,7 +426,7 @@
    </g>
    <g id="text_34">
     <!-- 0,8 % -->
-    <g style="fill: #16161c" transform="translate(388.041782 97.711) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(388.041782 97.711) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-122"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(62.59375 0)"/>
      <use xlink:href="#DMSans-9ptRegular-12a" transform="translate(82 0)"/>
@@ -436,7 +436,7 @@
    </g>
    <g id="text_35">
     <!-- 1,3 % -->
-    <g style="fill: #16161c" transform="translate(110.636782 42.271) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(110.636782 42.271) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-125" transform="translate(53.609375 0)"/>
@@ -446,7 +446,7 @@
    </g>
    <g id="text_36">
     <!-- 1,7 % -->
-    <g style="fill: #16161c" transform="translate(166.766782 42.271) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(166.766782 42.271) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-129" transform="translate(53.609375 0)"/>
@@ -456,7 +456,7 @@
    </g>
    <g id="text_37">
     <!-- 1,5 % -->
-    <g style="fill: #16161c" transform="translate(222.192954 42.271) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(222.192954 42.271) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-127" transform="translate(53.609375 0)"/>
@@ -466,7 +466,7 @@
    </g>
    <g id="text_38">
     <!-- 1,1 % -->
-    <g style="fill: #16161c" transform="translate(279.444437 42.271) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(279.444437 42.271) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-123"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(34.203125 0)"/>
      <use xlink:href="#DMSans-9ptRegular-123" transform="translate(53.609375 0)"/>
@@ -476,7 +476,7 @@
    </g>
    <g id="text_39">
     <!-- 0,6 % -->
-    <g style="fill: #16161c" transform="translate(332.131782 42.271) scale(0.11 -0.11)">
+    <g style="fill: #f2f3f6" transform="translate(332.131782 42.271) scale(0.11 -0.11)">
      <use xlink:href="#DMSans-9ptRegular-122"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(62.59375 0)"/>
      <use xlink:href="#DMSans-9ptRegular-128" transform="translate(82 0)"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360.831625pt" height="235.5984pt" viewBox="0 0 360.831625 235.5984" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg data-theme="dark" xmlns:xlink="http://www.w3.org/1999/xlink" width="360.831625pt" height="235.5984pt" viewBox="0 0 360.831625 235.5984" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -26,7 +26,7 @@ L 360.831625 235.5984
 L 360.831625 0 
 L 0 0 
 z
-" style="fill: #ffffff"/>
+" style="fill: #1b1e25"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
@@ -35,7 +35,7 @@ L 350.031625 224.7984
 L 350.031625 10.8 
 L 48.711625 10.8 
 z
-" style="fill: #ffffff"/>
+" style="fill: #1b1e25"/>
    </g>
    <g id="patch_3">
     <path d="M 48.711625 25.55292 
@@ -43,7 +43,7 @@ L 256.518522 25.55292
 L 256.518522 15.50148 
 L 48.711625 15.50148 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #d4d4da"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #454b59"/>
    </g>
    <g id="patch_4">
     <path d="M 48.711625 41.76492 
@@ -51,7 +51,7 @@ L 224.852709 41.76492
 L 224.852709 31.71348 
 L 48.711625 31.71348 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_5">
     <path d="M 48.711625 57.97692 
@@ -59,7 +59,7 @@ L 195.166009 57.97692
 L 195.166009 47.92548 
 L 48.711625 47.92548 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #a9c4f2"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #31568f"/>
    </g>
    <g id="patch_6">
     <path d="M 48.711625 74.18892 
@@ -67,7 +67,7 @@ L 179.333103 74.18892
 L 179.333103 64.13748 
 L 48.711625 64.13748 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_7">
     <path d="M 48.711625 90.40092 
@@ -75,7 +75,7 @@ L 177.35399 90.40092
 L 177.35399 80.34948 
 L 48.711625 80.34948 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #d4d4da"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #454b59"/>
    </g>
    <g id="patch_8">
     <path d="M 48.711625 106.61292 
@@ -83,7 +83,7 @@ L 169.437536 106.61292
 L 169.437536 96.56148 
 L 48.711625 96.56148 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_9">
     <path d="M 48.711625 122.82492 
@@ -91,7 +91,7 @@ L 155.583743 122.82492
 L 155.583743 112.77348 
 L 48.711625 112.77348 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #16161c"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #f2f3f6"/>
    </g>
    <g id="patch_10">
     <path d="M 48.711625 139.03692 
@@ -99,7 +99,7 @@ L 153.60463 139.03692
 L 153.60463 128.98548 
 L 48.711625 128.98548 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_11">
     <path d="M 48.711625 155.24892 
@@ -107,7 +107,7 @@ L 135.79261 155.24892
 L 135.79261 145.19748 
 L 48.711625 145.19748 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #d4d4da"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #454b59"/>
    </g>
    <g id="patch_12">
     <path d="M 48.711625 171.46092 
@@ -115,7 +115,7 @@ L 133.813497 171.46092
 L 133.813497 161.40948 
 L 48.711625 161.40948 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #a9c4f2"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #31568f"/>
    </g>
    <g id="patch_13">
     <path d="M 48.711625 187.67292 
@@ -123,7 +123,7 @@ L 123.91793 187.67292
 L 123.91793 177.62148 
 L 48.711625 177.62148 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_14">
     <path d="M 48.711625 203.88492 
@@ -131,7 +131,7 @@ L 119.959704 203.88492
 L 119.959704 193.83348 
 L 48.711625 193.83348 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #ebbd99"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #8b5d33"/>
    </g>
    <g id="patch_15">
     <path d="M 48.711625 220.09692 
@@ -139,7 +139,7 @@ L 119.959704 220.09692
 L 119.959704 210.04548 
 L 48.711625 210.04548 
 z
-" clip-path="url(#pd4a76a032b)" style="fill: #a9c4f2"/>
+" clip-path="url(#pd4a76a032b)" style="fill: #31568f"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2">
@@ -147,7 +147,7 @@ z
      <g id="line2d_1"/>
      <g id="text_1">
       <!-- 1:1 -->
-      <g style="fill: #16161c" transform="translate(35.376938 25.9832) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(35.376938 25.9832) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-123" d="M 1152 0 
 L 1152 3878 
@@ -191,7 +191,7 @@ z
      <g id="line2d_2"/>
      <g id="text_2">
       <!-- 1:2 -->
-      <g style="fill: #16161c" transform="translate(32.659594 42.1952) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(32.659594 42.1952) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-124" d="M 416 0 
 L 416 378 
@@ -233,7 +233,7 @@ z
      <g id="line2d_3"/>
      <g id="text_3">
       <!-- 2:1 -->
-      <g style="fill: #16161c" transform="translate(32.659594 58.4072) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(32.659594 58.4072) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-124"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(58.90625 0)"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(79.90625 0)"/>
@@ -244,7 +244,7 @@ z
      <g id="line2d_4"/>
      <g id="text_4">
       <!-- 0:1 -->
-      <g style="fill: #16161c" transform="translate(31.923969 74.6192) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(31.923969 74.6192) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-122" d="M 2106 -77 
 Q 1549 -77 1149 214 
@@ -286,7 +286,7 @@ z
      <g id="line2d_5"/>
      <g id="text_5">
       <!-- 2:2 -->
-      <g style="fill: #16161c" transform="translate(29.94225 90.8312) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(29.94225 90.8312) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-124"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(58.90625 0)"/>
        <use xlink:href="#DMSans-9ptRegular-124" transform="translate(79.90625 0)"/>
@@ -297,7 +297,7 @@ z
      <g id="line2d_6"/>
      <g id="text_6">
       <!-- 0:2 -->
-      <g style="fill: #16161c" transform="translate(29.206625 107.0432) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(29.206625 107.0432) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-122"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(65.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-124" transform="translate(86.59375 0)"/>
@@ -308,7 +308,7 @@ z
      <g id="line2d_7"/>
      <g id="text_7">
       <!-- 1:0 -->
-      <g style="fill: #16161c" transform="translate(31.923969 123.2552) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(31.923969 123.2552) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-123"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(34.203125 0)"/>
        <use xlink:href="#DMSans-9ptRegular-122" transform="translate(55.203125 0)"/>
@@ -319,7 +319,7 @@ z
      <g id="line2d_8"/>
      <g id="text_8">
       <!-- 1:3 -->
-      <g style="fill: #16161c" transform="translate(32.561625 139.4672) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(32.561625 139.4672) scale(0.11 -0.11)">
        <defs>
         <path id="DMSans-9ptRegular-125" d="M 1901 -77 
 Q 1472 -77 1123 80 
@@ -373,7 +373,7 @@ z
      <g id="line2d_9"/>
      <g id="text_9">
       <!-- 0:0 -->
-      <g style="fill: #16161c" transform="translate(28.471 155.6792) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(28.471 155.6792) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-122"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(65.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-122" transform="translate(86.59375 0)"/>
@@ -384,7 +384,7 @@ z
      <g id="line2d_10"/>
      <g id="text_10">
       <!-- 2:0 -->
-      <g style="fill: #16161c" transform="translate(29.206625 171.8912) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(29.206625 171.8912) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-124"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(58.90625 0)"/>
        <use xlink:href="#DMSans-9ptRegular-122" transform="translate(79.90625 0)"/>
@@ -395,7 +395,7 @@ z
      <g id="line2d_11"/>
      <g id="text_11">
       <!-- 2:3 -->
-      <g style="fill: #16161c" transform="translate(29.844281 188.1032) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(29.844281 188.1032) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-124"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(58.90625 0)"/>
        <use xlink:href="#DMSans-9ptRegular-125" transform="translate(79.90625 0)"/>
@@ -406,7 +406,7 @@ z
      <g id="line2d_12"/>
      <g id="text_12">
       <!-- 0:3 -->
-      <g style="fill: #16161c" transform="translate(29.108656 204.3152) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(29.108656 204.3152) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-122"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(65.59375 0)"/>
        <use xlink:href="#DMSans-9ptRegular-125" transform="translate(86.59375 0)"/>
@@ -417,7 +417,7 @@ z
      <g id="line2d_13"/>
      <g id="text_13">
       <!-- 3:1 -->
-      <g style="fill: #16161c" transform="translate(32.561625 220.5272) scale(0.11 -0.11)">
+      <g style="fill: #f2f3f6" transform="translate(32.561625 220.5272) scale(0.11 -0.11)">
        <use xlink:href="#DMSans-9ptRegular-125"/>
        <use xlink:href="#DMSans-9ptRegular-146" transform="translate(59.796875 0)"/>
        <use xlink:href="#DMSans-9ptRegular-123" transform="translate(80.796875 0)"/>
@@ -426,7 +426,7 @@ z
     </g>
     <g id="text_14">
      <!-- Hamburg – Stuttgart -->
-     <g style="fill: #5f5f69" transform="translate(21.216 169.111387) rotate(-90) scale(0.105 -0.105)">
+     <g style="fill: #a3a9b6" transform="translate(21.216 169.111387) rotate(-90) scale(0.105 -0.105)">
       <defs>
        <path id="DMSans-9ptRegular-28" d="M 3354 0 
 L 3354 4480 
@@ -767,7 +767,7 @@ z
    </g>
    <g id="text_15">
     <!-- 10,5 % -->
-    <g style="fill: #16161c" transform="translate(259.487192 24.1077) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(259.487192 24.1077) scale(0.105 -0.105)">
      <defs>
       <path id="DMSans-9ptRegular-145" d="M 70 -787 
 L 442 627 
@@ -884,7 +884,7 @@ z
    </g>
    <g id="text_16">
     <!-- 8,9 % -->
-    <g style="fill: #16161c" transform="translate(227.821379 40.3197) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(227.821379 40.3197) scale(0.105 -0.105)">
      <defs>
       <path id="DMSans-9ptRegular-12a" d="M 1933 -77 
 Q 1510 -77 1168 86 
@@ -985,7 +985,7 @@ z
    </g>
    <g id="text_17">
     <!-- 7,4 % -->
-    <g style="fill: #16161c" transform="translate(198.134679 56.5317) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(198.134679 56.5317) scale(0.105 -0.105)">
      <defs>
       <path id="DMSans-9ptRegular-129" d="M 998 0 
 L 2643 4019 
@@ -1027,7 +1027,7 @@ z
    </g>
    <g id="text_18">
     <!-- 6,6 % -->
-    <g style="fill: #16161c" transform="translate(182.301773 72.7437) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(182.301773 72.7437) scale(0.105 -0.105)">
      <defs>
       <path id="DMSans-9ptRegular-128" d="M 2080 -77 
 Q 1600 -77 1270 102 
@@ -1083,7 +1083,7 @@ z
    </g>
    <g id="text_19">
     <!-- 6,5 % -->
-    <g style="fill: #16161c" transform="translate(180.322659 88.9557) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(180.322659 88.9557) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-128"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(62.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-127" transform="translate(81.8125 0)"/>
@@ -1093,7 +1093,7 @@ z
    </g>
    <g id="text_20">
     <!-- 6,1 % -->
-    <g style="fill: #16161c" transform="translate(172.406206 105.1677) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(172.406206 105.1677) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-128"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(62.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-123" transform="translate(81.8125 0)"/>
@@ -1103,7 +1103,7 @@ z
    </g>
    <g id="text_21">
     <!-- 5,4 %   ← Endstand -->
-    <g style="fill: #16161c" transform="translate(158.552413 121.3797) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(158.552413 121.3797) scale(0.105 -0.105)">
      <defs>
       <path id="DMSans-9ptRegular-1ad" d="M 4736 1933 
 L 1050 1933 
@@ -1251,7 +1251,7 @@ z
    </g>
    <g id="text_22">
     <!-- 5,3 % -->
-    <g style="fill: #16161c" transform="translate(156.5733 137.5917) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(156.5733 137.5917) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-127"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(60.59375 0)"/>
      <use xlink:href="#DMSans-9ptRegular-125" transform="translate(80 0)"/>
@@ -1261,7 +1261,7 @@ z
    </g>
    <g id="text_23">
     <!-- 4,4 % -->
-    <g style="fill: #16161c" transform="translate(138.76128 153.8037) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(138.76128 153.8037) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-126"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(61.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-126" transform="translate(80.8125 0)"/>
@@ -1271,7 +1271,7 @@ z
    </g>
    <g id="text_24">
     <!-- 4,3 % -->
-    <g style="fill: #16161c" transform="translate(136.782167 170.0157) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(136.782167 170.0157) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-126"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(61.40625 0)"/>
      <use xlink:href="#DMSans-9ptRegular-125" transform="translate(80.8125 0)"/>
@@ -1281,7 +1281,7 @@ z
    </g>
    <g id="text_25">
     <!-- 3,8 % -->
-    <g style="fill: #16161c" transform="translate(126.8866 186.2277) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(126.8866 186.2277) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-12a" transform="translate(79.203125 0)"/>
@@ -1291,7 +1291,7 @@ z
    </g>
    <g id="text_26">
     <!-- 3,6 % -->
-    <g style="fill: #16161c" transform="translate(122.928374 202.4397) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(122.928374 202.4397) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-128" transform="translate(79.203125 0)"/>
@@ -1301,7 +1301,7 @@ z
    </g>
    <g id="text_27">
     <!-- 3,6 % -->
-    <g style="fill: #16161c" transform="translate(122.928374 218.6517) scale(0.105 -0.105)">
+    <g style="fill: #f2f3f6" transform="translate(122.928374 218.6517) scale(0.105 -0.105)">
      <use xlink:href="#DMSans-9ptRegular-125"/>
      <use xlink:href="#DMSans-9ptRegular-145" transform="translate(59.796875 0)"/>
      <use xlink:href="#DMSans-9ptRegular-128" transform="translate(79.203125 0)"/>

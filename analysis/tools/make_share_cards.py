@@ -1,7 +1,7 @@
 """Draw the 1200 × 630 preview images that appear when a page is shared (WhatsApp, X, LinkedIn, Slack).
 
 Writes assets/share/home.jpg and analysis/<post>/share.jpg for every post in analysis/posts.json,
-using the site's own fonts and colours. Run it after adding a post:
+using the site's own fonts, colours and forecast bar. Run it after adding a post:
 
     pip install playwright && playwright install chromium
     python analysis/tools/make_share_cards.py
@@ -25,56 +25,73 @@ def font(name):
     return "data:font/woff2;base64," + base64.b64encode((FONT_DIR / name).read_bytes()).decode()
 
 
-HOME, DRAW, AWAY = "#2f6fdb", "#b4b4bd", "#f08c1a"
+# The site's colours (styles.css): filled segments are my models, the white pins the bookmakers.
+BG, INK, INK_2, MUTED, RED = "#1b1e25", "#f2f3f6", "#cfd3dc", "#a3a9b6", "#e02b3b"
+HOME, DRAW, AWAY = "#4f8fee", "#868d9c", "#f5a155"
 
 BASE_CSS = f"""
-@font-face {{ font-family: "Barlow Condensed"; font-weight: 700; src: url("{font("barlow-condensed-latin-700-normal.woff2")}"); }}
-@font-face {{ font-family: "Barlow Condensed"; font-weight: 700; src: url("{font("barlow-condensed-latin-ext-700-normal.woff2")}"); unicode-range: U+0100-024F; }}
+@font-face {{ font-family: "Barlow Condensed"; font-weight: 600; src: url("{font("barlow-condensed-latin-600-normal.woff2")}"); }}
+@font-face {{ font-family: "Barlow Condensed"; font-weight: 600; src: url("{font("barlow-condensed-latin-ext-600-normal.woff2")}"); unicode-range: U+0100-024F; }}
 @font-face {{ font-family: "DM Sans"; font-weight: 400; src: url("{font("dm-sans-latin-400-normal.woff2")}"); }}
-@font-face {{ font-family: "DM Sans"; font-weight: 700; src: url("{font("dm-sans-latin-700-normal.woff2")}"); }}
+@font-face {{ font-family: "DM Sans"; font-weight: 600; src: url("{font("dm-sans-latin-600-normal.woff2")}"); }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; }}
-.card {{ position: relative; overflow: hidden; width: 1200px; height: 630px; padding: 64px 72px; background: #0c0c10;
-  color: #fff; font-family: "DM Sans", sans-serif; display: flex; flex-direction: column; gap: 22px; }}
-.card::after {{ content: ""; position: absolute; top: -20px; bottom: -20px; right: 40px; width: 96px; background: #d20515;
-  transform: skewX(-22deg); box-shadow: -40px 0 0 -14px rgb(255 255 255 / 85%); }}
-.card > * {{ position: relative; z-index: 1; max-width: 880px; }}
-.eyebrow {{ margin: 0; color: #ff6b76; font-size: 24px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }}
-.title {{ margin: 0; font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase; line-height: .92; }}
-.title span {{ color: #d20515; }}
-.sub {{ margin: 0; color: #d8d8de; font-size: 30px; line-height: 1.3; }}
-.brand {{ margin-top: auto; display: flex; align-items: center; gap: 16px; font-family: "Barlow Condensed", sans-serif;
-  font-weight: 700; font-size: 32px; letter-spacing: .12em; text-transform: uppercase; }}
-.mark {{ width: 52px; height: 52px; border-radius: 50%; background: #d20515; box-shadow: 0 0 0 3px #fff; display: grid;
-  place-items: center; font-size: 34px; letter-spacing: 0; }}
-.rows {{ display: grid; grid-template-columns: 120px 1fr; gap: 14px 18px; align-items: center; width: 820px; }}
-.rows .label {{ font-size: 24px; font-weight: 700; color: #d8d8de; }}
-.bar {{ display: flex; height: 40px; border-radius: 4px; overflow: hidden; }}
-.bar.thin {{ height: 22px; opacity: .85; }}
-.bar span {{ display: block; }}
-.nums {{ display: flex; justify-content: space-between; width: 820px; padding-left: 138px; font-size: 26px; color: #fff; }}
-.chip {{ display: inline-block; padding: 6px 14px; border-radius: 4px; background: #fff; color: #0c0c10; font-size: 24px; font-weight: 700; }}
+.card {{ width: 1200px; height: 630px; padding: 60px 72px 56px; background: {BG}; color: {INK};
+  font-family: "DM Sans", sans-serif; display: flex; flex-direction: column; }}
+.tag {{ margin: 0 0 14px; color: {MUTED}; font-size: 26px; }}
+.title {{ margin: 0; font-family: "Barlow Condensed", sans-serif; font-weight: 600; line-height: 1; }}
+.sub {{ margin: 22px 0 0; max-width: 900px; color: {INK_2}; font-size: 32px; line-height: 1.3; }}
+.forecast {{ margin-top: auto; }}
+.bar {{ position: relative; height: 92px; }}
+.track {{ position: absolute; inset: 24px 0; display: flex; }}
+.track span {{ height: 100%; }}
+.track span:not(:last-child) {{ border-right: 4px solid {BG}; }}
+.track span:first-child {{ border-radius: 6px 0 0 6px; }}
+.track span:last-child {{ flex: 1 1 0; border-radius: 0 6px 6px 0; }}
+.pin {{ position: absolute; top: 4px; width: 4px; height: 84px; margin-left: -2px; border-radius: 2px; background: #fff;
+  box-shadow: 0 0 0 4px {BG}; }}
+.nums {{ display: flex; justify-content: space-between; margin-top: 6px; color: {INK_2}; font-size: 28px; }}
+.nums b {{ color: {INK}; font-weight: 600; }}
+.key {{ margin: 14px 0 0; color: {MUTED}; font-size: 24px; }}
+.brand {{ margin-top: 34px; display: flex; align-items: center; gap: 14px; font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600; font-size: 34px; }}
+.forecast + .brand {{ margin-top: 30px; }}
+.mark {{ width: 48px; height: 48px; border-radius: 50%; background: {RED}; color: #fff; display: grid; place-items: center;
+  font-size: 30px; }}
+.where {{ color: {MUTED}; font-family: "DM Sans", sans-serif; font-weight: 400; font-size: 24px; }}
 """
 
 
-def bar(probs, thin=False):
-    return (f'<div class="bar{" thin" if thin else ""}">'
-            f'<span style="width:{probs[0] * 100:.1f}%;background:{HOME}"></span>'
-            f'<span style="width:{probs[1] * 100:.1f}%;background:{DRAW}"></span>'
-            f'<span style="width:{probs[2] * 100:.1f}%;background:{AWAY}"></span></div>')
+def bar(model, market=None):
+    """The site's forecast bar: three filled segments for the models, two pins for the bookmakers."""
+    segments = "".join(
+        f'<span style="{f"width:{model[i] * 100:.1f}%;" if i < 2 else ""}background:{colour}"></span>'
+        for i, colour in enumerate((HOME, DRAW, AWAY)))
+    pins = "" if not market else "".join(
+        f'<i class="pin" style="left:{cut * 100:.1f}%"></i>' for cut in (market[0], market[0] + market[1]))
+    return f'<div class="bar"><div class="track">{segments}</div>{pins}</div>'
 
 
 def short(name):
     return {"Hamburger SV": "Hamburg", "VfB Stuttgart": "Stuttgart", "FC Augsburg": "Augsburg",
-            "FC Bayern München": "Bayern"}.get(name, name)
+            "FC Bayern München": "Bayern", "RB Leipzig": "Leipzig"}.get(name, name)
+
+
+def brand(where="", name="Jan’s Matchday"):
+    return f'<div class="brand"><span class="mark">J</span>{name}<span class="where">{where}</span></div>'
 
 
 def home_card():
+    # The bar here is the page's legend, not a forecast: it shows how every match is drawn.
     return f"""<div class="card">
-      <p class="eyebrow">Bundesliga · English &amp; Deutsch</p>
-      <h1 class="title" style="font-size:150px">Jan’s Matchday<span>.</span></h1>
-      <p class="sub">Forecasts from three models, the bookmakers’ view, live scores and the table. With the maths explained.</p>
-      <div class="brand"><span class="mark">J</span>jhvl88.github.io/matchday</div>
+      <h1 class="title" style="font-size:132px">Jan’s Matchday</h1>
+      <p class="sub">Every Bundesliga match forecast by three models, published before kick-off and graded against the bookmakers after full time.</p>
+      <div class="forecast">
+        {bar((0.46, 0.25, 0.29), (0.52, 0.24, 0.24))}
+        <div class="nums"><span>Home win</span><span>Draw</span><span>Away win</span></div>
+        <p class="key">Filled bar: my models. White pins: the bookmakers.</p>
+      </div>
+      {brand("jhvl88.github.io/matchday", name="")}
     </div>"""
 
 
@@ -83,15 +100,18 @@ def post_card(post):
     model, market = f.get("model"), f.get("market")
     home, away = short(post["home"]["name"]), short(post["away"]["name"])
     pct = lambda p: f"{round(p * 100)}%"
-    rows = ""
-    if model and market:
-        rows = f"""<div class="rows"><span class="label">Models</span>{bar(model)}<span class="label">Market</span>{bar(market, True)}</div>
-        <div class="nums"><span>{html.escape(home)} {pct(model[0])}</span><span>Draw {pct(model[1])}</span><span>{html.escape(away)} {pct(model[2])}</span></div>"""
+    forecast = ""
+    if model:
+        forecast = f"""<div class="forecast">
+        {bar(model, market)}
+        <div class="nums"><span>{html.escape(home)} <b>{pct(model[0])}</b></span><span>Draw <b>{pct(model[1])}</b></span><span>{html.escape(away)} <b>{pct(model[2])}</b></span></div>
+        <p class="key">Filled bar: my models. White pins: the bookmakers.</p>
+      </div>"""
     return f"""<div class="card">
-      <p class="eyebrow">{html.escape(post["en"]["tag"])}</p>
-      <h1 class="title" style="font-size:112px">{html.escape(home)} v {html.escape(away)}<span>.</span></h1>
-      {rows}
-      <div class="brand"><span class="mark">J</span>Jan’s Matchday</div>
+      <p class="tag">{html.escape(post["en"]["tag"])}</p>
+      <h1 class="title" style="font-size:{108 if len(home) + len(away) > 18 else 124}px">{html.escape(home)} v {html.escape(away)}</h1>
+      {forecast}
+      {brand()}
     </div>"""
 
 

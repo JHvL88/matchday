@@ -27,11 +27,11 @@ What’s on the home page:
 
 ### Look
 
-One dark page, kept light: charcoal surfaces lifted in two small steps, thin lines, no shadows, no photos. The tokens are at the top of `styles.css`; `pages.css` and `analysis/analysis.css` use the same names. Red is the brand and “live”, nothing else. Blue, grey and orange are home win, draw and away win everywhere. Type runs on one scale (12, 14, 16, 20, 28 px, and the matchday headline), Barlow Condensed for headlines and DM Sans for everything else. The charts in the posts were drawn for a white page and keep a white plate for now.
+One dark page, kept light: charcoal surfaces lifted in two small steps, thin lines, no shadows, no photos. The tokens are at the top of `styles.css`; `pages.css` and `analysis/analysis.css` use the same names. Red is the brand and “live”, nothing else. Blue, grey and orange are home win, draw and away win everywhere. Type runs on one scale (12, 14, 16, 20, 28 px, and the matchday headline), Barlow Condensed for headlines and DM Sans for everything else. The same rule runs through every page: filled is my models, outline or white pins are the bookmakers (forecast bars, grade bars, verdict labels). The charts in the posts use the page's colours too: the notebooks still draw them for a white page, so they read well in Colab and on GitHub, and `analysis/tools/dark_figures.py` recolours the published copies (see *Match analyses*).
 
 Match information is displayed in the Europe/Berlin time zone.
 
-Two more pages: **Learn** (`learn/`) explains probabilities, odds and grading, with an odds calculator, a "grade it yourself" box and the glossary; **Track record** (`record/`) grades every published forecast against the bookmakers, with the season and backtest figures, the disagreement check and a paper-betting ledger.
+Two more pages: **Learn** (`learn/`) explains probabilities, odds and grading, with an odds calculator, a "grade it yourself" box and the glossary; **Track record** (`record/`) grades every published forecast against the bookmakers: the weekly forecasts matchday by matchday (`data/forecasts.json` against the latest price in `data/odds.json`, the same two numbers the home page grades with), then the deep dives, the season and backtest figures, the disagreement check and a paper-betting ledger for the deep dives.
 
 ### The explanatory layer
 
@@ -76,14 +76,15 @@ Longer pieces live in `analysis/`, one folder per post, sharing `analysis/analys
 
 1. Create a new folder and copy an existing page into it, so the top bar, the tab bar, the language switch, the share tags, the contents column, the depth switch and the two article copies (`data-lang-only="en"` and `"de"`) come along. Write the article in both languages, with a three-point quick take, the depth marks and explainer terms (see *The explanatory layer*), and update the share tags (`og:` and `twitter:`) and the canonical link at the top. The reading times in the depth switch are filled in by `explain.js`; copy the numbers it shows into the HTML so nothing changes when the page loads.
 2. Make the German charts: `python analysis/tools/translate_figures.py analysis/<new post>` writes `figs/de/` from the English SVGs, keeping every number and mark and changing only the words and number formats (1,47 · 25 %). It lists any English label it does not know yet; add a rule for it at the top of the script. The German article uses `figs/de/…`.
-3. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
-4. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the models' probabilities (home, draw, away), the market, and the card text in both languages. For the market, take a snapshot when the post is ready (Actions › Record odds › Run workflow, label `md<N> post`), then run `python analysis/pipeline/odds_at.py --data-dir <matchday-data>/odds --home <club> --away <club>`. It prints the `forecast` fields to paste:
+3. Recolour the charts for the dark page, English and German in one go: `python analysis/tools/dark_figures.py analysis/<new post>/figs`. Run it last, after the translation. It maps the notebook's colours onto the site's and stops if it meets a colour it does not know, so nothing is half converted; add that colour to the table at the top of the script. Running it twice does no harm (`--check` only reports).
+4. Give the charts their size, so the page does not jump while they load: `python analysis/tools/size_figures.py analysis/<new post>`.
+5. Add the post to `analysis/posts.json`, newest first: its OpenLigaDB `matchId` (the fixture and the hub on the home page then link to it), the models' probabilities (home, draw, away), the market, and the card text in both languages. For the market, take a snapshot when the post is ready (Actions › Record odds › Run workflow, label `md<N> post`), then run `python analysis/pipeline/odds_at.py --data-dir <matchday-data>/odds --home <club> --away <club>`. It prints the `forecast` fields to paste:
    - `market`: the consensus probabilities across the sportsbooks;
    - `marketOdds`: the best price at Tipico or Winamax, a price a reader could actually take, which the paper bets use;
    - `marketQuoted` and `marketSnapshot`: when the price was recorded. The home page, the track record and the Learn calculators all read from here. Refresh `data/record.json` as described under *Data and the backtest*.
-5. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
-6. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
-7. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then.
+6. Draw its share image: `python analysis/tools/make_share_cards.py` (needs `pip install playwright`).
+7. Add `analysis.pageTitle…` and `analysis.meta…` to both dictionaries in `i18n.js` for the post's `<title>` and meta description, and the page to `sitemap.xml`.
+8. After full time, add `fullTime` to the post in `posts.json` (the score and the grades quoted in the article); the track record uses them, and falls back to OpenLigaDB's score until then. The full-time charts come from `python analysis/tools/fulltime.py` (its header has the arguments); run `dark_figures.py` on the post's `figs` again afterwards, it converts the new charts and leaves the others alone.
 
 ## Data and the backtest
 
@@ -149,7 +150,7 @@ python analysis/pipeline/site_forecasts.py /tmp/matches.csv --pool /tmp/tables -
 ```
 
 - **Setup.** It needs the `DATA_REPO_TOKEN` secret the odds recorder already uses (for the xG files). A run takes about 15 minutes; most mornings it only checks the fixture list and stops. `SITE_BOT=off` stops the automatic commit here too.
-- **Not yet.** The Track record page still grades the deep dives and the backtest; the weekly forecasts are graded on the home page only.
+- **Graded in public.** The Track record lists every weekly forecast, matchday by matchday, and grades it after full time against the bookmakers' average odds as last recorded before kick-off (the price stored with the forecast if `data/odds.json` has none). The paper bets stay with the deep dives: their rule was fixed for those, and extending it to the weekly forecasts would be a new rule.
 
 ### Odds
 

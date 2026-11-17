@@ -31,12 +31,12 @@
     <link rel="preload" href="../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../styles.css?v=11">
-    <link rel="stylesheet" href="../analysis/analysis.css?v=4">
-    <link rel="stylesheet" href="../pages.css?v=3">
-    <script src="../i18n.js?v=14" defer></script>
+    <link rel="stylesheet" href="../analysis/analysis.css?v=5">
+    <link rel="stylesheet" href="../pages.css?v=4">
+    <script src="../i18n.js?v=15" defer></script>
     <script src="../glossary.js?v=14" defer></script>
     <script src="../explain.js?v=10" defer></script>
-    <script src="record.js?v=3" defer></script>
+    <script src="record.js?v=4" defer></script>
   </head>
   <body class="article page-record">
     <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
@@ -78,10 +78,17 @@
               <div class="score-cards" id="score-cards" aria-busy="true"></div>
             </section>
 
+            <section class="page-section" id="weekly" aria-labelledby="weekly-title">
+              <h2 id="weekly-title"><span data-lang-only="en">Every match, every week</span><span data-lang-only="de" hidden>Jedes Spiel, jede Woche</span></h2>
+              <p data-lang-only="en">Since matchday 10 the models forecast all nine matches. The numbers go out once, a few days before the first kick-off, and are never touched again. Filled bar: my models. White pins: the bookmakers’ average odds as last recorded before kick-off, <button type="button" class="term" data-term="margin">margin</button> removed. <button type="button" class="term" data-term="forecast-bar">How to read the bar</button>.</p>
+              <p data-lang-only="de" hidden>Seit dem 10. Spieltag tippen die Modelle alle neun Spiele. Die Zahlen erscheinen einmal, ein paar Tage vor dem ersten Anpfiff, und werden danach nicht mehr angefasst. Gefüllter Balken: meine Modelle. Weiße Nadeln: die Durchschnittsquoten der Buchmacher, zuletzt aufgezeichnet vor dem Anpfiff, bereinigt um die <button type="button" class="term" data-term="margin">Marge</button>. <button type="button" class="term" data-term="forecast-bar">So liest man den Balken</button>.</p>
+              <div class="weeks" id="weekly-list" aria-busy="true"></div>
+            </section>
+
             <section class="page-section" id="ledger" aria-labelledby="ledger-title">
-              <h2 id="ledger-title"><span data-lang-only="en">Every published forecast</span><span data-lang-only="de" hidden>Jede veröffentlichte Prognose</span></h2>
-              <p data-lang-only="en">Home win, draw and away win as published before kick-off, my models against the bookmakers’ odds with the <button type="button" class="term" data-term="margin">margin</button> removed. Graded once OpenLigaDB has the final score.</p>
-              <p data-lang-only="de" hidden>Heimsieg, Remis und Auswärtssieg so, wie sie vor dem Anpfiff veröffentlicht wurden: meine Modelle gegen die Buchmacherquoten, bereinigt um die <button type="button" class="term" data-term="margin">Marge</button>. Bewertet wird, sobald OpenLigaDB das Endergebnis hat.</p>
+              <h2 id="ledger-title"><span data-lang-only="en">Every deep dive</span><span data-lang-only="de" hidden>Jede Analyse</span></h2>
+              <p data-lang-only="en">The matches that got a full write-up, with the forecast and the bookmakers’ price exactly as printed in the post. A deep dive runs the models afresh when it is written, so its numbers can differ a little from the weekly ones above.</p>
+              <p data-lang-only="de" hidden>Die Spiele mit ausführlicher Analyse, mit Prognose und Buchmacherquote genau so, wie sie im Beitrag standen. Eine Analyse rechnet die Modelle neu, wenn sie entsteht; ihre Zahlen können deshalb leicht von der Wochenprognose abweichen.</p>
               <div class="ledger" id="ledger-list" aria-busy="true"></div>
             </section>
 
@@ -112,13 +119,13 @@
             <section class="page-section" id="paper">
               <div data-lang-only="en">
                 <h2>Paper betting</h2>
-                <p>The rule is fixed in advance: whenever my models give an outcome at least 5 points more than the market does, the ledger puts an imaginary €1 on it at the published odds. From matchday 7 those are recorded prices you could actually have taken, the best of Tipico and Winamax when the post went out. No real money, no cherry-picking, no quietly deleting the losers.</p>
-                <p>Profit and loss stay hidden until 20 forecasts have been graded, so one lucky Saturday can’t make the headline. What shows straight away is each bet’s <button type="button" class="term" data-term="clv">closing-line value</button> (CLV), once the closing odds are in: whether the price beat the one the market settled on at kick-off. It is a far quicker test of skill than profit, which needs thousands of bets to mean anything.</p>
+                <p>The rule is fixed in advance: whenever a deep dive’s forecast gives an outcome at least 5 points more than the market does, the ledger puts an imaginary €1 on it at the published odds. From matchday 7 those are recorded prices you could actually have taken, the best of Tipico and Winamax when the post went out. No real money, no cherry-picking, no quietly deleting the losers. The weekly forecasts above are graded, but not bet on here.</p>
+                <p>Profit and loss stay hidden until 20 deep dives have been graded, so one lucky Saturday can’t make the headline. What shows straight away is each bet’s <button type="button" class="term" data-term="clv">closing-line value</button> (CLV), once the closing odds are in: whether the price beat the one the market settled on at kick-off. It is a far quicker test of skill than profit, which needs thousands of bets to mean anything.</p>
               </div>
               <div data-lang-only="de" hidden>
                 <h2>Wetten auf dem Papier</h2>
-                <p>Die Regel steht vorher fest: Immer wenn meine Modelle einem Ausgang mindestens 5 Punkte mehr zutrauen als der Markt, setzt das Kassenbuch einen imaginären Euro darauf, zur veröffentlichten Quote. Ab dem 7. Spieltag sind das aufgezeichnete Quoten, die man wirklich hätte bekommen können: die beste von Tipico und Winamax zum Zeitpunkt des Beitrags. Kein echtes Geld, keine Rosinenpickerei, kein heimliches Löschen der Verlierer.</p>
-                <p>Gewinn und Verlust bleiben verborgen, bis 20 Prognosen bewertet sind, damit kein glücklicher Samstag die Schlagzeile macht. Sofort sichtbar ist dagegen der <button type="button" class="term" data-term="clv">Closing Line Value</button> (CLV) jeder Wette, sobald die Schlussquoten feststehen: ob die Quote besser war als die, auf die sich der Markt zum Anpfiff einigte. Das ist ein viel schnellerer Test für Können als der Gewinn, der Tausende Wetten braucht, um etwas zu bedeuten.</p>
+                <p>Die Regel steht vorher fest: Immer wenn die Prognose einer Analyse einem Ausgang mindestens 5 Punkte mehr zutraut als der Markt, setzt das Kassenbuch einen imaginären Euro darauf, zur veröffentlichten Quote. Ab dem 7. Spieltag sind das aufgezeichnete Quoten, die man wirklich hätte bekommen können: die beste von Tipico und Winamax zum Zeitpunkt des Beitrags. Kein echtes Geld, keine Rosinenpickerei, kein heimliches Löschen der Verlierer. Die Wochenprognosen oben werden bewertet, aber hier nicht gewettet.</p>
+                <p>Gewinn und Verlust bleiben verborgen, bis 20 Analysen bewertet sind, damit kein glücklicher Samstag die Schlagzeile macht. Sofort sichtbar ist dagegen der <button type="button" class="term" data-term="clv">Closing Line Value</button> (CLV) jeder Wette, sobald die Schlussquoten feststehen: ob die Quote besser war als die, auf die sich der Markt zum Anpfiff einigte. Das ist ein viel schnellerer Test für Können als der Gewinn, der Tausende Wetten braucht, um etwas zu bedeuten.</p>
               </div>
               <div class="paper" id="paper-ledger"></div>
             </section>
@@ -126,8 +133,8 @@
             <section class="post-sources">
               <h2 data-lang-only="en">How this page is made</h2>
               <h2 data-lang-only="de" hidden>So entsteht diese Seite</h2>
-              <p data-lang-only="en">Published forecasts come from <a href="../analysis/posts.json">posts.json</a>, final scores from <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>, and the season and backtest figures from the latest deep dive’s notebook (<a href="../data/record.json">record.json</a>). Nothing is edited after kick-off. <a href="../learn/#grading">How the grading works</a>.</p>
-              <p data-lang-only="de" hidden>Die veröffentlichten Prognosen stammen aus <a href="../analysis/posts.json">posts.json</a>, die Endergebnisse von <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>, die Saison- und Backtest-Zahlen aus dem Notebook der neuesten Analyse (<a href="../data/record.json">record.json</a>). Nach dem Anpfiff wird nichts mehr geändert. <a href="../learn/#grading">So funktioniert die Bewertung</a>.</p>
+              <p data-lang-only="en">The weekly forecasts come from <a href="../data/forecasts.json">forecasts.json</a>, the bookmakers’ odds from <a href="../data/odds.json">odds.json</a>, the deep dives from <a href="../analysis/posts.json">posts.json</a>, final scores from <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>, and the season and backtest figures from the latest deep dive’s notebook (<a href="../data/record.json">record.json</a>). Nothing is edited after kick-off. <a href="../learn/#grading">How the grading works</a>.</p>
+              <p data-lang-only="de" hidden>Die Wochenprognosen stammen aus <a href="../data/forecasts.json">forecasts.json</a>, die Buchmacherquoten aus <a href="../data/odds.json">odds.json</a>, die Analysen aus <a href="../analysis/posts.json">posts.json</a>, die Endergebnisse von <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>, die Saison- und Backtest-Zahlen aus dem Notebook der neuesten Analyse (<a href="../data/record.json">record.json</a>). Nach dem Anpfiff wird nichts mehr geändert. <a href="../learn/#grading">So funktioniert die Bewertung</a>.</p>
             </section>
           </div>
         </div>

@@ -1,8 +1,9 @@
 /*
  * The Track record page: every published forecast graded against the bookmakers, the season and
  * backtest figures, the disagreement check and the paper-betting ledger.
- * Data: ../analysis/posts.json (published forecasts), ../data/record.json (notebook figures) and
- * OpenLigaDB for final scores. Loaded after i18n.js, glossary.js and explain.js.
+ * Data: ../data/forecasts.json (the weekly forecasts), ../data/odds.json (bookmakers' odds),
+ * ../analysis/posts.json (deep dives), ../data/record.json (notebook figures) and OpenLigaDB for
+ * final scores. Loaded after i18n.js, glossary.js and explain.js.
  */
 (() => {
   "use strict";
@@ -14,6 +15,22 @@
   const WORDS = {
     en: {
       matchday: "Matchday {n}",
+      weeklyTitle: "Weekly forecasts on this site",
+      weeklyNoneSub: "All nine matches of a matchday. The first grades arrive after full time on {date}.",
+      weeklySub: { one: "{graded} graded forecast · models closer in {won} of {graded}", other: "{graded} graded forecasts · models closer in {won} of {graded}" },
+      weekPublished: { one: "Published {date} · {count} match", other: "Published {date} · {count} matches" },
+      weekOpen: "Not played yet",
+      weekUnderway: "Under way",
+      weekNoMarket: "Played, but no bookmakers’ odds to grade against",
+      weekPartly: "{graded} of {count} graded",
+      weekCloser: "Models closer in {won} of {graded}",
+      weekRps: "RPS {models} v {market}",
+      weeklyEmpty: "No weekly forecast has been published yet.",
+      bookiesSplit: "Bookmakers {h} / {d} / {a}",
+      noMarket: "No bookmakers’ odds recorded",
+      barLabel: "My models: home win {mh}, draw {md}, away win {ma}. Bookmakers: {bh}, {bd}, {ba}.",
+      barLabelModels: "My models: home win {mh}, draw {md}, away win {ma}.",
+      deepDive: "Deep dive",
       divesTitle: "Deep dives on this site",
       divesNone: "No result yet",
       divesNoneSub: "The first grade arrives after full time on {date}.",
@@ -57,8 +74,8 @@
       topPick: "Top pick right",
       rowNames: { market: "Bookmakers", ensemble: "Ensemble (published)", dixonColes: "Dixon–Coles", bayesian: "Bayesian shots-to-goals", xgboost: "XGBoost" },
       asOf: "Backtest as of {date}, {label}.",
-      paperProgress: "{graded} of {needed} graded forecasts",
-      paperHidden: "Profit and loss appear after {needed} graded forecasts.",
+      paperProgress: "{graded} of {needed} deep dives graded",
+      paperHidden: "Profit and loss appear after {needed} graded deep dives.",
       paperTotal: "{count} bets settled · {pl} on {stake} staked",
       bet: "€1 on {pick} at {odds}",
       noBet: "No bet: the biggest gap was {gap} points ({pick}).",
@@ -75,6 +92,22 @@
     },
     de: {
       matchday: "Spieltag {n}",
+      weeklyTitle: "Wochenprognosen auf dieser Seite",
+      weeklyNoneSub: "Alle neun Spiele eines Spieltags. Die ersten Bewertungen gibt es nach dem Abpfiff am {date}.",
+      weeklySub: { one: "{graded} bewertete Prognose · Modelle {won}-mal von {graded} näher dran", other: "{graded} bewertete Prognosen · Modelle {won}-mal von {graded} näher dran" },
+      weekPublished: { one: "Veröffentlicht am {date} · {count} Spiel", other: "Veröffentlicht am {date} · {count} Spiele" },
+      weekOpen: "Noch nicht gespielt",
+      weekUnderway: "Läuft",
+      weekNoMarket: "Gespielt, aber ohne Buchmacherquoten zum Vergleich",
+      weekPartly: "{graded} von {count} bewertet",
+      weekCloser: "Modelle {won}-mal von {graded} näher dran",
+      weekRps: "RPS {models} gegen {market}",
+      weeklyEmpty: "Noch ist keine Wochenprognose veröffentlicht.",
+      bookiesSplit: "Buchmacher {h} / {d} / {a}",
+      noMarket: "Keine Buchmacherquoten aufgezeichnet",
+      barLabel: "Meine Modelle: Heimsieg {mh}, Remis {md}, Auswärtssieg {ma}. Buchmacher: {bh}, {bd}, {ba}.",
+      barLabelModels: "Meine Modelle: Heimsieg {mh}, Remis {md}, Auswärtssieg {ma}.",
+      deepDive: "Zur Analyse",
       divesTitle: "Analysen auf dieser Seite",
       divesNone: "Noch kein Ergebnis",
       divesNoneSub: "Die erste Bewertung gibt es nach dem Abpfiff am {date}.",
@@ -118,8 +151,8 @@
       topPick: "Top-Tipp richtig",
       rowNames: { market: "Buchmacher", ensemble: "Ensemble (veröffentlicht)", dixonColes: "Dixon–Coles", bayesian: "Bayesianisches Schüsse-zu-Toren-Modell", xgboost: "XGBoost" },
       asOf: "Backtest mit Stand {date}, {label}.",
-      paperProgress: "{graded} von {needed} Prognosen bewertet",
-      paperHidden: "Gewinn und Verlust erscheinen nach {needed} bewerteten Prognosen.",
+      paperProgress: "{graded} von {needed} Analysen bewertet",
+      paperHidden: "Gewinn und Verlust erscheinen nach {needed} bewerteten Analysen.",
       paperTotal: "{count} Wetten abgerechnet · {pl} bei {stake} Einsatz",
       bet: "1 € auf {pick} zu {odds}",
       noBet: "Keine Wette: Der größte Abstand waren {gap} Punkte ({pick}).",
@@ -136,7 +169,11 @@
     },
   };
 
-  const state = { posts: [], record: null, results: new Map(), resultsLoaded: false, failed: false };
+  const state = {
+    posts: [], record: null, forecasts: null, odds: null,
+    results: new Map(), resultsLoaded: false, weeksLoaded: false, failed: false,
+    openWeeks: null, // which matchdays of the weekly list are unfolded; null until first drawn
+  };
 
   function say(key, params = {}) {
     let entry = WORDS[I18N.lang]?.[key] ?? WORDS.en[key];
@@ -165,6 +202,16 @@
   const euro = (value, sign = false) => new Intl.NumberFormat(I18N.locale, { style: "currency", currency: "EUR", signDisplay: sign ? "exceptZero" : "auto" }).format(value);
   const when = (iso, options) => I18N.dateFormat(iso, { timeZone: TIME_ZONE, ...options });
 
+  const whole = (p) => num(p * 100, 0);
+
+  // Odds to probabilities, the margin removed proportionally (the same sum as on the home page).
+  function marginFree(odds) {
+    if (!Array.isArray(odds) || odds.length !== 3 || odds.some((value) => !(Number(value) > 1))) return null;
+    const inverse = odds.map((value) => 1 / Number(value));
+    const total = inverse.reduce((sum, value) => sum + value, 0);
+    return inverse.map((value) => value / total);
+  }
+
   function rps(probs, outcome) {
     let forecast = 0;
     let actual = 0;
@@ -189,7 +236,10 @@
   function grade(post) {
     const f = post.forecast ?? {};
     const kickoff = new Date(post.kickoff);
-    const entry = { post, model: f.model, market: f.market, odds: f.marketOdds ?? null, closing: post.closing?.odds ?? null, kickoff, status: "pending", score: null };
+    const entry = {
+      post, matchday: post.matchday, home: post.home.name, away: post.away.name, link: `../${post.path}`,
+      model: f.model, market: f.market, odds: f.marketOdds ?? null, closing: post.closing?.odds ?? null, kickoff, status: "pending", score: null,
+    };
     if (Date.now() < kickoff.getTime()) return entry;
     // The post's own full-time numbers win; otherwise the score comes from OpenLigaDB.
     const known = post.fullTime?.score;
@@ -211,6 +261,40 @@
       models: published?.models ?? rps(f.model, outcome),
       marketScore: published?.market ?? rps(f.market, outcome),
     };
+  }
+
+  // A weekly forecast: the models as published, against the bookmakers' average odds as last recorded
+  // before kick-off (the price stored with the forecast if the odds file has none). The home page
+  // grades with the same two numbers.
+  function gradeWeekly(matchday, id, forecast) {
+    const kickoff = new Date(forecast.kickoff);
+    const market = marginFree(state.odds?.matchdays?.[matchday]?.matches?.[id]) ?? marginFree(forecast.market?.odds);
+    const post = state.posts.find((item) => Number(item.matchId) === Number(id));
+    const entry = {
+      matchday: Number(matchday), home: forecast.home, away: forecast.away, dive: post ? `../${post.path}` : null,
+      model: forecast.model, market, kickoff, status: "pending", score: null,
+    };
+    if (Date.now() < kickoff.getTime()) return entry;
+    if (!state.weeksLoaded) return { ...entry, status: "loading" };
+    const match = state.results.get(Number(id));
+    if (match === undefined) return { ...entry, status: "unknown" };
+    const score = finalScore(match);
+    if (!score) return { ...entry, status: "awaiting" };
+    const outcome = score[0] > score[1] ? 0 : score[0] === score[1] ? 1 : 2;
+    const graded = { ...entry, score, outcome, models: rps(forecast.model, outcome) };
+    // Without a bookmakers' price there is a result but nothing to compare it with.
+    return market ? { ...graded, status: "graded", marketScore: rps(market, outcome) } : { ...graded, status: "scored" };
+  }
+
+  function weeks() {
+    const days = state.forecasts?.matchdays ?? {};
+    return Object.keys(days).map(Number).sort((a, b) => b - a).map((matchday) => {
+      const block = days[String(matchday)];
+      const entries = Object.entries(block.matches ?? {})
+        .map(([id, forecast]) => gradeWeekly(String(matchday), id, forecast))
+        .sort((a, b) => a.kickoff - b.kickoff || a.home.localeCompare(b.home));
+      return { matchday, published: block.published, entries };
+    });
   }
 
   function pickLabel(post, index) {
@@ -236,20 +320,30 @@
     return line;
   }
 
-  function renderScore(entries) {
+  const mean = (entries, key) => entries.reduce((sum, entry) => sum + entry[key], 0) / entries.length;
+
+  function renderScore(entries, weekEntries) {
     const box = document.getElementById("score-cards");
     if (!box) return;
     const cards = [];
+    const weekly = weekEntries.filter((entry) => entry.status === "graded");
+    if (weekly.length) {
+      cards.push(card(say("weeklyTitle"), versus(mean(weekly, "models"), mean(weekly, "marketScore"), 3),
+        say("weeklySub", { graded: weekly.length, won: weekly.filter((entry) => entry.models < entry.marketScore).length }), "is-live"));
+    } else if (weekEntries.length) {
+      // The first match that can still be graded; none if every match so far lacks a bookmakers' price.
+      const first = weekEntries.filter((entry) => entry.status !== "scored").sort((a, b) => a.kickoff - b.kickoff)[0];
+      cards.push(card(say("weeklyTitle"), element("p", "score-card-value is-empty", say("divesNone")),
+        first ? say("weeklyNoneSub", { date: when(first.kickoff, { weekday: "long", day: "numeric", month: "long" }) }) : say("weekNoMarket"), "is-live"));
+    }
     const graded = entries.filter((entry) => entry.status === "graded");
     if (graded.length) {
-      const models = graded.reduce((sum, entry) => sum + entry.models, 0) / graded.length;
-      const market = graded.reduce((sum, entry) => sum + entry.marketScore, 0) / graded.length;
       const won = graded.filter((entry) => entry.models < entry.marketScore).length;
-      cards.push(card(say("divesTitle"), versus(models, market, 3), say("divesSub", { graded: graded.length, won }), "is-dives"));
+      cards.push(card(say("divesTitle"), versus(mean(graded, "models"), mean(graded, "marketScore"), 3), say("divesSub", { graded: graded.length, won }), "is-live"));
     } else {
       const next = entries.filter((entry) => entry.status === "pending").sort((a, b) => a.kickoff - b.kickoff)[0];
       cards.push(card(say("divesTitle"), element("p", "score-card-value is-empty", say("divesNone")),
-        next ? say("divesNoneSub", { date: when(next.kickoff, { weekday: "long", day: "numeric", month: "long" }) }) : "", "is-dives"));
+        next ? say("divesNoneSub", { date: when(next.kickoff, { weekday: "long", day: "numeric", month: "long" }) }) : "", "is-live"));
     }
     const record = state.record;
     if (record?.season) {
@@ -267,64 +361,134 @@
     box.removeAttribute("aria-busy");
   }
 
-  /* ---------- Every published forecast ---------- */
+  /* ---------- The two lists: every weekly forecast, every deep dive ---------- */
 
-  function bar(probs, label) {
-    const row = element("div", "ledger-bar");
-    const name = element("span", "ledger-bar-label", label);
-    const track = element("span", "ledger-bar-track");
-    track.setAttribute("role", "img");
-    track.setAttribute("aria-label", `${label}: ${say("home")} ${pct(probs[0])}, ${say("draw")} ${pct(probs[1])}, ${say("away")} ${pct(probs[2])}`);
-    probs.forEach((p, index) => {
-      const part = element("span", `ledger-part part-${index}`, p >= 0.14 ? pct(p) : "");
-      part.style.flexGrow = String(p);
-      track.append(part);
+  // The site's forecast bar: filled segments are my models, the two pins the bookmakers' split.
+  function pinBar(entry) {
+    const bar = element("span", "pbar");
+    bar.setAttribute("role", "img");
+    const [mh, md, ma] = entry.model.map(pct);
+    const [bh, bd, ba] = (entry.market ?? []).map(pct);
+    bar.setAttribute("aria-label", entry.market ? say("barLabel", { mh, md, ma, bh, bd, ba }) : say("barLabelModels", { mh, md, ma }));
+    const track = element("span", "pbar-track");
+    ["home", "draw", "away"].forEach((key, index) => {
+      const segment = element("span", `pbar-seg is-${key}`);
+      if (index < 2) segment.style.width = `${Math.max(0, entry.model[index] * 100).toFixed(1)}%`;
+      track.append(segment);
     });
-    row.append(name, track);
-    return row;
+    bar.append(track);
+    if (entry.market) {
+      [entry.market[0], entry.market[0] + entry.market[1]].forEach((cut) => {
+        const pin = element("span", "pbar-pin");
+        pin.style.left = `${(cut * 100).toFixed(1)}%`;
+        bar.append(pin);
+      });
+    }
+    return bar;
+  }
+
+  function row(entry, { day = true } = {}) {
+    const item = element("article", `ledger-row is-${entry.status}`);
+    const meta = element("div", "ledger-meta");
+    if (day) {
+      meta.append(element("p", "ledger-day", `${say("matchday", { n: entry.matchday })} · ${when(entry.kickoff, { weekday: "short", day: "numeric", month: "short" })}`));
+    }
+    const title = element("h3", "ledger-match");
+    const names = `${entry.home} – ${entry.away}`;
+    if (entry.link) {
+      const link = element("a", "", names);
+      link.href = entry.link;
+      title.append(link);
+    } else {
+      title.textContent = names;
+    }
+    meta.append(title);
+    if (entry.dive) {
+      const more = element("a", "ledger-dive", say("deepDive"));
+      more.href = entry.dive;
+      meta.append(more);
+    }
+
+    const forecast = element("div", "ledger-forecast");
+    const numbers = element("p", "ledger-nums");
+    [say("home"), say("draw"), say("away")].forEach((label, index) => {
+      const hit = entry.outcome === undefined ? "" : index === entry.outcome ? "is-hit" : "is-miss";
+      const part = element("span", hit);
+      part.append(`${label} `, element("strong", "", pct(entry.model[index])));
+      numbers.append(part);
+    });
+    const [h, d, a] = (entry.market ?? []).map(whole);
+    forecast.append(pinBar(entry), numbers, element("p", "ledger-market", entry.market ? say("bookiesSplit", { h, d, a }) : say("noMarket")));
+
+    const result = element("div", "ledger-result");
+    if (entry.score) result.append(element("p", "ledger-score", I18N.score(entry.score[0], entry.score[1])));
+    if (entry.status === "graded") {
+      const verdict = entry.models < entry.marketScore ? "closerModels" : entry.models > entry.marketScore ? "closerMarket" : "level";
+      const line = element("p", "ledger-verdict");
+      // Solid for my models, outline for the bookmakers: the same rule as the bars.
+      line.append(element("span", `pill${verdict === "closerModels" ? " is-solid" : ""}`, say(verdict)));
+      result.append(line);
+      result.append(element("p", "ledger-grades", say("weekRps", { models: num(entry.models, 3), market: num(entry.marketScore, 3) })));
+    } else if (entry.status !== "scored") {
+      const text = entry.status === "pending"
+        ? say("pending", { when: when(entry.kickoff, { weekday: "short", hour: "2-digit", minute: "2-digit" }) })
+        : say(entry.status);
+      result.append(element("p", "ledger-waiting", text));
+    }
+    item.append(meta, forecast, result);
+    return item;
+  }
+
+  function renderWeeks(list) {
+    const box = document.getElementById("weekly-list");
+    if (!box) return;
+    if (!list.length) {
+      box.replaceChildren(element("p", "ledger-waiting", say("weeklyEmpty")));
+      box.removeAttribute("aria-busy");
+      return;
+    }
+    // The newest matchday starts unfolded; after that the reader's own choice is kept.
+    if (!state.openWeeks) state.openWeeks = new Set([list[0].matchday]);
+    const blocks = list.map(({ matchday, published, entries }) => {
+      const block = element("details", "week");
+      block.open = state.openWeeks.has(matchday);
+      block.addEventListener("toggle", () => {
+        if (block.open) state.openWeeks.add(matchday);
+        else state.openWeeks.delete(matchday);
+      });
+      const head = element("summary", "week-head");
+      const name = element("span", "week-name");
+      name.append(
+        element("span", "week-title", say("matchday", { n: matchday })),
+        element("span", "week-sub", say("weekPublished", { date: when(published, { day: "numeric", month: "long" }), count: entries.length })),
+      );
+      const graded = entries.filter((entry) => entry.status === "graded");
+      const tally = element("span", "week-tally");
+      if (graded.length) {
+        const won = graded.filter((entry) => entry.models < entry.marketScore).length;
+        tally.append(
+          element("span", "week-closer", say("weekCloser", { won, graded: graded.length })),
+          element("span", "week-rps", `${graded.length < entries.length ? `${say("weekPartly", { graded: graded.length, count: entries.length })} · ` : ""}${say("weekRps", { models: num(mean(graded, "models"), 3), market: num(mean(graded, "marketScore"), 3) })}`),
+        );
+      } else {
+        const key = entries.every((entry) => entry.status === "scored") ? "weekNoMarket"
+          : entries.some((entry) => entry.status !== "pending") ? "weekUnderway" : "weekOpen";
+        tally.append(element("span", "week-rps", say(key)));
+      }
+      head.append(name, tally);
+      const rows = element("div", "ledger");
+      rows.append(...entries.map((entry) => row(entry, { day: false })));
+      block.append(head, rows);
+      return block;
+    });
+    box.replaceChildren(...blocks);
+    box.removeAttribute("aria-busy");
   }
 
   function renderLedger(entries) {
     const box = document.getElementById("ledger-list");
     if (!box) return;
-    const rows = entries.map((entry) => {
-      const { post } = entry;
-      const item = element("article", `ledger-row is-${entry.status}`);
-      const meta = element("div", "ledger-meta");
-      meta.append(
-        element("p", "ledger-day", `${say("matchday", { n: post.matchday })} · ${when(entry.kickoff, { weekday: "short", day: "numeric", month: "short" })}`),
-      );
-      const title = element("h3", "ledger-match");
-      const link = element("a", "", `${post.home.name} – ${post.away.name}`);
-      link.href = `../${post.path}`;
-      title.append(link);
-      meta.append(title);
-
-      const bars = element("div", "ledger-bars");
-      if (entry.model) bars.append(bar(entry.model, say("models")));
-      if (entry.market) bars.append(bar(entry.market, say("bookies")));
-
-      const result = element("div", "ledger-result");
-      if (entry.status === "graded") {
-        result.append(element("p", "ledger-score", I18N.score(entry.score[0], entry.score[1])));
-        const verdict = entry.models < entry.marketScore ? "closerModels" : entry.models > entry.marketScore ? "closerMarket" : "level";
-        result.append(element("p", `ledger-verdict is-${verdict}`, say(verdict)));
-        const grades = element("p", "ledger-grades");
-        grades.append(
-          element("span", entry.models <= entry.marketScore ? "is-best" : "", `${say("models")} ${num(entry.models, 3)}`),
-          element("span", entry.marketScore <= entry.models ? "is-best" : "", `${say("bookies")} ${num(entry.marketScore, 3)}`),
-        );
-        result.append(grades);
-      } else {
-        const text = entry.status === "pending"
-          ? say("pending", { when: when(entry.kickoff, { weekday: "short", hour: "2-digit", minute: "2-digit" }) })
-          : say(entry.status);
-        result.append(element("p", "ledger-waiting", text));
-      }
-      item.append(meta, bars, result);
-      return item;
-    });
-    box.replaceChildren(...rows);
+    box.replaceChildren(...entries.map((entry) => row(entry)));
     box.removeAttribute("aria-busy");
   }
 
@@ -480,7 +644,7 @@
 
   function renderAll() {
     if (state.failed) {
-      for (const id of ["score-cards", "ledger-list"]) {
+      for (const id of ["score-cards", "weekly-list", "ledger-list"]) {
         const box = document.getElementById(id);
         if (box) {
           box.replaceChildren(element("p", "page-error", say("loadError")));
@@ -490,7 +654,9 @@
       return;
     }
     const entries = state.posts.map(grade).sort((a, b) => b.kickoff - a.kickoff);
-    renderScore(entries);
+    const list = weeks();
+    renderScore(entries, list.flatMap((week) => week.entries));
+    renderWeeks(list);
     renderLedger(entries);
     renderDisagree();
     renderBacktest();
@@ -504,7 +670,9 @@
   }
 
   async function start() {
-    const [posts, record] = await Promise.allSettled([json("../analysis/posts.json"), json("../data/record.json")]);
+    const [posts, record, forecasts, odds] = await Promise.allSettled([
+      json("../analysis/posts.json"), json("../data/record.json"), json("../data/forecasts.json"), json("../data/odds.json"),
+    ]);
     if (posts.status !== "fulfilled") {
       state.failed = true;
       renderAll();
@@ -512,6 +680,8 @@
     }
     state.posts = (posts.value.posts ?? []).filter((post) => post.forecast?.model && post.forecast?.market);
     if (record.status === "fulfilled") state.record = record.value;
+    if (forecasts.status === "fulfilled") state.forecasts = forecasts.value;
+    if (odds.status === "fulfilled") state.odds = odds.value;
     renderAll();
     // Final scores, one small request per finished deep dive.
     const started = state.posts.filter((post) => !post.fullTime?.score && Date.now() >= new Date(post.kickoff).getTime());
@@ -520,6 +690,17 @@
       if (result.status === "fulfilled" && result.value) state.results.set(Number(started[index].matchId), result.value);
     });
     state.resultsLoaded = true;
+    // And one request per matchday of weekly forecasts that has kicked off.
+    const days = Object.entries(state.forecasts?.matchdays ?? {})
+      .filter(([, block]) => Object.values(block.matches ?? {}).some((match) => Date.now() >= new Date(match.kickoff).getTime()))
+      .map(([matchday]) => matchday);
+    const season = encodeURIComponent(state.forecasts?.season ?? "");
+    const rounds = await Promise.allSettled(days.map((matchday) => json(`${API}/getmatchdata/bl1/${season}/${encodeURIComponent(matchday)}`)));
+    for (const round of rounds) {
+      if (round.status !== "fulfilled" || !Array.isArray(round.value)) continue;
+      for (const match of round.value) state.results.set(Number(match.matchID), match);
+    }
+    state.weeksLoaded = true;
     renderAll();
   }
 

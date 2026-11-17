@@ -30,8 +30,8 @@
     <link rel="preload" href="../../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../../styles.css?v=11">
-    <link rel="stylesheet" href="../analysis.css?v=4">
-    <script src="../../i18n.js?v=14" defer></script>
+    <link rel="stylesheet" href="../analysis.css?v=5">
+    <script src="../../i18n.js?v=15" defer></script>
     <script src="../../glossary.js?v=14" defer></script>
     <script src="../../explain.js?v=10" defer></script>
   </head>
@@ -64,7 +64,7 @@
         <div id="article">
         <article class="post" lang="en" data-lang-only="en">
           <header class="post-hero">
-            <p class="eyebrow">MATCHDAY 5 · FORECAST &amp; FULL-TIME REVIEW</p>
+            <p class="eyebrow">Matchday 5 · Forecast and full-time review</p>
             <h1>Augsburg vs Bayern: three models, one stubborn underdog<span>.</span></h1>
             <p class="post-dek">Augsburg won in Munich in January. The bookmakers have since recovered their composure and price Bayern at 1.17. I built three models to find out who is closer to the truth.</p>
             <p class="post-meta">
@@ -165,7 +165,7 @@ numpyro.sample("hg", dist.Binomial(sot_home, probs=p_h), obs=goals_home)
             <figure class="post-figure">
               <img src="figs/fig2_scorelines.svg" width="587" height="372" alt="Heatmap of scoreline probabilities. The most likely outcomes are 1-2 at 8.7%, then 0-2, 1-3 and 0-3." loading="lazy">
               <figcaption>Ensemble probability of each exact score (Augsburg goals on the vertical axis; scores not shown are each below 1%). The outlined cell is the most likely score.</figcaption>
-            <details class="howto"><summary>How to read this chart</summary><p>Augsburg’s goals run up the side, Bayern’s along the bottom, and darker cells are likelier. The diagonal (0–0, 1–1, 2–2 …) holds the draws; above it Augsburg win, below it Bayern win.</p></details></figure>
+            <details class="howto"><summary>How to read this chart</summary><p>Augsburg’s goals run up the side, Bayern’s along the bottom, and lighter cells are likelier. The diagonal (0–0, 1–1, 2–2 …) holds the draws; above it Augsburg win, below it Bayern win.</p></details></figure>
             <p>Bayern win by two or more in 52% of outcomes. Augsburg score at least once in 66%. Augsburg keeping a clean sheet: 7%. Over 2.5 goals: 73%, which suits the fixture. The 15 Bundesliga meetings in Augsburg have averaged 3.4 goals.</p>
             <figure class="post-figure">
               <img src="figs/fig3_goals.svg" width="639" height="288" alt="Bar charts of goals per team. Augsburg most likely score 0 or 1; Bayern most likely score 2 or 3." loading="lazy">
@@ -235,7 +235,7 @@ numpyro.sample("hg", dist.Binomial(sot_home, probs=p_h), obs=goals_home)
 
         <article class="post" lang="de" data-lang-only="de" hidden>
           <header class="post-hero">
-            <p class="eyebrow">SPIELTAG 5 · PROGNOSE UND RÜCKBLICK</p>
+            <p class="eyebrow">Spieltag 5 · Prognose und Rückblick</p>
             <h1>Augsburg gegen Bayern: drei Modelle, ein hartnäckiger Außenseiter<span>.</span></h1>
             <p class="post-dek">Im Januar hat Augsburg in München gewonnen. Die Buchmacher haben ihre Fassung inzwischen wiedergefunden und bieten Bayern zu einer Quote von 1,17 an. Ich habe drei Modelle gebaut, um herauszufinden, wer näher an der Wahrheit liegt.</p>
             <p class="post-meta">
@@ -336,7 +336,7 @@ numpyro.sample("hg", dist.Binomial(sot_home, probs=p_h), obs=goals_home)
             <figure class="post-figure">
               <img src="figs/de/fig2_scorelines.svg" width="587" height="372" alt="Heatmap der Ergebniswahrscheinlichkeiten. Am wahrscheinlichsten ist ein 1:2 mit 8,7 %, dann 0:2, 1:3 und 0:3." loading="lazy">
               <figcaption>Ensemble-Wahrscheinlichkeit für jedes genaue Ergebnis (Augsburger Tore auf der senkrechten Achse; nicht gezeigte Ergebnisse liegen jeweils unter 1 %). Das umrandete Feld ist das wahrscheinlichste Ergebnis.</figcaption>
-            <details class="howto"><summary>So liest man die Grafik</summary><p>Augsburgs Tore stehen an der Seite, Bayerns unten, und je dunkler das Feld, desto wahrscheinlicher. Auf der Diagonale (0:0, 1:1, 2:2 …) liegen die Remis, darüber gewinnt Augsburg, darunter Bayern.</p></details></figure>
+            <details class="howto"><summary>So liest man die Grafik</summary><p>Augsburgs Tore stehen an der Seite, Bayerns unten, und je heller das Feld, desto wahrscheinlicher. Auf der Diagonale (0:0, 1:1, 2:2 …) liegen die Remis, darüber gewinnt Augsburg, darunter Bayern.</p></details></figure>
             <p>In 52 % der Fälle gewinnt Bayern mit zwei oder mehr Toren Unterschied. In 66 % trifft Augsburg mindestens einmal. Augsburg spielt zu null: 7 %. Über 2,5 Tore: 73 %, was zu diesem Duell passt. Die 15 Bundesliga-Duelle in Augsburg brachten im Schnitt 3,4 Tore.</p>
             <figure class="post-figure">
               <img src="figs/de/fig3_goals.svg" width="639" height="288" alt="Balkendiagramme der Tore pro Team. Augsburg trifft am wahrscheinlichsten null- oder einmal, Bayern zwei- oder dreimal." loading="lazy">
