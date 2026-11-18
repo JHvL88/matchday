@@ -44,12 +44,13 @@ from jsonfmt import dumps
 DC_XI = 0.0019            # the published Dixon-Coles (forecast.py)
 DC_XG_WEIGHT = 0.25
 WINDOW_SEASONS = 8        # both rating sets learn from the last eight seasons, 1. and 2. Bundesliga
-# From the pre-registered test (analysis/backtest/season/README.md); see SETTINGS_SOURCE.
-SIGMA = {"models": 0.075, "market": 0.075}
-MARKET_XI = 0.004
+# Chosen on 2014/15 to 2018/19 by the pre-registered test (analysis/backtest/season/README.md):
+# the doubt sigma for each set of ratings, and the market ratings' time decay per day.
+SIGMA = {"models": 0.10, "market": 0.075}
+MARKET_XI = 0.008
 SETTINGS_SOURCE = "analysis/backtest/season/README.md"
 SIMS = 50_000
-BROWSER_SIMS = 20_000     # what the page re-runs in the browser
+BROWSER_SIMS = 10_000     # what the page re-runs in the browser ("what if", new results)
 MAX_POINTS = 120          # histogram length (no Bundesliga club has reached 92)
 
 TEAMS = 18
@@ -58,7 +59,7 @@ TEAMS = 18
 # the line to 7th or add a fifth Champions League place, so "europe" means the usual top six.
 OUTCOMES = {"title": (1, 1), "top4": (1, 4), "europe": (1, 6), "playoff": (16, 16), "drop": (17, 18)}
 OUTCOME_KEYS = list(OUTCOMES)
-RANK_LINES = [1, 4, 6, 7, 15, 16, 17]   # positions whose points total the page reports
+RANK_LINES = [1, 2, 4, 5, 6, 7, 15, 16, 17]   # positions whose points total the page reports
 
 
 # ----------------------------------------------------------------------------- ratings
@@ -567,7 +568,7 @@ def build_site(ol, matches, names, season, matchday, sims, now, matches_path=Non
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("matches", help="match table with xG (build_matches.py --understat)")
+    ap.add_argument("matches", nargs="?", help="match table with xG (build_matches.py --understat); not needed with --check")
     ap.add_argument("--season", type=int, required=True)
     ap.add_argument("--out", default="data/season.json")
     ap.add_argument("--openligadb", help="saved getmatchdata JSON for the season instead of downloading")
@@ -575,6 +576,7 @@ def main(argv=None):
     ap.add_argument("--matchday", type=int, help="simulate after this matchday (default: the last completed one)")
     ap.add_argument("--backfill", action="store_true", help="also (re)compute the history line for every earlier matchday")
     ap.add_argument("--force", action="store_true", help="recompute even if the file already has this matchday")
+    ap.add_argument("--check", action="store_true", help="only say whether a run is due (sets the workflow output 'due')")
     ap.add_argument("--now", help="pretend it is this UTC time (tests)")
     a = ap.parse_args(argv)
 
@@ -582,24 +584,37 @@ def main(argv=None):
     now = pd.Timestamp(a.now) if a.now else pd.Timestamp.now(tz="UTC")
     now = now.tz_convert("UTC") if now.tzinfo else now.tz_localize("UTC")
     ol = openligadb_matches(openligadb_season(a.season, a.openligadb))
-    matches = pd.read_csv(a.matches, parse_dates=["date"])
-    names = club_names(ol, matches, a.season)
     matchday = a.matchday if a.matchday is not None else completed_matchday(ol, now)
     old = json.load(open(a.out, encoding="utf-8")) if os.path.exists(a.out) else None
     if old and old.get("season") != a.season:
         old = None
+    if matchday == 0 and not a.force:
+        print("no matchday completed yet; the simulator starts after the first one")
+        github_output(due="false", changed="false")
+        return 0
+    same = bool(old) and old.get("afterMatchday") == matchday
+    waiting = same and old.get("inputs", {}).get("filledFromOpenLigaDB", 0) > 0
+    if a.check:
+        due = a.force or a.backfill or not same or waiting
+        print(f"after matchday {matchday}: " + ("due" if due else "already simulated") + (" (waiting for the source files)" if waiting else ""))
+        github_output(due=str(due).lower(), matchday=matchday)
+        return 0
+    if not a.matches:
+        raise SystemExit("the match table is needed to simulate")
+    matches = pd.read_csv(a.matches, parse_dates=["date"])
+    names = club_names(ol, matches, a.season)
     history = (old or {}).get("history", {})
-    if old and not a.force and not a.backfill and old.get("afterMatchday") == matchday:
+    if same and not a.force and not a.backfill:
         snap = snapshot_at(ol, matches, names, a.season, matchday)
-        if old.get("inputs", {}).get("filledFromOpenLigaDB", 0) == 0 or snap.filled > 0:
+        if not waiting or snap.filled > 0:
             print(f"matchday {matchday} is already simulated; nothing to do")
             github_output(changed="false", matchday=matchday)
             return 0
         print(f"matchday {matchday}: the source files have caught up, simulating again with their xG and odds")
-    if a.backfill:
+    if a.backfill or not history:
+        ids_by_name = {v: k for k, v in names.items()}
         for md in range(0, matchday):
             snap, teams, table0, fixtures, views = run_snapshot(ol, matches, names, a.season, md, min(a.sims, 20_000), with_stakes=False)
-            ids_by_name = {v: k for k, v in names.items()}
             history[str(md)] = dict(date=snap.cut.strftime("%Y-%m-%d"),
                                     views={n: history_row(res, teams, ids_by_name, table0) for n, (rt, res) in views.items()})
             print(f"history: after matchday {md} done", flush=True)
