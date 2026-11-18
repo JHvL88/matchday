@@ -38,6 +38,12 @@
     <lastmod>2026-11-17</lastmod>
   </url>
   <url>
+    <loc>https://jhvl88.github.io/matchday/season/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/season/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/season/?lang=de"/>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://jhvl88.github.io/matchday/record/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/record/?lang=en"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/record/?lang=de"/>

@@ -1,0 +1,136 @@
+# Plays the rest of the Bundesliga season 50,000 times after every completed matchday and puts the
+# result in data/season.json, which the Season page shows (title, Europe and relegation chances,
+# what's at stake, the history lines).
+#
+# Runs every morning and on Sunday night. Most runs only look at the fixture list and stop: a run
+# is due once a matchday is complete (every match finished, postponed ones aside). Results the
+# source files don't have yet are taken from OpenLigaDB (goals only); when football-data.co.uk
+# catches up with their xG and odds, the same matchday is simulated once more. See
+# analysis/pipeline/season_sim.py.
+#
+# Needs the DATA_REPO_TOKEN secret (the private data repository holds the xG the models learn
+# from); without it the workflow logs a notice and stops. Set the repository variable SITE_BOT to
+# "off" to stop the automatic commit.
+name: Simulate the season
+
+on:
+  schedule:
+    - cron: "23 7 * * *"
+    - cron: "53 21 * * 0"
+  workflow_dispatch:
+    inputs:
+      matchday:
+        description: "Simulate after this matchday (leave empty for the last completed one)"
+        required: false
+        default: ""
+      backfill:
+        description: "Also recompute the history line for every earlier matchday"
+        type: boolean
+        default: false
+      force:
+        description: "Simulate again even if the file already has this matchday"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: season
+  cancel-in-progress: false
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+      DATA_REPO: ${{ vars.DATA_REPO || format('{0}-data', github.repository) }}
+      MATCHDAY: ${{ inputs.matchday }}
+      BACKFILL: ${{ inputs.backfill }}
+      FORCE: ${{ inputs.force }}
+    steps:
+      - name: Check the setup
+        id: setup
+        run: |
+          if [ -z "$DATA_REPO_TOKEN" ]; then
+            echo "::notice::Season simulator not set up: add the DATA_REPO_TOKEN secret (see README, 'Odds' and 'Season simulator')."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.setup.outputs.ready == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.setup.outputs.ready == 'true'
+        with:
+          python-version: "3.13"
+
+      - name: Is a run due?
+        id: due
+        if: steps.setup.outputs.ready == 'true'
+        run: |
+          pip install -q numpy==2.5.3 pandas==3.0.5
+          SEASON=$(python3 -c "import datetime as d; t = d.date.today(); print(t.year if t.month >= 7 else t.year - 1)")
+          echo "season=$SEASON" >> "$GITHUB_OUTPUT"
+          ARGS=""
+          if [ -n "$MATCHDAY" ]; then ARGS="$ARGS --matchday $MATCHDAY"; fi
+          if [ "$BACKFILL" = "true" ]; then ARGS="$ARGS --backfill"; fi
+          if [ "$FORCE" = "true" ]; then ARGS="$ARGS --force"; fi
+          echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+          curl -fsS -A "jans-matchday/1.0" "https://api.openligadb.de/getmatchdata/bl1/$SEASON" -o "$RUNNER_TEMP/openligadb.json"
+          python analysis/pipeline/season_sim.py --season "$SEASON" --openligadb "$RUNNER_TEMP/openligadb.json" --check $ARGS
+
+      - uses: actions/checkout@v4
+        if: steps.due.outputs.due == 'true'
+        with:
+          ref: source-data
+          path: source
+
+      - name: Clone the data repository (xG)
+        if: steps.due.outputs.due == 'true'
+        run: git clone --quiet --depth 1 "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${DATA_REPO}.git" data-repo
+
+      - name: Build the match table
+        if: steps.due.outputs.due == 'true'
+        run: python analysis/pipeline/build_matches.py source "$RUNNER_TEMP/matches.csv" --understat data-repo/understat
+
+      - name: Simulate
+        id: run
+        if: steps.due.outputs.due == 'true'
+        run: |
+          pip install -q -r analysis/pipeline/requirements.txt
+          python analysis/pipeline/season_sim.py "$RUNNER_TEMP/matches.csv" --season "${{ steps.due.outputs.season }}" \
+            --openligadb "$RUNNER_TEMP/openligadb.json" --out data/season.json ${{ steps.due.outputs.args }}
+
+      - name: Publish
+        if: steps.run.outputs.changed == 'true' && github.ref == 'refs/heads/main' && vars.SITE_BOT != 'off'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet data/season.json && git ls-files --error-unmatch data/season.json > /dev/null 2>&1; then
+            echo "Season file unchanged."; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/season.json
+          git commit --quiet -m "Simulate the season after matchday ${{ steps.run.outputs.matchday }}"
+          git pull --quiet --rebase origin main
+          git push --quiet origin HEAD:main
+          # pushes made with this token don't start other workflows, so ask Pages to rebuild
+          curl -fsS -X POST -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds" > /dev/null || echo "::warning::Pages rebuild request failed; the numbers go live with the next push."
+
+      - name: Show the result (not on main)
+        if: steps.run.outputs.changed == 'true' && github.ref != 'refs/heads/main'
+        run: |
+          python3 -c "
+          import json; d = json.load(open('data/season.json'))
+          for v in ('models', 'market'):
+              t = d['views'][v]['teams']
+              top = sorted(t, key=lambda k: -t[k]['p']['title'])[:3]
+              print(v, 'after matchday', d['afterMatchday'], ', '.join(f\"{d['teams'][k]['short']} {t[k]['p']['title']:.1%}\" for k in top))
+          "

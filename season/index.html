@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1b1e25">
+    <meta name="description" content="The rest of the Bundesliga season, played 50,000 times: title, Champions League and relegation chances for every club, what is at stake this weekend, and a what-if mode." data-i18n-attrs="content:season.meta">
+    <title data-i18n="season.pageTitle">Season simulator: who wins, who goes down — Jan’s Matchday</title>
+    <link rel="canonical" href="https://jhvl88.github.io/matchday/season/">
+    <link rel="alternate" hreflang="en" href="https://jhvl88.github.io/matchday/season/?lang=en">
+    <link rel="alternate" hreflang="de" href="https://jhvl88.github.io/matchday/season/?lang=de">
+    <link rel="alternate" hreflang="x-default" href="https://jhvl88.github.io/matchday/season/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Jan’s Matchday">
+    <meta property="og:title" content="The Bundesliga season, played 50,000 times">
+    <meta property="og:description" content="Title, Champions League and relegation chances for every club, from my models and from the bookmakers’ odds. Plus: pick the results yourself and replay the season.">
+    <meta property="og:url" content="https://jhvl88.github.io/matchday/season/">
+    <meta property="og:image" content="https://jhvl88.github.io/matchday/assets/share/season.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Jan’s Matchday season simulator: title and relegation chances for every Bundesliga club">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Bundesliga season, played 50,000 times">
+    <meta name="twitter:description" content="Title, Champions League and relegation chances for every club, from my models and from the bookmakers’ odds. Plus: pick the results yourself and replay the season.">
+    <meta name="twitter:image" content="https://jhvl88.github.io/matchday/assets/share/season.jpg">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="preconnect" href="https://api.openligadb.de">
+    <link rel="preload" href="../assets/fonts/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../styles.css?v=12">
+    <link rel="stylesheet" href="../analysis/analysis.css?v=5">
+    <link rel="stylesheet" href="../pages.css?v=4">
+    <link rel="stylesheet" href="season.css?v=1">
+    <script src="../i18n.js?v=17" defer></script>
+    <script src="../glossary.js?v=17" defer></script>
+    <script src="../explain.js?v=10" defer></script>
+    <script src="sim.js?v=1" defer></script>
+    <script src="season.js?v=1" defer></script>
+  </head>
+  <body class="article page-season">
+    <a class="skip-link" href="#content" data-i18n="nav.skipPage">Skip to the content</a>
+    <header class="topbar">
+      <div class="app-shell topbar-inner">
+        <a class="brand" href="../" aria-label="Jan’s Matchday home" data-i18n-attrs="aria-label:brand.home">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span class="brand-name">Jan’s Matchday</span>
+        </a>
+        <nav class="top-nav" aria-label="Sections" data-i18n-attrs="aria-label:nav.label">
+          <a href="../#matchday" data-i18n="nav.matchday">Matchday</a>
+          <a href="../#table" data-i18n="nav.table">Table</a>
+          <a href="./" aria-current="page" data-i18n="nav.season">Season</a>
+          <a href="../#analysis" data-i18n="nav.dives">Deep dives</a>
+          <a href="../record/" data-i18n="nav.record">Track record</a>
+          <a href="../learn/" data-i18n="nav.learn">Learn</a>
+        </nav>
+        <div class="segmented lang-switch" role="group" aria-label="Language" data-i18n-attrs="aria-label:lang.label">
+          <button type="button" data-lang="en" lang="en" title="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang="de" lang="de" title="Deutsch" aria-pressed="false">DE</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <main id="content">
+        <div class="page-card">
+          <header class="post-hero">
+            <p class="eyebrow" data-lang-only="en">Season simulator</p>
+            <p class="eyebrow" data-lang-only="de" hidden>Saison-Simulator</p>
+            <h1 data-lang-only="en">The rest of the season, played 50,000 times<span>.</span></h1>
+            <h1 data-lang-only="de" hidden>Der Rest der Saison, 50.000-mal gespielt<span>.</span></h1>
+            <p class="post-dek" data-lang-only="en">Every remaining Bundesliga match is played out from my models’ ratings, and at the end the table is counted. Do that 50,000 times and you get the chances below. The bookmakers get a version too, rated from their odds instead of the scores. It is a <button type="button" class="term" data-term="monte-carlo">Monte Carlo simulation</button>, which is a grand name for rolling very fair dice very often.</p>
+            <p class="post-dek" data-lang-only="de" hidden>Jedes noch ausstehende Bundesligaspiel wird mit den Stärkewerten meiner Modelle ausgespielt, am Ende wird die Tabelle gezählt. Das 50.000-mal, und heraus kommen die Chancen unten. Die Buchmacher bekommen auch eine Version, bewertet nach ihren Quoten statt nach den Ergebnissen. Das Ganze ist eine <button type="button" class="term" data-term="monte-carlo">Monte-Carlo-Simulation</button>, ein großer Name dafür, sehr faire Würfel sehr oft zu werfen.</p>
+            <p class="season-stamp" id="season-stamp" aria-live="polite"></p>
+            <div class="season-view" id="season-view-switch">
+              <div class="segmented" role="group" aria-label="Whose ratings" data-i18n-attrs="aria-label:season.viewLabel">
+                <button type="button" data-view="models" aria-pressed="true"><span data-lang-only="en">My models</span><span data-lang-only="de" hidden>Meine Modelle</span></button>
+                <button type="button" data-view="market" aria-pressed="false"><span data-lang-only="en">Bookmakers</span><span data-lang-only="de" hidden>Buchmacher</span></button>
+              </div>
+            </div>
+            <nav class="page-jump" aria-label="On this page" data-i18n-attrs="aria-label:season.jumpLabel">
+              <a href="#title-race"><span data-lang-only="en">Title</span><span data-lang-only="de" hidden>Meister</span></a>
+              <a href="#final-table"><span data-lang-only="en">Final table</span><span data-lang-only="de" hidden>Abschlusstabelle</span></a>
+              <a href="#stakes"><span data-lang-only="en">This weekend</span><span data-lang-only="de" hidden>Dieses Wochenende</span></a>
+              <a href="#what-if"><span data-lang-only="en">What if?</span><span data-lang-only="de" hidden>Was wäre, wenn?</span></a>
+              <a href="#so-far"><span data-lang-only="en">So far</span><span data-lang-only="de" hidden>Bisher</span></a>
+              <a href="#points"><span data-lang-only="en">Points needed</span><span data-lang-only="de" hidden>Nötige Punkte</span></a>
+              <a href="#replays"><span data-lang-only="en">Replays</span><span data-lang-only="de" hidden>Zeitreise</span></a>
+              <a href="#any-good"><span data-lang-only="en">Any good?</span><span data-lang-only="de" hidden>Taugt das?</span></a>
+            </nav>
+          </header>
+
+          <div class="post-body page-body">
+            <p class="page-error" id="season-error" hidden></p>
+
+            <section class="page-section" id="title-race" aria-labelledby="title-race-title">
+              <h2 id="title-race-title"><span data-lang-only="en">Who wins the league?</span><span data-lang-only="de" hidden>Wer wird Meister?</span></h2>
+              <p class="season-lede" id="title-lede"></p>
+              <div class="odds-bars" id="title-bars" aria-busy="true"></div>
+              <p class="season-key"><span class="key-fill" aria-hidden="true"></span><span data-lang-only="en">My models</span><span data-lang-only="de" hidden>Meine Modelle</span> <span class="key-pin" aria-hidden="true"></span><span data-lang-only="en">Bookmakers’ version</span><span data-lang-only="de" hidden>Version der Buchmacher</span></p>
+            </section>
+
+            <section class="page-section" id="final-table" aria-labelledby="final-table-title">
+              <h2 id="final-table-title"><span data-lang-only="en">How it ends</span><span data-lang-only="de" hidden>Wie es ausgeht</span></h2>
+              <p data-lang-only="en">The table as it stands, then where each club finishes across all the simulated seasons. Tap a club for its whole range of finishes. <strong>Europe</strong> means the top six, usually: the cup winner can push the line to seventh, and UEFA’s bonus place for the best leagues can turn fifth into a Champions League spot.</p>
+              <p data-lang-only="de" hidden>Die Tabelle, wie sie steht, dann wo jeder Klub über alle simulierten Spielzeiten landet. Ein Tipp auf einen Klub zeigt alle seine möglichen Platzierungen. <strong>Europa</strong> heißt meist Platz eins bis sechs: Der Pokalsieger kann die Linie auf Platz sieben schieben, und der UEFA-Zusatzplatz für die besten Ligen kann Platz fünf zum Champions-League-Platz machen.</p>
+              <div class="table-scroll season-table-wrap">
+                <table class="season-table" id="season-table" aria-busy="true">
+                  <caption class="visually-hidden" id="season-table-caption"></caption>
+                  <thead id="season-table-head"></thead>
+                  <tbody id="season-table-rows"></tbody>
+                </table>
+              </div>
+              <p class="calc-fine" id="season-table-note"></p>
+            </section>
+
+            <section class="page-section" id="stakes" aria-labelledby="stakes-title">
+              <h2 id="stakes-title"><span data-lang-only="en">What’s at stake this weekend</span><span data-lang-only="de" hidden>Worum es an diesem Wochenende geht</span></h2>
+              <p data-lang-only="en">Some results matter more than others. For each match of the coming matchday: how a home win, a draw or an away win would move the two clubs’ biggest chance, ordered by how much is riding on it.</p>
+              <p data-lang-only="de" hidden>Manche Ergebnisse zählen mehr als andere. Für jedes Spiel des nächsten Spieltags: wie Heimsieg, Remis oder Auswärtssieg die wichtigste Chance beider Klubs verschieben würden, sortiert danach, wie viel auf dem Spiel steht.</p>
+              <div class="stakes" id="stakes-list" aria-busy="true"></div>
+            </section>
+
+            <section class="page-section" id="what-if" aria-labelledby="what-if-title">
+              <h2 id="what-if-title"><span data-lang-only="en">What if?</span><span data-lang-only="de" hidden>Was wäre, wenn?</span></h2>
+              <p data-lang-only="en">Pick the results yourself. Your browser then plays the rest of the season 10,000 times with your picks locked in, on the same ratings. Go on, give Schalke a winning streak. Nobody is watching.</p>
+              <p data-lang-only="de" hidden>Tipp die Ergebnisse selbst. Dein Browser spielt dann den Rest der Saison 10.000-mal, mit deinen Tipps als feststehenden Ergebnissen, auf denselben Stärkewerten. Nur zu, schenk Schalke eine Siegesserie. Es schaut keiner zu.</p>
+              <div class="whatif" id="whatif">
+                <div class="whatif-head">
+                  <button type="button" class="icon-button" id="whatif-prev" aria-label="Previous matchday" data-i18n-attrs="aria-label:hub.prev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+                  <p class="whatif-title" id="whatif-title" aria-live="polite"></p>
+                  <button type="button" class="icon-button" id="whatif-next" aria-label="Next matchday" data-i18n-attrs="aria-label:hub.next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+                <div class="whatif-fixtures" id="whatif-fixtures"></div>
+                <div class="whatif-actions">
+                  <button type="button" class="outline-link" id="whatif-favourites"><span data-lang-only="en">Favourites win</span><span data-lang-only="de" hidden>Favoriten gewinnen</span></button>
+                  <button type="button" class="outline-link" id="whatif-reset"><span data-lang-only="en">Clear my picks</span><span data-lang-only="de" hidden>Tipps löschen</span></button>
+                </div>
+                <div class="whatif-result" id="whatif-result" aria-live="polite"></div>
+              </div>
+            </section>
+
+            <section class="page-section" id="so-far" aria-labelledby="so-far-title">
+              <h2 id="so-far-title"><span data-lang-only="en">The season so far</span><span data-lang-only="de" hidden>Die Saison bisher</span></h2>
+              <p data-lang-only="en">How the chances moved, matchday by matchday. Each point is what the simulator said at that moment, with only the results it had by then.</p>
+              <p data-lang-only="de" hidden>Wie sich die Chancen bewegt haben, Spieltag für Spieltag. Jeder Punkt zeigt, was der Simulator damals sagte, nur mit den Ergebnissen, die es da schon gab.</p>
+              <div class="race" id="race-now"></div>
+            </section>
+
+            <section class="page-section" id="points" aria-labelledby="points-title">
+              <h2 id="points-title"><span data-lang-only="en">How many points will it take?</span><span data-lang-only="de" hidden>Wie viele Punkte braucht es?</span></h2>
+              <p data-lang-only="en">The old rule says 40 points keeps you up. Here is what this season’s simulations say, line by line.</p>
+              <p data-lang-only="de" hidden>Die alte Regel sagt: 40 Punkte reichen zum Klassenerhalt. Hier steht, was die Simulationen dieser Saison sagen, Linie für Linie.</p>
+              <div class="lines" id="points-lines"></div>
+            </section>
+
+            <section class="page-section" id="settled" aria-labelledby="settled-title">
+              <h2 id="settled-title"><span data-lang-only="en">When is the title settled?</span><span data-lang-only="de" hidden>Wann ist die Meisterschaft entschieden?</span></h2>
+              <p class="season-lede" id="settled-lede"></p>
+              <div class="settled" id="settled-chart"></div>
+            </section>
+
+            <section class="page-section" id="replays" aria-labelledby="replays-title">
+              <h2 id="replays-title"><span data-lang-only="en">Replays: twelve seasons, no hindsight</span><span data-lang-only="de" hidden>Zeitreise: zwölf Spielzeiten, ohne Nachhinein-Wissen</span></h2>
+              <p data-lang-only="en">Every season since 2014/15, replayed exactly as the simulator would have seen it at the time. Each matchday’s numbers use only the matches played by then, so this is what it would have told you, not what it knows now. Pick a season and watch the chances move.</p>
+              <p data-lang-only="de" hidden>Jede Saison seit 2014/15, nachgespielt genau so, wie der Simulator sie damals gesehen hätte. Die Zahlen jedes Spieltags kennen nur die Spiele bis dahin. Das ist also, was er dir damals gesagt hätte, nicht, was er heute weiß. Wähl eine Saison und sieh zu, wie sich die Chancen bewegen.</p>
+              <div class="replay-controls">
+                <label class="replay-pick"><span data-lang-only="en">Season</span><span data-lang-only="de" hidden>Saison</span>
+                  <select id="replay-season"></select>
+                </label>
+              </div>
+              <div class="race" id="race-replay"></div>
+              <p class="season-lede" id="replay-story"></p>
+            </section>
+
+            <section class="page-section" id="any-good" aria-labelledby="any-good-title">
+              <h2 id="any-good-title"><span data-lang-only="en">Is it any good?</span><span data-lang-only="de" hidden>Taugt das was?</span></h2>
+              <p data-lang-only="en">A chance of 48% is only worth printing if, over many seasons, clubs given 48% went down about half the time. So before this page went up, the simulator was tested on twelve past seasons, from 34 points in time each, under rules <a href="https://github.com/JHvL88/matchday/blob/main/analysis/backtest/season/PREREGISTRATION.md">written down before it ran</a>. Five seasons set the one dial it has (how much doubt to add); seven more were kept back to grade it.</p>
+              <p data-lang-only="de" hidden>Eine Chance von 48&nbsp;% lohnt das Drucken nur, wenn über viele Spielzeiten Klubs mit 48&nbsp;% auch etwa in der Hälfte der Fälle abgestiegen sind. Bevor diese Seite online ging, wurde der Simulator deshalb an zwölf vergangenen Spielzeiten getestet, von je 34 Zeitpunkten aus, nach Regeln, die <a href="https://github.com/JHvL88/matchday/blob/main/analysis/backtest/season/PREREGISTRATION.md">vor dem Lauf feststanden</a>. Fünf Spielzeiten stellten den einzigen Regler ein (wie viel Zweifel er einrechnet), sieben weitere blieben zurück, um ihn zu benoten.</p>
+              <div class="season-test" id="season-test"></div>
+            </section>
+
+            <section class="page-section" id="how" aria-labelledby="how-title">
+              <h2 id="how-title"><span data-lang-only="en">How it works</span><span data-lang-only="de" hidden>So funktioniert es</span></h2>
+              <ol class="how-list" data-lang-only="en">
+                <li><strong>Rate every club.</strong> My models’ version uses the published <button type="button" class="term" data-term="dixon-coles">Dixon–Coles</button> model: an attack and a defence rating per club from eight seasons of results and <button type="button" class="term" data-term="xg">xG</button>, recent matches counting most. The bookmakers’ version fits the same model to their odds instead, so it inherits everything the market knows about injuries, coaches and dressing rooms.</li>
+                <li><strong>Add doubt.</strong> Ratings are estimates and teams change. Each simulated season gives every club one random nudge up or down for the rest of the year (<button type="button" class="term" data-term="rating-doubt">rating doubt</button>). Without it the simulator is sure of itself in a way no Bundesliga season deserves.</li>
+                <li><strong>Play the matches.</strong> Each remaining fixture gets a scoreline drawn from the model’s goal probabilities, home advantage included.</li>
+                <li><strong>Count the table.</strong> Points, goal difference, goals scored, as the league ranks it. Repeat 50,000 times and count how often each club lands where.</li>
+              </ol>
+              <ol class="how-list" data-lang-only="de" hidden>
+                <li><strong>Jeden Klub bewerten.</strong> Die Version meiner Modelle nutzt das veröffentlichte <button type="button" class="term" data-term="dixon-coles">Dixon-Coles</button>-Modell: ein Angriffs- und ein Abwehrwert pro Klub aus acht Spielzeiten Ergebnissen und <button type="button" class="term" data-term="xg">xG</button>, die jüngsten Spiele zählen am meisten. Die Version der Buchmacher passt dasselbe Modell stattdessen an ihre Quoten an und erbt so alles, was der Markt über Verletzungen, Trainer und Kabinen weiß.</li>
+                <li><strong>Zweifel einrechnen.</strong> Stärkewerte sind Schätzungen, und Mannschaften ändern sich. Jede simulierte Saison gibt jedem Klub einen zufälligen Schubs nach oben oder unten für den Rest des Jahres (<button type="button" class="term" data-term="rating-doubt">Bewertungszweifel</button>). Ohne ihn wäre der Simulator sich so sicher, wie es keine Bundesligasaison verdient.</li>
+                <li><strong>Die Spiele spielen.</strong> Jede offene Partie bekommt ein Ergebnis, gezogen aus den Torwahrscheinlichkeiten des Modells, Heimvorteil inklusive.</li>
+                <li><strong>Die Tabelle zählen.</strong> Punkte, Tordifferenz, erzielte Tore, so wie die Liga wertet. Das 50.000-mal, dann wird gezählt, wie oft jeder Klub wo landet.</li>
+              </ol>
+              <details class="code-peek season-code">
+                <summary><span data-lang-only="en">Show the code: one simulated season</span><span data-lang-only="de" hidden>Code zeigen: eine simulierte Saison</span></summary>
+<pre><code># analysis/pipeline/season_sim.py (simplified)
+delta = rng.normal(0, sigma, (n, 18))            # doubt: one nudge per club per season
+lh = np.exp(base_home + delta[:, h] - delta[:, a])
+la = np.exp(base_away + delta[:, a] - delta[:, h])
+x, y = dc_sample(lh, la, rho, rng)                # Dixon–Coles scorelines
+pts = pts_now + (3 * (x > y) + (x == y)) @ H + (3 * (y > x) + (x == y)) @ A
+key = pts * 1e7 + (gd + 1000) * 1e3 + gf          # points, goal difference, goals
+position = np.argsort(np.argsort(-key, axis=1), axis=1)</code></pre>
+              </details>
+              <p><a class="colab-link" href="https://colab.research.google.com/github/JHvL88/matchday/blob/main/analysis/backtest/season/season.ipynb" target="_blank" rel="noreferrer"><span data-lang-only="en">Run it yourself in Google Colab ↗</span><span data-lang-only="de" hidden>Selbst ausprobieren in Google Colab ↗</span></a></p>
+            </section>
+
+            <section class="post-sources">
+              <h2 data-lang-only="en">Data and sources</h2>
+              <h2 data-lang-only="de" hidden>Daten und Quellen</h2>
+              <p data-lang-only="en">Results, shots and bookmakers’ odds: <a href="https://www.football-data.co.uk/" target="_blank" rel="noreferrer">football-data.co.uk</a>. xG: <a href="https://understat.com/league/Bundesliga" target="_blank" rel="noreferrer">Understat</a>, and football-data.co.uk’s own while Understat is offline. Fixtures and live scores: <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>. The numbers on this page come from <a href="../data/season.json">season.json</a>, written by <a href="https://github.com/JHvL88/matchday/blob/main/analysis/pipeline/season_sim.py">season_sim.py</a> after every completed matchday; the test from <a href="../data/season_test.json">season_test.json</a>, the replays from <a href="../data/season_replays.json">season_replays.json</a>. European places: <a href="https://www.bundesliga.com/en/bundesliga/news/how-many-bundesliga-teams-can-qualify-for-europe-19689" target="_blank" rel="noreferrer">bundesliga.com</a>.</p>
+              <p data-lang-only="de" hidden>Ergebnisse, Schüsse und Buchmacherquoten: <a href="https://www.football-data.co.uk/" target="_blank" rel="noreferrer">football-data.co.uk</a>. xG: <a href="https://understat.com/league/Bundesliga" target="_blank" rel="noreferrer">Understat</a>, und die eigenen von football-data.co.uk, solange Understat offline ist. Spielplan und Live-Ergebnisse: <a href="https://www.openligadb.de/" target="_blank" rel="noreferrer">OpenLigaDB</a>. Die Zahlen dieser Seite stammen aus <a href="../data/season.json">season.json</a>, geschrieben von <a href="https://github.com/JHvL88/matchday/blob/main/analysis/pipeline/season_sim.py">season_sim.py</a> nach jedem abgeschlossenen Spieltag; der Test aus <a href="../data/season_test.json">season_test.json</a>, die Zeitreise aus <a href="../data/season_replays.json">season_replays.json</a>. Europapokalplätze: <a href="https://www.bundesliga.com/en/bundesliga/news/how-many-bundesliga-teams-can-qualify-for-europe-19689" target="_blank" rel="noreferrer">bundesliga.com</a>.</p>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <span class="footer-tagline" data-i18n="footer.tagline">Jan’s pitch. Bundesliga passion.</span>
+        <nav class="footer-links" aria-label="More" data-i18n-attrs="aria-label:footer.more">
+          <a href="../learn/" data-i18n="footer.howItWorks">How it works</a>
+          <a href="../learn/#glossary" data-i18n="footer.glossary">Glossary</a>
+          <a href="../record/" data-i18n="nav.record">Track record</a>
+          <a href="https://github.com/JHvL88/matchday" target="_blank" rel="noreferrer" data-i18n="footer.github">Notebooks on GitHub</a>
+        </nav>
+        <p class="responsible-note" data-i18n-html="footer.responsible">18+. Forecasts are analysis, not betting advice. If betting stops being fun: <a href="https://www.check-dein-spiel.de/" target="_blank" rel="noreferrer">check-dein-spiel.de</a> (Germany) · <a href="https://www.sos-spielsucht.ch/" target="_blank" rel="noreferrer">sos-spielsucht.ch</a> (Switzerland).</p>
+      </footer>
+    </div>
+
+    <nav class="tabbar" aria-label="Main" data-i18n-attrs="aria-label:nav.main">
+      <a href="../#matchday">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span data-i18n="tab.matchday">Matchday</span>
+      </a>
+      <a href="../#table">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span data-i18n="tab.table">Table</span>
+      </a>
+      <a href="./" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v4a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M9 17h6"/></svg>
+        <span data-i18n="tab.season">Season</span>
+      </a>
+      <a href="../#analysis">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        <span data-i18n="tab.dives">Deep dives</span>
+      </a>
+      <a href="../record/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        <span data-i18n="tab.record">Record</span>
+      </a>
+      <a href="../learn/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>
+        <span data-i18n="tab.learn">Learn</span>
+      </a>
+    </nav>
+  </body>
+</html>

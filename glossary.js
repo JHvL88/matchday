@@ -8,7 +8,7 @@ window.GLOSSARY = {
   order: [
     "forecast-bar", "market-probability", "margin", "fair-odds", "edge", "rps", "log-loss", "calibration", "backtest",
     "expected-goals", "poisson", "xg", "expected-points", "dixon-coles", "bayesian-model", "xgboost", "ensemble", "elo",
-    "shap", "credible-interval", "over-25", "btts", "clv", "kelly",
+    "shap", "credible-interval", "over-25", "btts", "clv", "kelly", "monte-carlo", "rating-doubt", "positional-rps",
   ],
   en: {
     "forecast-bar": {
@@ -131,6 +131,21 @@ window.GLOSSARY = {
       short: "The share of your pot that grows it fastest if your chance is right: edge ÷ (odds − 1). At odds of 2.10 with a true 50% chance, that is 0.05 ÷ 1.10 = 4.5%.",
       read: "It is only as good as your chance. Overestimate it and Kelly tells you to bet too much, which is why careful bettors stake a half or a quarter of it. No edge means a stake of zero.",
     },
+    "monte-carlo": {
+      term: "Monte Carlo simulation",
+      short: "Answering a hard question by playing it out many times at random. Here: draw a score for every remaining match from the model’s probabilities, count the final table, repeat 50,000 times.",
+      read: "A club that finishes first in 9,000 of the 50,000 seasons has an 18% title chance. The more seasons, the steadier the number: at 50,000 it wobbles by less than half a point.",
+    },
+    "rating-doubt": {
+      term: "Rating doubt",
+      short: "The season simulator’s allowance for change. Each simulated season gives every club one random nudge to its attack and defence for the rest of the year, drawn from a bell curve with spread σ.",
+      read: "Without it the simulator assumes today’s ratings hold until May, and becomes too sure of itself. σ was set on five past seasons, then checked on seven others.",
+    },
+    "positional-rps": {
+      term: "Positional RPS",
+      short: "The ranked probability score for a forecast of a final league position: how far the chances over all 18 places were from where the club finished.",
+      read: "It rewards near misses: putting a club’s likeliest finish at 5th when it ends 4th costs much less than putting it at 15th. 0 is perfect, lower is better; guessing 1/18 for every place scores about 0.18.",
+    },
   },
   de: {
     "forecast-bar": {
@@ -252,6 +267,21 @@ window.GLOSSARY = {
       term: "Kelly-Einsatz",
       short: "Der Anteil des Topfs, mit dem er am schnellsten wächst, wenn deine Chance stimmt: Vorteil ÷ (Quote − 1). Bei Quote 2,10 und einer wahren Chance von 50 % sind das 0,05 ÷ 1,10 = 4,5 %.",
       read: "Er ist nur so gut wie deine Chance. Schätzt du sie zu hoch, rät Kelly zu viel Einsatz; deshalb setzen Vorsichtige nur die Hälfte oder ein Viertel davon. Kein Vorteil heißt: Einsatz null.",
+    },
+    "monte-carlo": {
+      term: "Monte-Carlo-Simulation",
+      short: "Eine schwere Frage beantworten, indem man sie sehr oft zufällig durchspielt. Hier: für jedes ausstehende Spiel ein Ergebnis aus den Wahrscheinlichkeiten des Modells ziehen, die Abschlusstabelle zählen, 50.000-mal wiederholen.",
+      read: "Ein Klub, der in 9.000 von 50.000 Spielzeiten Erster wird, hat eine Meisterchance von 18 %. Je mehr Spielzeiten, desto ruhiger die Zahl: Bei 50.000 wackelt sie um weniger als einen halben Punkt.",
+    },
+    "rating-doubt": {
+      term: "Bewertungszweifel",
+      short: "Der Spielraum des Saison-Simulators für Veränderung. Jede simulierte Saison gibt jedem Klub einen zufälligen Schubs für Angriff und Abwehr für den Rest des Jahres, gezogen aus einer Glockenkurve mit Streuung σ.",
+      read: "Ohne ihn nähme der Simulator an, dass die heutigen Stärkewerte bis Mai halten, und wäre sich zu sicher. σ wurde an fünf vergangenen Spielzeiten eingestellt und an sieben anderen geprüft.",
+    },
+    "positional-rps": {
+      term: "Positions-RPS",
+      short: "Der Ranked Probability Score für die Prognose eines Endplatzes: wie weit die Chancen auf alle 18 Plätze von dem Platz entfernt lagen, auf dem der Klub landete.",
+      read: "Knappe Fehler kosten wenig: Wer den wahrscheinlichsten Platz eines Klubs bei 5 sieht und der Klub wird Vierter, verliert viel weniger als mit Platz 15. 0 ist perfekt, niedriger ist besser; 1/18 für jeden Platz zu raten ergibt etwa 0,18.",
     },
   },
 };

@@ -2337,7 +2337,8 @@ p {
 
 @media (max-width: 900px) {
   .top-nav a {
-    padding: 0 7px;
+    padding: 0 6px;
+    font-size: 13.5px;
   }
 
   .follow-label {
@@ -2372,7 +2373,7 @@ p {
     left: 0;
     z-index: 55;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     padding-bottom: env(safe-area-inset-bottom);
     border-top: 1px solid var(--line);
     background: var(--bg);
@@ -2385,9 +2386,20 @@ p {
     align-items: center;
     justify-content: center;
     gap: 3px;
+    min-width: 0;
+    padding: 0 1px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11.5px;
+    text-align: center;
     text-decoration: none;
+  }
+
+  /* Six tabs: a long label ("Deep dives", "Grundlagen") shortens with an ellipsis rather than wrapping. */
+  .tabbar span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .tabbar a[aria-current="page"] {
