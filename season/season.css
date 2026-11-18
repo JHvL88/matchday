@@ -1,0 +1,1014 @@
+/* The Season page. Builds on styles.css (tokens, charts, tooltips), analysis/analysis.css (article
+   card and body text) and pages.css (page sections). One rule as everywhere on the site: filled is my
+   models, an outline or a white pin is the bookmakers. Blue, grey and orange mean home win, draw and
+   away win; nothing else here uses them. Chances are drawn in ink, so no colour carries a meaning
+   the text does not also say. */
+
+.season-stamp {
+  position: relative;
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.season-stamp strong {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.season-stamp .live-note {
+  color: var(--red-text);
+}
+
+.season-view {
+  position: relative;
+  margin: 0 0 4px;
+}
+
+.post-body .season-lede {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.post-body .season-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.key-fill,
+.key-pin {
+  display: inline-block;
+  width: 16px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--ink-2);
+}
+
+.key-pin {
+  width: 3px;
+  height: 14px;
+  margin-left: 10px;
+  border-radius: 1px;
+  background: var(--pin);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+/* ---------- Chance bars (title race) ---------- */
+
+.odds-bars {
+  display: grid;
+  gap: 2px;
+  margin: 14px 0 0;
+}
+
+.odds-row {
+  display: grid;
+  grid-template-columns: minmax(96px, 148px) minmax(0, 1fr) 62px;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  font-variant-numeric: tabular-nums;
+}
+
+.odds-club {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.odds-club span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.odds-track {
+  position: relative;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+
+.odds-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 3px;
+  background: var(--ink-2);
+}
+
+.odds-pin {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 1px;
+  background: var(--pin);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+.odds-value {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.odds-value small {
+  display: block;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.is-followed .odds-club,
+.is-followed .club-name {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.crest {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
+}
+
+.crest.logo-fallback {
+  font-size: 8px;
+}
+
+/* ---------- The projected table ---------- */
+
+.season-table-wrap {
+  margin-top: 14px;
+}
+
+.season-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.season-table th,
+.season-table td {
+  height: 44px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.season-table thead th {
+  height: 34px;
+  border-bottom-color: var(--line-strong);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  vertical-align: bottom;
+  padding-bottom: 6px;
+}
+
+.season-table abbr {
+  text-decoration: none;
+}
+
+.season-table .now-col {
+  width: 30px;
+  padding-left: 0;
+  color: var(--muted);
+  text-align: left;
+}
+
+.season-table .club-col {
+  width: 99%;
+  max-width: 0;
+  text-align: left;
+}
+
+.season-table .club-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.season-table .club-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.season-table .club-cell::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.season-table tr.is-open .club-cell::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+.season-table .pts-col {
+  color: var(--ink-2);
+}
+
+.season-table .xpts-col {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.season-table .p-col {
+  width: 54px;
+  min-width: 50px;
+  color: var(--ink);
+}
+
+/* A chance cell: the number, on a background whose strength follows the number. */
+.heat {
+  position: relative;
+  z-index: 0;
+}
+
+.heat::before {
+  content: "";
+  position: absolute;
+  inset: 5px 2px;
+  z-index: -1;
+  border-radius: 4px;
+  background: rgb(242 243 246 / calc(var(--p, 0) * 0.3));
+}
+
+.heat.is-zero {
+  color: var(--muted);
+}
+
+.season-table .strip-col {
+  width: 102px;
+  padding-right: 0;
+}
+
+.pos-strip {
+  display: grid;
+  grid-template-columns: repeat(18, 4.5px);
+  gap: 1px;
+  justify-content: end;
+  height: 20px;
+}
+
+.pos-strip i {
+  display: block;
+  border-radius: 1px;
+  background: rgb(242 243 246 / var(--a, 0));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 4%);
+}
+
+.season-table tr.is-followed > td {
+  background: rgb(255 255 255 / 3%);
+}
+
+.season-table tr.detail-row > td {
+  height: auto;
+  padding: 10px 0 18px;
+  white-space: normal;
+  text-align: left;
+}
+
+.club-detail {
+  display: grid;
+  gap: 14px;
+}
+
+.club-facts {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.club-facts strong {
+  color: var(--ink);
+}
+
+.club-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pos-chart {
+  position: relative;
+}
+
+.pos-chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.pos-bar {
+  fill: var(--draw-bar);
+}
+
+.pos-bar.is-likely {
+  fill: var(--ink);
+}
+
+.pos-bar-market {
+  fill: none;
+  stroke: var(--pin);
+  stroke-width: 1.5;
+}
+
+.zone-label {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.zone-line {
+  stroke: var(--line-strong);
+  stroke-dasharray: 2 3;
+}
+
+/* ---------- What's at stake ---------- */
+
+.stakes {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.stake-card {
+  padding: 14px 16px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.stake-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0 0 8px;
+}
+
+.stake-head h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 20px;
+}
+
+.stake-when {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.stake-rank {
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stake-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, 66px);
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+
+.stake-label {
+  min-width: 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.35;
+}
+
+.stake-label strong {
+  display: block;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.stake-cell {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  padding: 4px 0;
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.stake-cell small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.stake-cell.is-actual {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.stake-result {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stakes-more {
+  justify-self: start;
+}
+
+/* ---------- What if ---------- */
+
+.whatif {
+  margin-top: 14px;
+  padding: 14px 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.whatif-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.post-body .whatif-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.whatif-title small {
+  display: block;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.icon-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-button:disabled {
+  opacity: .35;
+  cursor: default;
+}
+
+.whatif-fixtures {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.pick-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
+  gap: 4px;
+}
+
+.pick {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pick span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pick:hover {
+  border-color: var(--ink-2);
+  color: var(--ink);
+}
+
+.pick[aria-pressed="true"] {
+  border-color: transparent;
+  color: var(--bg);
+}
+
+.pick.pick-home[aria-pressed="true"] {
+  background: var(--home);
+}
+
+.pick.pick-draw[aria-pressed="true"] {
+  background: var(--draw-bar);
+}
+
+.pick.pick-away[aria-pressed="true"] {
+  background: var(--away);
+}
+
+.pick:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.pick-row.is-played .pick {
+  border-style: dashed;
+}
+
+.pick-row.is-played .pick[aria-pressed="true"] {
+  border-style: solid;
+}
+
+.pick-score {
+  font-variant-numeric: tabular-nums;
+}
+
+.whatif-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.whatif-actions .outline-link {
+  min-height: 38px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.whatif-result {
+  margin-top: 14px;
+}
+
+.post-body .whatif-status {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.whatif-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.whatif-table th,
+.whatif-table td {
+  height: 38px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.whatif-table th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.whatif-table th:first-child,
+.whatif-table td:first-child {
+  text-align: left;
+}
+
+.whatif-table td:first-child {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.whatif-what {
+  display: block;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.whatif-table td:first-child {
+  height: 44px;
+  line-height: 1.2;
+}
+
+.delta {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.delta.is-down {
+  color: var(--muted);
+}
+
+/* ---------- Charts over the season ---------- */
+
+.race {
+  margin-top: 12px;
+}
+
+.race-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.race-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.race-chip {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.race-chip .crest {
+  width: 18px;
+  height: 18px;
+  flex-basis: 18px;
+}
+
+.race-chip[aria-pressed="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.race-line {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.race-line.is-key {
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.race-line.is-market {
+  stroke-dasharray: 1 4;
+  stroke-width: 2;
+}
+
+.race-future {
+  fill: rgb(255 255 255 / 2.5%);
+}
+
+.race-label {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.race-note {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.chart-switch {
+  display: inline-flex;
+}
+
+.data-toggle {
+  min-height: 32px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.season-data-table {
+  margin-top: 8px;
+}
+
+/* ---------- Points needed ---------- */
+
+.lines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.line-tile {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 14px 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.post-body .line-kicker {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.line-value {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.line-value small {
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.post-body .line-text {
+  margin: 4px 0 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.line-hist {
+  position: relative;
+  margin-top: 6px;
+}
+
+.line-hist svg {
+  display: block;
+  overflow: visible;
+}
+
+.hist-bar {
+  fill: var(--draw-bar);
+}
+
+.hist-bar.is-safe {
+  fill: var(--ink-2);
+}
+
+.hist-mark {
+  stroke: var(--pin);
+  stroke-width: 2;
+}
+
+/* ---------- When it is settled ---------- */
+
+.settled {
+  position: relative;
+  margin-top: 10px;
+}
+
+.settled svg {
+  display: block;
+  overflow: visible;
+}
+
+.settled-bar {
+  fill: var(--draw-bar);
+}
+
+.settled-bar.is-final {
+  fill: var(--ink);
+}
+
+/* ---------- Replays ---------- */
+
+.replay-controls {
+  margin: 12px 0 0;
+}
+
+.replay-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.replay-pick select {
+  min-height: 40px;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='m1 1.5 5 5 5-5' fill='none' stroke='%23a3a9b6' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center / 12px 8px;
+  color: var(--ink);
+  font: inherit;
+  appearance: none;
+}
+
+/* ---------- The test ---------- */
+
+.test-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0 6px;
+}
+
+.test-card {
+  display: grid;
+  gap: 2px;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.test-card.is-best {
+  border-color: var(--ink-2);
+}
+
+.test-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.test-card strong {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.test-card small {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.calib {
+  position: relative;
+  margin-top: 14px;
+}
+
+.calib svg {
+  display: block;
+  overflow: visible;
+}
+
+.calib-diag {
+  stroke: var(--line-strong);
+  stroke-dasharray: 3 4;
+}
+
+.calib-dot {
+  fill: var(--ink);
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+.calib-dot.is-market {
+  fill: var(--bg);
+  stroke: var(--pin);
+  stroke-width: 1.8;
+}
+
+.how-list {
+  margin: 0 0 16px;
+  padding-left: 22px;
+}
+
+.how-list li {
+  margin-bottom: 10px;
+}
+
+.calib-misses {
+  margin: 6px 0 14px;
+  color: var(--ink-2);
+  font-size: 14px;
+}
+
+.post-body .season-code pre {
+  font-size: 12.5px;
+}
+
+/* ---------- Phones ---------- */
+
+@media (max-width: 720px) {
+  .season-table .hide-phone {
+    display: none;
+  }
+
+  .season-table .p-col {
+    width: 50px;
+    min-width: 46px;
+  }
+
+  .odds-row {
+    grid-template-columns: minmax(84px, 108px) minmax(0, 1fr) 78px;
+    gap: 8px;
+  }
+
+  /* The phone table: where they finish matters more than the points now (they are in the club detail). */
+  .season-table .pts-col {
+    display: none;
+  }
+
+  .season-table thead .xpts-col {
+    white-space: normal;
+    line-height: 1.15;
+  }
+
+  .lines {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .test-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stake-row {
+    grid-template-columns: minmax(0, 1fr) repeat(3, 56px);
+  }
+}
+
+@media (max-width: 400px) {
+  .season-table th,
+  .season-table td {
+    padding: 0 4px;
+  }
+
+  .season-table .club-cell .crest {
+    display: none;
+  }
+}

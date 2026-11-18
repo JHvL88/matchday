@@ -11,6 +11,7 @@ const POSTS_URL = "analysis/posts.json";
 const ODDS_URL = "data/odds.json";
 const RECORD_URL = "data/record.json";
 const FORECASTS_URL = "data/forecasts.json";
+const SEASON_URL = "data/season.json";
 // A disagreement worth flagging: models at least 7 points away from the market on its favourite.
 const DISAGREEMENT = 0.07;
 // From this many percentage points apart, a fixture says how far my models and the bookmakers differ.
@@ -97,6 +98,7 @@ const followButton = document.querySelector("#follow-button");
 const followCrest = document.querySelector("#follow-crest");
 const followLabel = document.querySelector("#follow-label");
 const followDialog = document.querySelector("#follow-dialog");
+const seasonTeaser = document.querySelector("#season-teaser");
 const followGrid = document.querySelector("#follow-grid");
 
 const currentDate = new Date();
@@ -115,6 +117,7 @@ const state = {
   odds: null,
   forecasts: null,
   record: null,
+  season: null,
   loadedAt: 0,
   loadFailed: false,
   openMatches: new Set(),
@@ -750,6 +753,13 @@ async function start() {
   renderAll();
   scrollStripToSelected("auto");
   scheduleRefresh();
+  if (!state.season) {
+    loadSiteJson(SEASON_URL).then((data) => {
+      if (data?.season !== season || !data.views) return;
+      state.season = data;
+      renderAll();
+    }).catch(() => {});
+  }
 }
 
 // While matches are live, refresh every minute; otherwise wake up for the next kick-off.
@@ -1432,7 +1442,11 @@ function createMatchDetails(match, status, kickoffTime, forecast = null) {
     details.append(createElement("p", "no-goals-message", message));
   }
 
-  if (!hasForecast) return details;
+  const stakes = createStakesBlock(match, status);
+  if (!hasForecast) {
+    if (stakes) details.append(stakes);
+    return details;
+  }
   if (getFinalScore(match)) details.append(createGradeBlock(match, forecast));
   details.append(createForecastBlock(match, status, forecast));
   // The three models and the score grid belong to the weekly forecast; a deep dive has its own
@@ -1441,7 +1455,86 @@ function createMatchDetails(match, status, kickoffTime, forecast = null) {
   const extras = ownModel ? forecast.post.forecast : forecast.weekly;
   if (!ownModel && forecast.weekly?.models) details.append(createSplit(forecast.weekly, match));
   if (extras?.expectedGoals) details.append(createGoalFacts(extras, match, ownModel ? null : forecast.weekly?.grid));
+  if (stakes) details.append(stakes);
   return details;
+}
+
+/* ---------- The season simulator (data/season.json) ---------- */
+
+const STAKE_OUTCOMES = ["title", "top4", "europe", "drop"];
+
+// Season chances as the Season page writes them: 90%, 7.4%, <0.1%, >99.9%.
+function seasonPercent(p) {
+  if (!(p > 0)) return "–";
+  const format = (value, digits) => new Intl.NumberFormat(I18N.locale, { style: "percent", minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
+  if (p < 0.0005) return `<${format(0.001, 1)}`;
+  if (p >= 0.9995) return `>${format(0.999, 1)}`;
+  return format(p, p < 0.1 || p > 0.9 ? 1 : 0);
+}
+
+// How this match's result moves the two clubs' biggest chance, from the season simulator.
+function createStakesBlock(match, status) {
+  const sim = state.season;
+  if (!sim || status !== "upcoming") return null;
+  const view = sim.views.models;
+  const stake = view.stakes?.find((entry) => Number(sim.fixtures[entry.fixture]?.id) === Number(match.matchID));
+  if (!stake) return null;
+  const rows = [];
+  for (const [side, team] of [["home", match.team1], ["away", match.team2]]) {
+    let best = null;
+    for (const key of STAKE_OUTCOMES) {
+      const values = (stake[side][key] ?? []).filter((value) => value !== null);
+      if (!values.length) continue;
+      const swing = Math.max(...values) - Math.min(...values);
+      if (!best || swing > best.swing) best = { key, swing };
+    }
+    if (!best || best.swing < 0.01) continue;
+    const values = stake[side][best.key];
+    const order = side === "home" ? [0, 1, 2] : [2, 1, 0];
+    rows.push(t("stakes.row", {
+      team: teamName(team),
+      what: t(`stakes.outcome.${best.key}`),
+      win: seasonPercent(values[order[0]]),
+      draw: seasonPercent(values[order[1]]),
+      loss: seasonPercent(values[order[2]]),
+    }));
+  }
+  if (!rows.length) return null;
+  const block = createElement("div", "detail-block stakes-block");
+  block.append(createElement("h3", "detail-heading", t("stakes.title")));
+  for (const row of rows) block.append(createElement("p", "split-note", row));
+  const link = createElement("a", "", t("stakes.link"));
+  link.href = "season/#stakes";
+  const more = createElement("p", "split-note");
+  more.append(link);
+  block.append(more);
+  return block;
+}
+
+function renderSeasonTeaser() {
+  if (!seasonTeaser) return;
+  const sim = state.season;
+  if (!sim) {
+    seasonTeaser.hidden = true;
+    return;
+  }
+  const teams = sim.views.models.teams;
+  const ids = Object.keys(teams);
+  const leader = ids.reduce((a, b) => (teams[b].p.title > teams[a].p.title ? b : a));
+  const bottom = ids.reduce((a, b) => (teams[b].p.drop > teams[a].p.drop ? b : a));
+  const name = (id) => sim.teams[id]?.short ?? id;
+  seasonTeaser.replaceChildren(
+    document.createTextNode(`${t("season.teaser", {
+      leader: name(leader),
+      title: seasonPercent(teams[leader].p.title),
+      bottom: name(bottom),
+      drop: seasonPercent(teams[bottom].p.drop),
+    })} `),
+  );
+  const link = createElement("a", "", `${t("season.teaserLink")} →`);
+  link.href = "season/";
+  seasonTeaser.append(link);
+  seasonTeaser.hidden = false;
 }
 
 function matchesFilter(match, filter) {
@@ -2126,6 +2219,7 @@ function renderAll() {
   renderInsights();
   renderAnalysis();
   renderRecordTeaser();
+  renderSeasonTeaser();
   renderFollow();
 }
 

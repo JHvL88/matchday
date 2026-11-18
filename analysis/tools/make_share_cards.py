@@ -1,6 +1,7 @@
 """Draw the 1200 × 630 preview images that appear when a page is shared (WhatsApp, X, LinkedIn, Slack).
 
-Writes assets/share/home.jpg and analysis/<post>/share.jpg for every post in analysis/posts.json,
+Writes assets/share/home.jpg, assets/share/season.jpg and analysis/<post>/share.jpg for every post in
+analysis/posts.json,
 using the site's own fonts, colours and forecast bar. Run it after adding a post:
 
     pip install playwright && playwright install chromium
@@ -95,6 +96,24 @@ def home_card():
     </div>"""
 
 
+def season_card():
+    # Like the home card, the bars are a picture of how the page draws chances, not this week's numbers.
+    rows = "".join(f"""<div style="display:flex;align-items:center;gap:22px;margin-top:18px">
+          <div style="position:relative;flex:1;height:22px;border-radius:5px;background:#2b303b">
+            <div style="position:absolute;inset:0 {100 - fill}% 0 0;border-radius:5px;background:{INK_2}"></div>
+            <i style="position:absolute;top:-9px;left:{pin}%;width:5px;height:40px;margin-left:-2.5px;border-radius:2px;background:#fff;box-shadow:0 0 0 4px {BG}"></i>
+          </div></div>""" for fill, pin in ((82, 88), (11, 7), (4, 3)))
+    return f"""<div class="card">
+      <p class="tag">Season simulator</p>
+      <h1 class="title" style="font-size:96px">The Bundesliga season,<br>played 50,000 times</h1>
+      <p class="sub" style="font-size:28px;margin-top:18px">Title, Champions League and relegation chances for every club. Plus: pick the results yourself.</p>
+      <div class="forecast">{rows}
+        <p class="key">Filled bar: my models. White pin: the bookmakers’ version.</p>
+      </div>
+      {brand("jhvl88.github.io/matchday/season")}
+    </div>"""
+
+
 def post_card(post):
     f = post.get("forecast", {})
     model, market = f.get("model"), f.get("market")
@@ -130,6 +149,7 @@ def main():
         browser = p.chromium.launch(executable_path=sys.argv[1] if len(sys.argv) > 1 else None)
         page = browser.new_page(viewport={"width": 1200, "height": 630})
         render(page, home_card(), ROOT / "assets" / "share" / "home.jpg")
+        render(page, season_card(), ROOT / "assets" / "share" / "season.jpg")
         for post in posts:
             render(page, post_card(post), ROOT / post["path"] / "share.jpg")
         browser.close()

@@ -1,6 +1,6 @@
-const SHELL_CACHE = "jans-matchday-shell-v21";
+const SHELL_CACHE = "jans-matchday-shell-v22";
 const DATA_CACHE = "jans-matchday-data-v3";
-// The app shell: enough to open the home page, Learn and Track record offline. Deep dives, charts
+// The app shell: enough to open the home page, Season, Learn and Track record offline. Deep dives, charts
 // and crests are cached as they are visited (see networkFirst below).
 const APP_SHELL = [
   "./",
@@ -27,6 +27,13 @@ const APP_SHELL = [
   "./data/learn.json",
   "./record/",
   "./record/record.js",
+  "./season/",
+  "./season/season.js",
+  "./season/season.css",
+  "./season/sim.js",
+  "./season/worker.js",
+  "./data/season.json",
+  "./data/season_test.json",
   "./assets/apple-touch-icon.png",
   "./assets/jans-matchday-192.png",
   "./assets/jans-matchday-512.png",
