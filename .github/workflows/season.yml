@@ -4,17 +4,18 @@ on:
   push:
     branches: [feature/season-simulator]
     paths: [".github/workflows/season.yml"]
+permissions:
+  contents: write
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          mkdir ol
+          mkdir ol && cd ol
           for s in $(seq 2014 2026); do
-            curl -fsS -A "jans-matchday/1.0" "https://api.openligadb.de/getmatchdata/bl1/$s" -o ol/bl1-$s.json
+            curl -fsS -A "jans-matchday/1.0" "https://api.openligadb.de/getmatchdata/bl1/$s" -o bl1-$s.json
           done
-          ls -la ol
-      - uses: actions/upload-artifact@v4
-        with:
-          name: openligadb
-          path: ol
+          ls -la
+          git init -q -b tmp/openligadb
+          git add . && git -c user.name=bot -c user.email=bot@example.com commit -q -m "OpenLigaDB seasons"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" tmp/openligadb
