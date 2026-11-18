@@ -1,0 +1,20 @@
+# Temporary: fetch OpenLigaDB seasons for local development of the season simulator.
+name: Simulate the season
+on:
+  push:
+    branches: [feature/season-simulator]
+    paths: [".github/workflows/season.yml"]
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir ol
+          for s in $(seq 2014 2026); do
+            curl -fsS -A "jans-matchday/1.0" "https://api.openligadb.de/getmatchdata/bl1/$s" -o ol/bl1-$s.json
+          done
+          ls -la ol
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openligadb
+          path: ol
