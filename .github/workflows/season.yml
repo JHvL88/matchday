@@ -17,6 +17,9 @@ on:
   schedule:
     - cron: "23 7 * * *"
     - cron: "53 21 * * 0"
+  push:   # TEMPORARY: a dry run on the feature branch; removed before merging
+    branches: [feature/season-simulator]
+    paths: [".github/workflows/season.yml"]
   workflow_dispatch:
     inputs:
       matchday:
