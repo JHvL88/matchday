@@ -139,7 +139,7 @@ ok football-data/2425/SP2.csv   230032 bytes  sha256 60a8a03e5a47
 ok football-data/2526/SP1.csv   197653 bytes  sha256 4ca2e285f3ee
 ok football-data/2526/SP2.csv   237701 bytes  sha256 4986060e5c1d
 ok football-data/2627/SP1.csv    56854 bytes  sha256 b4c9a5cc1139
-ok football-data/2627/SP2.csv    71049 bytes  sha256 a81a68eb9cc3
+ok football-data/2627/SP2.csv    71474 bytes  sha256 f79d7d719ae8
 ok football-data/0506/I1.csv    99857 bytes  sha256 80458af45e2b
 ok football-data/0506/I2.csv   104590 bytes  sha256 020def7afe91
 ok football-data/0607/I1.csv   100110 bytes  sha256 e036aa5c2791
