@@ -50,8 +50,8 @@ ok football-data/2425/D1.csv   156414 bytes  sha256 a295c58033cf
 ok football-data/2425/D2.csv   157178 bytes  sha256 781b239e2699
 ok football-data/2526/D1.csv   159944 bytes  sha256 618301a4b399
 ok football-data/2526/D2.csv   157989 bytes  sha256 8bfb275286d7
-ok football-data/2627/D1.csv    39030 bytes  sha256 85b5ff519986
-ok football-data/2627/D2.csv    48002 bytes  sha256 dbb98511522c
+ok football-data/2627/D1.csv    43272 bytes  sha256 aae45cd9821f
+ok football-data/2627/D2.csv    52193 bytes  sha256 3de59697101d
 ok football-data/0506/E0.csv   102129 bytes  sha256 b497db70d969
 ok football-data/0506/E1.csv   148522 bytes  sha256 08590ee292d3
 ok football-data/0607/E0.csv   102043 bytes  sha256 947b2c56da78
@@ -94,8 +94,8 @@ ok football-data/2425/E0.csv   197110 bytes  sha256 d0c8ce4a96d8
 ok football-data/2425/E1.csv   286983 bytes  sha256 f34c340446c9
 ok football-data/2526/E0.csv   203438 bytes  sha256 3e3a8352f9ad
 ok football-data/2526/E1.csv   294390 bytes  sha256 98954c319950
-ok football-data/2627/E0.csv    49046 bytes  sha256 d598a5f681e1
-ok football-data/2627/E1.csv    87903 bytes  sha256 bdd804d2f60d
+ok football-data/2627/E0.csv    53420 bytes  sha256 d5da6601831a
+ok football-data/2627/E1.csv    93721 bytes  sha256 1d3ffc5e2e07
 ok football-data/0506/SP1.csv    98942 bytes  sha256 97efa4458083
 ok football-data/0506/SP2.csv   106881 bytes  sha256 c62550d2f8da
 ok football-data/0607/SP1.csv    98966 bytes  sha256 80674f6a96b1
@@ -138,8 +138,8 @@ ok football-data/2425/SP1.csv   192863 bytes  sha256 c086e96d6a53
 ok football-data/2425/SP2.csv   230032 bytes  sha256 60a8a03e5a47
 ok football-data/2526/SP1.csv   197653 bytes  sha256 4ca2e285f3ee
 ok football-data/2526/SP2.csv   237701 bytes  sha256 4986060e5c1d
-ok football-data/2627/SP1.csv    56854 bytes  sha256 b4c9a5cc1139
-ok football-data/2627/SP2.csv    71474 bytes  sha256 f79d7d719ae8
+ok football-data/2627/SP1.csv    61064 bytes  sha256 1b715ff63601
+ok football-data/2627/SP2.csv    76175 bytes  sha256 e0682b42a77b
 ok football-data/0506/I1.csv    99857 bytes  sha256 80458af45e2b
 ok football-data/0506/I2.csv   104590 bytes  sha256 020def7afe91
 ok football-data/0607/I1.csv   100110 bytes  sha256 e036aa5c2791
@@ -182,8 +182,8 @@ ok football-data/2425/I1.csv   191722 bytes  sha256 79d87a5b1877
 ok football-data/2425/I2.csv   192674 bytes  sha256 ec5aa4ff25da
 ok football-data/2526/I1.csv   196217 bytes  sha256 709ae279617d
 ok football-data/2526/I2.csv   190966 bytes  sha256 ed4bcece92bb
-ok football-data/2627/I1.csv    52274 bytes  sha256 91f517fedb41
-ok football-data/2627/I2.csv    52619 bytes  sha256 5e90b6ba9abb
+ok football-data/2627/I1.csv    56547 bytes  sha256 c5245aa4c431
+ok football-data/2627/I2.csv    57364 bytes  sha256 b81938337348
 ok football-data/0506/F1.csv    93075 bytes  sha256 2803806bb3c4
 ok football-data/0506/F2.csv    86575 bytes  sha256 fbe8a50227b7
 ok football-data/0607/F1.csv    95042 bytes  sha256 aaf29a1df791
@@ -226,6 +226,6 @@ ok football-data/2425/F1.csv   154703 bytes  sha256 fe6ae6a0c30d
 ok football-data/2425/F2.csv   155252 bytes  sha256 0cb8c06cb611
 ok football-data/2526/F1.csv   158471 bytes  sha256 898b7ddcd373
 ok football-data/2526/F2.csv   156238 bytes  sha256 dcedf4dd66f3
-ok football-data/2627/F1.csv    43048 bytes  sha256 351303e69ffd
-ok football-data/2627/F2.csv    51551 bytes  sha256 259fb536219b
+ok football-data/2627/F1.csv    47278 bytes  sha256 42337dff4909
+ok football-data/2627/F2.csv    54852 bytes  sha256 e54867652b21
 230 files saved, 0 failed -> /home/runner/work/_temp/out/manifest.json
